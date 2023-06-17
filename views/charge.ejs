@@ -1,0 +1,15 @@
+<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
+<script>
+    PayApp.setDefault('userid',     'qop1513');
+    PayApp.setDefault('shopname',   'kground');
+    function payappPay(){
+        PayApp.setParam('goodname', '이만포인트');
+        PayApp.setParam('price', '20000');
+        PayApp.setParam('recvphone', '01000000000');
+        PayApp.setParam('smsuse', 'y');
+        PayApp.setParam('redirectpay', '1');
+        PayApp.setParam('skip_cstpage', 'y');
+        PayApp.call();
+    }
+</script>
+<a href="#" onclick="payappPay();">결제하기</a>
