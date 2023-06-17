@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- bootstrap css 로드  -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <script>
+        function main(){
+            location.href = '/survey'
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>설문 내역 리스트</h1>
+        <button onclick="main()">돌아가기</button>
+        <!-- 서버에서 보낸 데이터를 table의 구조로 표현 -->
+        <table class="table">
+            <tr>
+                <th>이름</th>
+                <th>성별</th>
+                <th>나이</th>
+                <th>커피의 선호도</th>
+            </tr>
+            <!-- 
+                설문 내역 데이터가 존재하지 않는 경우
+                list의 길이가 0인 경우
+            -->
+            <!-- if문이 시작 -->
+            <%if(list.length == 0) {%>
+                <tr>
+                    <td colspan="4" align="center">설문 내역이 존재하지 않습니다.</td>
+                </tr>
+            <%}else{%>
+                <!-- for문 시작 -->
+                <% for (var i = 0;i < list.length; i++){ %>
+                <tr>
+                    <td><%=list[i]['0']%></td>
+                    <!-- 성별이 1이면 남자, 2면 여자, 9면 무응답 -->
+                    <%if (list[i]['2'] == '1') {%>
+                        <td>남자</td>
+                    <%}else if (list[i]['2'] == '2'){%>
+                        <td>여자</td>
+                    <%}else{%>
+                        <td>무응답</td>
+                    <%}%>
+                    <td><%=list[i]['3']%></td>
+                    <td><%=list[i]['1']%></td>
+                </tr>
+                <%}%>
+                <!-- for문 종료 -->
+            <%}%>
+            <!-- if문 종료 -->
+        </table>
+    </div>
+</body>
+</html>

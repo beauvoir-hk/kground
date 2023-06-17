@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>설문 조사 페이지</h1>
+    <form action="/survey/add2" method="get">
+        <ul>
+            <li>
+                <!-- radio 버튼의 특징 여러개 선택이 불가능 단 한개만 선택 -->
+                <input type="radio" name="_gender" value="1" id="male">
+                <label for="male">남자</label>
+                <input type="radio" name="_gender" value="2" id="female">
+                <label for="female">여자</label>
+                <input type="radio" name="_gender" value="9" id="none">
+                <label for="none">무응답</label>
+            </li>
+            <li>
+                <label>연령</label>
+                <input type="number" name="_age">
+            </li>
+            <li>
+                <select name="_coffee">
+                    <option value="americano">아메리카노</option>
+                    <option value="caffe latte">카페라떼</option>
+                    <option value="caffe moka">카페모카</option>
+                    <option value="espresso">에스프레소</option>
+                </select>
+            </li>
+            <li>
+                <input type="submit" value="설문 제출">
+            </li>
+        </ul>
+
+    </form>
+</body>
+</html>

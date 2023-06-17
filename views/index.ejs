@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>케이그라운드와 함께 해주셔서 감사합니다~</title>
+
+     <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
+     <%- include("header.ejs") %>
+     
+     <!-- Custom fonts for this template-->
+     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+     <link
+         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+         rel="stylesheet">
+     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+        <script>
+            function charge(){
+                location.href = '/contract/charge'
+            }
+        </script>
+    </head>
+    <body>
+        <h1>index화면</h1>
+        <ul>
+            <li>
+                이름 : (<%=user.name%>)
+            </li>
+            <li>
+                가입시기 : (<%=user.signup_time%>)
+            </li>
+            <li>
+                지갑 주소 : (<%=user.wallet%>)
+            </li>
+            <li>
+                토큰 양 : (<%=amount%>)
+            </li>
+        </ul>
+        <p>
+            <%=info.username%>님 환영합니다. 
+        </p>
+        <p>
+            보유한 토큰의 양 : <%=balance%>
+        </p>
+        <button onclick="charge()">
+            토큰 충전하기
+        </button>
+    </body>
+    </html>

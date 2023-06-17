@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- header 파일을 포함 -->
+    <%- include('header.ejs') %>
+    <!-- <script>
+        function add_survey(){
+            location.href = '/golf/add'
+        }
+        function list_survey(){
+            location.href = '/golf/list'
+        }
+        function logout(){
+            location.href = '/logout'
+        }
+        function info(){
+            location.href = '/info'
+        }
+        function charge(){
+            location.href = '/contract/charge'
+        }
+    </script>-->
+</head>
+<body>
+    <div align='center'>
+        <h1>지역 선수 선발전 참가 신청</h1>
+    </div>    
+        <!-- 유저게임참가 상황을 등록하는 입력창을 하나 구현  -->     
+        <div class="contianer">
+            <form action="/golf/regist" method="get">
+
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        제 몇 회 대회 참가인지 선택하세요
+                    </button>
+                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example">
+                        <option selected name="input_gamenumber" value="5"  >제 5 회 대회(지역선수 선발전, 7~9월) </option>
+                        <option name="input_gamenumber" value="6"  >제 6 회 대회(10~12월) </option>
+                    </select>
+                </div>
+
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        성별을 선택하세오
+                    </button>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" value="1" class="btn-check" name="input_gender" id="btnradio1" autocomplete="off" checked="">
+                        <label class="btn btn-outline-primary" for="btnradio1">남</label>
+                      
+                        <input type="radio" value="2" class="btn-check" name="input_gender" id="btnradio2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btnradio2">여</label>
+                    </div>
+                </div>
+
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        지역을 선택하세요
+                    </button>
+
+                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example">
+                            <option selected name="input_jiyeok" value="1"  >서울특별시</option>
+                            <option  name="input_jiyeok"  value="2"  >부산광역시</option>
+                            <option name="input_jiyeok"  value="3"  >대구광역시</option>
+                            <option  name="input_jiyeok"  value="4" >인천광역시</option>
+                            <option  name="input_jiyeok"  value="5" >광주광역시</option>
+                            <option  name="input_jiyeok"  value="6" >대전광역시</option>
+                            <option  name="input_jiyeok"  value="7" >울산광역시</option>
+                            <option   name="input_jiyeok"  value="8" >제주특별자치도</option>
+                            <option   name="input_jiyeok"  value="9" >강원도</option>
+                            <option   name="input_jiyeok"  value="10" >경기도</option>
+                            <option   name="input_jiyeok"  value="11" >충청남도</option>
+                            <option  name="input_jiyeok"  value="12" >충청북도</option>
+                            <option  name="input_jiyeok"  value="13" >경상북도</option>
+                            <option  name="input_jiyeok"  value="14">경상남도</option>
+                            <option name="input_jiyeok"  value="15">전라남도</option>
+                            <option   name="input_jiyeok"  value="16" >전라북도</option>
+                            <option   name="input_jiyeok" value="17" >글로벌(아시아)</option>
+                            <option   name="input_jiyeok" value="18">글로벌(아시아 이외)</option>
+                            <option   name="input_jiyeok" value="19">연예인팀</option>
+                    </select>
+                </div>
+
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        생년월일을 입력하세요(8자리)
+                    </button>
+                    <div>
+                        <input type="text" name="input_birth" class="form-control" placeholder="생년월일을 입력하시오" aria-label="golf_code" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+
+                <br>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        참가시스템을 선택하세요
+                    </button>
+                    <div class="btn-group" role="group" aria-label="radio toggle button group">
+                        <input type="radio" value="8" class="btn-check" name="input_golfsys" id="btnradio8" autocomplete="off" checked="">
+                        <label class="btn btn-outline-primary" for="btnradio8">GolfZon</label>
+                        <input type="radio" value="9" class="btn-check" name="input_golfsys" id="btnradio9" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="btnradio9">GolfZon Park</label>
+                        <input type="radio" value="3" class="btn-check" name="input_golfsys" id="btnradio3" autocomplete="off" >
+                        <label class="btn btn-outline-primary" for="btnradio3">Kakao Friends</label>
+                        <input type="radio" value="4" class="btn-check" name="input_golfsys" id="btnradio4" autocomplete="off" >
+                        <label class="btn btn-outline-primary" for="btnradio4">SG Golf</label>
+                        <input type="radio" value="5" class="btn-check" name="input_golfsys" id="btnradio5" autocomplete="off" >
+                        <label class="btn btn-outline-primary" for="btnradio5">K Golf</label>
+                        <input type="radio" value="6" class="btn-check" name="input_golfsys" id="btnradio6" autocomplete="off" >
+                        <label class="btn btn-outline-primary" for="btnradio6">GNC</label>
+                        <input type="radio" value="7" class="btn-check" name="input_golfsys" id="btnradio7" autocomplete="off" >
+                        <label class="btn btn-outline-primary" for="btnradio7">UDR Golf</label>
+                    </div>
+                </div>
+
+            <br>
+            <div class="container">
+                <input type="submit" value="참가등록" class = 'btn btn-primary'>
+           </form>
+            </div> 
+        </div>
+
+    <hr>
+    <div class="container">
+        <button class="btn btn-primary" onclick="location.href='/logout'">로그아웃</button>
+    </div>
+        
+        <!-- 스코어 입력창 생성 
+        <div class="contianer" style="margin-top: 30px;">
+            <form action="/golf/add_hist" method="get">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3">식품 코드</span>
+                    <input type="text" name="input_code" class="form-control" placeholder="식품의 코드를 입력하시오" aria-label="food_code" aria-describedby="basic-addon3">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon4">식품 내역</span>
+                    <input type="text" name="input_hist" class="form-control" placeholder="식품의 내역을 입력하시오" aria-label="food_code" aria-describedby="basic-addon4">
+                </div>
+                <input type="submit" value="식품 내역 추가" class = 'btn btn-primary'>
+            </form>
+        </div>
+-->
+         <!-- 상품의 내역을 확인하는 입력창 생성 
+        <div class="contianer" style="margin-top: 30px;">
+            <form action="/golf/view_hist" method="get">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon5">식품 코드</span>
+                    <input type="text" name="input_code" class="form-control" placeholder="식품의 코드를 입력하시오" aria-label="food_code" aria-describedby="basic-addon5">
+                </div>
+                <input type="submit" value="식품 내역 보기" class = 'btn btn-primary'>
+            </form>
+        </div>
+-->
+ <!--        <!-- 식품의 가격을 추가 
+        <div class="contianer" style="margin-top: 30px;">
+            <form action="/golf/add_price" method="get">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon6">식품 코드</span>
+                    <input type="text" name="input_code" class="form-control" placeholder="식품의 코드를 입력하시오" aria-label="food_code" aria-describedby="basic-addon6">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon7">식품 코드</span>
+                    <input type="text" name="input_price" class="form-control" placeholder="식품의 코드를 입력하시오" aria-label="food_code" aria-describedby="basic-addon7">
+                </div>
+                <input type="submit" value="식품 가격 등록" class = 'btn btn-primary'>
+            </form>
+      </div>
+
+        <div class="container">
+            <button class="btn btn-primary" onclick="location.href='/user/drop2'">회원 탈퇴</button>
+        </div>
+    </div>
+ --> 
+</body>
+</html>
