@@ -22,13 +22,13 @@ const token = require("../token/token")
     // 이 파일의 기본 경로는 localhost:3000/user
 module.exports = function(){
 
-    router.get('/', function(req, res){
+    router.get('/login', function(req, res){
         // session 정보가 존재하지 않는다면 login 화면을 보여주고
         // session 정보가 존재한다면 localhost:3000/survey 주소로 이동
         if(!req.session.logined){
             res.render('login')
         }else{
-            res.redirect('/index.ejs')
+            res.redirect('index')
         }
     })
 

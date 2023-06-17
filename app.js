@@ -40,13 +40,13 @@ app.get('/', function(req, res){
     // 해당하는 주소로 요청이 들어온 경우 
     // req.session 안에 로그인의 정보가 존재하지 않는다면 
     // 로그인 화면을 보여주고 
-    // 존재한다면 main으로 이동
+    // 존재한다면 index으로 이동
 
     // 세션에 로그인 정보가 존재하지 않는다면
     if(!req.session.login){
         res.render('login')
     }else {
-        res.redirect("index.ejs")
+        res.render("index")
     }
 })
 
@@ -58,9 +58,9 @@ app.get('/', function(req, res){
 app.get("/index", function(req, res){
     // session 존재 유무에 따른 조건식 생성
     if(!req.session.login){
-        res.redirect('/')
+        res.render('/')
     }else{
-        res.render('main')
+        res.render('/index')
     }
 })
 // app.get("/main", function(req, res){
