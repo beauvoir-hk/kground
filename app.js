@@ -43,10 +43,16 @@ app.get('/', function(req, res){
     // 존재한다면 index으로 이동
 
     // 세션에 로그인 정보가 존재하지 않는다면
-    if(!req.session.login){
-        res.render('login')
+    if(!req.session.logined){
+        let data = 0
+        if(req.query.data){
+            data = 1
+        }
+        res.render('login', {
+            state : data
+        })
     }else {
-        res.render("index")
+        res.redirect("/index")
     }
 })
 
@@ -58,9 +64,9 @@ app.get('/', function(req, res){
 app.get("/index", function(req, res){
     // session 존재 유무에 따른 조건식 생성
     if(!req.session.login){
-        res.render('/')
+        res.redirect('/')
     }else{
-        res.render('/index')
+        res.render('index')
     }
 })
 // app.get("/main", function(req, res){

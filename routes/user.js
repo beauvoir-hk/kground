@@ -22,6 +22,7 @@ const token = require("../token/token")
     // 이 파일의 기본 경로는 localhost:3000/user
 module.exports = function(){
 
+    // localhost:3000/user/login 요청 시
     router.get('/login', function(req, res){
         // session 정보가 존재하지 않는다면 login 화면을 보여주고
         // session 정보가 존재한다면 localhost:3000/survey 주소로 이동
@@ -59,15 +60,16 @@ module.exports = function(){
                     console.log('login select error')
                     res.send(err)
                 }else{
+                    console.log(result)
                     // 로그인이 성공하는 조건?
                     // 데이터가 존재하면 로그인 성공
                     // 데이터가 존재하지 않는다면 로그인이 실패
                     // sql 에서 데이터를 받을때 [{id : xxx, password:xxx}]
                     if(result.length != 0){
                         // 로그인이 성공하는 조건
-                        req.session.login = result[0]
+                        req.session.logined = result[0]
                     }
-                    res.redirect("/")
+                    res.redirect("/?data=fail")
                 }
             }
         )
@@ -115,7 +117,7 @@ module.exports = function(){
 
 
     // 회원 탈퇴 하는 주소를 생성
-    router.get("/drop2", function(req, res){
+    router.get("/drop_user", function(req, res){
         // 본인 확인 페이지를 로드 
         res.render('drop_user', {
             '_phone' : req.session.login.phone
@@ -124,7 +126,7 @@ module.exports = function(){
 
    
     // 회원 탈퇴 sql api
-    router.post('/drop2', function(req, res){
+    router.post('/drop_use', function(req, res){
         // 유저가 입력한 데이터를 변수에 대입
         const _phone = req.body.input_phone
         const _pass = req.body.input_pass
@@ -200,7 +202,7 @@ module.exports = function(){
         })
     })
 
-    router.get('/info', async function(req, res){
+    router.get('/index', async function(req, res){
         if(!req.session.logined){
             res.redirect("/")
         }else{
@@ -209,7 +211,7 @@ module.exports = function(){
             const wallet = req.session.logined.wallet
             const amount = await token.balance_of(wallet)
             console.log(amount)
-            res.render('info', {
+            res.render('index', {
                 'user': req.session.logined, 
                 'amount' : amount
             })
