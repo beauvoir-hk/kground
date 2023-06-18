@@ -1,6 +1,7 @@
 // express 로드 
 const express = require('express')
 const app = express()
+const state = 1
 
 // dotenv 설정
 require('dotenv').config()
@@ -94,6 +95,9 @@ app.use("/user", user)
 
 const golf = require("./routes/golf")()
 app.use("/golf", golf)
+
+const contract = require('./routes/contract')()
+app.use("/contract", contract)
 
 
 // 서버 시작 
