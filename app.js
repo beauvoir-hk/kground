@@ -1,7 +1,7 @@
 // express 로드 
 const express = require('express')
 const app = express()
-const state = 1
+
 
 // dotenv 설정
 require('dotenv').config()
@@ -46,7 +46,6 @@ app.get('/', function(req, res){
     // 세션에 로그인 정보가 존재하지 않는다면
     if(!req.session.login){
         let data = 0
-        console.log("로그인아노디었음")
         if(req.query.data){
             data = 1
         }
@@ -72,14 +71,15 @@ app.get("/index", function(req, res){
         res.render('index')
     }
 })
-// app.get("/main", function(req, res){
-//     // session 존재 유무에 따른 조건식 생성
-//     if(!req.session.login){
-//         res.redirect('/')
-//     }else{
-//         res.render('main')
-//     }
-// })
+
+app.get("/signup", function(req, res){
+    // session 존재 유무에 따른 조건식 생성
+    if(!req.session.login){
+        res.redirect('/')
+    }else{
+        res.render('signup')
+    }
+})
 
 // 로그인에 관련된 주소 값들은 다른 파일에서 로드해서 사용
 const moment = require('moment')

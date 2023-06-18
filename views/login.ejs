@@ -18,74 +18,78 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
     <script>
+        function signup(){
+          location.href = '/signup'
+        }
         function fail(){
-                alert("로그인 실패")
-            }
-    </script>
+            alert("로그인 실패")
+        }
+      </script>
     </head>
-    
 <!--    <body class="d-flex align-items-center py-4 bg-body-tertiary">-->
-<%if(state == 0){%>
-<body class="bg-gradient-primary">
-<%}else{%>
-<body class="bg-gradient-primary" onload="fail()">
-<%}%>
+    <%if(state == 0){%>
+    <body class="bg-gradient-primary">
+    <%}else{%>
+    <body class="bg-gradient-primary" onload="fail()">
+    <%}%>
 
-    <div class="container">
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                        
-                            <div class="col-lg-6"> 
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">케이그라운드 회원 로그인 화면</h1>
-                                    </div>
-                                    <br><br>
-                                    <form action="/user/login" method="post" class="user">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control form-control-user"
-                                            name='input_phone'  
-                                            placeholder="Enter your Phone-number...">
-                                    </div>
-                                    <br>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control form-control-user"
-                                            name='input_pass' placeholder="Password">
-                                    </div>
-                                    <br>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">저장하기</label>
+        <div class="container">
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                            
+                                <div class="col-lg-6"> 
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">케이그라운드 회원 로그인 화면</h1>
                                         </div>
+                                        <br><br>
+                                        <form action="/user/login" method="post" class="user">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user"
+                                                name='input_phone'  
+                                                placeholder="Enter your Phone-number...">
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                name='input_pass' placeholder="Password">
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">저장하기</label>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="text-center"> <!-- location.href = 주소값 : 해당하는 주소로 이동하는 하이퍼링크 -->
+                                            <input type="submit" value="로그인" class="btn btn-danger">  
+                                        </div>
+                                        </form> 
+                                            <hr>
+                                        <div class="text-center">    
+                                            <button class="btn btn-primary" onclick="location.href='/user/signup'">회원가입</button>
+                                            <hr>
+                                                <a class="small" href="forgot-password.html">비밀번호찾기</a>
+                                            <hr>
+                                            <button class="btn btn-success" onclick="location.href='/golf/regist'">SGA 대회참가신청</button>
+                                        </div>    
                                     </div>
-                                    <hr>
-                                    <div class="text-center">
-                                        <input type="submit" value="로그인" class="btn btn-danger">
-                                    </div>
-                                    </form> 
-                                        <hr>
-                                    <div class="text-center">    
-                                        <button class="btn btn-primary" onclick="location.href='/user/signup'">회원가입</button>
-                                        <hr>
-                                            <a class="small" href="forgot-password.html">비밀번호찾기</a>
-                                        <hr>
-                                        <button class="btn btn-success" onclick="location.href='/golf/regist'">SGA 대회참가신청</button>
-                                    </div>    
                                 </div>
-                            </div>
 
-                        <div class="col-lg-5"><img src="/img/001.png"  height="75%"></div>    
+                            <div class="col-lg-5"><img src="/img/001.png"  height="75%"></div>    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</body>
 </html>
