@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://lite.payapp.kr/public/api/payapp-lite.js"></script>
-    <script>
+    <!-- <script>
         function myPay() {
             PayApp.setForm('MyForm');
             PayApp.call();
@@ -25,11 +25,20 @@
         <label>이만점 충전합니다</label>
         <input type="number" name = "_amount">
         <input type="submit" value="충전하기" onclick="myPay()" >
-        <!-- <a href="#" onclick="myPay();">결제하기</a> -->
+        <a href="#" onclick="myPay();">결제하기</a>
+    </form>
+</body>
+</html> -->
+
+
+</head>
+<body>
+    <form action="/contract/charge" method="post">
+        <label>충전할 토큰의 수량</label>
+        <input type="number" name = "_amount">
+        <input type="submit" value="충전하기">
+
     </form>
 </body>
 </html>
-
-
-
 

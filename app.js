@@ -44,8 +44,16 @@ app.get('/', function(req, res){
 
     // 세션에 로그인 정보가 존재하지 않는다면
     if(!req.session.login){
-        res.render('login')
+        let data = 0
+        console.log("로그인아노디었음")
+        if(req.query.data){
+            data = 1
+        }
+        res.render('login', {
+            state : data
+        })
     }else {
+        console.log("로그인-->index로 감")
         res.render("index")
     }
 })
@@ -60,7 +68,7 @@ app.get("/index", function(req, res){
     if(!req.session.login){
         res.render('/')
     }else{
-        res.render('/index')
+        res.render('index')
     }
 })
 // app.get("/main", function(req, res){
