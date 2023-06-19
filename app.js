@@ -1,6 +1,9 @@
 // express 로드 
 const express = require('express')
 const app = express()
+var request = require('request')                                   
+var urlencode = require('urlencode')
+var queryString = require('querystring')
 
 
 // dotenv 설정
@@ -32,8 +35,6 @@ app.use(
         }
     )
 )
-
-
 
 // api들을 생성
 // localhost:3000/ 요청시 
@@ -81,6 +82,15 @@ app.get("/signup", function(req, res){
     }
 })
 
+app.get("/payapp", function(req, res){
+    // session 존재 유무에 따른 조건식 생성
+    if(!req.session.login){
+        res.redirect('/')
+    }else{
+        res.render('payappfirst')
+    }
+})
+
 // 로그인에 관련된 주소 값들은 다른 파일에서 로드해서 사용
 const moment = require('moment')
 let date = moment()
@@ -98,6 +108,9 @@ app.use("/golf", golf)
 
 const contract = require('./routes/contract')()
 app.use("/contract", contract)
+
+const payapp = require('./routes/payapp')()
+app.use("/payapp",payapp)
 
 
 // 서버 시작 
