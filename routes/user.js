@@ -69,7 +69,7 @@ module.exports = function(){
                         // 로그인이 성공하는 조건
                         req.session.logined = result[0]
                     }
-                    res.redirect("index/?data=fail")
+                    res.redirect("/?data=fail")
                 }
             }
         )

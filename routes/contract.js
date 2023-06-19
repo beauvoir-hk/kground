@@ -30,10 +30,12 @@ module.exports = ()=>{
     router.post('/charge', (req, res)=>{
         const amount = req.body._amount
         const address = req.session.logined.wallet
+        const s = req.body.state
+        if(s == 1){
 
-        const receipt = token.trade_token(address, amount)
+        const receipt = token.trade_token(address, 200)
         console.log(receipt)
-
+        }
         res.redirect("/")
     })
 

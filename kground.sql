@@ -1,0 +1,1 @@
+SELECT * FROM kground.log_info;
