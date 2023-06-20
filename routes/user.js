@@ -29,7 +29,7 @@ module.exports = function(){
         if(!req.session.logined){
             res.render('login')
         }else{
-            res.redirect('index')
+            res.redirect('/user/index')
         }
     })
 
@@ -59,8 +59,9 @@ module.exports = function(){
                 if(err){
                     console.log('login select error')
                     res.send(err)
+                    res.redirect("/?data=fail")
                 }else{
-                    console.log(result)
+                    console.log(result[0])
                     // 로그인이 성공하는 조건?
                     // 데이터가 존재하면 로그인 성공
                     // 데이터가 존재하지 않는다면 로그인이 실패
@@ -68,8 +69,9 @@ module.exports = function(){
                     if(result.length != 0){
                         // 로그인이 성공하는 조건
                         req.session.logined = result[0]
+                        console.log('login이 정상')
                     }
-                    res.redirect("/?data=fail")
+                    res.redirect("/user/index")
                 }
             }
         )
@@ -117,16 +119,16 @@ module.exports = function(){
 
 
     // 회원 탈퇴 하는 주소를 생성
-    router.get("/drop_user", function(req, res){
+    router.get("/drop2", function(req, res){
         // 본인 확인 페이지를 로드 
-        res.render('drop_user', {
+        res.render('drop2', {
             '_phone' : req.session.login.phone
         })
     }) 
 
    
     // 회원 탈퇴 sql api
-    router.post('/drop_use', function(req, res){
+    router.post('/drop2', function(req, res){
         // 유저가 입력한 데이터를 변수에 대입
         const _phone = req.body.input_phone
         const _pass = req.body.input_pass
@@ -204,7 +206,8 @@ module.exports = function(){
 
     router.get('/index', async function(req, res){
         if(!req.session.logined){
-            res.redirect("/")
+            console.log('로그인정보가 없음')
+            res.redirect("/user/login")
         }else{
             // 유저의 정보는 -> req.session.logined
             // 토큰의 수량은? -> token.js -> balanceOf(지갑 주소)

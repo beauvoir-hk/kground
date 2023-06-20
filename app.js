@@ -82,14 +82,14 @@ app.get("/signup", function(req, res){
     }
 })
 
-app.get("/payapp", function(req, res){
-    // session 존재 유무에 따른 조건식 생성
-    if(!req.session.login){
-        res.redirect('/')
-    }else{
-        res.render('payappfirst')
-    }
-})
+// app.get("/payapp", function(req, res){
+//     // session 존재 유무에 따른 조건식 생성
+//     if(!req.session.login){
+//         res.redirect('/')
+//     }else{
+//         res.render('payappfirst')
+//     }
+// })
 
 // 로그인에 관련된 주소 값들은 다른 파일에서 로드해서 사용
 const moment = require('moment')
@@ -109,8 +109,8 @@ app.use("/golf", golf)
 const contract = require('./routes/contract')()
 app.use("/contract", contract)
 
-const payapp = require('./routes/payapp')()
-app.use("/payapp",payapp)
+// const payapp = require('./routes/payapp')()
+// app.use("/payapp",payapp)
 
 
 // 서버 시작 
