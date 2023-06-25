@@ -12,9 +12,7 @@ module.exports = ()=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{
-
             const address = req.session.logined.wallet
-
             const balance = await token.balance_of(address)
             res.render('index', {
                 info : req.session.logined, 
@@ -35,9 +33,8 @@ module.exports = ()=>{
         const address = req.session.logined.wallet
         const s = req.body.state
         if(s == 1){
-
-        const receipt = token.trade_token(address, 200)
-        console.log(receipt)
+            const receipt = token.trade_token(address, amount/100)
+            console.log(receipt)
         }
         res.redirect("/")
     })

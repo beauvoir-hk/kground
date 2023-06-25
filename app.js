@@ -1,7 +1,8 @@
 // express 로드
 const express = require('express')
 const app = express()
-const port = 3000
+// const port = 3000
+const port = 5000
 //현재 파일의 경로
 app.set('views', __dirname+'/views')
 app.set('view engine', 'ejs')
@@ -82,8 +83,9 @@ app.post('/payment', async function(req, res){
     // 금액만큼 토큰을 충전
     const receipt = await token.trade_token(wallet, price/100)
     console.log(receipt)
-    // res.send(receipt)
-    res.redirect('index')
+    res.send(receipt)
+
+    // res.redirect('index')
 })
 
 // routing

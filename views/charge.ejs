@@ -30,10 +30,13 @@
         <a href="#" onclick="myPay();">결제하기</a>
     </form>
 </body>
-</html> -->
+</html>
+
+        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
+    -->
 
 <script>
-    PayApp.setDefault('userid',     'payapptest');
+    PayApp.setDefault('userid',     'qop1513');
     PayApp.setDefault('shopname',   '케이그라운드');
     function payappPay(wallet){
         PayApp.setParam('goodname', 'K포인트 충전');
@@ -41,7 +44,7 @@
         PayApp.setParam('recvphone', '01037248010');
         PayApp.setParam('smsuse', 'y');
         PayApp.setParam('returnurl', 'http:localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
-        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
+        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay');
         PayApp.setParam('redirectpay', '1');
         PayApp.setParam('skip_cstpage', 'y');
         PayApp.call();
@@ -91,7 +94,7 @@
                                                 <br><hr><br>
                                                 <!-- <a href="#" onclick="payappPay('<%=wallet%>');">충전하기</a> -->
                                                 <div class="text-center"> 
-                                                <input type="submit" value="충전하기" href="#" onclick="payappPay('<%=wallet%>');" class="btn btn-danger">  
+                                                    <input type="submit" value="충전하기" href="#" onclick="payappPay('<%=wallet%>');" class="btn btn-danger">  
                                                     <!-- <input type="submit" value="충전하기"  class="btn btn-danger"> -->
                                                 </div>
                                             </fieldset>
