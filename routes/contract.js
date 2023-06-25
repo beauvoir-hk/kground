@@ -24,7 +24,10 @@ module.exports = ()=>{
     })
 
     router.get('/charge', (req, res)=>{
-        res.render('charge')
+        const wallet = req.session.logined.wallet;
+        res.render('charge', {
+            wallet : wallet
+        })
     })    
 
     router.post('/charge', (req, res)=>{

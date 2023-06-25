@@ -10,6 +10,7 @@ const accesskeyId = kas_info.accessKeyId
 const secretAccessKey = kas_info.secretAccessKey
 console.log(accesskeyId, secretAccessKey)
 // testnet chainID를 지정
+// const chainid = 8417
 const chainid = 1001
 
 caver.initKASAPI(chainid, accesskeyId, secretAccessKey)
@@ -99,6 +100,9 @@ async function trans_from_token(_private, _amount){
 async function balance_of(_address){
     // 발행한 토큰을 wallet 추가 
     const token_info = require('./kip7.json')
+    console.log(token_info.address)
+    // 해당하는 토큰의 주소를 가지고 올수 없다는 에러입니다. 
+    // 에러 나는 이유가 제 KAS에 있는 지갑 주소랑 다른 주소를 사용하셔서 그런건데 회원가입 부분도 이상이 보이네요
     const kip7 = await new caver.kct.kip7(token_info.address)
     kip7.setWallet(keyringContainer)
 

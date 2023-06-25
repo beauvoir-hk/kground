@@ -5,19 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 </head>
 <body>
+    <h1>회원탈퇴 확인</h1>
     <div class="container">
-        <form action="/user/drop2" method="post">
+        <form action="/drop2" method="post">
             <!-- 로그인을 한 아이디를 출력 -->
             <!-- readonly 옵션은 데이터를 읽는건 가능하지만 수정은 불가능 -->
-            <input type='text' name='input_phone' value='<%=_phone%>' readonly><br>
+            <input type='text' name='input_phone' value='<%=login_data['phone']%>' readonly><br>
             <!-- 패스워드를 입력하는 창 출력 -->
             <input type="password" name="input_pass"><br>
             <!-- 패스워드 작성이 완료되었을때 지정된 주소로 데이터 값을 보내준다. -->
-            <input type="submit" value="회원 탈퇴">
+            <p id="check_pass">비밀번호 확인</p>
+
+            <input type="submit" id="_submit" value="회원 탈퇴" disabled>
         </form>
+        <script>
+            //id가 check_passㅋ트릭햇을때
+            $('#checj_pass').click(function(){
+                const pass = $('#_pass').value()
+                //비동기통신 ajax사용
+                $.ajax(
+                    {
+                        url : '/check_pass',
+                        method : "get",
+                        dataType : 'json',
+                        data :{
+                            _pass : pass
+                        }
+                    }
+                )
+
+                .done(function(result){
+                //서버 pass가 맞는지 확인
+                    if(result){
+                        //일치한다면 check_pass삭제, 버튼활성화
+                        $('#check_pass').hide()
+                        $('#_submit').attr('disable', false)
+                    }else{
+                        alert('패스워드가 일치하지 않습니다')
+                    }
+
+                })
+            })
+
+        
+        </script>
     </div>
 </body>
 </html>

@@ -16,7 +16,7 @@ const token = require('../token/token')
 module.exports = ()=>{
     /*  payappFirst.html 페이지 렌더링 (과정1) */
     router.get('/payapp', function(req,res){
-        res.render('payappFirst')
+        res.render('charge.ejs')
     });
 
     /*  payappFirst.html페이지에서 결제자가 결제요청 (과정2+과정3) */
@@ -51,7 +51,7 @@ module.exports = ()=>{
         */
         
         
-        var dataString = 'cmd=payrequest&userid=qop1513&goodname=2만포인트구매& '
+        var dataString = 'cmd=payrequest&userid=qop1513&goodname=케이포인트구매&price=&recvphon='
         /* ex. var dataString = 'cmd=payrequest&userid=payapp 판매자 아이디....';               */
         /* dataString에 '&'다음에는 parameter를, '='다음에는 입력하실 값을 쓰씨면 됩니다.               */
         /* payappFirst.html에서 요청보낸 form을 적절히 섞어 사용하시면 됩니다. 이건 Node.Js기본이니 생략   */
@@ -95,7 +95,7 @@ module.exports = ()=>{
         request(options, callback)
     });
     router.get('/payNext', function(req,res){
-        res.render('payappSecond.html')
+        res.render('payappSecond.ejs')
     });
 
     /* feedbackurl을 이용하여 개발자가 원하는 DB처리를 합니다.(과정5) */
@@ -159,6 +159,6 @@ module.exports = ()=>{
     /* 결제자가 결제가 완료되었음을 확인 (과정6) */
     router.get('/payConfirm', function(req,res){
         /* 여러분이 DB처리한 것과 비교해 결제가 제대로 완료되었는지 확인후 렌더링시키시기 바랍니다.  */
-        res.render('payappThird.html')
+        res.render('payappThird.ejs')
     })
 }

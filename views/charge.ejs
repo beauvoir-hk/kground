@@ -7,6 +7,7 @@
     <title>Document</title>
     <script src="https://lite.payapp.kr/public/api/payapp-lite.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
     <!-- <script>
         function myPay() {
             PayApp.setForm('MyForm');
@@ -32,13 +33,14 @@
 </html> -->
 
 <script>
-    PayApp.setDefault('userid',     'qop1513');
+    PayApp.setDefault('userid',     'payapptest');
     PayApp.setDefault('shopname',   '케이그라운드');
-    function payappPay(){
-        PayApp.setParam('goodname', '2만포인트');
-        PayApp.setParam('price', '20000');
+    function payappPay(wallet){
+        PayApp.setParam('goodname', 'K포인트 충전');
+        PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', '01037248010');
         PayApp.setParam('smsuse', 'y');
+        PayApp.setParam('returnurl', 'http:localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
         PayApp.setParam('redirectpay', '1');
         PayApp.setParam('skip_cstpage', 'y');
@@ -47,45 +49,71 @@
 </script>
 
 </head>
-<body>
-    <!-- <form action="/contract/charge" method="post">
+    <body class="bg-gradient-primary">
+        <div class="container">
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                            
+                                <div class="col-lg-6"> 
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">케이포인트 충전화면</h1>
+                                        </div>
+                                        <br><br>
+                                        <!-- 해당하는 주소가 없다고 나오는 에러입니다
+                                            기존에는 위의 함수를 호출 하였는데 일부러 바꿔두신걸까요?
+
+                                        -->
+                                        <form role="form" action="#" method="" >
+                                            <fieldset> 
+                                                <div class="form-group">
+                                                    <br><br>
+                                                    <label class="control-label">충전금액선택</label>
+                                                    <br>
+                                                    <select class="form-control" name="price" id="price">
+                                                        <option value=1000>1,000원 : 1,000K포인트</option>
+                                                        <option value=20000>20,000원 : 20,000K포인트</option>
+                                                        <option value=50000>50,000원 : 50,000K포인트</option>
+                                                        <option value=100000>100,000원 : 100,000K포인트</option>
+                                                        <option value=200000>200,000원 : 200,000K포인트</option>
+                                                        <option value=300000>300,000원 : 300,000K포인트</option>
+                                                    </select>
+                                                    <br>
+                                                    <input class="form-control" type="number" name="phone" value="" required ="required" placeholder="휴대폰번호를 입력하세요">
+                                                </div>
+                                                <br><hr><br>
+                                                <!-- <a href="#" onclick="payappPay('<%=wallet%>');">충전하기</a> -->
+                                                <div class="text-center"> 
+                                                <input type="submit" value="충전하기" href="#" onclick="payappPay('<%=wallet%>');" class="btn btn-danger">  
+                                                    <!-- <input type="submit" value="충전하기"  class="btn btn-danger"> -->
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                        <hr>         
+                                    </div>    
+                                </div>
+                                <div class="col-lg-5"><img src="/img/001.png"  width="100%" height="100%"></div>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <!-- <form action="/contract/charge" method="post">
         <label>충전할 토큰의 수량</label>
         <input type="number" name = "_amount">
         <input type="submit" value="충전하기"> 
 
     </form>-->
-
-        <div>                
-            <div>
-                <a id="signinlink" href="javascript:history.back()" >돌아가기</a>
-            </div>  
-            <div>
-                 <div>    
-                    <div class="form-group">
-                        <br><br>
-                        <label>결제하기</label>
-                    </div>
-                    <form role="form" action="/paying_payApp" method="post" >
-                        <fieldset> 
-                            <div class="form-group">
-                                <br><br>
-                                <label class="control-label">충전금액선택</label><br>
-                                <select class="form-control" name="price" >
-                                    <option value=20000>20000원 -> 20000 KPoint</option>
-                                    <option value=50000>50000원 -> 50000 KPoint</option>
-                                    <option value=100000>100000원 -> 100000 KPoint</option>
-                                    <option value=200000>200000원 -> 200000 KPoint</option>
-                                    <option value=300000>300000원 -> 300000 KPoint</option>
-                                </select>
-                                <br>
-                                <input class="form-control" type="number" name="phone" value="" required ="required" placeholder="휴대폰번호를 입력하세요">
-                            </div>
-                            <a href="https://www.payapp.kr/L/z2ZDY7" onclick="payappPay();">결제하기</a>
-                        </fieldset>
-                    </form>         
-                </div>    
-            </div>
-        </div>
 </body>
 </html>
 
