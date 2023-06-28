@@ -1,1 +1,1 @@
-SELECT * FROM kground11.user;
+SELECT * FROM kground.log_info;

@@ -1,8 +1,9 @@
 // express 로드
 const express = require('express')
+var request = require('request') 
+var c = 0
 const app = express()
-// const port = 3000
-const port = 5000
+const port = 3000
 //현재 파일의 경로
 app.set('views', __dirname+'/views')
 app.set('view engine', 'ejs')
@@ -34,46 +35,52 @@ app.use(
         }
     )
 )
+const token = require("./token/token")
 // api들을 생성
 // localhost:3000/ 요청시 
-// app.get('/', function(req, res){
-//     // 해당하는 주소로 요청이 들어온 경우 
-//     // req.session 안에 로그인의 정보가 존재하지 않는다면 
-//     // 로그인 화면을 보여주고 
-//     // 존재한다면 index으로 이동
+app.get('/', async function(req, res){
+    // 해당하는 주소로 요청이 들어온 경우 
+    // req.session 안에 로그인의 정보가 존재하지 않는다면 
+    // 로그인 화면을 보여주고 
+    // 존재한다면 index으로 이동
 
-//     // 세션에 로그인 정보가 존재하지 않는다면
-//     if(!req.session.login){
-//         let data = 0
-//         if(req.query.data){
-//             data = 1
-//         }
-//         res.render('login.ejs', {
-//             state : data
-//         })
-//     }else {
-//         console.log("로그인-->index로 감")
-//         res.redirect("index.ejs")
-//     }
-// })
+    // 세션에 로그인 정보가 존재하지 않는다면
+    if(!req.session.logined){
+        let data = 0
+        console.log(req.session.logined)
+        if(req.query.data){
+            data = 1
+        }
+        res.render('login', {
+            state : data
+        })
+    }else {
+        const wallet = req.session.logined.wallet
+        console.log('로그인 되었어요')
+        console.log(wallet)
+        const amount = await token.balance_of(wallet)
+        res.render('index.ejs', {
+            'login_data': req.session.logined, 
+            'amount' : amount
+        })
+    }
+})
 
-const token = require("./token/token")
 
 app.get('/create', async function(req, res){
     await token.create_token('golf', 'GOLF', 0, 1000000000)
     res.redirect('/')
 })
 
-// app.get("/index", function(req, res){
-//     // session 존재 유무에 따른 조건식 생성
-//     if(!req.session.login){
-//         res.render('login.ejs')
-//     }else{
-//         res.redirect('index')
-//     }
-// })
+app.get("/index", function(req, res){
+    // session 존재 유무에 따른 조건식 생성
+    if(!req.session.login){
+        res.redirect("/")
+    }else{
+        res.render('index')
+    }
+})
 
-//여기가 
 app.post('/payment', async function(req, res){
     console.log(req.body)
     // 유저의 지갑 주소 
@@ -83,11 +90,8 @@ app.post('/payment', async function(req, res){
     // 금액만큼 토큰을 충전
     const receipt = await token.trade_token(wallet, price/100)
     console.log(receipt)
-    res.send(receipt)
-
-    // res.redirect('index')
+    res.render("payappthird")
 })
-
 // routing
 // 특정한 주소로 요청이 들어왔을때 routes 폴더 안에 js 파일로 이동한다.
 // api들을 나눠서 관리 
@@ -106,7 +110,7 @@ const contract = require('./routes/contract')()
 app.use("/contract", contract)
 
 // const payapp = require('./routes/payapp')()
-// app.use("/payapp",payapp)
+// app.use("/payapp", payapp)
 
 
 // 서버 시작 

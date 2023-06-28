@@ -3,8 +3,14 @@
     <head>
         <meta charset="utf-8">  
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            function end(){
+                opener.call();
+                window.close();
+            }
+        </script>
     </head>
-    <body>
+    <body onload="end()">
         <div>                
             <div>
                  <div class="panel-body">    

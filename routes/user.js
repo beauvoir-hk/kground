@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
     database : process.env.database
 })
 
-// token.js 파일 로드 
+//token.js 파일 로드 
 const token = require("../token/token")
 
 module.exports = ()=>{
@@ -88,7 +88,7 @@ module.exports = ()=>{
     })
 
     router.post('/signup', async (req, res)=>{
-        console.log('/signup')
+
         // 유저가 보낸 데이터를 서버에서 대소로 대입
         const _phone = req.body.input_phone
         const _pass = req.body.input_pass
@@ -97,7 +97,7 @@ module.exports = ()=>{
         const _refferal = req.body.input_refferal
         const _numeric6= req.body.input_numeric6
         const date = moment()
-        const input_dt=date.format("YYYY-MM-DD")
+        const input_dt=date.format("YYYY-MM-DD : hh-mm-ss")
         console.log(_phone, _pass, _username, _nickname, _refferal, _numeric6 , input_dt )
 
         // 지갑을 생성 
@@ -109,8 +109,8 @@ module.exports = ()=>{
             insert 
             into 
             log_info 
-            values (?, ?, ?, ?, ?, ?, ?)`, 
-            [_phone, _pass, _username, _nickname, _refferal, _numeric6, _wallet], 
+            values ( ?, ?, ?, ?, ?, ?, ?,?)`, 
+            [_phone, _pass, _username, _nickname, _refferal, _numeric6, _wallet, input_dt], 
 
             function(err, receipt){
                 if(err){

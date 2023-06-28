@@ -14,15 +14,13 @@ const router = express.Router()
 const token = require('../token/token')
 
 module.exports = ()=>{
-
     /*  payappFirst.html 페이지 렌더링 (과정1) */
     router.get('/payapp', function(req,res){
         res.render('charge.ejs')
     });
 
-
     /*  payappFirst.html페이지에서 결제자가 결제요청 (과정2+과정3) */
-    router.post('/paying_payApp', function(req,res){
+    // router.post('/paying_payApp', function(req,res){
         /* dataString에 api연동 parameters를 url형식으로 작성해야 함 */
         
         /*  Parameters 
@@ -53,28 +51,28 @@ module.exports = ()=>{
         */
         
         
-        var dataString = 'cmd=payrequest&userid=qop1513&goodname=K포인트 충전&price=req.body.price&recvphon=req.body.phone'
+        // var dataString = 'cmd=payrequest&userid=qop1513&goodname=케이포인트구매&price=&recvphon='
         /* ex. var dataString = 'cmd=payrequest&userid=payapp 판매자 아이디....';               */
         /* dataString에 '&'다음에는 parameter를, '='다음에는 입력하실 값을 쓰씨면 됩니다.               */
         /* payappFirst.html에서 요청보낸 form을 적절히 섞어 사용하시면 됩니다. 이건 Node.Js기본이니 생략   */
         
-        var encoded = urlencode(dataString);   // url인코딩 시켜야 합니다. http://www.convertstring.com/ko/EncodeDecode/UrlEncode에 접속하셔서 맞게하셨는지 먼저 확인하시길 바랍니다.
+        // var encoded = urlencode(dataString);   // url인코딩 시켜야 합니다. http://www.convertstring.com/ko/EncodeDecode/UrlEncode에 접속하셔서 맞게하셨는지 먼저 확인하시길 바랍니다.
         
-        var options = {
-            url: 'http://api.payapp.kr/oapi/apiLoad.html',
-            method: 'POST',
-            headers : {
-                'Accept' : 'text/html,application/xhtml+xml,*/*',
-                'Host' : 'api.payapp.kr',
-                'Accept-Language' : 'ko-KR',
-                'Content-Type' : 'application/x-www-form-urlencoded',
-            },
-            body: encoded
-        }
+        // var options = {
+        //     url: 'http://api.payapp.kr/oapi/apiLoad.html',
+        //     method: 'POST',
+        //     headers : {
+        //         'Accept' : 'text/html,application/xhtml+xml,*/*',
+        //         'Host' : 'api.payapp.kr',
+        //         'Accept-Language' : 'ko-KR',
+        //         'Content-Type' : 'application/x-www-form-urlencoded',
+        //     },
+        //     body: encoded
+        // }
         
-        function callback(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var qObj2 = queryString.parse(body, '&', '=', { maxKeys: 3 })
+        // function callback(error, response, body) {
+        //     if (!error && response.statusCode == 200) {
+        //         var qObj2 = queryString.parse(body, '&', '=', { maxKeys: 3 })
                 
                 /* naxKeys를 여러분의 코드에 맞게 바꾸시길 바랍니다. (무조건 1이상이여야함)                         */
                 /* naxKeys:1  state만 가져옴 (state==0이면 에러)                                          */
@@ -84,25 +82,22 @@ module.exports = ()=>{
                 /*                                                                                    */
                 /* payurl은 디코딩 시켜서 사용해야 함. 예를들면, urlencode.decode(qObj2.payurl)               */
                 
-                if(qObj2.state=='0'){
-                    res.send("결제 도중 에러가 발생했습니다. 다시 결제를 진행해 주시기바랍니다.");
-                } else{
+    //             if(qObj2.state=='0'){
+    //                 res.send("결제 도중 에러가 발생했습니다. 다시 결제를 진행해 주시기바랍니다.");
+    //             } else{
                     
-                    /* DB처리 부분(필요하다면)*/
-                    res.redirect('/payNext')
-                }
-            }
-        }
+    //                 /* DB처리 부분(필요하다면)*/
+    //                 res.redirect('/payNext')
+    //             }
+    //         }
+    //     }
         
-        request(options, callback)
-    });
-
-    
+    //     request(options, callback)
+    // });
     router.get('/payNext', function(req,res){
         res.render('payappSecond.ejs')
     });
 
-    
     /* feedbackurl을 이용하여 개발자가 원하는 DB처리를 합니다.(과정5) */
     router.post('/paying_feedback', function(req,res){
         /*
