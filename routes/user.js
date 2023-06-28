@@ -25,11 +25,12 @@ module.exports = ()=>{
     //localhost:3000/요청시 
     router.get("/", (req, res)=>{
         if(!req.session.logined){
-            res.render('login.ejs')
+            res.redirect('/')
+            // res.redirect('/?data=false')
         }else{
             res.redirect('/index')
         }
-        
+    
     })
 
     //localhost:3000/login [post] 형식으로 요청 시
@@ -59,10 +60,9 @@ module.exports = ()=>{
            values,
            (err, result)=>{
                 if(err){
-                    console.log(err)
+                    // console.log('login error XXXXXXXX')
                     res.send(err)
-                    // res.redirect("/")
-                    // res.redirect("/?data=fail")
+                    res.redirect('/?data=1')
                 }else{
                     console.log(result[0])
                     // 로그인이 성공하는 조건?
@@ -165,6 +165,72 @@ module.exports = ()=>{
             })
         }
     })
+
+    router.get('/regist', function(req, res){
+
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{
+            res.render('regist.ejs',{
+                login_data : req.session.logined
+            })
+        }
+    })
+
+    // localhost:3000/golf/regist [get]
+    router.post('/regist', async  function(req, res){
+        // 유저가 입력한 데이터를 변수에 대입 
+        const _gamenumber = req.body.input_gamenumber
+        const _gender = req.body.input_gender
+        const _jiyeok = req.body.input_jiyeok
+        const _birth = req.body.input_birth
+        const _golfsys = req.body.input_golfsys
+        console.log(_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
+
+        // name 값은 로그인 데이터에서 name 값을 가지고 온다
+        // 로그인 정보는 session 저장
+        // name 값을 가지고 오려면 session 안에 있는 name을 추출
+        const _phone = await req.session.logined.phone
+        console.log(_phone)
+        const _username= await req.session.logined.username
+        console.log(_username)
+        // // session 안에 있는 로그인 한 사람의 지갑 주소를 
+        // 추출
+        // const addr = req.session.login.wallet
+        // console.log(addr)
+        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
+        connection.query(
+            `select
+            *
+            from
+            sga
+            where 
+            phone = ?`, 
+            [ _phone ], 
+            function(err, receipt){
+                if(!err){
+                    console.log(err)
+                    res.render('errorpage.ejs')
+                }else{
+                        console.log(receipt)
+                        // // session 안에 있는 로그인 한 사람의 지갑 주소를 
+                        // 추출
+                        // const addr = req.session.login.wallet
+                        // console.log(addr)
+                        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
+                        connection.query(
+                        `insert 
+                        into 
+                        sga
+                        values (?, ?, ?, ?, ?, ?)`, 
+                        [ _phone, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
+                                // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
+                        res.redirect("/index")
+                        )
+                    }
+                }   
+        )
+})
 
     // router.post('/drop2', function(req, res){
     //     // 유저가 입력한 데이터를 변수에 대입

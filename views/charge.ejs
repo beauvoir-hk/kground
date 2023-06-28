@@ -38,7 +38,7 @@
     function payappPay(wallet){
         PayApp.setParam('goodname', 'K포인트 충전');
         PayApp.setParam('price', $('#price').val());
-        PayApp.setParam('recvphone', '01037248010');
+        PayApp.setParam('recvphone', $('#phone'));
         PayApp.setParam('smsuse', 'y');
         PayApp.setParam('returnurl', 'http:localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');

@@ -61,33 +61,43 @@ module.exports = function(){
         // name 값은 로그인 데이터에서 name 값을 가지고 온다
         // 로그인 정보는 session 저장
         // name 값을 가지고 오려면 session 안에 있는 name을 추출
-        // const _phone = await req.session.logined.phone
-        // console.log(_phone)
-        // const _username= await req.session.logined.username
-        // console.log(_username)
-        // // session 안에 있는 로그인 한 사람의 지갑 주소를 
-        // 추출
-        // const addr = req.session.login.wallet
-        // console.log(addr)
-        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
-        connection.query(
-        `insert 
-        into 
-        sga
-        values ( ?, ?, ?, ?, ?)`, 
-        [ _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
+        const _phone = await req.session.logined.phone
+        const _username= await req.session.logined.username
+        console.log(_username)
+        console.log(_phone)
 
-        function(err, receipt){
-            if(err){
-                console.log(err)
-                res.send('user sga register sql error')
-            }else{
-                console.log(receipt)
-                // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                res.redirect("/")
-            }
-        }
-    )
+        connection.query(
+            `select
+            *
+            from
+            sga
+            where 
+            phone = ?`, 
+            [ _phone ], 
+            function(err, receipt){
+                if(err){
+                    console.log(err)
+                    res.send('errorpage.ejs')
+                }else{
+                        console.log(receipt)
+                        // // session 안에 있는 로그인 한 사람의 지갑 주소를 
+                        // 추출
+                        // const addr = req.session.login.wallet
+                        // console.log(addr)
+                        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
+                        connection.query(
+                        `insert 
+                        into 
+                        sga
+                        values (?, ?, ?, ?, ?, ?)`, 
+                        [ _phone, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
+                                // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
+                        res.redirect("/")
+                        )
+                    }
+                }   
+        )
+})
 
         // // smartcontract에 있는 method를 사용
         // smartcontract
@@ -103,7 +113,7 @@ module.exports = function(){
         //     console.log(receipt)
         //     res.redirect('/main')
         // })
-    })
+  
 
     // // localhost:3000/golf/add_hist [get]
     // router.get('/add_hist', function(req, res){

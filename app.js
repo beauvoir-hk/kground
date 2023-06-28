@@ -1,10 +1,10 @@
 // express 로드
 const express = require('express')
 var request = require('request') 
-var c = 0
 const app = express()
 const port = 3000
 //현재 파일의 경로
+
 app.set('views', __dirname+'/views')
 app.set('view engine', 'ejs')
 //외부 js,css,img등의 파일들의 기본경로
@@ -46,15 +46,14 @@ app.get('/', async function(req, res){
 
     // 세션에 로그인 정보가 존재하지 않는다면
     if(!req.session.logined){
-        let data = 0
-        console.log(req.session.logined)
+        let data=0
         if(req.query.data){
             data = 1
         }
         res.render('login', {
-            state : data
+            'state' : data
         })
-    }else {
+    }else{
         const wallet = req.session.logined.wallet
         console.log('로그인 되었어요')
         console.log(wallet)
