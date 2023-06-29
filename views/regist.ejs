@@ -7,118 +7,188 @@
     <title>Document</title>
     <!-- header 파일을 포함 -->
     <%- include('header.ejs') %>
-
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
 </head>
-<body>
-    <div class="text-center">
-        <div class="text-center">
-            <h1 class="h4 text-gray-900 mb-4">지역 선수 선발전 참가 신청</h1>
-        </div>    
-    </div>
-    <hr>
-    <br>
-    <!-- 유저게임참가 상황을 등록하는 입력창을 하나 구현  -->     
-    <div class="contianer">
-        <table class="table">
-            <form action="/regist" method="post">
-                <tr>
-                    <th>대회참가: </th>
-                    <td>
-                           <input type="radio" name="input_gamenumber" value="1" class="btn-check"  id="btnradio20" autocomplete="off" checked="">
-                           <label class="btn btn-outline-primary" for="btnradio20">제5회 대회(지역선수 선발전, 7~9월)</label>
-                    </td>
-                </tr>
-                <tr>
-                    <th>성별선택: </th>
-                    <th>
-                        <input type="radio" name="input_gender" value="남" class="btn-check"  id="btnradio21" autocomplete="off" checked="">
-                        <label class="btn btn-outline-primary" for="btnradio21">남</label>
-                        <input type="radio" name="input_gender" value="여" class="btn-check"  id="btnradio22" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio22">여</label>
-                    </th>
-                </tr>
-                <tr>
-                    <th>지역선택: </th>
-                    <th>
-                        <input type="radio" name="input_jiyeok" value="서울특별시" class="btn-check"  id="btnradio1" autocomplete="off" checked="">
-                        <label class="btn btn-outline-primary" for="btnradio1">서울특별시</label>
-                        <input type="radio" name="input_jiyeok" value="부산광역시" class="btn-check"  id="btnradio2" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio2">부산광역시</label>
-                        <input type="radio" name="input_jiyeok" value="대구광역시" class="btn-check"  id="btnradio3" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio3">대구광역시</label>
-                        <input type="radio" name="input_jiyeok" value="인천광역시" class="btn-check"  id="btnradio4" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio4">인천광역시</label>
-                        <input type="radio" name="input_jiyeok" value="광주광역시" class="btn-check"  id="btnradio5" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio5">광주광역시</label>
-                        <input type="radio" name="input_jiyeok" value="대전광역시" class="btn-check"  id="btnradio6" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio6">대전광역시</label>
-                        <input type="radio" name="input_jiyeok" value="울산광역시" class="btn-check"  id="btnradio7" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio7">울산광역시</label>
-                        <input type="radio" name="input_jiyeok" value="제주특별자치도" class="btn-check"  id="btnradio8" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio8">제주특별자치도</label>
-                        <br>
-                        <input type="radio" name="input_jiyeok" value="강원도" class="btn-check"  id="btnradio9" autocomplete="off" >
-                        <label class="btn btn-outline-primary" for="btnradio9">강원도</label>
-                        <input type="radio" name="input_jiyeok" value="경기도" class="btn-check"  id="btnradio10" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio10">경기도</label>
-                        <input type="radio" name="input_jiyeok" value="충청남도" class="btn-check"  id="btnradio11" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio11">충청남도</label>
-                        <input type="radio" name="input_jiyeok" value="충청북도" class="btn-check"  id="btnradio12" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio12">충청북도</label>
-                        <input type="radio" name="input_jiyeok" value="경상북도" class="btn-check"  id="btnradio13" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio13">경상북도</label>
-                        <input type="radio" name="input_jiyeok" value="경상남도" class="btn-check"  id="btnradio14" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio14">경상남도</label>
-                        <input type="radio" name="input_jiyeok" value="전라남도" class="btn-check"  id="btnradio15" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio15">전라남도</label>
-                        <input type="radio" name="input_jiyeok" value="전라북도" class="btn-check"  id="btnradio16" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio16">전라북도</label>
-                        <input type="radio" name="input_jiyeok" value="글로벌" class="btn-check"  id="btnradio17" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio17">글로벌</label>
-                        <input type="radio" name="input_jiyeok" value="연예인팀" class="btn-check"  id="btnradio18" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btnradio18">연예인팀</label>
-                    </th>
-                </tr>
-                    <tr>
-                        <th>생년월일입력(8자리) : </th>
-                        <th>
-                            <div>
-                                <input type="text" name="input_birth" class="form-control" placeholder="생년월일을 입력하시오" aria-label="golf_code" aria-describedby="basic-addon3">
+<body class="bg-gradient-primary">
+    <div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <!-- <div class="col-lg-6">  -->
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h5 text-gray-900 mb-4">KSFC 대회 참가 신청</h1>
+                                    <!-- 유저게임참가 상황을 등록하는 입력창을 하나 구현  -->     
+                                    <div><%=login_data['username']%>님</div>
+                                    <div id="_id"><%=login_data['phone']%></div>
+                                </div>
+                                <div align="right">  
+                                    <span class="small" id="check_id">☞ 여기 클릭 (참가등록 중복확인)</span>
+                                </div>
+                                <div class="display" id="info">
+                                    <form action="/regist" method="post">
+                                    <table class="table">
+                                        <tr>
+                                            <th>대회참가: </th>
+                                            <td>
+                                                <input type="radio" name="input_gamenumber" value="1" class="btn-check"  id="btnradio20" autocomplete="off" checked="">
+                                                <label class="btn btn-outline-primary" for="btnradio20">제5회 대회(지역선수 선발전, 7~9월)</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>성별선택: </th>
+                                            <td>
+                                                <input type="radio" name="input_gender" value="남" class="btn-check"  id="btnradio21" autocomplete="off" checked="">
+                                                <label class="btn btn-outline-primary" for="btnradio21">남</label>
+                                                <input type="radio" name="input_gender" value="여" class="btn-check"  id="btnradio22" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio22">여</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>지역선택: </th>
+                                            <td>
+                                                <input type="radio" name="input_jiyeok" value="서울특별시" class="btn-check"  id="btnradio1" autocomplete="off" checked="">
+                                                <label class="btn btn-outline-primary" for="btnradio1">서울특별시</label>
+                                                <input type="radio" name="input_jiyeok" value="부산광역시" class="btn-check"  id="btnradio2" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio2">부산광역시</label>
+                                                <input type="radio" name="input_jiyeok" value="대구광역시" class="btn-check"  id="btnradio3" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio3">대구광역시</label>
+                                                <input type="radio" name="input_jiyeok" value="인천광역시" class="btn-check"  id="btnradio4" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio4">인천광역시</label>
+                                                <input type="radio" name="input_jiyeok" value="광주광역시" class="btn-check"  id="btnradio5" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio5">광주광역시</label>
+                                                <input type="radio" name="input_jiyeok" value="대전광역시" class="btn-check"  id="btnradio6" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio6">대전광역시</label>
+                                                <input type="radio" name="input_jiyeok" value="울산광역시" class="btn-check"  id="btnradio7" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio7">울산광역시</label>
+                                                <input type="radio" name="input_jiyeok" value="제주특별자치도" class="btn-check"  id="btnradio8" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio8">제주특별자치도</label>
+                                                <br>
+                                                <input type="radio" name="input_jiyeok" value="강원도" class="btn-check"  id="btnradio9" autocomplete="off" >
+                                                <label class="btn btn-outline-primary" for="btnradio9">강원도</label>
+                                                <input type="radio" name="input_jiyeok" value="경기도" class="btn-check"  id="btnradio10" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio10">경기도</label>
+                                                <input type="radio" name="input_jiyeok" value="충청남도" class="btn-check"  id="btnradio11" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio11">충청남도</label>
+                                                <input type="radio" name="input_jiyeok" value="충청북도" class="btn-check"  id="btnradio12" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio12">충청북도</label>
+                                                <input type="radio" name="input_jiyeok" value="경상북도" class="btn-check"  id="btnradio13" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio13">경상북도</label>
+                                                <input type="radio" name="input_jiyeok" value="경상남도" class="btn-check"  id="btnradio14" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio14">경상남도</label>
+                                                <input type="radio" name="input_jiyeok" value="전라남도" class="btn-check"  id="btnradio15" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio15">전라남도</label>
+                                                <input type="radio" name="input_jiyeok" value="전라북도" class="btn-check"  id="btnradio16" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio16">전라북도</label>
+                                                <input type="radio" name="input_jiyeok" value="글로벌" class="btn-check"  id="btnradio17" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio17">글로벌</label>
+                                                <input type="radio" name="input_jiyeok" value="연예인팀" class="btn-check"  id="btnradio18" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio18">연예인팀</label>
+                                            </td>
+                                        </tr>
+                                            <tr>
+                                                <th>생년월일입력(8자리) : </th>
+                                                <td>
+                                                    <div>
+                                                        <input type="text"  name="input_birth" class="form-control" placeholder="생년월일을 입력하시오" aria-label="golf_code" aria-describedby="basic-addon3">
+                                                    </div>
+                                                </td>
+                                                </tr>
+                                            </tr>
+                                            <tr>
+                                                <th>참가시스템: </th>
+                                                <td>
+                                                        <input type="radio" value="8" class="btn-check" name="input_golfsys" id="btnradio23" autocomplete="off" checked="">
+                                                        <label class="btn btn-outline-primary" for="btnradio23">GolfZon</label>
+                                                        <input type="radio" value="9" class="btn-check" name="input_golfsys" id="btnradio24" autocomplete="off">
+                                                        <label class="btn btn-outline-primary" for="btnradio24">GolfZon Park</label>
+                                                        <input type="radio" value="3" class="btn-check" name="input_golfsys" id="btnradio25" autocomplete="off" >
+                                                        <label class="btn btn-outline-primary" for="btnradio25">Kakao Friends</label>
+                                                        <input type="radio" value="7" class="btn-check" name="input_golfsys" id="btnradio26" autocomplete="off" >
+                                                        <label class="btn btn-outline-primary" for="btnradio26">UDR Golf</label>
+                                                        <input type="radio" value="5" class="btn-check" name="input_golfsys" id="btnradio27" autocomplete="off" >
+                                                        <label class="btn btn-outline-primary" for="btnradio27">K Golf</label>
+                                                        <input type="radio" value="6" class="btn-check" name="input_golfsys" id="btnradio28" autocomplete="off" >
+                                                        <label class="btn btn-outline-primary" for="btnradio28">GNC</label>
+                                                        <input type="radio" value="4" class="btn-check" name="input_golfsys" id="btnradio29" autocomplete="off" >
+                                                        <label class="btn btn-outline-primary" for="btnradio29">SG Golf</label>
+                                                    <!-- </div> -->
+                                                </td>
+                                            </tr>
+                                    </table>
+
+                                <br>
+
+                                <input class = "btn btn-success" type="submit" value="참가등록" id="regist">
+
+                                </form>
                             </div>
-                        </th>
-                        </tr>
-                    </tr>
-                    <tr>
-                        <th>참가시스템: </th>
-                        <th>
-                            <!-- <div class="btn-group" role="group" aria-label="radio toggle button group"> -->
-                                <input type="radio" value="8" class="btn-check" name="input_golfsys" id="btnradio23" autocomplete="off" checked="">
-                                <label class="btn btn-outline-primary" for="btnradio23">GolfZon</label>
-                                <input type="radio" value="9" class="btn-check" name="input_golfsys" id="btnradio24" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="btnradio24">GolfZon Park</label>
-                                <input type="radio" value="3" class="btn-check" name="input_golfsys" id="btnradio25" autocomplete="off" >
-                                <label class="btn btn-outline-primary" for="btnradio25">Kakao Friends</label>
-                                <input type="radio" value="7" class="btn-check" name="input_golfsys" id="btnradio26" autocomplete="off" >
-                                <label class="btn btn-outline-primary" for="btnradio26">UDR Golf</label>
-                                <input type="radio" value="5" class="btn-check" name="input_golfsys" id="btnradio27" autocomplete="off" >
-                                <label class="btn btn-outline-primary" for="btnradio27">K Golf</label>
-                                <input type="radio" value="6" class="btn-check" name="input_golfsys" id="btnradio28" autocomplete="off" >
-                                <label class="btn btn-outline-primary" for="btnradio28">GNC</label>
-                                <input type="radio" value="4" class="btn-check" name="input_golfsys" id="btnradio29" autocomplete="off" >
-                                <label class="btn btn-outline-primary" for="btnradio29">SG Golf</label>
-                            <!-- </div> -->
-                        </th>
-                    </tr>
-                </table>
-                <br>
-                <div class="container">
-                    <input type="submit" value="참가등록" class = 'btn btn-success'>
-           </form>
+                        </div>
+                    <!-- </div>   -->
+                    <!-- <div class="col-lg-5"><img src="/img/001.png"  width="100%" width="100%"></div>    -->
+                </div>
+            </div>
         </div>
-       </div> 
     </div>
+</div>
+ 
 
+    <script>
+        $('#check_id').click(function(){
+            const input_id = $('#_id').val()
+            const input_phone =login_data['phone']
+            alert(input_phone, input_id)
+            // ajax을 이용하여 서버와 비동기 통신
+            // 해당하는 id가 데이터베이스에 존재하는가?
+            $.ajax(
+                {
+                    url : '/check_idd',   //비동기 통신을 할 주소값
+                    method : 'get', 
+                    datatype : 'json', 
+                    data : {
+                        _id : input_id
+                    }
+                }
+            )
+            .done(function(result){
+                // result : 비동기 통신이 완료한 뒤 서버가 유저에게 보내는 데이터
+                // /check_id에서 id를 체크한 뒤 사용 가능한 아이디면 True
+                // 사용이 불가능한 id라면 false 
+                // true이면 비밀번호, 비밀번호 확인, 이름을 입력할 수 있는 공간을 보여준다.
+                // span 태그를 숨기고 id를 입력하는 부분을 수정 불가능하게 한다. 
+                if(result){
+                    // display 라는 class가 display none이기 때문에 
+                    // 해당하는 class를 가지고 있지 않다면 화면에 표시
+                    $('#info').toggleClass('display')
+                    $('#check_id').toggleClass('display')
+                    $('#_id').attr('readonly', 'true')
+                //     $('#regist').attr('disabled', 'true')
+                }
+            })
+        })
 
+        // 패스워드와 확인 패스워드가 같아야지만 회원가입 버튼이 활성화
+        // 태그의 id가 _confirm이 입력이 될때마다 _pass와 값을 비교하여 
+        // 같은 경우에 회원가입 버튼을 활성화
+        $('#_confirm').keyup(function(){
+            const input_id = $('#_id').val()
+            // const password = $('#_pass').val()
+            // const confirm = $('#_confirm').val()
+            if(login_data['phone']==input_id){
+                $('#regist').removeAttr('disabled')
+            }else{
+                $('#regist').attr('disabled', 'true')
+            }
+        })
+    </script>
         
         <!-- 스코어 입력창 생성 
         <div class="contianer" style="margin-top: 30px;">
@@ -146,7 +216,7 @@
             </form>
         </div>
 -->
- <!--        <!-- 식품의 가격을 추가 
+        <!-- 식품의 가격을 추가 
         <div class="contianer" style="margin-top: 30px;">
             <form action="/golf/add_price" method="get">
                 <div class="input-group mb-3">
