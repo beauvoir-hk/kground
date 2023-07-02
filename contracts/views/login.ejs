@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>케이그라운드에 오신것을 환영합니다</title>
+
+    <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
+    <%- include("header.ejs") %>
+
+    <script>
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert(state,"로그인 실패")
+        }
+        function success(){
+                  alert(state,"로그인 되었습니다")
+        }
+    </script>
+    </head>
+
+    <%if(state == 0){%>
+        <body  onload="fail()">
+        <%}else{%>
+                  <body onload="success()" >
+                <%}%>
+        <div class="container">
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                                <div class="col-lg-6"> 
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h6 class="h6 mb-0 text-gray-800">
+                                                <img src="/img/kk.png" width="10%"> 케이그라운드 회원로그인
+                                            </h6>
+                                        </div>
+                                        <br><br>
+                                        <!-- 
+                                            유저가 입력한 데이터를 서버에 보내주는 태그
+                                            action : 데이터를 보내줄 주소
+                                            method : 데이터를 보내는 방식
+                                         -->
+                                        <form action="/login" method="post" class="user">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user"
+                                                    name='input_phone'  
+                                                    placeholder="Enter your Phone-number...">
+                                            </div>
+                                            <br>                                           
+                                            <div class="form-group">
+                                                <input type="password" class="form-control form-control-user"
+                                                    name='input_pass' placeholder="Password">
+                                            </div>
+                                            <br>                                           
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox small">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                    <label class="custom-control-label" for="customCheck">저장하기</label>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="text-center"> <!-- location.href = 주소값 : 해당하는 주소로 이동하는 하이퍼링크 -->
+                                                <input type="submit" value="로그인" class="btn btn-danger">  
+                                                <br>                                           
+                                            </div>
+                                        </form> 
+                                            <br>
+                                        <div class="text-center">    
+                                            <!-- get형태로 -->
+                                            <button class="btn btn-primary" onclick="location.href='/signup'">회원가입</button>
+                                            <br>
+                                                <a class="small" href="forgot-password.html">비밀번호찾기</a>
+                                            <hr>
+                                        </div>    
+                                    </div>
+                                </div>  
+                                <div class="col-lg-5"><img src="/img/k.png"  width="100%" ></div>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>케이그라운드</title>
+    <%- include("header.ejs") %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+
+                        <!-- Nested Row within Card Body -->
+                        <br>
+
+                        <div class="row">
+                            <div class="col-lg-6"> 
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h6 class="h6 mb-0 text-gray-800">
+                                            <img src="/img/kk.png" width="10%"> 케이그라운드 회원가입
+                                        </h6>
+                                    </div>
+
+                                    <br>
+
+                                   <!-- 유저가 회원 정보를 입력하는 공간 -->
+                                    <form action="/signup", method="post">
+                                        <div class="form-group">
+                                            <input type="text" name="input_phone" id="_id" class="form-control form-control-user" placeholder="Enter your Phone-number..."  >
+                                        </div>
+                                        <div align="right">  
+                                               <span class="small" id="check_id">☞ 전번 입력 후 여기를 클릭하여 중복체크 하세요~ </span>
+                                        </div>
+                                            <br>
+                                        <div class="display" id="info">
+                                            <div class="form-group">
+                                                <input type="password" name="input_pass" id="_pass" class="form-control" placeholder="Password"  >
+                                                <input type="password" id="_confirm" class="form-control" placeholder="Password"  >
+                                            </div><br>
+                                            <div class="form-group">
+                                                <input type="text" name="input_username" class="form-control" placeholder="성명"  >
+                                            </div><br>
+                                            <div class="form-group">
+                                                <input type="text" name="input_nickname" class="form-control" placeholder="닉네임 "   >
+                                            </div><br>
+                                            <div class="form-group">
+                                                <input type="text" name="input_refferal" class="form-control" placeholder="추천인 "  >
+                                            </div><br>
+                                            <div class="form-group">
+                                                <input type="password" name="input_numeric6" class="form-control" placeholder="결제비밀번호(6자리숫자)"  >
+                                            </div>
+                                            <br>
+                                            <div class="text-center">  
+                                                <input  type="submit" value="회원가입" id="signup" disabled>
+                                            </div>
+                                            <br>
+                                            <div class="text-center">
+                                                <a id="signinlink" href="javascript:history.back()" >돌아가기</a>
+                                            </div> 
+                                        </div>
+                                    </form>
+                                </div> 
+                            </div> 
+
+                            <div class="col-lg-5"><img src="/img/k.png"  width="100%" ></div>  
+                        </div> 
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>    
+    <script>
+        $('#check_id').click(function(){
+            const input_id = $('#_id').val()
+            
+            // ajax을 이용하여 서버와 비동기 통신
+            // 해당하는 id가 데이터베이스에 존재하는가?
+            $.ajax(
+                {
+                    url : '/check_id',   //비동기 통신을 할 주소값
+                    method : 'get', 
+                    datatype : 'json', 
+                    data : {
+                        _id : input_id
+                    }
+                }
+            )
+            .done(function(result){
+                // result : 비동기 통신이 완료한 뒤 서버가 유저에게 보내는 데이터
+                // /check_id에서 id를 체크한 뒤 사용 가능한 아이디면 True
+                // 사용이 불가능한 id라면 false 
+                // true이면 비밀번호, 비밀번호 확인, 이름을 입력할 수 있는 공간을 보여준다.
+                // span 태그를 숨기고 id를 입력하는 부분을 수정 불가능하게 한다. 
+                if(result){
+                    // display 라는 class가 display none이기 때문에 
+                    // 해당하는 class를 가지고 있지 않다면 화면에 표시
+                    $('#info').toggleClass('display')
+                    $('#check_id').toggleClass('display')
+                    $('#_id').attr('readonly', 'true')
+                }
+            })
+        })
+
+        // 패스워드와 확인 패스워드가 같아야지만 회원가입 버튼이 활성화
+        // 태그의 id가 _confirm이 입력이 될때마다 _pass와 값을 비교하여 
+        // 같은 경우에 회원가입 버튼을 활성화
+        $('#_confirm').keyup(function(){
+            const password = $('#_pass').val()
+            const confirm = $('#_confirm').val()
+            if(password == confirm){
+                $('#signup').removeAttr('disabled')
+            }else{
+                $('#signup').attr('disabled', 'true')
+            }
+        })
+    </script>
+</body>
+</html>

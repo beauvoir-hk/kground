@@ -25,6 +25,7 @@ module.exports = ()=>{
     //localhost:3000/요청시 
     router.get("/", (req, res)=>{
         if(!req.session.logined){
+            
             res.redirect('/')
             // res.redirect('/?data=false')
         }else{
@@ -38,7 +39,7 @@ module.exports = ()=>{
         // 로그인 화면에서 유저가 입력 id, pass값을 변수에 대입
         const _phone = req.body.input_phone
         const _pass = req.body.input_pass
-        console.log(_phone, _pass)
+        console.log('로그인정보', _phone, _pass)
 
         // DB에 있는 table에 id와 password가 유저가 입력한 데이터와
         // 같은 데이터가 존재하는가 확인
@@ -60,22 +61,25 @@ module.exports = ()=>{
            values,
            (err, result)=>{
                 if(err){
-                    // console.log('login error XXXXXXXX')
+                    console.log('login error XXXXXXXX', err)
                     res.send(err)
-                    res.redirect('/?data=1')
+                    res.redirect('/?data=false')
                 }else{
-                    console.log(result[0])
+                    console.log("문법오류는 없음")
                     // 로그인이 성공하는 조건?
                     // 데이터가 존재하면 로그인 성공
                     // 데이터가 존재하지 않는다면 로그인이 실패
                     // sql 에서 데이터를 받을때 [{id : xxx, password:xxx}]
                     if(result.length != 0){
                         // 로그인이 성공하는 조건
+                        console.log('db에 로그인한 정보가 있어요', result[0])
                         req.session.logined = result[0]
-                        // res.send('login 되었습니다')
-                        // res.redirect("index")
-                    }
-                    res.redirect("/")
+                        res.redirect("index")
+                        }else{
+                            console.log('로그인정보 오류result[0]=', result[0])
+                            res.redirect('/?data=false')
+                        }
+                    // res.redirect("/")
                     }
                 }
         )
@@ -169,6 +173,7 @@ module.exports = ()=>{
     router.get('/regist', function(req, res){
 
         if(!req.session.logined){
+            console.log(req.session.logined)
             res.redirect("/")
         }else{
             res.render('regist.ejs',{
@@ -199,68 +204,38 @@ module.exports = ()=>{
         // const addr = req.session.login.wallet
         // console.log(addr)
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
-        connection.query(
-            `select
-            *
-            from
-            sga
-            where 
-            phone = ?`, 
-            [ _phone ], 
-            function(err, receipt){
-                if(!err){
-                    console.log(err)
-                    res.render('errorpage.ejs')
-                }else{
-                        console.log(receipt)
-                        // // session 안에 있는 로그인 한 사람의 지갑 주소를 
-                        // 추출
-                        // const addr = req.session.login.wallet
-                        // console.log(addr)
-                        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
-                        connection.query(
-                        `insert 
-                        into 
-                        sga
-                        values (?, ?, ?, ?, ?, ?)`, 
-                        [ _phone, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
-                                // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                        res.redirect("/index")
-                        )
-                    }
-                }   
-        )
-})
-
-    // router.post('/drop2', function(req, res){
-    //     // 유저가 입력한 데이터를 변수에 대입
-    //     const _phone = req.body.input_phone
-    //     const _pass = req.body.input_pass
-    //     console.log(_phone, _pass)
-
-    //     const sql='delete from log_info where phone = ?` and pass =? '
-    //     const values = [_phone, _pass]
+        // DB 안에 있는 goods table의 정보를 불러온다. 
+        const sql = `
+        insert 
+        into 
+        sga
+        values (?, ?, ?, ?, ?, ?,?)
+        ` 
+        const values = [
+        _phone, 
+        _username,
+        _gamenumber, 
+        _gender, 
+        _jiyeok, 
+        _birth ,
+        _golfsys 
+        ]
         
-    //     // 해당하는 변수들을 이용하여 데이터베이스에서 확인
-    //     connection.query(
-    //         sql,
-    //         values, 
-    //         (err, result)=>{
-    //             if(err){
-    //                 console.log(err)
-    //                 res.send('drop select sql error ')
-    //             }else{
-    //                 console.log(result)
-    //                 req.session.destroy((err)=>{
-    //                     if(err){
-    //                                 res.redirect("/")
-    //                             }
-                          
-    //                         })
-    //                     }
-    //             }
-    //     )
-    // })
+        connection.query(
+            sql, 
+            values,
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    res.send(err)
+                }else{
+                    console.log(result)     
+                    // sql 쿼리문이 정상적으로 작동하면 메인 화연으로 돌아간다. 
+                    res.redirect("/index")
+                }
+            })
+    })
+
     
     router.get('/check_pass', function(req, res){
         // 유저가 보낸 데이터를 변수에 대입
@@ -271,8 +246,7 @@ module.exports = ()=>{
 
     router.get('/check_id', function(req, res){
         const input_id = req.query._id
-        console.log(input_id)
-
+    
         const sql = `
             select 
             *
@@ -298,6 +272,7 @@ module.exports = ()=>{
             }
         )
     })
+
 
 
     // localhost:3000/logout get형태의 주소 생성

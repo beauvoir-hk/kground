@@ -1,1 +1,5 @@
-SELECT * FROM kground.log_info;
+SELECT `masan`.`id`,
+    `masan`.`pass`,
+    `masan`.`name`,
+    `masan`.`phone`
+FROM `masan_schema`.`masan`;

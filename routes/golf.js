@@ -11,42 +11,8 @@ const connection = mysql.createConnection({
     database : process.env.database
 })
 
-// // baobab testnet에 배포한 컨트렉트를 연동
-// const contract_info = require("../build/contracts/kground.json")
-
-// // caver-js 로드 
-// const Caver = require('caver-js')
-// // 컨트렉트가 배포된 주소를 입력
-// const caver = new Caver('https://api.baobab.klaytn.net:8651')
-// // 네트워크에 있는 컨트렉트와 연동
-// const smartcontract = new caver.klay.Contract(
-//     contract_info.abi, 
-//     contract_info.networks['1001'].address
-// )
-
-// // 수수료를 지불할 지갑의 정보를 입력
-// const account = caver.klay.accounts.createWithAccountKey(
-//     process.env.public_key, 
-//     process.env.private_key
-// )
-// 해당하는 네트워크에서 사용할수 있게 지갑을 등록
-// caver.klay.accounts.wallet.add(account)
-
-// // token.js 로드 
-// const token = require("../token/token")
 
 module.exports = function(){
-
-    //이 파일은 기본 경로가 localhost:3000/golf
-        // 회원 가입 (localhost:3000/user/signup주소로 요청시)
-    // router.get("/", (req, res)=>{
-    //         if(!req.session.logined){
-    //             res.render('login.ejs')
-    //         }else{
-    //             res.redirect('/regist')
-    //         }
-            
-    //     })
 
     // localhost:3000/golf/regist [get]
     router.post('/regist', async  function(req, res){
@@ -89,15 +55,40 @@ module.exports = function(){
                         `insert 
                         into 
                         sga
-                        values (?, ?, ?, ?, ?, ?)`, 
-                        [ _phone, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
+                        values (?, ?,?, ?, ?, ?, ?)`, 
+                        [ _phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
                                 // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
                         res.redirect("/")
                         )
                     }
                 }   
         )
-})
+    })
+
+    router.post('/check_sga', function(req, res){
+        const _phone = req.session.logined.phone
+        connection.query(
+            `select
+            *
+            from
+            sga
+            where 
+            phone = ?`, 
+            [ _phone ], 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                }else{
+                    if(result.length == 0){
+                        console.log(result.length)
+                        res.send(false)
+                    }else{
+                        res.send(true)
+                    }
+                }
+            })
+
+    })
 
         // // smartcontract에 있는 method를 사용
         // smartcontract
