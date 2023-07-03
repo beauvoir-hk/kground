@@ -24,33 +24,38 @@
                             <div class="col-lg-6"> 
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h5 text-gray-900 mb-4">케이그라운드 회원 가입 화면</h1>
+                                        <img src="/img/k.png" width="10%">
+                                        <h6>케이그라운드 회원가입 화면</h6>
                                     </div>
 
                                    <!-- 유저가 회원 정보를 입력하는 공간 -->
                                     <form action="/signup", method="post">
                                         <div class="form-group">
-                                            <input type="text" name="input_phone" id="_id" class="form-control form-control-user" placeholder="Enter your Phone-number..."  >
+                                            <input type="text" name="input_phone" id="_id" class="form-control form-control-user" placeholder="전화번호"  >
                                         </div>
-                                            <div align="right">  
-                                                <span class="small" id="check_id">아이디 중복 체크</span>
-                                            </div>
-                                            <br>
+                                        <div align="right">  
+                                            <span class="small" id="check_id">전화번호 입력 후 여기를 클릭</span>
+                                        </div>
+                                        <br>
                                         <div class="display" id="info">
                                             <div class="form-group">
-                                                <input type="password" name="input_pass" id="_pass" class="form-control" placeholder="Password"  >
+                                                <input type="password" name="input_pass" id="_pass" class="form-control" placeholder="비밀번호"  >
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" id="_confirm" class="form-control" placeholder="비밀번호 확인"  >
+                                            </div>
+                                            <div align="right">  
+                                                <span class="small">※ 비밀번호 일치 시 회원가입버튼 활성</span>
+                                            </div>
+                                            <br>
+                                            <div class="form-group">
+                                                <input type="text" name="input_username" class="form-control" placeholder="성명"  >
                                             </div><br>
                                             <div class="form-group">
-                                                <input type="password" id="_confirm" class="form-control" placeholder="Password"  >
+                                                <input type="text" name="input_nickname" class="form-control" placeholder="닉네임"   >
                                             </div><br>
                                             <div class="form-group">
-                                                <input type="text" name="input_username" class="form-control" placeholder="user name"  >
-                                            </div><br>
-                                            <div class="form-group">
-                                                <input type="text" name="input_nickname" class="form-control" placeholder="nickname"   >
-                                            </div><br>
-                                            <div class="form-group">
-                                                <input type="text" name="input_refferal" class="form-control" placeholder="추천인을 입력해주세요"  >
+                                                <input type="text" name="input_refferal" class="form-control" placeholder="추천인"  >
                                             </div><br>
                                             <div class="form-group">
                                                 <input type="password" name="input_numeric6" class="form-control" placeholder="결제비밀번호(6자리숫자)"  >
@@ -63,7 +68,7 @@
                                     </form>
                                 </div>
                             </div>  
-                            <div class="col-lg-5"><img src="/img/001.png"  width="100%" height="100%"></div>   
+                            <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div> 
                         </div>
                     </div>
                 </div>

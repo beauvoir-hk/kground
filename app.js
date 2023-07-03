@@ -46,21 +46,22 @@ app.get('/', async function(req, res){
 
     // 세션에 로그인 정보가 존재하지 않는다면
     if(!req.session.logined){
-        let data=0
+        let data = 0
+        console.log(data, '세션정보가 없음')
+        console.log(req.query.data)
         if(req.query.data){
-            data = 1
+             data = 1
         }
         res.render('login', {
             'state' : data
         })
     }else{
         const wallet = req.session.logined.wallet
-        console.log('로그인 되었어요')
-        console.log(wallet)
         const amount = await token.balance_of(wallet)
+        console.log(wallet, amount,"로그인 되었어요--인덱스로")
         res.render('index.ejs', {
             'login_data': req.session.logined, 
-            'amount' : amount
+            'amount' : amount,
         })
     }
 })
@@ -80,17 +81,62 @@ app.get("/index", function(req, res){
     }
 })
 
+//충전하기(유저의 지갑에 금액만큼 충전)
 app.post('/payment', async function(req, res){
     console.log(req.body)
     // 유저의 지갑 주소 
     const wallet =  req.query.wallet
     // 유저가 결재한 금액
-    const price = req.body.price
+    const price = req.body.price/100
     // 금액만큼 토큰을 충전
-    const receipt = await token.trade_token(wallet, price/100)
+    const receipt = await token.trade_token(wallet, price)
     console.log(receipt)
     res.render("payappthird")
 })
+
+//대회참가비결제
+app.get('/enterpay', async function(req, res){
+    // 해당하는 주소로 요청이 들어온 경우 
+    // req.session 안에 로그인의 정보가 존재하지 않는다면 
+    // 로그인 화면을 보여주고 
+    // 존재한다면 index으로 이동
+
+    // 세션에 로그인 정보가 존재하지 않는다면
+    if(!req.session.logined){
+        let data=0
+        if(req.query.data){
+            // data = 1
+        }
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+        const wallet = req.session.logined.wallet
+        console.log('enterpay 로그인 되었어요')
+        console.log(wallet)
+        const amount = await token.balance_of(wallet)
+        res.render('enterpay.ejs', {
+            'login_data': req.session.logined, 
+            'amount' : amount
+        })
+    }
+})
+
+//대회참가비결제
+app.post('/enterpay', async function(req, res){
+    console.log(req.body)
+    // 유저의 지갑 주소 
+    const wallet =  req.query.wallet
+    // 유저가 결재한 금액
+    const price = req.body.price/100
+    // 금액만큼 토큰을 충전
+    const receipt = await trans_from_token(wallet, price)
+    console.log(receipt)
+    res.render("payappthird")
+})
+
+
+
 // routing
 // 특정한 주소로 요청이 들어왔을때 routes 폴더 안에 js 파일로 이동한다.
 // api들을 나눠서 관리 
