@@ -59,7 +59,7 @@ async function trade_token(_address, _amount){
             from : keyring.address
         }
     )
-    console.log(receipt)
+    console.log('토큰거래',receipt)
     return receipt
 }
 

@@ -85,6 +85,21 @@ module.exports = ()=>{
         )
     })
 
+    router.get('/forgot-password', (req, res)=>{
+        res.render('forgot-password')
+    })
+
+    router.post('/forgot-password', async (req, res)=>{
+        const _phone = req.body.phone
+        send_Message(phone)
+        // 해당하는 부분에서 에러가 발생합니다. 
+        res.render('index.ejs', {
+            'login_data': req.session.logined, 
+            'amount' : amount
+    })
+
+    })
+
 
     // 회원 가입 (localhost:3000/user/signup주소로 요청시)
     router.get('/signup', (req, res)=>{

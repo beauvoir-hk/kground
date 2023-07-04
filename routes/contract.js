@@ -14,9 +14,9 @@ module.exports = ()=>{
         }else{
 
             const address = req.session.logined.wallet
-            console.log('지갑주소--index로', address)
+            // console.log('지갑주소--index로', address)
             const balance = await token.balance_of(address)
-            console.log('지갑충전-- index로', balance)
+            // console.log('지갑충전-- index로', balance)
             res.render('index', {
                 info : req.session.logined, 
                 balance : balance
@@ -26,25 +26,32 @@ module.exports = ()=>{
 
     router.get('/charge', async (req, res)=>{
         const add = req.session.logined.wallet
-        console.log('지갑주소--충전으로', add)
+        const user = req.session.logined.username
+        console.log('로그인세션 지갑주소--charge', add)
         const balance = await token.balance_of(add)
-        console.log('지갑충전갯수--충전으로', balance)
+        console.log('로그인세션 현재 KP--charge', balance)
         res.render('charge', {
             wallet : add,
-            amount : balance
+            amount : balance,
+            username : user
         })
     })    
 
-    router.post('/charge', (req, res)=>{
-        const amount = req.body._amount
-        const address = req.session.logined.wallet
+    router.post('/charge', async (req, res)=>{
         const s = req.body.state
-        if(s == 1){
+        // console.log("state=", s)
+        const amount = req.body.price
+        // console.log("중전post amount",amount)
+        const address = req.session.logined.wallet
+        // console.log("충전post address",address)
 
-        const receipt = token.trade_token(address, amount)
-        console.log(receipt)
+        if(s==1){
+            const receipt = await token.trade_token(address, amount)
+        // console.log(receipt)
         }
-        res.redirect("/")
+        res.render("payappthird.ejs")
+        
+
     })
 
     router.get('/enterpay', (req, res)=>{
