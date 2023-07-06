@@ -42,7 +42,7 @@
         PayApp.setParam('goodname', 'K포인트 충전');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'http://localhost:5000/payment?price='+$('#price').val()+"&wallet="+wallet);
+        PayApp.setParam('returnurl', 'http://34.22.89.71:5000/payment?price='+$('#price').val()+"&wallet="+wallet);
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
         PayApp.setParam('smsuse', 'n');
         PayApp.setParam('redirectpay', '1');
@@ -53,7 +53,7 @@
 <script>
     window.call = function () {
         alert('결제가 완료되었습니다')
-        location.href= "index";
+        location.href= "index.ejs";
     };
 </script>
 
