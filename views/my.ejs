@@ -45,9 +45,11 @@
                         
                             <div class="col-lg-6"> 
                                 <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">케이그라운드의 내정보</h1>
-                                    </div>
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <img src="/img/k.png" width="10%">
+                                            <h6>케이그라운드 회원 로그인 화면</h6>
+                                        </div>
                                     <br>
                                     <ul>
                                         <li>
@@ -63,9 +65,12 @@
                                             KPoint : (<%=amount%>)
                                         </li>
                                     </ul>
+                                    
+                                    
                                     <div class="text-center"> 
-                                        로그인 비밀번호 변경  
+                                       [] 로그인 비밀번호 변경 [] 
                                     </div>
+
                                     <form action="/change_pass" method="post">
                                         <label>login password</label>
                                         <div class="form-group">
@@ -81,12 +86,13 @@
                                         <br>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <p onclick="check('<%=login_data.password%>')" id="check_pass"> 패스워드 확인</p>
+                                                <p onclick="check('<%=login_data.password%>')" id="check_pass"> 로그인비밀번호 확인</p>
                                                 <input type="submit" id="_submit" value="패스워드 변경" disabled>
                                             </div> 
                                         </div>
                                     </form>
                                     <hr>
+
                                     <!-- <div class="text-center"> 
                                         결제비밀번호 변경(숫자6자리)  
                                     </div>
@@ -111,25 +117,25 @@
                                         </div>
                                     </form> -->
                                         <hr>
-                                    <div class="text-center">    
+                                        <div class="text-center">    
                                         <hr>
-                                        <button class="btn btn-Secondary" onclick="location.href='/logout'">로그아웃</button>
-                                    </div>   
-                                    <hr>
-                                    <div class="text-center">    
+                                            <button class="btn btn-Secondary" onclick="location.href='/logout'">로그아웃</button>
+                                        </div>   
                                         <hr>
-                                        <button class="btn btn-Secondary" onclick="location.href='/drop2'">회원탈퇴</button>
-                                    </div>  
-                                </div>
+                                        <div class="text-center">    
+                                        <hr>
+                                            <button class="btn btn-Secondary" onclick="location.href='/drop2'">회원탈퇴</button>
+                                        </div>  
+                                    </div>
                             </div>
+                            <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div>     
 
-                            <div class="col-lg-5"><img src="/img/001.png"  height="75%"></div>    
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 </body>
 </html>
 
