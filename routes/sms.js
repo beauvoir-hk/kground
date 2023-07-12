@@ -3,9 +3,10 @@
   const Axios = require('axios');
   const Cache = require('memory-cache');
   const Config = require('../config');
+  require('dotenv').config()
 
   const postVerifyCode = async (request, h) => {
-  const { phoneNumber } = request.payload;
+  const { phoneNumber } = request._phone;
 
   Cache.del(phoneNumber);
 
@@ -18,14 +19,14 @@
 
   try {
     Axios.post(
-      `https://api-sens.ncloud.com/v1/sms/services/${Config.SENSAPI}/messages`,
+      `https://api-sens.ncloud.com/v1/sms/services/${process.env}/messages`,
       {
-        'X-NCP-auth-key': Config.SENSAPI.AccessKeyId,
-        'X-NCP-service-secret': Config.SENSAPI.serviceSecret
+        'X-NCP-auth-key': process.env.AccessKeyId,
+        'X-NCP-service-secret': process.env.serviceSecret
       },
       {
         type: 'sms',
-        from: Config.SENSAPI.companyNumber,
+        from: process.env.companyNumber,
         to: [phoneNumber],
         content: `인증번호는 ${verifyCode}입니다.`
       }

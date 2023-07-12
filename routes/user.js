@@ -6,6 +6,7 @@ const session = require('express-session')
 const moment = require('moment')
 // mysql의 정보를 등록
 const mysql = require('mysql2')
+
 // mysql server 정보를 입력
 const connection = mysql.createConnection({
     host : process.env.host, 
@@ -26,7 +27,7 @@ module.exports = ()=>{
 
     router.get("/", (req, res)=>{
         if(!req.session.logined){
-            
+            console.log("처음인가??")
             res.redirect('/')
             // res.redirect('/?data=false')
         }else{
@@ -84,21 +85,6 @@ module.exports = ()=>{
                     }
                 }
         )
-    })
-
-    router.get('/forgot-password', (req, res)=>{
-        res.render('forgot-password')
-    })
-
-    router.post('/forgot-password', async (req, res)=>{
-        const _phone = req.body.phone
-        send_Message(phone)
-        // 해당하는 부분에서 에러가 발생합니다. 
-        res.render('index.ejs', {
-            'login_data': req.session.logined, 
-            'amount' : amount
-    })
-
     })
 
 
@@ -387,13 +373,18 @@ router.get('/check_id', function(req, res){
 
 // 문자인증을 생성합니다.
     router.post('/auth', async  (req, res) => {
-        const phone = req.body.phone
-        const gphone = "+82"+req.body.phone
-        console.log("auth 실행 들어옴",phone)
+        const phone = req.body._phone
+        const gphone = "+82"+ phone
+        console.log("auth 실행 들어옴 gphone =",gphone)
         // 문자인증 코드를 생성합니다.
         // 랜덤으로 4자리 인증 코드를 만든다.
         const auth_code = Math.floor(Math.random() * 10000)
+        console.log("auth 실행 들어옴 auth_code =",auth_code)
         const expire = new Date()
+        console.log("auth 실행 들어옴 expire =",expire)
+        console.log("process.env.kphonenumber=",process.env.kphonenumber)
+        console.log("gphone=",gphone)
+
         //db에 기록
         const sql = `
             insert 
@@ -414,22 +405,22 @@ router.get('/check_id', function(req, res){
     )
 
         twilioClient.messages.create({
-            body: 'Your Twilio verification code is'+auth_code,
+            body: 'Your KGROUND verification code is' + auth_code,
             from: process.env.kphonenumber,
             to: gphone
             })
             .then(message => console.log("verify.ejs----",message.sid))
                 // 문자인증 코드를 MySQL에서 조회합니다.
-                res.send(phone)
+                res.render('auth')
              
         })
 
     // 문자인증을 확인합니다.
     router.post('/verify', async (req, res) => {
-        const code = phone
+        const code = parseInt(req.body.input_auth_code)
         console.log('req=',code)
-        const vphone = req.body.phone
-        console.log('req.body.phone=',vphone)
+        const vphone = req.session.phone
+        console.log('req.session.phone=',vphone)
         
         //인증문자가 맞는지 비교한다
 
@@ -440,35 +431,53 @@ router.get('/check_id', function(req, res){
         from 
         auth 
         where 
-        phone = ?
+        auth_code = ?
         `
-        const values = [vphone]
+        const values = [code]
         connection.query(
             sql, 
             values, 
             function(err, result){
                 if(err){
-                    console.log(err)
-                    res.send(err)
+                    console.log("err")
                 }else{
-                    //인증문자가 찾아지면
-                    console.log('sql=',sql)
-                    console.log(result[0])
-                    //3분이 지났는지 확인
-                    console.log('expire=', Date(result[0].expire))
-                    const expire_time = Date(result[0].expire)
-                    console.log('문자전송시간-',expire_time)
-                    const now = new Date()
-                    console.log('현재시간=',now)
-                    // 인증코드와 유효시간 모두 검사한 결과를 비교해서
-                    console.log('code === result[0].auth_code',code === result[0].auth_code)
-                    console.log('expire_time > now',expire_time > now)
-                    if (code === result[0].auth_code && expire_time > now) {
-                        //비밀번호 변경하도록 폰번호를 렌더링한다
-                            res.render("change_pass",{
-                            'tophone':phone
+    
+                    if (result.length === 0) {
+                        console.log("User가 없습니다.")
+                        return
+                    }else{
+                            //인증문자가 찾아지면
+                        console.log('sql=',sql)
+                        console.log(result[0])
+                        //3분이 지났는지 확인
+                        console.log('문자전송시간-',result[0].expire)
+                        const now = new Date()
+                        console.log('현재시간 : ',now)
+                        expireTime =Math.floor((now.getTime()- result[0].expire.getTime())/ 1000)  ; 
+                        console.log('expireTime=',expireTime)
+        
+                        console.log(`시간차 ${expireTime}`)
+                        console.log(`auth_code ${result[0].auth_code}`)
+                        // 인증코드와 유효시간 모두 검사한 결과를 비교해서
+                        console.log('code === result[0].auth_code',code == result[0].auth_code,code,result[0].auth_code)
+                        console.log('expire_time > now', expireTime < 180)
+                        if (code == result[0].auth_code && expireTime > 180) {
+                            console.log("인증시간이 지났습니다.")
+                        }
+                        else if (code == result[0].auth_code && expireTime < 180) {
+                            //비밀번호 변경하도록 폰번호를 렌더링한다
+                            //     res.render("change_pass",{
+                            //     'tophone':phone
+                            // })
+        
+                        console.log("인증성공")
+                        res.render("change_pass",{
+                            'phone' : result[0].phone
                         })
-                    }}
+                    }
+                    }
+                    
+                }
                 })
     
     })
@@ -476,8 +485,6 @@ router.get('/check_id', function(req, res){
 // return이 되는 변수는 router
     return router
 }
-
-
 
 
 
