@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>비밀번호 찾기</title>
+    <%- include('header.ejs') %>
+    <script>
+        $('#check_id').click(function(){
+            const input_id = $('#_id').val()
+            // ajax을 이용하여 서버와 비동기 통신
+            // 해당하는 id가 데이터베이스에 존재하는가?
+            $.ajax(
+                {
+                    url : '/verify',   //비동기 통신을 할 주소값
+                    method : 'get', 
+                    datatype : 'json', 
+                    data : {
+                        _id : input_id
+                    }
+                }
+            )
+            .done(function(result){
+                // result : 비동기 통신이 완료한 뒤 서버가 유저에게 보내는 데이터
+                // /check_id에서 id를 체크한 뒤 사용 가능한 아이디면 True
+                // 사용이 불가능한 id라면 false 
+                // true이면 비밀번호, 비밀번호 확인, 이름을 입력할 수 있는 공간을 보여준다.
+                // span 태그를 숨기고 id를 입력하는 부분을 수정 불가능하게 한다. 
+                if(result){
+                    // display 라는 class가 display none이기 때문에 
+                    // 해당하는 class를 가지고 있지 않다면 화면에 표시
+                    // $('#info').toggleClass('display')
+                    // $('#check_id').toggleClass('display')
+                    $('#_id').attr('readonly', 'true')
+                }
+            })
+        })
+    </script>
+
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h6 class="h4 text-gray-900 mb-2">비밀번호를 잊으셨나요?</h6>
+                                        <br>
+                                        <div class="text-primary">
+                                        <i class="small" >
+                                            전화번호를 입력 해 주세요. 
+                                            <br>문자인증 후  비밀번호를 수정할 수 있습니다.
+                                        </i>
+                                    </div>
+                                    </div>
+                                    <form class="user" action="/auth" method="post">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user"
+                                                id="_id" name="_phone" 
+                                                placeholder="Enter Phone Number...">
+                                                <br>
+                                            <div class="text-center">    
+                                                <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
+                                                <button class="btn btn-primary" >인증번호전송</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                        
+                                    <form class="user" action="/verify" method="post">
+                                        <br>
+                                        <div class="text-success">
+                                            <label class="small">※ 잠시 후 인중번호가 휴대폰으로 <br>전송됩니다.(4자리 이하) </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user"
+                                            id="check_id" name='input_auth_code'  placeholder="Enter SMS Verification text..">
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <button class="btn btn-primary" >문자인증</button>
+                                            </div> 
+                                        </div>
+                                    </form>  
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="/signup">회원가입</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="/">이미 회원 가입하셨다면 로그인</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

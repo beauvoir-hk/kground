@@ -8,76 +8,87 @@ const connection = mysql.createConnection({
     port : process.env.port, 
     user : process.env.user, 
     password : process.env.password,
-    database : process.env.db 
+    database : process.env.database
 })
 
-// baobab testnet에 배포한 컨트렉트를 연동
-const contract_info = require("../build/contracts/kground.json")
-
-// caver-js 로드 
-const Caver = require('caver-js')
-// 컨트렉트가 배포된 주소를 입력
-const caver = new Caver('https://api.baobab.klaytn.net:8651')
-// 네트워크에 있는 컨트렉트와 연동
-const smartcontract = new caver.klay.Contract(
-    contract_info.abi, 
-    contract_info.networks['1001'].address
-)
-
-// 수수료를 지불할 지갑의 정보를 입력
-const account = caver.klay.accounts.createWithAccountKey(
-    process.env.public_key, 
-    process.env.private_key
-)
-// 해당하는 네트워크에서 사용할수 있게 지갑을 등록
-caver.klay.accounts.wallet.add(account)
-
-// token.js 로드 
-const token = require("../token/token")
 
 module.exports = function(){
 
-    //이 파일은 기본 경로가 localhost:3000/golf
-
     // localhost:3000/golf/regist [get]
-    router.get('/regist', function(req, res){
+    router.post('/regist', async  function(req, res){
         // 유저가 입력한 데이터를 변수에 대입 
-        const _gamenumber = req.query.input_gamenumber
-        const _gender = req.query.input_gender
-        const _jiyeok = req.query.input_jiyeok
-        const _birth = req.query.input_birth
-        const _golfsys = req.query.input_golfsys
+        const _gamenumber = req.body.input_gamenumber
+        const _gender = req.body.input_gender
+        const _jiyeok = req.body.input_jiyeok
+        const _birth = req.body.input_birth
+        const _golfsys = req.body.input_golfsys
         console.log(_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
 
         // name 값은 로그인 데이터에서 name 값을 가지고 온다
         // 로그인 정보는 session 저장
         // name 값을 가지고 오려면 session 안에 있는 name을 추출
-        const _phone = req.session.login['phone']
-        console.log(_phone)
-        const _username= req.session.login['username']
+        const _phone = await req.session.logined.phone
+        const _username= await req.session.logined.username
         console.log(_username)
-        // session 안에 있는 로그인 한 사람의 지갑 주소를 
-        // 추출
-        // const addr = req.session.login.wallet
-        // console.log(addr)
-        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
-        connection.query(
-        `insert into 
-        sga
-        values (?, ?, ?, ?, ?, ?)`, 
-        [_phone, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
+        console.log(_phone)
 
-        function(err, receipt){
-            if(err){
-                console.log(err)
-                res.send('user add_user2 sql error')
-            }else{
-                console.log(receipt)
-                // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                res.redirect("/")
-            }
-        }
-    )
+        connection.query(
+            `select
+            *
+            from
+            sga
+            where 
+            phone = ?`, 
+            [ _phone ], 
+            function(err, receipt){
+                if(err){
+                    console.log(err)
+                    res.send('errorpage.ejs')
+                }else{
+                        console.log(receipt)
+                        // // session 안에 있는 로그인 한 사람의 지갑 주소를 
+                        // 추출
+                        // const addr = req.session.login.wallet
+                        // console.log(addr)
+                        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
+                        connection.query(
+                        `insert 
+                        into 
+                        sga
+                        values (?, ?,?, ?, ?, ?, ?)`, 
+                        [ _phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
+                                // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
+                        res.redirect("/")
+                        )
+                    }
+                }   
+        )
+    })
+
+    router.post('/check_sga', function(req, res){
+        const _phone = req.session.logined.phone
+        connection.query(
+            `select
+            *
+            from
+            sga
+            where 
+            phone = ?`, 
+            [ _phone ], 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                }else{
+                    if(result.length == 0){
+                        console.log(result.length)
+                        res.send(false)
+                    }else{
+                        res.send(true)
+                    }
+                }
+            })
+
+    })
 
         // // smartcontract에 있는 method를 사용
         // smartcontract
@@ -93,7 +104,7 @@ module.exports = function(){
         //     console.log(receipt)
         //     res.redirect('/main')
         // })
-    })
+  
 
     // // localhost:3000/golf/add_hist [get]
     // router.get('/add_hist', function(req, res){

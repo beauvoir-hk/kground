@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">  
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            function end(){
+                opener.call();
+                window.close();
+            }
+        </script>
+    </head>
+    <body onload="end()">
+        <div>                
+            <div><br><br><br><br><br>
+                 <div class="panel-body">    
+                    <div class="text-center">
+                        <label>결제가 완료되었습니다.</label>
+
+                        <br>
+                        <div class="text-center">    
+                            <!-- get형태로 -->
+                            <button class="btn btn-danger" onclick="location.href='/index'">케이그라운드로 가기</button>
+
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </body>
+</html>

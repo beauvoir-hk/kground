@@ -1,59 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>케이그라운드와 함께 해주셔서 감사합니다~</title>
 
-     <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
-     <%- include("header.ejs") %>
-     
-     <!-- Custom fonts for this template-->
-     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-     <link
-         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-         rel="stylesheet">
-     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-        <script>
-            function charge(){
-                location.href = '/contract/charge'
-            }
-        </script>
-
-    </head>
+    <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
+    <%- include("header.ejs") %>
     
-    <body>
-   
-        <h1>index화면</h1>
-        <ul>
-            <li>
-                이름 : (<%=user.username%>)
-            </li>
-            <li>
-                가입시기 : (<%=user.signup_time%>)
-            </li>
-            <li>
-                지갑 주소 : (<%=user.wallet%>)
-            </li>
-            <li>
-                토큰 양 : (<%=amount%>)
-            </li>
-        </ul>
-        <p>
-            <%=info.username%>님 환영합니다. 
-        </p>
-        <p>
-            보유한 토큰의 양 : <%=balance%>
-        </p>
-        <button onclick="charge()">
-            토큰 충전하기
-        </button>
-    </body>
-    </html>
+</head>
+    
+<body class="bg-gradient-primary">
+    <div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6"> 
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <img src="/img/k.png" width="10%">
+                                    <h6>골프플랫폼 케이그라운드</h6>
+                                </div>
+                                <br>
+                                <!-- Earnings (Monthly) Card Example -->
+                                <div class="text-center">
+                                    <div class="col-xl-12 col-md-6 mb-4">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col mr-2">
+                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                            &nbsp;&nbsp;<%=login_data['username']%>님</div>
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=amount*100%></div>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+
+                                <br>
+                                <div class="text-center">
+                                    <a href="/contract/charge"><img src="/img/60_001.png"  alt="충전하기"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/enterpay"><img src="/img/60_002.png" alt="2,000Kpoint결제(대회참가결제)"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/contract/gamepay"><img src="/img/60_003.png"  alt="스크린게임비결제"></a>
+                                    <br><br>
+                                    
+                                    <a href="/contract/enterpay_list"><img src="/img/60_004.png"  alt="충전내역"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/contract/deposit_list"><img src="/img/60_005.png" alt="입금내역"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/contract/trans_list"><img src="/img/60_006.png" alt="출금내역"></a>
+                                    <br><br>
+                                    
+                                    <a href="/contract/charge_list"><img src="/img/60_007.png"  alt="충전내역"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="https://bkscreenshop.cafe24.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/54/"><img src="/img/60_008.png" alt="공지사항"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/golf/stroke"><img src="/img/60_009.png" alt="스트로크랭킹"></a>
+                                    <br><br>
+                                    
+                                    <a href="https://www.bkscreen.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/52/"><img src="/img/60_010.png"  alt="대회규정"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/contract/charge"><img src="/img/60_011.png" alt="스코어등록하기"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/my"><img src="/img/60_012.png" alt="나의정보"></a>
+                                    <br><br>
+
+                                    <a href="https://www.payapp.kr/L/z2TBxB/z3sgLB4?PREPAGE"><img src="/img/60_013.png"  alt="충전내역"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/regist"><img src="/img/60_014.png" alt="KSFC선수등록"></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="/logout"><img src="/img/60_015.png" alt="로그아웃"></a>
+                                    <br>
+                                    </div>
+                                </div>  
+                            </div>
+                        <!-- </div>  -->
+                        <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
