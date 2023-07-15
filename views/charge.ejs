@@ -7,30 +7,12 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <%- include('header.ejs') %>
-    <!-- <script>
-        function myPay() {
-            PayApp.setForm('MyForm');
-            PayApp.call();
+    <style>
+        .display{
+            display: none;
         }
-    </script>
-</head>
-<body>
-    <form name="MyForm">
-        <input type="hidden" name="userid"   value="qop1513">
-        <input type="hidden" name="shopname" value="케이그라운드">
-        <input type="hidden" name="goodname" value="이만점충전">
-        <input type="hidden" name="price"    value="20000">
-    </form>
-
-    <form action="/contract/charge" method="post">
-        <label>이만포인트 충전합니다</label>
-        <input type="number" name = "_amount">
-        <input type="submit" value="충전하기" onclick="myPay()" >
-        <a href="#" onclick="myPay();">결제하기</a>
-    </form>
-</body>
-</html> -->
-
+    </style>
+ 
 <!-- JS API 결제요청 호출시 설정된 파라메터 중
 상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
 <script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
@@ -52,7 +34,7 @@
 </script>
 <script>
     window.call = function () {
-        alert('결제가 완료되었습니다')
+        alert('결제가 완료되었습니다');
         location.href= "index.ejs";
     };
 </script>
@@ -80,57 +62,65 @@
                                             <h6>케이그라운드 K포인트 충전</h6>
                                         </div>
                                         <br>
-                                <!-- Earnings (Monthly) Card Example -->
-                                <div class="text-center">
-                                    <div class="col-xl-12 col-md-6 mb-4">
-                                        <div class="card border-left-primary shadow h-100 py-2">
-                                            <div class="card-body">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                            &nbsp;&nbsp;<%=username%>님
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="text-center">
+                                            <div class="col-xl-12 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    &nbsp;&nbsp;<%=username%>님
+                                                                </div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=chargeamount*100%></div>
+                                                            </div>
                                                         </div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=amount*1000%></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div> 
+                                        </div> 
 
                                         <form role="form" action="#" method="" >
-                                            <fieldset> 
-                                                <div class="form-group">
-                                                    <br><br>
-                                                    <label class="control-label">충전금액선택</label>
-                                                    <br>
-                                                    <select class="form-control" name="price" id="price">
-                                                        <option value=1000>1,000원 : 1,000K포인트</option>
-                                                        <option value=20000>20,000원 : 20,000K포인트</option>
-                                                        <option value=50000>50,000원 : 50,000K포인트</option>
-                                                        <option value=100000>100,000원 : 100,000K포인트</option>
-                                                        <option value=200000>200,000원 : 200,000K포인트</option>
-                                                        <option value=300000>300,000원 : 300,000K포인트</option>
-                                                    </select>
-                                                    <br>
-                                                    <input class="form-control" type="text" id="phone" name="phone" required ="required" placeholder="휴대폰번호를 입력하세요">
-                                                </div>
-                                                <div class="text-primary" align="right">
-                                                     <i class="fas fa-calendar fa-2x text-gray-300">※ 휴대폰번호 입력하면,, 간단결제가 되요!</i>
-                                                </div>
-                                                <br><hr><br>
-                                                <!-- <span class="small">지갑주소 : <%=wallet%>  </span>   -->
-                                                <!-- <a href="#" onclick="payappPay('<%=wallet%>');">충전하기</a> -->
-                                                <div class="text-center"> 
-                                                <input type="submit"  class="btn btn-danger" value="충전하기" href="#" onclick="payappPay('<%=wallet%>');">  
-                                                    <!-- <input type="submit" value="충전하기"  class="btn btn-danger"> -->
-                                                </div>
-                                            </fieldset>
+                                        <fieldset> 
+                                        <div class="form-group">
+                                            <br><br>
+                                            <label class="control-label">충전금액선택</label>
+                                            <br>
+                                            <select class="form-control" name="price" id="price">
+                                                <option value=1000>1,000원 : 1,000K포인트</option>
+                                                <option value=20000>20,000원 : 20,000K포인트</option>
+                                                <option value=50000>50,000원 : 50,000K포인트</option>
+                                                <option value=100000>100,000원 : 100,000K포인트</option>
+                                                <option value=200000>200,000원 : 200,000K포인트</option>
+                                                <option value=300000>300,000원 : 300,000K포인트</option>
+                                            </select>
+                                            <br>
+                                            <input class="form-control" type="text" id="phone" name="phone" required ="required" placeholder="휴대폰번호를 입력하세요">
+                                            <!-- <div class="display" id="info"></div>
+                                                <input class="form-control" type="text" id="s" name="state" value = "1" disable>
+                                            </div> -->
+                                        </div>
+                                        <div class="text-primary" align="right">
+                                                <i class="fas fa-calendar fa-2x text-gray-300">※ 휴대폰번호 입력하면,, 간단결제가 되요!</i>
+                                        </div>
+                                        <br><hr><br>
+                                        <!-- <span class="small">지갑주소 : <%=wallet%>  </span>   -->
+                                        <!-- <a href="#" onclick="payappPay('<%=wallet%>');">충전하기</a> -->
+                                        <div class="text-center"> 
+                                        <input type="submit"  class="btn btn-danger" value="충전하기" href="#" onclick="payappPay('<%=wallet%>');">  
+                                            <!-- <input type="submit" value="충전하기"  class="btn btn-danger"> -->
+                                        </div>
+                                        </fieldset>
                                         </form>
-                                        <hr>         
+                                    <hr>         
                                     </div>    
                                 </div>
-                                <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div>  
+                                <div class="col-lg-5">
+                                    <img src="/img/kk.png"  width="100%" >  
+                                
+                                    
+                                </div>    
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,13 +128,6 @@
         </div>
     </div>
 
-
-        <!-- <form action="/contract/charge" method="post">
-        <label>충전할 토큰의 수량</label>
-        <input type="number" name = "_amount">
-        <input type="submit" value="충전하기"> 
-
-    </form>-->
 </body>
 </html>
 

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+ 
+<!-- JS API 결제요청 호출시 설정된 파라메터 중
+상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
+<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
+<script>
+    
+    PayApp.setDefault('userid',     'qop1513');
+    PayApp.setDefault('shopname',   '케이그라운드');
+        function payappPay(wallet){
+        PayApp.setParam('goodname', 'K포인트 충전');
+        PayApp.setParam('price', $('#price').val());
+        PayApp.setParam('recvphone', $('#phone').val());
+        PayApp.setParam('returnurl', 'http://localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
+        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
+        PayApp.setParam('smsuse', 'n');
+        PayApp.setParam('redirectpay', '1');
+        PayApp.setParam('skip_cstpage', 'y');
+        PayApp.call();
+    }
+</script>
+<script>
+    window.call = function () {
+        alert('결제가 완료되었습니다');
+        location.href= "index.ejs";
+    };
+    transform(now){
+        const ss = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes( ) + ':' + now.getSeconds(); 
+        return ss;
+    }
+</script>
+
+</head>
+    <body class="bg-gradient-primary">
+
+        <div class="container">
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <div class="text-center">
+                                <a id="signinlink" href="javascript:history.back()" >돌아가기</a>
+                            </div>
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                            
+                                <div class="col-lg-6"> 
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <img src="/img/k.png" width="10%">
+                                            <h6>케이그라운드 KPoint 결제 리스트</h6>
+                                        </div>
+                                        <br>
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="text-center">
+                                            <div class="col-xl-12 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    &nbsp;&nbsp;<%=username%>님
+                                                                </div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=charge_amount*100%></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <hr> 
+                                    <div class="container">
+                                        <br>
+                                        <% if(charge_amount != 0){ %>
+                                        <table class="table">
+                                            <tr>
+                                                <th>
+                                                    번호
+                                                </th>
+                                                <th>
+                                                    결제시간
+                                                </th>
+                                                <th>
+                                                    결제한 곳
+                                                </th>
+                                                <th>
+                                                    결제포인트
+                                                </th>                                            
+                                            </tr>
+
+                                            <%for (var i = 0; i < resultt.length; i++){%>
+                                                <tr>
+                                                    <td>
+                                                        <%=i%>
+                                                    </td>
+                                                    <td>
+                                                        <%=resultt[i].transdate%>
+                                                    </td>
+                                                    <td>
+                                                        <%=resultt[i].towallet%>
+                                                    <td>
+                                                    <td>
+                                                        <%=resultt[i].token_amount%>
+                                                    </td>
+                                                </tr>
+                                            <%}%>
+                                        </table>
+                                        <%}%>
+                                    </div>       
+                                    </div>    
+                                </div>
+                                <div class="col-lg-5">
+                                    <img src="/img/kk.png"  width="100%" >  
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

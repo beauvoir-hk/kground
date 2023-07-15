@@ -76,12 +76,15 @@ module.exports = ()=>{
                         // 로그인이 성공하는 조건
                         console.log('db에 로그인한 정보가 있어요', result[0])
                         req.session.logined = result[0]
-                        res.redirect("index")
+                        if(result[0].pass=="1234"){
+                            res.redirect("auth")
+                            }else{
+                                res.redirect("index")
+                            }
                         }else{
                             console.log('로그인정보 오류result[0]=', result[0])
                             res.redirect('/?data=false')
                         }
-                    // res.redirect("/")
                     }
                 }
         )
@@ -108,6 +111,7 @@ module.exports = ()=>{
 
         // 지갑을 생성 
         const _wallet = await token.create_wallet()
+        const _amount = await token.balance_of(_wallet)
 
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
         connection.query(
@@ -116,7 +120,7 @@ module.exports = ()=>{
             into 
             log_info 
             values ( ?, ?, ?, ?, ?, ?, ?,?)`, 
-            [_phone, _pass, _username, _nickname, _refferal, _numeric6, _wallet, input_dt], 
+            [_phone, _pass, _username, _nickname, _refferal, _numeric6, _wallet, input_dt,_amount], 
 
             function(err, receipt){
                 if(err){
@@ -201,20 +205,20 @@ module.exports = ()=>{
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
         // DB 안에 있는 goods table의 정보를 불러온다. 
         const sql = `
-        insert 
-        into 
-        sga
-        values (?, ?, ?, ?, ?, ?,?)
-        ` 
-        const values = [
-        _phone, 
-        _username,
-        _gamenumber, 
-        _gender, 
-        _jiyeok, 
-        _birth ,
-        _golfsys 
-        ]
+                insert 
+                into 
+                sga
+                values (?, ?, ?, ?, ?, ?,?)
+                ` 
+                const values = [
+                _phone, 
+                _username,
+                _gamenumber, 
+                _gender, 
+                _jiyeok, 
+                _birth ,
+                _golfsys 
+                ]
         
         connection.query(
             sql, 
@@ -239,9 +243,6 @@ module.exports = ()=>{
         res.send(input_pass == req.session.logined.pass)
     })
 
-
-
-
     // localhost:3000/logout get형태의 주소 생성
     router.get('/logout', function(req, res){
         // 로그아웃은 session의 data를 삭제
@@ -253,8 +254,6 @@ module.exports = ()=>{
             }
         })
     })
-
-
 
     router.get('/my', async function(req, res){
         if(!req.session.logined){
@@ -269,22 +268,21 @@ module.exports = ()=>{
         }
     })
 
-    router.post('/change_pass', function(req, res){
-        const input_new_pass = req.body.input_pass
+    router.post('/change_pass', async function(req, res){
+        const input_new_pass = await req.body.input_pass
         console.log(input_new_pass)
+        const phone = req.session.phone  
 
-        const phone = req.body.logined.phone
-        console.log('phone=', phone)
-        //로그인되어 있지 않으면
-        if(req.session.logined){
+        // 로그인되어 있으면
+        // if(req.session.logined){
             const sql = `
-            update
-            log_info
-            set
-            password = ?
-            where
-            phone = ?
-            `
+                        update
+                        log_info
+                        set
+                        pass = ?
+                        where
+                        phone = ?
+                        `
             const values = [input_new_pass, phone]
             connection.query(
                 sql, 
@@ -293,51 +291,55 @@ module.exports = ()=>{
                     if(err){
                         console.log(err)
                         res.send(err)
-                    }else{
-                        console.log(result)
-                        req.session.logined.password = input_new_pass
-                        console.log(req.session.logined.password)
-                        res.redirect('/')
                     }
+                        }
+                    )
+                    console.log("로그인비밀번호 변경성공")
                 }
-            )
-        }else{
-            console.log({phone})
-            }
-    })
-
-// // 문자인증을 생성합니다.
-// router.get('/auth', async  (req, res) => {
-//     // 문자인증 코드를 생성합니다.
-//     // 랜덤으로 4자리 인증 코드를 만든다.
-//     const auth_code = Math.floor(Math.random() * 10000)
-//     const expire = new Date()
-//     const logsess= req.body
-//     console.log("auth 실행 들어옴",logsess)
- 
-//     //db에 기록
-//     const sql = `
-//         insert 
-//         into 
-//         auth
-//         values (?,?,?)
-//     `
-//     const values = [auth_code,phone,expire]
-//     connection.query(
-//         sql, 
-//         values, 
-//         function(err, result){
-//             if(err){
-//                 console.log(err)
-//                 res.send(err)
-//             }
-//             else{
-//                 res.render("auth",{
-//                     'phone' : sesstiondata.phone
-//                 })
-//             }
-//             })   
-// })
+            // }
+        )
+        router.post('/change_paypass6', async function(req, res){
+            const input_new_pass6 = await req.body.input_paypass6
+            console.log(input_new_pass6)
+            const phone = req.session.phone
+    
+            //로그인되어 있지 않으면
+            // if(req.session.logined){
+                const sql = `
+                            update
+                            log_info
+                            set
+                            numeric6 = ?
+                            where
+                            phone = ?
+                            `
+                const values = [input_new_pass6, phone]
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                            res.send(err)
+                        // }else{
+                                // console.log(result)
+                                // req.session.logined.numeric = input_new_pass6
+                                // console.log(req.session.logined.password)
+                               
+                                }
+                                console.log("결제비밀번호 변경성공")
+                                res.redirect('index')
+                            }
+                        )
+                    // }else{
+                    //     console.log("로그인 안되어서 로그인으로")
+                    //     res.render('login',{
+                    //         "pass" : req.session.logined.password
+                    //     })
+                    //     }
+                // }
+            })
+                        
 
 router.get('/check_id', function(req, res){
     const input_id = req.query._id
@@ -374,6 +376,7 @@ router.get('/check_id', function(req, res){
 // 문자인증을 생성합니다.
     router.post('/auth', async  (req, res) => {
         const phone = req.body._phone
+        req.session.phone = phone
         const gphone = "+82"+ phone
         console.log("auth 실행 들어옴 gphone =",gphone)
         // 문자인증 코드를 생성합니다.
@@ -405,7 +408,7 @@ router.get('/check_id', function(req, res){
     )
 
         twilioClient.messages.create({
-            body: 'Your KGROUND verification code is' + auth_code,
+            body: '케이그라운드 인증번호 :   ' + auth_code,
             from: process.env.kphonenumber,
             to: gphone
             })
@@ -426,13 +429,13 @@ router.get('/check_id', function(req, res){
 
         //폰번호로 db에서 db에서 전번으로 인증번호를 찾고
         const sql = `
-        select 
-        * 
-        from 
-        auth 
-        where 
-        auth_code = ?
-        `
+                select 
+                * 
+                from 
+                auth 
+                where 
+                auth_code = ?
+                `
         const values = [code]
         connection.query(
             sql, 
@@ -472,7 +475,7 @@ router.get('/check_id', function(req, res){
         
                         console.log("인증성공")
                         res.render("change_pass",{
-                            'phone' : result[0].phone
+                            '_phone' : result[0].phone
                         })
                     }
                     }

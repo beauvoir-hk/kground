@@ -64,7 +64,40 @@ async function trade_token(_address, _amount){
 }
 
 // 유저가 토큰 발행자에게 토큰을 보내는 함수 
-async function trans_from_token(_private, _amount){
+    async function trans_from_token(_private, _amount){
+        // 발행한 토큰을 wallet 추가 
+        const token_info = require('./kip7.json')
+        const kip7 = await new caver.kct.kip7(token_info.address)
+        kip7.setWallet(keyringContainer)
+
+        // 토큰 발행자의 지갑 주소 
+        const owner = keyring.address
+        console.log(owner)
+
+        // 유저의 지갑 주소를 container에 등록
+        const keyring2 = keyringContainer.keyring.createFromPrivateKey(_private)
+        keyringContainer.add(keyring2)
+
+        // approve() 함수를 호출 : 내 지갑에 있는 일정 토큰을 다른 사람이 이동 시킬수 있는 권리를 부여
+        // approve(권한을 받을 지갑의 주소, 토큰의 양, from)
+        await kip7.approve(owner, _amount, {from : keyring2.address})
+
+        // transferFrom 함수를 호출
+        const receipt = await kip7.transferFrom(
+            keyring2.address, 
+            owner, 
+            _amount, 
+            {
+                from : owner
+            }
+        )
+        console.log(receipt)
+
+    return receipt
+}
+
+// 유저가 또 다른 유저에게 토큰을 보내는 함수 
+async function trans_from_to_token(_walletfrom, _towallet, _amount){
     // 발행한 토큰을 wallet 추가 
     const token_info = require('./kip7.json')
     const kip7 = await new caver.kct.kip7(token_info.address)
@@ -75,16 +108,37 @@ async function trans_from_token(_private, _amount){
     console.log(owner)
 
     // 유저의 지갑 주소를 container에 등록
-    const keyring2 = keyringContainer.keyring.createFromPrivateKey(_private)
-    keyringContainer.add(keyring2)
-
+    // const keyring2 = keyringContainer.keyring.createFromPrivateKey(_walletfrom)
+    // keyringContainer.add(keyring2)
+    const containerName1 = "my-container-1"
+    const containerName2 = "my-container-2"
+    // 컨테이너를 생성합니다.
+    const container1 = await docker.createContainer({
+        name: containerName1,
+        image: "my-image",
+        command: "my-command",
+        ports: ["8080:80"],
+    })
+    const container2 = await docker.createContainer({
+        name: containerName2,
+        image: "my-image",
+        command: "my-command",
+        ports: ["8081:80"],
+    })
+    await container1.start();
+    await container2.start();
+    await container1.registerWalletAddress(_walletfrom)
+    // 또 다른 유저의 지갑 주소를 container에 등록
+    // const keyring3 = keyringContainer.keyring.createFromPrivateKey(_towallet)
+    // keyringContainer.add(keyring3)
+    await container2.registerWalletAddress(_towallet)
     // approve() 함수를 호출 : 내 지갑에 있는 일정 토큰을 다른 사람이 이동 시킬수 있는 권리를 부여
     // approve(권한을 받을 지갑의 주소, 토큰의 양, from)
-    await kip7.approve(owner, _amount, {from : keyring2.address})
+    await kip7.approve(owner, _amount, {from : container1._walletfrom})
 
     // transferFrom 함수를 호출
     const receipt = await kip7.transferFrom(
-        keyring2.address, 
+        container1._walletfrom, 
         owner, 
         _amount, 
         {
@@ -93,7 +147,21 @@ async function trans_from_token(_private, _amount){
     )
     console.log(receipt)
 
-    return receipt
+        // approve() 함수를 호출 : 내 지갑에 있는 일정 토큰을 다른 사람이 이동 시킬수 있는 권리를 부여
+    // approve(권한을 받을 지갑의 주소, 토큰의 양, from)
+    await kip7.approve(container2._towallet, _amount, {from : owner})
+
+    // transferFrom 함수를 호출
+    const result = await kip7.transferFrom(
+        owner,
+        container2._towallet, 
+        _amount, 
+        {
+            from : container2._towallet
+        }
+    )
+    console.log(result)
+    return result
 }
 
 // 토큰의 양을 확인하는 함수 
@@ -127,6 +195,7 @@ module.exports = {
     create_token, 
     trade_token, 
     trans_from_token, 
+    trans_from_to_token,
     balance_of, 
     create_wallet
 }
