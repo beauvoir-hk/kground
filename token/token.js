@@ -11,7 +11,7 @@ const secretAccessKey = kas_info.secretAccessKey
 console.log(accesskeyId, secretAccessKey)
 // testnet chainID를 지정
 // const chainid = 8417
-const chainid = 1001
+const chainid = 8417
 
 caver.initKASAPI(chainid, accesskeyId, secretAccessKey)
 console.log(process.env.private_key)

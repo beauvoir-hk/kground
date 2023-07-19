@@ -343,35 +343,66 @@ module.exports = ()=>{
 
 router.get('/check_id', function(req, res){
     const input_id = req.query._id
-
-    const sql = `
-        select 
-        *
-        from 
-        log_info
-        where 
-        phone = ?
-    `
-    const values = [input_id]
-    connection.query(
-        sql, 
-        values, 
-        function(err, result){
-            if(err){
-                console.log(err)
-            }else{
-                if(result.length != 0){
-                    // res.send(false)
-                    res.render("verify",{
-                        'phone' : input_id
-                    })
+    const state =req.query.state
+    console.log("state =",state )
+    if(state==1){
+        const input_id = req.query._id
+        const sql = `
+            select 
+            *
+            from 
+            sga
+            where 
+            phone = ?
+        `
+        const values = [input_id]
+        connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
                 }else{
-                    res.send(true)
+                    //전번으로 select한 db의 데이터가 있으면 result!=0
+                    if(result.length != 0){
+                        res.send(false)
+                        // res.render("verify",{
+                        //     'phone' : input_id
+                        }else{
+                            res.send(true)
+                            }
                 }
             }
-        }
-    )
-})
+        )}else{
+                const sql = `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                 `
+                const values = [input_id]
+                connection.query(
+            
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        //전번으로 select한 db의 데이터가 있으면 result!=0
+                        if(result.length != 0){
+                            res.send(false)
+                            // res.render("verify",{
+                            //     'phone' : input_id
+                            }else{
+                                res.send(true)
+                                }
+                        }
+                    }
+                )}
+    })
 
 // 문자인증을 생성합니다.
     router.post('/auth', async  (req, res) => {
