@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop-up Window</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
+    <script>
+        function submitData() {
+          var holein = document.getElementById("holein").value;
+          var strok = document.getElementById("strok").value;
+          var scorepicture = document.getElementById("scorepicture").value;
+          // 팝업에서 입력한 값을 호출한 페이지에 사용
+          window.opener.document.getElementById("holein").innerHTML = holein;
+          window.opener.document.getElementById("strok").innerHTML = strok;
+          window.opener.document.getElementById("scorepicture").innerHTML = scorepicture;
+          window.close();
+        }
+        </script>
+</head>
+    <body class="bg-gradient-primary">
+
+        <div class="container">
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <div class="text-center">
+                                <a id="signinlink" href="javascript:history.back()" >홈으로</a>
+                            </div>
+                            <!-- Nested Row within Card Body -->
+                            <!-- <div class="row"> -->
+                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                            
+                                <div class="col-lg-15"> 
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <img src="/img/k.png" width="10%">
+                                            <h6><%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%></h6>
+                                        </div>
+                                        <br>
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="text-center">
+                                            <div class="col-xl-12 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <!-- <div class="card-body"> -->
+                                                        <div class="row no-gutters align-items-center">
+                                                            <!-- <div class="col mr-2"> -->
+                                                            <!-- </div> -->
+                                                        </div>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <hr> 
+                                    <div class="container">
+                                        <br>
+                                        <table class="table">
+                                            <tr>
+                                                <th>
+                                                    홀인원한 홀
+                                                    <br>
+                                                    <i class="small">Par3의 
+                                                        <br>1,2,3,4 중 입력</i>
+                                                </th> 
+                                                <th>
+                                                    스코어입력
+                                                </th> 
+                                                <th>
+                                                    스코어카드<br>캡쳐사진
+                                                </th>                                             
+                                            </tr>
+                                               <tr>
+                                                    <td>
+                                                        <div class="input-group mb-3">
+                                                        <input type="text" name="holein"class="form-control" aria-label="food_code" aria-describedby="basic-addon1">
+                                                    </td>                                                    <td>
+                                                        <div class="input-group mb-3">
+                                                            <input type="text" name="strok"class="form-control" aria-label="food_code" aria-describedby="basic-addon1">
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group mb-3">
+                                                            <input type="file" name="scorepicture"class="form-control"  aria-label="food_code" aria-describedby="basic-addon1">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                        </table>
+
+                                        <div class="text-center">
+                                            <input class="" type="button" value="등록" onclick="submatData()">
+                                        </div>
+                                    </form>
+                                    </div>       
+                                    </div>    
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="text-center">
+                                        <img src="/img/kk.png"  width="100%" > 
+                                    </div> 
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

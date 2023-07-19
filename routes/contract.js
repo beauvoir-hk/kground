@@ -132,11 +132,99 @@ module.exports = ()=>{
                             res.send(err)
                             }
                         })
+                        
 
             console.log("charge 성공")
         }
             res.redirect("index")
     })
+
+
+    router.get('/enterscore', async (req, res)=>{
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{    
+           const phone = req.session.logined.phone 
+           const add = req.session.logined.wallet
+           const user = req.session.logined.username         
+           const token1 = await token.balance_of(add)
+           const tokenamount = token1
+           const sql = `
+                    select 
+                    *
+                    from 
+                    score
+                    where 
+                    phone = ?
+                `
+            const values = [phone]
+            connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }
+            const resultt = result
+
+            console.log("result=", resultt)
+            console.log("result=", resultt.length)        
+            res.render('enterscore', {
+                'resultt': result,
+                'username' : user, 
+                'charge_amount' : tokenamount,
+                'phone': req.session.logined.phone
+                })
+            })
+        }})
+
+
+        router.post('/enterscore', async (req, res)=>{
+            if(!req.session.logined){
+                res.redirect("/")
+            }else{    
+               const phone = req.session.logined.phone 
+               const user = req.session.logined.username
+               const _holein = req.body.input_holein
+               const _strok = req.body.input_strok  
+               const add = req.session.logined.wallet 
+               const token1 = await token.balance_of(add)
+               const tokenamount = token1      
+               const _scorepicture = await req.body.input_scorepicture
+                
+               const sql = `
+                        update
+                        score
+                        set
+                        holein = ?,
+                        strok = ?,
+                        scorepicture = ?
+                        where
+                        phone = ?
+                        `
+                
+                const values = [_holein,_strok, _scorepicture, phone]
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                        }
+                const resultt = result
+    
+                console.log("result=", resultt)
+                console.log("result=", resultt.length)        
+                res.render('index', {
+                    'resultt': result,
+                    'username' : user, 
+                    'amount' : tokenamount,
+                    'phone': req.session.logined.phone,
+                    'login_data' : req.session.logined,                    
+                    })
+                })
+            }})
+
 
     router.get('/enterpay_list', async (req, res)=>{
         if(!req.session.logined){

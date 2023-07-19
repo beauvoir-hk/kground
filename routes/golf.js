@@ -64,7 +64,13 @@ module.exports = function(){
                 }   
         )
     })
-
+    router.get('/notice', function(req, res){
+        res.render("notice")
+    })
+    router.get('/regu', function(req, res){
+        res.render("regu")
+    })
+    
     router.post('/check_sga', function(req, res){
         const _phone = req.session.logined.phone
         connection.query(
@@ -89,6 +95,8 @@ module.exports = function(){
             })
 
     })
+
+    
 
         // // smartcontract에 있는 method를 사용
         // smartcontract

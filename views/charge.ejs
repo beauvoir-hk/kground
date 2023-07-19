@@ -24,7 +24,7 @@
         PayApp.setParam('goodname', 'K포인트 충전');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'http://34.22.89.71:5000/payment?price='+$('#price').val()+"&wallet="+wallet);
+        PayApp.setParam('returnurl', 'https://kground.co.kr/payment?price='+$('#price').val()+"&wallet="+wallet);
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
         PayApp.setParam('smsuse', 'n');
         PayApp.setParam('redirectpay', '1');
@@ -35,14 +35,14 @@
 <script>
     window.call = function () {
         alert('결제가 완료되었습니다');
-        location.href= "index.ejs";
+        location.href= "index";
     };
 </script>
 
 </head>
     <body class="bg-gradient-primary">
         <div class="text-center">
-            <a id="signinlink" href="javascript:history.back()" >돌아가기</a>
+            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
         </div>
         <div class="container">
             <!-- Outer Row -->
@@ -72,7 +72,7 @@
                                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=chargeamount*100%></div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=amount*100%></div>
                                                             </div>
                                                         </div>
                                                     </div>

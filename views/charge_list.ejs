@@ -36,17 +36,14 @@
     window.call = function () {
         alert('결제가 완료되었습니다');
         location.href= "index.ejs";
-    };
-    transform(now){
-        const ss = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes( ) + ':' + now.getSeconds(); 
-        return ss;
     }
 </script>
 
 </head>
     <body class="bg-gradient-primary">
         <div class="text-center">
-            <a id="signinlink" href="javascript:history.back()" >돌아가기</a>
+            <br>
+            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
         </div>
         <div class="container">
             <!-- Outer Row -->
@@ -106,8 +103,9 @@
                                                         <%=i%>
                                                     </td>
                                                     <td>
-                                                        <%=resultt[i].chargedate%>
-                                                    <td>
+                                                        <%=resultt[i].chargedate.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
+                                                    </td>
+                                                     <td>
                                                         <%=resultt[i].amount%>
                                                     </td>
                                                 </tr>

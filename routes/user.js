@@ -408,11 +408,11 @@ router.get('/check_id', function(req, res){
     )
 
         twilioClient.messages.create({
-            body: '케이그라운드 인증번호 :   ' + auth_code,
+            body: 'GolfPlatform 케이그라운드 인증번호 :   ' + auth_code,
             from: process.env.kphonenumber,
             to: gphone
             })
-            .then(message => console.log("verify.ejs----",message.sid))
+            .then(message => console.log("verify.ejs----", message.sid))
                 // 문자인증 코드를 MySQL에서 조회합니다.
                 res.render('auth')
              
