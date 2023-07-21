@@ -111,29 +111,39 @@ module.exports = ()=>{
 
         // 지갑을 생성 
         const _wallet = await token.create_wallet()
-        const _amount = await token.balance_of(_wallet)
+        //const _amount = await token.balance_of(_wallet)
 
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
-        connection.query(
-            `
-            insert 
-            into 
-            log_info 
-            values ( ?, ?, ?, ?, ?, ?, ?,?)`, 
-            [_phone, _pass, _username, _nickname, _refferal, _numeric6, _wallet, input_dt,_amount], 
 
-            function(err, receipt){
-                if(err){
-                    console.log(err)
-                    res.send('user signup sql error')
-                }else{
-                    console.log(receipt)
-                    // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                    res.redirect("/")
+            const sql = `
+                    insert 
+                    into 
+                    log_info 
+                    values ( ?, ?, ?, ?, ?, ?, ?,?)
+                    `
+            const values =
+                [_phone, _pass, _username, 
+                    _nickname, _refferal, _numeric6, 
+                    _wallet, input_dt] 
+
+            connection.query(
+                sql,
+                values,
+                function(err, receipt){
+                    if(err){
+                        console.log(err)
+                        res.send('user signup sql error')
+                    }else{
+                        console.log(receipt)
+                        // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
+                        res.redirect("/")
+                    }
                 }
-            }
         )
     })
+
+ 
+
 
     router.get('/index', async function(req, res){
         if(!req.session.logined){

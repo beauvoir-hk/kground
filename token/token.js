@@ -1,6 +1,7 @@
 // caver-js-ext-kas 모듈을 로드 
 const CaverExtKAS = require('caver-js-ext-kas')
 const caver = new CaverExtKAS()
+
 const fs = require('fs')
 require('dotenv').config()
 
@@ -11,7 +12,7 @@ const secretAccessKey = kas_info.secretAccessKey
 console.log(accesskeyId, secretAccessKey)
 // testnet chainID를 지정
 // const chainid = 8417
-const chainid = 8417
+const chainid = 1001
 
 caver.initKASAPI(chainid, accesskeyId, secretAccessKey)
 console.log(process.env.private_key)
@@ -63,37 +64,41 @@ async function trade_token(_address, _amount){
     return receipt
 }
 
-// 유저가 토큰 발행자에게 토큰을 보내는 함수 
-    async function trans_from_token(_private, _amount){
-        // 발행한 토큰을 wallet 추가 
-        const token_info = require('./kip7.json')
-        const kip7 = await new caver.kct.kip7(token_info.address)
-        kip7.setWallet(keyringContainer)
+async function trans_from_token(_user, _amount){
+    // 발행한 토큰을 wallet 추가 
+    const token_info = require('./kip7.json')
+    const kip7 = await new caver.kct.kip7(token_info.address)
+    kip7.setWallet(keyringContainer)
 
+    // 토큰 발행자의 지갑 주소 
+    const owner = keyring.address
+    console.log(owner)
+
+    // 유저의 지갑 주소를 container에 등록
+    const keyring2 = keyringContainer.keyring.createFromPrivateKey(_user)
+    keyringContainer.add(keyring2)
+    console.log("user=", _user)
         // 토큰 발행자의 지갑 주소 
-        const owner = keyring.address
-        console.log(owner)
+        const user= keyring2.address
+        console.log("user=", user)
 
-        // 유저의 지갑 주소를 container에 등록
-        const keyring2 = keyringContainer.keyring.createFromPrivateKey(_private)
-        keyringContainer.add(keyring2)
+    // approve() 함수를 호출 : 내 지갑에 있는 일정 토큰을 다른 사람이 이동 시킬수 있는 권리를 부여
+    // approve(권한을 받을 지갑의 주소, 토큰의 양, from)
+    await kip7.approve(owner, _amount, {from : keyring2.address})
+    // await kip7.approve(owner, _amount, {from : user})
 
-        // approve() 함수를 호출 : 내 지갑에 있는 일정 토큰을 다른 사람이 이동 시킬수 있는 권리를 부여
-        // approve(권한을 받을 지갑의 주소, 토큰의 양, from)
-        await kip7.approve(owner, _amount, {from : keyring2.address})
+    // transferFrom 함수를 호출
+    const receipt = await kip7.transferFrom(
+        keyring2.address, 
+        owner, 
+        _amount, 
+        {
+            from : owner
+        }
+    )
+    console.log(receipt)
 
-        // transferFrom 함수를 호출
-        const receipt = await kip7.transferFrom(
-            keyring2.address, 
-            owner, 
-            _amount, 
-            {
-                from : owner
-            }
-        )
-        console.log(receipt)
-
-    return receipt
+    return receipt        // 발행한 토큰을 wallet 추가 
 }
 
 // 유저가 또 다른 유저에게 토큰을 보내는 함수 
@@ -108,46 +113,13 @@ async function trans_from_to_token(_walletfrom, _towallet, _amount){
     console.log(owner)
 
     // 유저의 지갑 주소를 container에 등록
-    // const keyring2 = keyringContainer.keyring.createFromPrivateKey(_walletfrom)
-    // keyringContainer.add(keyring2)
-    const containerName1 = "my-container-1"
-    const containerName2 = "my-container-2"
-    // 컨테이너를 생성합니다.
-    const container1 = await docker.createContainer({
-        name: containerName1,
-        image: "my-image",
-        command: "my-command",
-        ports: ["8080:80"],
-    })
-    const container2 = await docker.createContainer({
-        name: containerName2,
-        image: "my-image",
-        command: "my-command",
-        ports: ["8081:80"],
-    })
-    await container1.start();
-    await container2.start();
-    await container1.registerWalletAddress(_walletfrom)
-    // 또 다른 유저의 지갑 주소를 container에 등록
-    // const keyring3 = keyringContainer.keyring.createFromPrivateKey(_towallet)
-    // keyringContainer.add(keyring3)
-    await container2.registerWalletAddress(_towallet)
+    const keyring2 = keyringContainer.keyring.createFromPrivateKey(_walletfrom)
+    keyringContainer.add(keyring2)
+        // 또 다른 유저의 지갑 주소를 container에 등록
+    const keyring3 = keyringContainer.keyring.createFromPrivateKey(_towallet)
+    keyringContainer.add(keyring3)
+
     // approve() 함수를 호출 : 내 지갑에 있는 일정 토큰을 다른 사람이 이동 시킬수 있는 권리를 부여
-    // approve(권한을 받을 지갑의 주소, 토큰의 양, from)
-    await kip7.approve(owner, _amount, {from : container1._walletfrom})
-
-    // transferFrom 함수를 호출
-    const receipt = await kip7.transferFrom(
-        container1._walletfrom, 
-        owner, 
-        _amount, 
-        {
-            from : owner
-        }
-    )
-    console.log(receipt)
-
-        // approve() 함수를 호출 : 내 지갑에 있는 일정 토큰을 다른 사람이 이동 시킬수 있는 권리를 부여
     // approve(권한을 받을 지갑의 주소, 토큰의 양, from)
     await kip7.approve(container2._towallet, _amount, {from : owner})
 
@@ -168,14 +140,14 @@ async function trans_from_to_token(_walletfrom, _towallet, _amount){
 async function balance_of(_address){
     // 발행한 토큰을 wallet 추가 
     const token_info = require('./kip7.json')
-    console.log(token_info.address)
+    console.log("token_info=", token_info.address)
     // 해당하는 토큰의 주소를 가지고 올수 없다는 에러입니다. 
     // 에러 나는 이유가 제 KAS에 있는 지갑 주소랑 다른 주소를 사용하셔서 그런건데 회원가입 부분도 이상이 보이네요
     const kip7 = await new caver.kct.kip7(token_info.address)
     kip7.setWallet(keyringContainer)
 
     const balance = await kip7.balanceOf(_address)
-
+    console.log("balance =",balance )
     console.log(balance)
     return balance
 }
@@ -183,9 +155,11 @@ async function balance_of(_address){
 // 지갑을 생성하는 함수 생성
 async function create_wallet(){
     const wallet = await caver.kas.wallet.createAccount()
-    console.log(wallet)
+    console.log("create wallet=", wallet.address)
+    console.log("다음으로 가낭?",)
     return wallet.address
 }
+
 
 // 지갑 생성하는 함수 호출
 // create_wallet()

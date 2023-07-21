@@ -294,7 +294,7 @@ module.exports = ()=>{
             res.redirect("/")
             }else{
                 const numeric6 = req.body._numeric6
-                const wallet = req.session.logined.wallet
+                const private = req.session.logined.private
                 const amount = 2000/scrn
                 const _holein = 0
                 const _strok = 0
@@ -307,7 +307,7 @@ module.exports = ()=>{
 
                     //유저가 회사에  20개(amount) 보내는 것
                     console.log("wallet, amount=",wallet, amount)
-                    const receipt = await token.trans_from_token(wallet, amount)
+                    const receipt = await token.trans_from_token(private, amount)
 
                     const balance = await token.balance_of(wallet) 
                     console.log("after", amount, balance )
