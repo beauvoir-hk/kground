@@ -100,14 +100,14 @@ const token = require("./token/token")
     app.post('/payment', async function(req, res){
         console.log(req.body)
         // 유저의 지갑 주소 
-        const wallet =  req.query.wallet
-        console.log("wallwet=", req.query.wallet)
+        // const wallet =  req.query.wallet
+        // console.log("wallwet=", req.query.wallet)
         // 유저가 결재한 금액
-        const price = req.body.price
-        console.log("price=", price)
-        // 금액만큼 토큰을 충전
-        const receipt = await token.trade_token(wallet, price/100)
-        console.log("충전결과=", receipt)
+        // const price = req.body.price
+        // console.log("price=", price)
+        // // 금액만큼 토큰을 충전
+        // const receipt = await token.trade_token(wallet, price/100)
+        // console.log("충전결과=", receipt)
         res.render("payappthird.ejs")
     })
 
@@ -135,7 +135,7 @@ const token = require("./token/token")
 
     // 서버 시작 
     app.listen(port, () => {
-        console.log(`Example app listening at http://localhost:${port}`)
+        console.log(`Example app listening athttp://kground.co.kr${port}`)
     })
 
 

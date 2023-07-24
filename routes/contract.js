@@ -194,31 +194,28 @@ module.exports = ()=>{
         }})
 
 
-        router.post('/enterscore', async (req, res)=>{
+        router.post('/enterscore', function(req, res){
             if(!req.session.logined){
                 res.redirect("/")
             }else{    
                const phone = req.session.logined.phone 
                const user = req.session.logined.username
-               const _holein = req.body.input_holein
                const _strok = req.body.input_strok  
-            //    const add = req.session.logined.wallet 
-            //    const token1 = await token.balance_of(add)
-               const tokenamount = parseInt(tokenamount)+parseInt(-2000)      
-               const _scorepicture = await req.body.input_scorepicture
+               const _tokenamount = req.session.logined.charge_amount
+               const tokenamount = parseInt(_tokenamount)+parseInt(-2000)      
+               const _scorepicture =req.file.filename
                 
                const sql = `
                         update
                         score
                         set
-                        holein = ?,
                         strok = ?,
                         scorepicture = ?
                         where
                         phone = ?
                         `
                 
-                const values = [_holein,_strok, _scorepicture, phone]
+                const values = [_strok, _scorepicture, phone]
                 connection.query(
                     sql, 
                     values, 
@@ -226,10 +223,7 @@ module.exports = ()=>{
                         if(err){
                             console.log(err)
                         }
-                const resultt = result
     
-                console.log("result=", resultt)
-                console.log("result=", resultt.length)        
                 res.render('index', {
                     'resultt': result,
                     'username' : user, 
@@ -246,9 +240,7 @@ module.exports = ()=>{
             res.redirect("/")
         }else{    
            const phone = req.session.logined.phone 
-        //    const add = req.session.logined.wallet
            const user = req.session.logined.username         
-        //    const token1 = await token.balance_of(add)
            const tokenamount =req.session.logined.charge_amount
            const sql = `
                     select 
@@ -266,10 +258,6 @@ module.exports = ()=>{
                     if(err){
                         console.log(err)
                     }
-            const resultt = result
-
-            console.log("result=", resultt)
-            console.log("result=", resultt.length)        
             res.render('enterpay_list', {
                 'resultt': result,
                 'username' : user, 
@@ -290,10 +278,7 @@ module.exports = ()=>{
                 'state' : data
             })
         }else{
-                // const wallet = req.session.logined.wallet
-                // console.log('로그인세션 지갑주소--charge', wallet)
                 const balance = req.session.logined.chagr_amount
-                // console.log('balance = ', balance)
                 const phone= req.session.logined.phone
                 console.log('phone= ', phone)
                 const s = req.body.state
@@ -309,7 +294,6 @@ module.exports = ()=>{
             }else{
                 const numeric6 = req.body._numeric6
                 const private = req.session.logined.private
-                // const amount = 2000/scrn
                 const _holein = 0
                 const _strok = 0
                 const date = moment()
@@ -444,15 +428,15 @@ module.exports = ()=>{
                 switch (golfstore) {
                         case "1":
                             console.log("바르셀로나 스크린")
-                            storename = "바르셀로나"
+                            storename = "바르셀로나 스크린"
                             break
                         case "2":
                             console.log("중앙자이언트 골프존파크")
-                            storename = "중앙자이언트"
+                            storename = "중앙자이언트 골프존파크"
                             break
                         case "3":
                             console.log("XPGA 스크린")
-                            storename = "XPGA스크린"
+                            storename = "XPGA 스크린"
                             break
                         case "4":
                             console.log("참조은 스크린")
@@ -462,20 +446,25 @@ module.exports = ()=>{
                             console.log("창원케이골프클럽")
                            storename = "창원케이골프클럽"
                             break
+                        case "6":
+                            console.log("케이그라운드")
+                            storename = "케이그라운드"
+                            break
                         default:
-                            console.log(" 1, 2, 3, 4,5 중 하나가 아닙니다");
+                            console.log(" 1, 2, 3, 4,5,6 중 하나가 아닙니다");
                         }
-                    // const walletfrom = req.session.logined.wallet
-                    const pay_amount = req.body._gamepayment
-                    const date = moment()
-                    const _input_dt = date.format("YYYY-MM-DD : hh-mm-ss")
-                    const _phone =  req.session.logined.phone
-                    const _username = req.session.logined.username
-                    const _storename  = storename
-                     // const receipt = await token.trans_from_to_token(walletfrom, towallet, amount)
-                    const balance = parseInt(req.session.logined.charge_amount) -  parseInt(pay_amount)
-                    // console.log("after", amount*100, balance )
-                    var charge_amount= 0
+                // const walletfrom = req.session.logined.wallet
+                const pay_amount = req.body._gamepayment
+                console.log("gamepay_amount =", pay_amount  )
+                const date = moment()
+                const _input_dt = date.format("YYYY-MM-DD : hh-mm-ss")
+                const _phone =  req.session.logined.phone
+                const _username = req.session.logined.username
+                const _storename  = storename
+                console.log("_storename =", _storename  )
+                const balance = parseInt(req.session.logined.charge_amount) -  parseInt(pay_amount)
+                console.log("balance =", balance  )
+                var charge_amount= 0
 
                 //거래내역 기록 
                const sql=
@@ -514,7 +503,7 @@ module.exports = ()=>{
                         if(err){
                             console.log(err)
                         }  
-                        console.log("resultt=",result2) 
+                        console.log("//기존 store amount select resultt=",result2) 
                         
                 charge_amount = parseInt(result2.store_amount) + parseInt(pay_amount)
             }) 

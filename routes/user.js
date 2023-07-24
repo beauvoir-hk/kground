@@ -4,6 +4,27 @@ const router = express.Router()
 const session = require('express-session')
 //현재의 시간을 알려주는 모듈모드
 const moment = require('moment')
+
+const fs = require('fs')
+const path = require('path')
+
+// 파일 업로드를 사용하기위한 모듈
+const multer = require('multer')
+const storage = multer.diskStorage(
+    {
+        destination : function(req, file, cb){
+            cb(null, 'public/uploads/')
+        }, 
+        filename : function(req, file, cb){
+            cb(null, file.originalname)
+        }
+    }
+)
+// 유저가 보낸 파일을 저장할 위치를 설정
+const upload = multer({
+    storage : storage
+})
+
 // mysql의 정보를 등록
 const mysql = require('mysql2')
 

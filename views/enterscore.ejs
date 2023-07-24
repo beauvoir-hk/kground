@@ -37,8 +37,7 @@
                                 <div class="col-lg-15"> 
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <img src="/img/k.png" width="10%">
-                                            <h6>케이그라운드 대회참가 스코어등록</h6>
+                                            <img src="/img/title_011.jpg" width="100%">
                                         </div>
                                         <br>
                                         <!-- Earnings (Monthly) Card Example -->
@@ -62,6 +61,7 @@
                                         </div> 
                                         <hr> 
                                     <div class="container">
+                                    <div class="fs-6">    
                                         <br>
                                             <form action="/contract/enterscore" method="post" enctype="multipart/form-data">
                                         <table class="table">
@@ -73,15 +73,7 @@
                                                     참가시간
                                                 </th>
                                                 <th>
-                                                    참가비
-                                                </th>
-                                                <th>
-                                                    홀인원홀
-                                                    <br>
-                                                    <i class="small">1,2,3,4 중 입력</i>
-                                                </th> 
-                                                <th>
-                                                    스코어입력
+                                                    스코어
                                                 </th> 
                                                 <th>
                                                     스코어카드
@@ -89,7 +81,7 @@
                                                                                           
                                             </tr>
 
-                                            <%for (var i = 0; i < resultt.length; i++){%>
+                                            <%for (var i =  resultt.length-10; i >= 0; i--){%>
                                                 <tr>
                                                     <td>
                                                         <%=i%>
@@ -98,35 +90,31 @@
                                                         <%entertime = resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
                                                         <%=entertime%>
                                                     </td>
-                                                    <td>
-                                                        <%=resultt[i].kpoint%>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group mb-3">
-                                                                <input type="text" name="input_holein" class="form-control" value="<%=resultt[i].holein%>">
-                                                        </div>
-                                                    </td>  
                                                     <td>                                                  
                                                         <div class="input-group mb-3">
-                                                                <input type="text" name="input_holein" class="form-control" value="<%=resultt[i].strok%>">
+                                                            <%=resultt[i].strok%>
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="input-group mb-3">
-                                                            <input type="file" name="input_scorepicture" class="form-control"  >
+                                                           
+                                                            <!-- <input type="file" name="input_scorepicture" class="form-control"  > -->
                                                         </div>
                                                     </td>
-                                                    
+                                                    <td>
+                                                        <div class="text-center">
+                                                            <input type="submit" value="등록">
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             <%}%>
                                         </table>
 
-                                        <div class="text-center">
-                                            <input type="submit" value="등록">
-                                        </div>
+
                                     </form>
                                     </div>       
-                                    </div>    
+                                    </div> 
+                                    </div>   
                                 </div>
                                 <div class="col-lg-5">
                                     <div class="text-center">

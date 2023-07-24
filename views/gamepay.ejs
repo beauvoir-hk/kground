@@ -20,73 +20,83 @@
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
+                        <div class="text-center">
+                            <a class="small" href="/index">홈</a>
+                        </div>
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
-                            <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h6 class="h6 text-gray-900 mb-2">K포인트 결제</h6>
-                                        <br>
+                                        <img src="/img/title_009.jpg" width="100%">
+                                        <br><br>
                                         <div class="text-primary">
                                             <form class="user" action="/contract/gamepay" method="post">
-                                                <table class="table">
-                                                    <tr>
-                                                        <th>참가시스템: </th>
-                                                        <td>
-                                                                <input type="radio" value="1" class="btn-check" name="input_golfstore" id="btnradio23" autocomplete="off" checked="">
-                                                                <label class="btn btn-outline-primary" for="btnradio23">바르셀로나 카카오스크린</label>
-                                                                <input type="radio" value="2" class="btn-check" name="input_golfstore" id="btnradio24" autocomplete="off">
-                                                                <label class="btn btn-outline-primary" for="btnradio24">중앙 자이언트 골프존 파크</label>
-                                                                <input type="radio" value="3" class="btn-check" name="input_golfstore" id="btnradio25" autocomplete="off" >
-                                                                <label class="btn btn-outline-primary" for="btnradio25">XPGA 골프존스크린</label>
-                                                                <input type="radio" value="4" class="btn-check" name="input_golfstore" id="btnradio26" autocomplete="off" >
-                                                                <label class="btn btn-outline-primary" for="btnradio26">참조은 골프존스크린</label>
-                                                                <input type="radio" value="5" class="btn-check" name="input_golfstore" id="btnradio26" autocomplete="off" >
-                                                                <label class="btn btn-outline-primary" for="btnradio26">창원케이골프클럽</label>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                                              
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-user"
-                                                        id="_gamepay" name="_gamepayment"  placeholder="결제할 금액입력(K포인트)">
-                                                    <br>
-                                                    <br>
-                                                    <br>
-                                                    <div class="text-muted">
-                                                        <i class="small" >
-                                                            결제 비밀 번호를 입력하세요^^
-                                                        </i>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control form-control-user"
-                                                        id="_numeric6" name="_numeric6" placeholder="숫자6자리">
-                                                    <br>
-                                                    <div class="text-center">    
-                                                        <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
-                                                        <button class="btn btn-danger" >K포인트 결제</button>
-                                                    </div>
-                                                </div>
+                                            <div align="left">
+                                                (1) 매장선택
+                                            <br>
+                                                <input type="radio" value="1" class="btn-check" name="input_golfstore" id="btnradio23" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio23">바르셀로나 스크린</label>
+                                                <input type="radio" value="2" class="btn-check" name="input_golfstore" id="btnradio24" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio24">중앙 자이언트 골프존 파크</label>
+                                                <input type="radio" value="3" class="btn-check" name="input_golfstore" id="btnradio25" autocomplete="off" >
+                                                <label class="btn btn-outline-primary" for="btnradio25">XPGA 골프존스크린</label>
+                                                <input type="radio" value="4" class="btn-check" name="input_golfstore" id="btnradio26" autocomplete="off" >
+                                                <label class="btn btn-outline-primary" for="btnradio26">참조은 골프존스크린</label>
+                                                <input type="radio" value="5" class="btn-check" name="input_golfstore" id="btnradio26" autocomplete="off"  checked="" >
+                                                <label class="btn btn-outline-primary" for="btnradio26">창원케이골프클럽</label>
+                                            </div>  
+                                        </div>  
+                                        <br>  
+                                        <div align="left">
+                                              (2) 결제금액      
+                                        </div>                    
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user"
+                                                    id="_gamepay" name="_gamepayment"  placeholder="결제할 금액입력(K포인트)">
+                                                <br>
+                                                <br>
+                                            </div>
+                                        <div align="left">
+                                            (3) 결제비밀번호      
+                                        </div>  
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user"
+                                                    id="_numeric6" name="_numeric6" placeholder="숫자6자리">
+                                                <br>
+                                                <br>
+                                            </div> 
+                                            <div class="text-center">    
+                                                <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
+                                                <button class="btn btn-danger" >K포인트 결제</button><br><br>
+                                            </div>
+                                        </div>
                                             </form>
-                                        </div> 
-                                    </div>
-                                    <div class="text-center">
-                                        <button class="btn btn-secondary" href="/score">대회참가내역 확인 + score입력</button>
-                                        <button class="btn btn-secondary" href="https://www.bkscreen.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/52/">대회규정</button>
-                                    </div>
-                                    <br>
-                                    <div class="text-center">
-                                        <a class="small" href="/index">홈</a>
-                                    </div>
+<hr>
+                                <div class="text-center">
+                                    <button class="btn btn-secondary" href="/score">대회참가내역 확인 + score입력</button>
                                     <br>
                                     <br>
+                                    <button class="btn btn-secondary" href="https://www.bkscreen.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/52/">대회규정</button>
                                 </div>
                             </div>
-                            </div>
-                        </div><!--row-->
+                        </div> 
                     </div>
+                            
+                            <!-- 2열 -->
+                            <div class="col-lg-6">
+                                <div class="col-lg-5">
+                                    <img src="/img/kk.png"  width="100%" >
+                                </div>      
+                            </div>
+                        </div>
+                        </div> 
+
+                        </div>
+                    </div>
+
+                    <!--row-->
+
                 </div>
             </div>
         </div>
