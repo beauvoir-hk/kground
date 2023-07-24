@@ -3,9 +3,14 @@ const express = require('express')
 var request = require('request') 
 const app = express()
 const port = 443
+const https = require('https')
+const fs = require('fs')
+const web3 = require("web3")
+const https = require('https');
+const fs = require('fs');
+const web3 = require("web3");
+
 //현재 파일의 경로
-
-
 app.set('views', __dirname+'/views')
 app.set('view engine', 'ejs')
 //외부 js,css,img등의 파일들의 기본경로
