@@ -70,10 +70,10 @@
                                                 </th>                                            
                                             </tr>
 
-                                            <%for (var i = 0; i < resultt.length; i++){%>
+                                            <%for (var i = resultt.length-1; i >= 0; i--){%>
                                                 <tr>
                                                     <td>
-                                                        <%=i%>
+                                                        <%=i+1%>
                                                     </td>
                                                     <td>
                                                         <%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>

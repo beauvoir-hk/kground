@@ -26,28 +26,25 @@ module.exports = ()=>{
             res.redirect("/")
         }else{
 
-            const address = req.session.logined.wallet
+            // const address = req.session.logined.wallet
             // console.log('지갑주소--index로', address)
-            const balance = await token.balance_of(address)
+            //const balance = await token.balance_of(address)
             // console.log('지갑충전-- index로', balance)
             res.render('index', {
                 login_data : req.session.logined, 
-                balance : balance
+                balance : req.session.logined.charge_amount
             })
         }
     })
 
     router.get('/charge_list', async (req, res)=>{
-        const add = req.session.logined.wallet
         const user = req.session.logined.username
-        
+        const kp_amount = req.session.logined.charge_amount    
         if(!req.session.logined){
             res.redirect("/")
         }else{    
            const phone = req.session.logined.phone 
-          
-           const token1 = await token.balance_of(add)
-           const tokenamount = token1
+
            const sql = `
                     select 
                     *
@@ -64,16 +61,15 @@ module.exports = ()=>{
                     if(err){
                         console.log(err)
                     }
-            const resultt = result
-
-            console.log("result=", resultt)
-            console.log("result=", resultt.length)        
-            res.render('charge_list', {
-                'resultt': result,
-                'username' : user, 
-                'charge_amount' : tokenamount,
-                'phone': req.session.logined.phone
-                })
+                    console.log("result=", result)
+                    console.log("result=", result.length) 
+                    console.log("kp_amount =",    kp_amount)  
+                    res.render('charge_list', {
+                        'resultt': result,
+                        'username' : user, 
+                        'charge_amount' :  kp_amount,
+                        'phone': req.session.logined.phone
+                        })
             })
         }
 })
@@ -83,18 +79,18 @@ module.exports = ()=>{
             res.redirect("/")
         }else{
             const s = req.body.state
-            const add = req.session.logined.wallet
+            // const add = req.session.logined.wallet
             const phone = req.session.logined.phone
             console.log('휴대폰번호 : ', phone)
             const user = req.session.logined.username
-            console.log('로그인세션 지갑주소--charge', add)
-            const balance = await token.balance_of(add)
-            console.log('로그인세션 현재 KP--charge', balance)
+            // console.log('로그인세션 지갑주소--charge', add)
+            // const balance = await token.balance_of(add)
+            // console.log('로그인세션 현재 KP--charge', balance)
            res.render('charge', {
                 'phone' : req.session.logined.phone, 
                 'username' : req.session.logined.username, 
-                'wallet' : req.session.logined.wallet, 
-                'chargeamount' : balance,
+                // 'wallet' : req.session.logined.wallet, 
+                'chargeamount' : req.session.logined.charge_amount
                 })
             }
             })    
@@ -104,25 +100,19 @@ module.exports = ()=>{
             res.redirect("/")
             }else{
                 const s = req.body.state
-                // console.log("state=", s)
+                console.log("state=", s)
                 const _price = await req.body.price
-                // console.log("중전post amount",amount)
-                const address = req.session.logined.wallet
-                const phone = req.session.logined.phone
-                if(s==1){
-                    //유저에게 보내는 것
-                    const receipt = await token.trade_token(address, _price/100)
-                }
                 const date = moment()
                 const chargedate = date.format("YYYY-MM-DD : hh-mm-ss")
-                
+                const _phone=req.session.logined.phone
+                const chargeamount=req.session.logined.charge_amount
                 const sql = `
                         insert 
                         into 
                         charge_list
                         values (?,?,?)
                         `
-                const values = [phone, chargedate, _price]
+                const values = [_phone, chargedate, _price ]
                 connection.query(
                     sql, 
                     values, 
@@ -132,23 +122,48 @@ module.exports = ()=>{
                             res.send(err)
                             }
                         })
-                        
+
+                
+            //충전금액 수정        
+                const _charge_amount = parseInt(chargeamount) + parseInt(_price)
+
+                const sql2 = `
+                    update
+                    log_info
+                    set
+                    charge_amount = ?
+                    where
+                    phone = ?
+                    `
+                const values2 = [_charge_amount, _phone]
+                                
+                connection.query(
+                    sql2, 
+                    values2, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                            res.send(err)
+                            }
+                        })                       
 
             console.log("charge 성공")
+            //req.session.logined = result[0]
         }
-            res.redirect("index")
+            res.redirect("../index")
     })
-
 
     router.get('/enterscore', async (req, res)=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{    
            const phone = req.session.logined.phone 
-           const add = req.session.logined.wallet
+        //    const add = req.session.logined.wallet
            const user = req.session.logined.username         
-           const token1 = await token.balance_of(add)
-           const tokenamount = token1
+        //    const token1 = await token.balance_of(add)
+           const tokenamount = req.session.logined.charge_amount
+           const _charge_amount = parseInt(tokenamount)
+        //    +parseInt(-2000)
            const sql = `
                     select 
                     *
@@ -172,7 +187,7 @@ module.exports = ()=>{
             res.render('enterscore', {
                 'resultt': result,
                 'username' : user, 
-                'charge_amount' : tokenamount,
+                'charge_amount' : _charge_amount,
                 'phone': req.session.logined.phone
                 })
             })
@@ -187,9 +202,9 @@ module.exports = ()=>{
                const user = req.session.logined.username
                const _holein = req.body.input_holein
                const _strok = req.body.input_strok  
-               const add = req.session.logined.wallet 
-               const token1 = await token.balance_of(add)
-               const tokenamount = token1      
+            //    const add = req.session.logined.wallet 
+            //    const token1 = await token.balance_of(add)
+               const tokenamount = parseInt(tokenamount)+parseInt(-2000)      
                const _scorepicture = await req.body.input_scorepicture
                 
                const sql = `
@@ -231,10 +246,10 @@ module.exports = ()=>{
             res.redirect("/")
         }else{    
            const phone = req.session.logined.phone 
-           const add = req.session.logined.wallet
+        //    const add = req.session.logined.wallet
            const user = req.session.logined.username         
-           const token1 = await token.balance_of(add)
-           const tokenamount = token1
+        //    const token1 = await token.balance_of(add)
+           const tokenamount =req.session.logined.charge_amount
            const sql = `
                     select 
                     *
@@ -275,17 +290,16 @@ module.exports = ()=>{
                 'state' : data
             })
         }else{
-                const wallet = req.session.logined.wallet
-                console.log('로그인세션 지갑주소--charge', wallet)
-                const balance = await token.balance_of(wallet)
-                console.log('balance = ', balance)
-                const phone= req.body.phone
+                // const wallet = req.session.logined.wallet
+                // console.log('로그인세션 지갑주소--charge', wallet)
+                const balance = req.session.logined.chagr_amount
+                // console.log('balance = ', balance)
+                const phone= req.session.logined.phone
                 console.log('phone= ', phone)
                 const s = req.body.state
                 res.render('enterpay', {
-                    wallet : wallet,
                     amount : balance,
-                    phonenum : phone
+                    phone : phone
                 })
     }})   
 
@@ -295,7 +309,7 @@ module.exports = ()=>{
             }else{
                 const numeric6 = req.body._numeric6
                 const private = req.session.logined.private
-                const amount = 2000/scrn
+                // const amount = 2000/scrn
                 const _holein = 0
                 const _strok = 0
                 const date = moment()
@@ -304,82 +318,101 @@ module.exports = ()=>{
                 const _username =  req.session.logined.username
                 const _picture = ""
                 if(numeric6 == req.session.logined.numeric6){
+                    //대회참가비 결제
+                    const balance = parseInt(req.session.logined.charge_amount)-2000
 
-                    //유저가 회사에  20개(amount) 보내는 것
-                    console.log("wallet, amount=",wallet, amount)
-                    const receipt = await token.trans_from_token(private, amount)
+                    //스코어리스트에 기록
+                    const sql=
+                            `
+                            insert 
+                            into 
+                            score 
+                            values ( ?, ?, ?, ?, ? )`
 
-                    const balance = await token.balance_of(wallet) 
-                    console.log("after", amount, balance )
-                }
-                const sql=
-                        `
-                        insert 
-                        into 
-                        score 
-                        values ( ?, ?, ?, ?, ?, ?, ? )`
+                    const values = [_input_dt, _phone, _username,  _strok , _picture]
+                    
+                    connection.query(
+                    sql,
+                    values,
+                    (err, result)=>{
+                            if(err){
+                                console.log(result)
+                                res.send(err)
+                            }
 
-                const values = [_input_dt, _phone, _username, amount, _holein, _strok , _picture]
-                
+                        })
+                    console.log("//대회참가비 결제")
+
+                //충전금액 수정        
+                const _charge_amount =  balance
+
+                const sql2 = `
+                    update
+                    log_info
+                    set
+                    charge_amount = ?
+                    where
+                    phone = ?
+                    `
+                const values2 = [_charge_amount, _phone]
+                                
                 connection.query(
-                sql,
-                values,
-                (err, result)=>{
+                    sql2, 
+                    values2, 
+                    function(err, result){
                         if(err){
-                            console.log(result)
+                            console.log(err)
                             res.send(err)
-                        }
-                        else{
-                            console.log("sql=", sql)
-                            console.log("numeric6=", numeric6)
-                            console.log("req.session.logined.numeric6=",req.session.logined.numeric6)
-                        }
+                            }
+ 
+                            // console.log("result[0]=",result)    
+                            console.log("//충전금액 수정 ")
+                            console.log("req.session.logined= ",req.session.logined)
+                            // req.session.logined = result[0]
+                            res.render("index",{
+                                login_data : req.session.logined, 
+                                amount :_charge_amount
+                        
+                    }) 
                     })
-                    res.render("index",{
-                        login_data : req.session.logined, 
-                        amount : await token.balance_of(wallet) 
-                    })
-                }
+                }}
             })
 
-            router.get('/gamepay_list', async (req, res)=>{
-                if(!req.session.logined){
-                    res.redirect("/")
-                }else{    
-                   const phone = req.session.logined.phone 
-                   const add = req.session.logined.wallet
-                   const user = req.session.logined.username         
-                   const token1 = await token.balance_of(add)
-                   const tokenamount = token1
-                   const sql = `
-                            select 
-                            *
-                            from 
-                            store
-                            where 
-                            phone = ?
-                        `
-                    const values = [phone]
-                    connection.query(
-                        sql, 
-                        values, 
-                        function(err, result){
-                            if(err){
-                                console.log(err)
-                            }
-                    const resultt = result
-        
-                    console.log("result=", resultt)
-                    console.log("result=", resultt.length)        
-                    res.render('gamepay_list', {
-                        'resultt': result,
-                        'username' : user, 
-                        'charge_amount' : tokenamount,
-                        'phone': req.session.logined.phone
-                        })
+    router.get('/gamepay_list', async (req, res)=>{
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{    
+            const phone = req.session.logined.phone 
+            // const add = req.session.logined.wallet
+            const user = req.session.logined.username         
+            // const token1 = req.session.logined.chagr_amount
+            const tokenamount = req.session.logined.chagr_amount
+            const sql = `
+                    select 
+                    *
+                    from 
+                    store_pay
+                    where 
+                    phone = ?
+                `
+            const values = [phone]
+            connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }
+     
+                res.render('gamepay_list', {
+                    'resultt': result,
+                    'username' : user, 
+                    'charge_amount':tokenamount,
+                    'phone': req.session.logined.phone
                     })
-                }
-        })
+            })
+        }
+})
 
     router.get('/gamepay', async (req, res)=>{
         if(!req.session.logined){
@@ -391,12 +424,11 @@ module.exports = ()=>{
                 'state' : data
             })
         }else{
-                const wallet = req.session.logined.wallet
-                const balance = await token.balance_of(wallet)
+                // const wallet = req.session.logined.wallet
+                const balance = req.session.logined.chagr_amount
                 const phone= req.body.phone
                 const s = req.body.state
                 res.render('gamepay', {
-                    wallet : wallet,
                     amount : balance,
                     phonenum : phone,
                     username : req.session.logined.username
@@ -407,65 +439,133 @@ module.exports = ()=>{
         if(!req.session.logined){
             res.redirect("/")
             }else{
-                const towallet=""
+                var storename=""
                 const golfstore = req.body.input_golfstore
                 switch (golfstore) {
                         case "1":
-                            console.log("바르셀로나")
-                            towallet = "0xc0E129613cc382273f3c1036a34FE0BE477A083e"
+                            console.log("바르셀로나 스크린")
+                            storename = "바르셀로나"
                             break
                         case "2":
-                            console.log("중앙자이언트")
-                            towallet = "0x24EfD8233f75D73D45Fe472594a2CE5f116caEA6"
+                            console.log("중앙자이언트 골프존파크")
+                            storename = "중앙자이언트"
                             break
                         case "3":
-                            console.log("XPGA스크린")
-                            towallet = "0x0A99Ab5b2d505eE2C92768AaE2C30D03b4010d18"
+                            console.log("XPGA 스크린")
+                            storename = "XPGA스크린"
                             break
                         case "4":
                             console.log("참조은 스크린")
-                            towallet = "0x20928A527e21A3Fd7f1A7B4F546c9C080A82B5d8"
+                            storename = "참조은 스크린"
                             break
                         case "5":
                             console.log("창원케이골프클럽")
-                            ctowallet = "0x59FF49F0bE33366A866306b8050b5292b9783078"
+                           storename = "창원케이골프클럽"
                             break
                         default:
                             console.log(" 1, 2, 3, 4,5 중 하나가 아닙니다");
                         }
-                    const walletfrom = req.session.logined.wallet
-                    const amount = req.body._gamepayment/scrn
+                    // const walletfrom = req.session.logined.wallet
+                    const pay_amount = req.body._gamepayment
                     const date = moment()
                     const _input_dt = date.format("YYYY-MM-DD : hh-mm-ss")
                     const _phone =  req.session.logined.phone
-                    const _username =  req.session.logined.username
-                    const receipt = await token.trans_from_to_token(walletfrom, towallet, amount)
-                    const balance = await token.balance_of(wallet) 
-                    console.log("after", amount*100, balance )
-                }
+                    const _username = req.session.logined.username
+                    const _storename  = storename
+                     // const receipt = await token.trans_from_to_token(walletfrom, towallet, amount)
+                    const balance = parseInt(req.session.logined.charge_amount) -  parseInt(pay_amount)
+                    // console.log("after", amount*100, balance )
+                    var charge_amount= 0
+
+                //거래내역 기록 
                const sql=
                         `
                         insert 
                         into 
-                        store
-                        values ( ?, ?, ?, ?, ?, ?, ? )`
-                const values = [_input_dt, _phone, _username, walletfrom, towallet, amount]
+                        store_pay
+                        values ( ?, ?, ?, ?, ? )`
+                const values = [_input_dt, _phone, _username, _storename, pay_amount]
                 
                 connection.query(
-                sql,
-                values,
-                (err, result)=>{
-                        if(err){
-                            console.log(result)
-                            res.send(err)
+                    sql,
+                    values,
+                    (err, result)=>{
+                            if(err){
+                                console.log(result)
+                                res.send(err)
+                            }
                         }
+                    )
+
+                //기존 store amount select 
+                const sql2 = `
+                    select 
+                    *
+                    from 
+                    store
+                    where 
+                    storename = ?
+                    `
+                const values2 = [ _storename]
+                connection.query(
+                    sql2, 
+                    values2, 
+                    function(err, result2){
+                        if(err){
+                            console.log(err)
+                        }  
+                        console.log("resultt=",result2) 
+                        
+                charge_amount = parseInt(result2.store_amount) + parseInt(pay_amount)
+            }) 
+
+                //store의 chage금액 수정
+                const sql3 = `
+                    update
+                    store
+                    set
+                    store_amount = ?
+                    where
+                    storename = ?
+                    `
+                const values3 = [charge_amount, _storename]
+                connection.query(
+                    sql3, 
+                    values3, 
+                    function(err, result3){
+                        if(err){
+                            console.log(err)
+                        }}   
+                )
+
+                //log_info 충전금액 수정        
+                const _charge_amount =  balance
+
+                const sql4 = `
+                    update
+                    log_info
+                    set
+                    charge_amount = ?
+                    where
+                    phone = ?
+                    `
+                const values4 = [_charge_amount, _phone]
+                connection.query(
+                    sql4, 
+                    values4, 
+                    function(err, result4){
+                        if(err){
+                            console.log(err)
+                        }}   
+                )                                
+
                     res.render("index",{
                         login_data : req.session.logined, 
-                        amount : balance2
+                        amount : balance
                     })
                 }
-            )
-    })
+            })
+
 
     return router;
     }

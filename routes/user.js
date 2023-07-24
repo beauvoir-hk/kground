@@ -110,8 +110,8 @@ module.exports = ()=>{
         console.log(_phone, _pass, _username, _nickname, _refferal, _numeric6 , input_dt )
 
         // 지갑을 생성 
-        const _wallet = await token.create_wallet()
-        //const _amount = await token.balance_of(_wallet)
+        // const _wallet = await token.create_wallet()
+        const _amount =0
 
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
 
@@ -123,8 +123,7 @@ module.exports = ()=>{
                     `
             const values =
                 [_phone, _pass, _username, 
-                    _nickname, _refferal, _numeric6, 
-                    _wallet, input_dt] 
+                    _nickname, _refferal, _numeric6, input_dt,_amount] 
 
             connection.query(
                 sql,
@@ -152,15 +151,14 @@ module.exports = ()=>{
         }else{
             // 유저의 정보는 -> req.session.logined
             // 토큰의 수량은? -> token.js -> balanceOf(지갑 주소)
-            const wallet = req.session.logined.wallet
+            // const wallet = req.session.logined.wallet
             console.log('로그인 되었어요')
-            console.log(wallet)
-            const amount = await token.balance_of(wallet)
-            console.log(amount)
+            // console.log(wallet)
+            // const amount = await token.balance_of(wallet)
+            // console.log(amount)
             // 해당하는 부분에서 에러가 발생합니다. 
             res.render('index.ejs', {
                 'login_data': req.session.logined, 
-                'amount' : amount
             })
         }
     
@@ -191,8 +189,10 @@ module.exports = ()=>{
         }
     })
 
-    // localhost:3000/golf/regist [get]
     router.post('/regist', async  function(req, res){
+        const _phone = await req.session.logined.phone
+
+        
         // 유저가 입력한 데이터를 변수에 대입 
         const _gamenumber = req.body.input_gamenumber
         const _gender = req.body.input_gender
@@ -204,8 +204,7 @@ module.exports = ()=>{
         // name 값은 로그인 데이터에서 name 값을 가지고 온다
         // 로그인 정보는 session 저장
         // name 값을 가지고 오려면 session 안에 있는 name을 추출
-        const _phone = await req.session.logined.phone
-        console.log(_phone)
+
         const _username= await req.session.logined.username
         console.log(_username)
         // // session 안에 있는 로그인 한 사람의 지갑 주소를 
@@ -270,10 +269,10 @@ module.exports = ()=>{
             console.log('로그인 정보 없음')
             res.redirect("/")
         }else{
-            const balance = await token.balance_of(req.session.logined.wallet)
+            const balance = req.session.logined.chage_amount
             res.render('my.ejs', {
                 login_data : req.session.logined, 
-                amount : balance
+                charge_amount : balance
             })
         }
     })
@@ -459,6 +458,12 @@ router.get('/check_id', function(req, res){
              
         })
 
+        router.get('/verify', (req, res)=>{
+            const _phone = req.session.logined.phone
+            res.render('verify.ejs',{
+                phone : _phone
+            })
+        })
     // 문자인증을 확인합니다.
     router.post('/verify', async (req, res) => {
         const code = parseInt(req.body.input_auth_code)

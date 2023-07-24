@@ -13,36 +13,6 @@
         }
     </style>
  
-<!-- JS API 결제요청 호출시 설정된 파라메터 중
-상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
-<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
-<script>
-    
-    PayApp.setDefault('userid',     'qop1513');
-    PayApp.setDefault('shopname',   '케이그라운드');
-        function payappPay(wallet){
-        PayApp.setParam('goodname', 'K포인트 충전');
-        PayApp.setParam('price', $('#price').val());
-        PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'http://localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
-        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
-        PayApp.setParam('smsuse', 'n');
-        PayApp.setParam('redirectpay', '1');
-        PayApp.setParam('skip_cstpage', 'y');
-        PayApp.call();
-    }
-</script>
-<script>
-    window.call = function () {
-        alert('결제가 완료되었습니다');
-        location.href= "index.ejs";
-    };
-    transform(now){
-        const ss = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + now.getHours() + ':' + now.getMinutes( ) + ':' + now.getSeconds(); 
-        return ss;
-    }
-</script>
-
 </head>
     <body class="bg-gradient-primary">
 
@@ -76,7 +46,7 @@
                                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=charge_amount*100%></div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=charge_amount0%></div>
                                                             </div>
                                                         </div>
                                                     </div>
