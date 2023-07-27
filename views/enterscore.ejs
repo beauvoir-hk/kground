@@ -19,99 +19,100 @@
         </script>
 
 </head>
-    <body class="bg-gradient-primary">
+<body class="bg-gradient-primary">
 
-        <div class="container">
-            <!-- Outer Row -->
-            <div class="row justify-content-center">
-                <div class="col-xl-10 col-lg-12 col-md-9">
-                    <div class="card o-hidden border-0 shadow-lg my-5">
-                        <div class="card-body p-0">
-                            <div class="text-center">
-                                <a id="signinlink" href="javascript:history.back()" >홈으로</a>
-                            </div>
-                            <!-- Nested Row within Card Body -->
-                            <!-- <div class="row"> -->
-                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                            
-                                <div class="col-lg-15"> 
-                                    <div class="p-5">
-                                        <div class="text-center">
-                                            <img src="/img/title_011.jpg" width="100%">
-                                        </div>
-                                        <br>
-                                        <!-- Earnings (Monthly) Card Example -->
-                                        <div class="text-center">
-                                            <div class="col-xl-12 col-md-6 mb-4">
-                                                <div class="card border-left-primary shadow h-100 py-2">
-                                                    <!-- <div class="card-body"> -->
-                                                        <div class="row no-gutters align-items-center">
-                                                            <!-- <div class="col mr-2"> -->
-                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                    &nbsp;&nbsp;<%=username%>님
-                                                                </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                                    K포인트 : <%=charge_amount*100%>
-                                                                </div>
-                                                            <!-- </div> -->
-                                                        </div>
-                                                    <!-- </div> -->
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <hr> 
-                                    <div class="container">
-                                    <div class="fs-6">    
-                                        <br>
-                                            <form action="/contract/enterscore" method="post" enctype="multipart/form-data">
-                                        <table class="table">
-                                            <tr>
-                                                <th>
-                                                    번호
-                                                </th>
-                                                <th>
-                                                    참가시간
-                                                </th>
-                                                <th>
-                                                    스코어
-                                                </th> 
-                                                <th>
-                                                    스코어카드
-                                                </th>  
-                                                                                          
-                                            </tr>
-
-                                            <%for (var i =  resultt.length-10; i >= 0; i--){%>
-                                                <tr>
-                                                    <td>
-                                                        <%=i%>
-                                                    </td>
-                                                    <td>
-                                                        <%entertime = resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
-                                                        <%=entertime%>
-                                                    </td>
-                                                    <td>                                                  
-                                                        <div class="input-group mb-3">
-                                                            <%=resultt[i].strok%>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group mb-3">
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="text-center">
+                            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
+                        </div>
+                        <!-- Nested Row within Card Body -->
+                        <!-- <div class="row"> -->
+                            <!--<div class="col-lg-5 d-none d-lg-block bg-login-image">
+                                <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                        
+                            <div class="col-lg-15"> 
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img src="/img/title_011.jpg" width="100%">
+                                    </div>
+                                    <br>
+                                    <!-- Earnings (Monthly) Card Example -->
+                                    <div class="text-center">
+                                        <div class="col-xl-12 col-md-6 mb-4">
+                                            <div class="card border-left-primary shadow h-100 py-2">
+                                                <!-- <div class="card-body"> -->
+                                                    <div class="row no-gutters align-items-center">
+                                                        <!-- <div class="col mr-2"> -->
                                                            
-                                                            <!-- <input type="file" name="input_scorepicture" class="form-control"  > -->
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="text-center">
-                                                            <input type="submit" value="등록">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <%}%>
-                                        </table>
+                                                        <!-- </div> -->
+                                                    </div>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <hr> 
+                                <div class="container">
+                                <div class="fs-6">    
+                                    <br>
+                                        <form action="/contract/enterscore" method="post" enctype="multipart/form-data">
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                참가시간
+                                            </th>
+                                            <td>
+                                                <input type="text" name="_time" class="form-control" value="<%=entertime%>" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                참가시스템
+                                            </th>
+                                            <td>
 
+                                                <select class="form-control" name="input_golfsys" id="golfsys">
+                                                    <option value="GolfZon">GolfZon</option>
+                                                    <option value="K Golf Club">"K Golf Club</option>
+                                                    <option value="UDR Golf">UDR Golf</option>
+                                                    <option value="GolfZon Park">GolfZon Park</option>
+                                                    <option value="Kakao Friends" >Kakao Friends</option>
+                                                    <option value="GNC">GNC</option>
+                                                    <option value="MS Golf">MS Golf</option>
+                                                    <option value="SG Golf" >SG Golf</option>
+                                                </select>
 
-                                    </form>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                스코어
+                                            </th>
+                                            <td>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" name="input_strok" class="form-control" >
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                스코어카드
+                                            </th>  
+                                            <td>
+                                                <span class="input-group-text" id="basic-addon1">사진 : </span>
+                                                
+                                                <input type="file" name="_image" class="form-control" placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="text-center">  
+                                        <input  type="submit" value="strok 등록" id="signup">
+                                    </div>
+                                </form>
                                     </div>       
                                     </div> 
                                     </div>   

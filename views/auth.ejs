@@ -53,11 +53,10 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h6 class="h4 text-gray-900 mb-2">
+                                        <h6 class="h6 text-gray-900 mb-2">
                                             새어플에 처음 오시거나<br>
                                             비밀번호를 잊으셨나요?
                                         </h6>
@@ -70,9 +69,8 @@
                                     </div>
                                     <form class="user" action="/auth" method="post">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="_id" name="_phone" 
-                                                placeholder="휴대폰번호 입력 후 [인증번호전송] 버튼을 누르세요...">
+                                            <input type="text" class="form-control form-control-user" value="010"
+                                                id="_id" name="_phone" >
                                                 <br>
                                             <div class="text-center">    
                                                 <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
@@ -109,6 +107,11 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-6 d-none d-lg-block ">
+                                <img src="./img/tier.jpg" width="400px">
+                            </div>
+
                         </div>
                     </div>
                 </div>

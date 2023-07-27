@@ -10,10 +10,22 @@
 
     <title>KPoint 결제</title>
     <%- include('header.ejs') %>
+    <script>
 
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("비밀번호가 틀렸습니다 . 다시 입력 해 주세요")
+        }
+        </script>
 </head>
 
-<body class="bg-gradient-primary">
+<%if(state == 1){%>
+    <body class="bg-gradient-primary" onload="fail()" >
+    <%}else{%>
+        <body class="bg-gradient-primary">      
+        <%}%>
     <div class="container">
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -21,7 +33,7 @@
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <div class="text-center">
-                            <a class="small" href="/index">홈</a>
+                            <a class="small" href="/index">홈으로</a>
                         </div>
                         <!-- Nested Row within Card Body -->
                         <div class="row">
@@ -29,7 +41,13 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <img src="/img/title_009.jpg" width="100%">
-                                        <br><br>
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            &nbsp;&nbsp;<%=username%>님
+                                        </div>
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                            K포인트 : <%=amount%>
+                                        </div>
+                                        <hr><br>
                                         <div class="text-primary">
                                             <form class="user" action="/contract/gamepay" method="post">
                                             <div align="left">

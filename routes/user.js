@@ -98,9 +98,11 @@ module.exports = ()=>{
                         console.log('db에 로그인한 정보가 있어요', result[0])
                         req.session.logined = result[0]
                         if(result[0].pass=="1234"){
-                            res.redirect("auth")
+                            res.render("auth",{
+                                phone:_phone
+                            })
                             }else{
-                                res.redirect("index")
+                                res.redirect("/")
                             }
                         }else{
                             console.log('로그인정보 오류result[0]=', result[0])
@@ -127,24 +129,22 @@ module.exports = ()=>{
         const _refferal = req.body.input_refferal
         const _numeric6= req.body.input_numeric6
         const date = moment()
-        const input_dt=date.format("YYYY-MM-DD : hh-mm-ss")
+        const input_dt=date.format('YYYY-MM-DD HH:MM:SS')
         console.log(_phone, _pass, _username, _nickname, _refferal, _numeric6 , input_dt )
 
-        // 지갑을 생성 
-        // const _wallet = await token.create_wallet()
-        const _amount =0
-
+        const tier = "1"
+        const _amount = 0
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
 
             const sql = `
                     insert 
                     into 
                     log_info 
-                    values ( ?, ?, ?, ?, ?, ?, ?,?)
+                    values ( ?, ?, ?, ?, ?, ?, ?,?,?)
                     `
             const values =
                 [_phone, _pass, _username, 
-                    _nickname, _refferal, _numeric6, input_dt,_amount] 
+                    _nickname, _refferal, _numeric6, _amount,tier,input_dt] 
 
             connection.query(
                 sql,
@@ -220,6 +220,7 @@ module.exports = ()=>{
         const _jiyeok = req.body.input_jiyeok
         const _birth = req.body.input_birth
         const _golfsys = req.body.input_golfsys
+        const _bestscore = 0
         console.log(_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
 
         // name 값은 로그인 데이터에서 name 값을 가지고 온다
@@ -237,8 +238,8 @@ module.exports = ()=>{
         const sql = `
                 insert 
                 into 
-                sga
-                values (?, ?, ?, ?, ?, ?,?)
+                ksfc
+                values (?, ?, ?, ?, ?, ?,?,?)
                 ` 
                 const values = [
                 _phone, 
@@ -247,7 +248,8 @@ module.exports = ()=>{
                 _gender, 
                 _jiyeok, 
                 _birth ,
-                _golfsys 
+                _golfsys ,
+                _bestscore
                 ]
         
         connection.query(
@@ -381,7 +383,7 @@ router.get('/check_id', function(req, res){
             select 
             *
             from 
-            sga
+            ksfc
             where 
             phone = ?
         `

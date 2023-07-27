@@ -12,24 +12,33 @@
             display: none;
         }
     </style>
-</head>
-    <body class="bg-gradient-primary">
+    <script>
 
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("비밀번호가 틀렸습니다 . 다시 입력 해 주세요")
+        }
+        </script>
+</head>
+    <body class="bg-gradient-primary" >
         <div class="container">
+            <div class="text-center">
+                <br>
+                <a id="signinlink" href="javascript:history.back()" >홈으로</a>
+            </div>
             <!-- Outer Row -->
             <div class="row justify-content-center">
                 <div class="col-xl-10 col-lg-12 col-md-9">
                     <div class="card o-hidden border-0 shadow-lg my-5">
                         <div class="card-body p-0">
-                            <div class="text-center">
-                                <br>
-                                <a id="signinlink" href="javascript:history.back()" >홈으로</a>
-                            </div>
+
                             <!-- Nested Row within Card Body -->
                             <div class="row">
-                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                            
-                                <div class="col-lg-6"> 
+
+                                <!-- 1열 -->
+                                <div class="col-lg-6 d-none d-lg-block bg-password-image">
                                     <div class="p-5">
                                         <div class="text-center">
                                             <img src="/img/k.png" width="10%">
@@ -46,7 +55,9 @@
                                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=charge_amount*100%></div>
+                                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                                    K포인트 : <%=amount%>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -54,51 +65,123 @@
                                             </div>
                                         </div> 
                                         <hr> 
-                                    <div class="container">
+                                        아래의 참가시간을 누르면 <Br>
+                                        스코어를 등록 할 수 있습니다.   
+                                    
                                         <br>
-                                        <% if(charge_amount != 0){ %>
-                                        <table class="table">
-                                            <tr>
-                                                <th>
-                                                    번호
-                                                </th>
-                                                <th>
-                                                    참가시간
-                                                </th>
-                                                <th>
-                                                    결제참가비
-                                                </th>                                            
-                                            </tr>
+                                            <% if(amount != 0){ %>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>
+                                                        번호
+                                                    </th>
+                                                    <th>
+                                                        참가시간
+                                                    </th>
+                                            
+                                                </tr>
+        
+                                                <%for (var i = resultt.length-1; i >= 0; i--){%>
+                                                    <tr>
+                                                        <td>
+                                                            <%=i+1%>
+                                                        </td>
+                                                        <td>
+                                                            <%entertime= resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
+                                                            <%entertime= resultt[i].entertime%>
+                                                            <input name ="_time" value="<%=entertime%>"  onclick="location.href='/contract/enterscore'" readonly>
+                                                        
+                                                        </td>                                                   
+                                                    
+                                                    </tr>
+                                                <%}%>
+                                            </table>
+                                            <%}%>
+                                    
+                                        <div class="text-center">     
+                                            <input class = "btn btn-success" type="submit" value="나의 스트로크 확인" onclick="location.href='/contract/score_list'">
+                                        </div> 
 
-                                            <%for (var i = resultt.length-1; i >= 0; i--){%>
+                                        <div class="container">
+                                            <br>
+                                                <img src="/img/kk.png"  width="100%" >
+                                        </div> 
+                                    </div>
+                                </div>
+                                <!-- 1열 마침 -->
+                                <!-- 2열 시작 -->
+                                <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                                    <div class="col-lg-6"> 
+                                        <div class="p-5">
+                                            <div class="text-center">
+                                                <img src="/img/k.png" width="10%">
+                                                <h6> 마이 스트로크 </h6>
+                                            </div>
+                                            <br>
+                                            <!-- Earnings (Monthly) Card Example -->
+                                            <div class="text-center">
+                                                <div class="col-xl-12 col-md-6 mb-4">
+                                                    <div class="card border-left-primary shadow h-100 py-2">
+                                                        <div class="card-body">
+                                                            <div class="row no-gutters align-items-center">
+                                                                <div class="col mr-2">
+                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                        &nbsp;&nbsp;<%=username%>님
+                                                                    </div>
+                                                                    <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                                        상위 <%=len%>개 스코어합 : <%=scores_sum%>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="container">
+                                        
+                                             <table class="table">
+                                                <%for (var i = 0 ; i <len ; i++){%>
                                                 <tr>
                                                     <td>
-                                                        <%=i+1%>
+                                                        나의 스크로크 순위 :<%=i+1%><br>
+                                                        참가시간 :<%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
+                                                        <br>
+                                                        시스템 : <%=sys%><br>
                                                     </td>
+
+                                                </tr>
+                                                <tr>
                                                     <td>
-                                                        <%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
-                                                    </td>
-                                                    <td>
-                                                        <%=resultt[i].kpoint%>
+                                                        스트로크 :<%=resultt[i].strok%>
                                                     </td>
                                                 </tr>
-                                            <%}%>
-                                        </table>
-                                        <%}%>
-                                    </div>       
-                                    </div>    
-                                </div>
-                                <div class="col-lg-5">
-                                    <img src="/img/kk.png"  width="100%" >  
-                                </div>    
-                            </div>
+                                                <tr>
+                                                   <td >
+                                                        <img src="/uploads/<%=resultt[i].scorepicture%>" width="200">
+                                                    </td>
+                                                </tr>
+                                                <%}%>
+                                                <tr>
+                                                    <td>
+                                                        최상위 스코어 합(5개) :
+                                                    </td>
+                                                    <td>
+                                                        <%=scores_sum%>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            </div>       
+                                        </div>    
+                                    </div>
+                                </div> <!--2열-->
+                <!-- 행 --> </div>
+
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>
-
