@@ -68,7 +68,9 @@
                                             닉네임 : <%=login_data['nickname']%>
                                         </li>
                                         <li>
-                                            K포인트: <%=login_data['charge_amount']%>
+                                            <%amount =login_data['charge_amount']%>
+                                            <%const amount1 = amount.toString().replace(/(\d{3})(?=\d)/g, ',')%>
+                                            K포인트: <%=amount1%>
                                         </li>
                                     </ul>
                                     <hr>

@@ -36,7 +36,8 @@
     window.call = function () {
         alert('결제가 완료되었습니다');
         location.href= "index";
-    };
+    }
+
 </script>
 
 </head>
@@ -60,8 +61,8 @@
                                 <div class="col-lg-6"> 
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <img src="/img/k.png" width="10%">
-                                            <h6>케이그라운드 K포인트 충전</h6>
+                                            <img src="/img/007.jpg" width="100%">
+
                                         </div>
                                         <br>
                                         <!-- Earnings (Monthly) Card Example -->
@@ -74,7 +75,10 @@
                                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=chargeamount%></div>
+                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                    <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                    K포인트 : <%=aa%>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -102,10 +106,14 @@
                                                 <input class="form-control" type="text" id="s" name="state" value = "1" disable>
                                             </div> -->
                                         </div>
-                                        <div class="text-primary" align="right">
-                                                <i class="fas fa-calendar fa-2x text-gray-300">※ 휴대폰번호를 입력하세요,, 간단결제가 되요!</i>
+                                        
+                                                
+
+                                        <br><hr>
+                                        <br>
+                                        <div class="text-primary" align="center">
+                                            <i class="fas fa-calendar fa-2x text-gray-300">※ 회원가입 후 충전(필독), 휴대폰번호 매우 중요</i>
                                         </div>
-                                        <br><hr><br>
                                         <div class="text-center">
                                             <input type="submit"  class="btn btn-danger" value="충전하기" href="#" onclick="payappPay();">   
                                        </div>

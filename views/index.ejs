@@ -22,6 +22,7 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
+                        <!-- 1열 -->
                         <div class="col-lg-6"> 
                             <div class="p-6">
                                 <div class="text-center">
@@ -37,74 +38,118 @@
                                         <div class="card border-left-primary shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
+                                                    &nbsp;&nbsp;
                                                     <div class="col mr-2">
-                                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                            &nbsp;&nbsp;<%=login_data['username']%>님
-                                                        </div>
-                                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                                            K포인트 : <%=amount%>
-
-                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                              <img src="img/tier_004.png" width="40px">
-                                                              birdie
-                                                            </div>
-                                                        </div>
+                                                        <table>
+                                                            <tr>
+                                                                <td width="150">
+                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;<%=login_data['username']%>님
+                                                                    </div>
+                                                                </td>
+                                                                <td rowspan="2" width="100">
+                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                        <div align="right">
+                                                                            <%if(login_data['tier'] == 1){ %>
+                                                                                <img src="img/tier_004.png" width="40px">
+                                                                            <%}%>
+                                                                            <%if(login_data['tier'] == 2){ %>
+                                                                                <img src="img/tier_003.png" width="40px">
+                                                                            <%}%>                     
+                                                                            <%if(login_data['tier'] == 3){ %>
+                                                                                <img src="img/tier_002.png" width="40px">
+                                                                            <%}%>                                                                             
+                                                                            <%if(login_data['tier'] == 4){ %>
+                                                                                <img src="img/tier_001.png" width="40px">
+                                                                            <%}%>                                                                                                                              
+                                                                            <br>
+                                                                            <%if(login_data['tier'] == 1){ %>
+                                                                                버디
+                                                                            <%}%>
+                                                                            <%if(login_data['tier'] == 2){ %>
+                                                                                이글
+                                                                            <%}%>                     
+                                                                            <%if(login_data['tier'] == 3){ %>
+                                                                                알바트로스
+                                                                            <%}%>                                                                             
+                                                                            <%if(login_data['tier'] == 4){ %>
+                                                                                콘도르
+                                                                            <%}%> 
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                                    K포인트 : <%=aa%>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-                            </div> 
                             <br>
                             <div class="text-center">
                                 <a href="/contract/charge"><img src="/img/80_001.png"  alt="충전하기"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/contract/enterpay"><img src="/img/80_002.png" alt="페스티벌 참가결제"></a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/contract/gamepay"><img src="/img/80_003.png"  alt="매장결제"></a>
-                                <br><br>
-                                
                                 <a href="/contract/charge_list"><img src="/img/80_007.png"  alt="KPoint충전내역"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/contract/enterpay_list"><img src="/img/80_011.png" alt="스코어등록하기"></a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/contract/gamepay_list"><img src="/img/80_005.png" alt="매장결제이력"></a>
+                                <a href="/contract/kp_list"><img src="/img/80_006.png"  alt="KPoint전체 사용내역"></a>
                                 <br><br>
                                 
-                                <a href="golf/notice"><img src="/img/80_008.png" alt="공지사항"></a>
+                                <a href="/contract/enterpay"><img src="/img/80_002.png" alt="페스티벌 참가결제"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/contract/enterscore"><img src="/img/button_019.png" width="80px" alt="고객센터"></a>
+                                <a href="/contract/enterpay_list"><img src="/img/80_022.png" width="80px" alt="스코어리스트"></a> 
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/golf/stroke"><img src="/img/80_009.png" alt="스트로크랭킹"></a>
+                                <a href="/contract/enterscore"><img src="/img/80_021.png" alt="스코어리스트+ 등록"></a>
                                 <br><br>
                                 
+                                <a href="/contract/gamepay"><img src="/img/80_023.png"  alt="매장결제"></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/contract/gamepay_list"><img src="/img/80_024.png" alt="매장결제이력"></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/contract/kp_trans"><img src="/img/80_025.png" width="80px" alt="KP보내기"></a>
+                                <br><br>
+                                
+                                <a href="/golf/ksfc"><img src="/img/80_014.png" alt="KSFC선수등록"></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/golf/stroke_lank"><img src="/img/80_026.png" alt="KSFC랭킹"></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="golf/regu"><img src="/img/80_010.png"  alt="대회규정"></a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/regist"><img src="/img/80_014.png" alt="KSFC선수등록"></a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/my"><img src="/img/80_012.png" alt="나의정보"></a>
                                 <br><br>
 
-                                <a href="https://www.payapp.kr/L/z2TBxB/z3sgLB4?PREPAGE"><img src="/img/80_013.png"  alt="홀인원만 참가하기"></a>
+                                <a href="golf/notice"><img src="/img/80_008.png" alt="공지사항"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/contract/score_list"><img src="/img/80_006.png" alt="입출금내역"></a>
+                                <a href="/my"><img src="/img/80_012.png" alt="나의정보"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="/logout"><img src="/img/80_015.png" alt="로그아웃"></a>
-                                <br><br><br><br>
+                                <br><br>
+                                <a href="https://www.payapp.kr/L/z2TBxB/z3sgLB4?PREPAGE"><img src="/img/80_013.png"  alt="홀인원만 참가하기"></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/contract/score_list"><img src="/img/80_009.png" alt="나의 스트로크"></a><br><br>
                             </div>
                         </div>  
 
-                        <!-- </div>  -->
-                        <div class="col-lg-5">
-                            <img src="/img/kk.png"  width="100%" >
-                        </div>   
+                        <!-- 2열  -->
+                        <div class="text-center">
+                            <div class="col-lg-6">
+                                <img src="/img/kk.png"  width="50%" >
+                            </div>   
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div> 
+    </div>   
 </body>
 </html>

@@ -31,7 +31,7 @@
 
                                 <div class="text-center">
                                     <img src="/img/k.png" width="10%">
-                                    <h6>개인 스트로크 참가신청</h6>
+                                    <h6>KSFC 참가신청</h6>
                                 </div>
                                 <br>
                                     <!-- 유저게임참가 상황을 등록하는 입력창을 하나 구현  -->  
@@ -42,11 +42,12 @@
                                 <div class="text-center">
                                     <input id="_id" name="input_phone" value="<%=login_data['phone']%>">
                                 </div>
-                                <div align="right">  
+                                <!-- <div align="right">  
                                     <span class="small" id="check_id">☞ 여기 클릭 (참가등록 중복확인)</span>
                                 </div>
                                 <br>
-                                <div class="display" id="info"> 
+                                <div class="display" id="info">  -->
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     <table class="table">
                                         <tr>
                                             <th>대회참가: </th>
@@ -67,7 +68,7 @@
                                         <tr>
                                             <th>지역선택: </th>
                                             <td>                                                
-                                                <select class="form-control" name="input_golfsys" id="golfsys">
+                                                <select class="form-control" name="input_jiyeok" id="input_jiyeok">
                                                     <option value="서울특별시">서울특별시</option>
                                                     <option value="부산광역시">부산광역시</option>
                                                     <option value="대구광역시">대구광역시</option>
@@ -125,7 +126,8 @@
                                     <div class="text-center">     
                                         <input class = "btn btn-success" type="submit" value="참가등록" id="regist">
                                     </div>
-                                </div> <!-- display info -->
+                                </div>
+                                <!--</div>  display info -->
                                
                             </form>
                         </div> 

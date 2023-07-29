@@ -45,7 +45,8 @@
                                             &nbsp;&nbsp;<%=username%>님
                                         </div>
                                         <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                            K포인트 : <%=amount%>
+                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                            K포인트 : <%=aa%>
                                         </div>
                                         <hr><br>
                                         <div class="text-primary">

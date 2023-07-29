@@ -49,7 +49,10 @@
                                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">K포인트 : <%=amount%></div>
+                                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                                    <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                    K포인트 : <%=aa%>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -76,7 +79,7 @@
                                                 </th>                                            
                                             </tr>
 
-                                            <%for (var i = resultt.length-1; i >=0; i--){%>
+                                            <%for (var i = 0; i < resultt.length; i++){%>
                                                 <tr>
                                                     <td>
                                                         <%=i%>

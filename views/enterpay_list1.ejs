@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+    <script>
+
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("비밀번호가 틀렸습니다 . 다시 입력 해 주세요")
+        }
+        </script>
+</head>
+    <body class="bg-gradient-primary" >
+        <div class="container">
+            <div class="text-center">
+                <br>
+                <a id="signinlink" href="/index" >홈으로</a>
+            </div>
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+
+                                <!-- 1열 -->
+                                <div class="col-lg-6" >
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <img src="/img/title_011.jpg" width="100%">
+                                             
+                                        </div>
+                                        <br>
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="text-center">
+                                            <div class="col-xl-12 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    &nbsp;&nbsp;<%=username%>님
+                                                                </div>
+                                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                                    <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                    K포인트 : <%=aa%>
+                             
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <hr> 
+                                        <div class="text-danger">
+                                        아래의 참가시간을 누르면 <Br>
+                                        스코어를 등록 할 수 있습니다.   
+                                        </div>
+                                        <br>
+                                            <% if(amount != 0){ %>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>
+                                                        no
+                                                    </th>
+                                                    <th>
+                                                        참가시간
+                                                    </th>
+                                            
+                                                </tr>
+        
+                                                <%for (var i = resultt.length-1; i >= 0; i--){%>
+                                                    <tr>
+                                                        <td>
+                                                            <%=i+1%>
+                                                        </td>
+                                                        <td>
+                                                            <%= resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
+                                                            <%entertime= resultt[i].entertime%>
+                                                            <input name ="_time" value="<%=entertime%>"  onclick="location.href='/contract/enterscore'" readonly>
+                                                        
+                                                        </td>                                                   
+                                                    
+                                                    </tr>
+                                                <%}%>
+                                            </table>
+                                            <%}%>
+                                    
+                                        <div class="text-center">     
+                                            <input class = "btn btn-success" type="submit" value="나의 스트로크 확인" onclick="location.href='/contract/score_list'">
+                                        </div> 
+
+                                        <div class="container">
+                                            <br>
+                                                <img src="/img/kk.png"  width="100%" >
+                                        </div> 
+                                    </div>
+                                </div>
+                                <!-- 1열 마침 -->
+
+                <!-- 행 --> </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

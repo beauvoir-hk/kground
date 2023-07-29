@@ -41,11 +41,26 @@
             })
         })
     </script>
+<script>
 
+    function sucess(){
+        alert("인증되었습니다 ^^ ")
+    }
+    function fail(){
+              alert("실패입니다 다시 휴대폰번호 입력 해 주셔요")
+    }
+    </script>
 </head>
-
-<body class="bg-gradient-primary">
+<%if(state==0){%>
+<body class="bg-gradient-primary" onload="fail()" >
+    <%}else{%>
+        <body class="bg-gradient-primary" onload="sucess()" >
+            <%}%>
     <div class="container">
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="/index" >홈으로</a>
+        </div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
@@ -57,20 +72,20 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h6 class="h6 text-gray-900 mb-2">
-                                            새어플에 처음 오시거나<br>
-                                            비밀번호를 잊으셨나요?
+                                            로그인비밀번호 변경<br>
+                                            및 <br>
+                                            결제비밀번호 변경 
                                         </h6>
                                         <br>
                                         <div class="text-primary">
                                         <i class="small" >
-                                            <br>문자인증 후 <br>"로그인비밀번호"와 "결제비밀번호"를 수정할 수 있습니다.
+                                            <br>휴대폰번호로 인증 해 주세요
                                         </i>
                                     </div>
                                     </div>
                                     <form class="user" action="/auth" method="post">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" value="010"
-                                                id="_id" name="_phone" >
+                                            <input type="text" class="form-control form-control-user" id="_id" name="_phone" >
                                                 <br>
                                             <div class="text-center">    
                                                 <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
@@ -82,8 +97,7 @@
                                     <form class="user" action="/verify" method="post">
                                         <br>
                                         <div class="text-danger">
-                                            <label class="small">※ 잠시 후 케이그라운드 인증번호가 휴대폰으로 전송됩니다. 
-                                                <br>아래에 3분 이내에 입력하십시오.
+                                            <label class="small">※ 전송된 인증번호를 3분 이내에 입력하세요
                                             </label>
                                         </div>
 
@@ -94,7 +108,7 @@
                                         <br>                                        
                                         <div class="form-group">
                                         <div class="text-center">
-                                                <button class="btn btn-primary" >문자인증</button>
+                                                <button class="btn btn-primary" >인증확인</button>
                                         </div>
                                         </div>
                                     </form>  

@@ -13,18 +13,45 @@
         }
     </style>
  
+<!-- JS API 결제요청 호출시 설정된 파라메터 중
+상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
+<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
+<script>
+    
+    PayApp.setDefault('userid',     'qop1513');
+    PayApp.setDefault('shopname',   '케이그라운드');
+        function payappPay(wallet){
+        PayApp.setParam('goodname', 'K포인트 충전');
+        PayApp.setParam('price', $('#price').val());
+        PayApp.setParam('recvphone', $('#phone').val());
+        PayApp.setParam('returnurl', 'http://localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
+        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
+        PayApp.setParam('smsuse', 'n');
+        PayApp.setParam('redirectpay', '1');
+        PayApp.setParam('skip_cstpage', 'y');
+        PayApp.call();
+    }
+</script>
+<script>
+    window.call = function () {
+        alert('결제가 완료되었습니다');
+        location.href= "index.ejs";
+    }
+</script>
+
 </head>
     <body class="bg-gradient-primary">
-
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
+        </div>
         <div class="container">
             <!-- Outer Row -->
             <div class="row justify-content-center">
                 <div class="col-xl-10 col-lg-12 col-md-9">
                     <div class="card o-hidden border-0 shadow-lg my-5">
                         <div class="card-body p-0">
-                            <div class="text-center">
-                                <a id="signinlink" href="javascript:history.back()" >돌아가기</a>
-                            </div>
+                            
                             <!-- Nested Row within Card Body -->
                             <div class="row">
                                 <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
@@ -32,8 +59,8 @@
                                 <div class="col-lg-6"> 
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <img src="/img/k.png" width="10%">
-                                            <h6>케이그라운드 KPoint 결제 리스트</h6>
+                                            <img src="005.jpg" width="100%"><br>
+                                            Kpoint 사용내역
                                         </div>
                                         <br>
                                         <!-- Earnings (Monthly) Card Example -->
@@ -46,7 +73,7 @@
                                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
                                                                     <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                     K포인트 : <%=aa%>
                              
@@ -60,38 +87,36 @@
                                         <hr> 
                                     <div class="container">
                                         <br>
-                                        <% if(charge_amount != 0){ %>
+                                        <% if(amount != 0){ %>
                                         <table class="table">
                                             <tr>
                                                 <th>
                                                     번호
                                                 </th>
                                                 <th>
-                                                    결제시간
+                                                    거래날짜
                                                 </th>
                                                 <th>
-                                                    결제한 곳
-                                                </th>
+                                                    거래금액
+                                                </th>  
                                                 <th>
-                                                    결제포인트
+                                                    타입
                                                 </th>                                            
                                             </tr>
 
-                                            <%for (var i = 0; i < resultt.length; i++){%>
+                                            <%for (var i = resultt.length-1; i >= 0; i--){%>
                                                 <tr>
                                                     <td>
-                                                        <%=i%>
+                                                        <%=i+1%>
                                                     </td>
                                                     <td>
-                                                        <%=resultt[i].transdate%>
+                                                        <%=resultt[i].transtime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
+                                                    </td>
+                                                     <td>
+                                                        <%=resultt[i].kp_amount%>
                                                     </td>
                                                     <td>
-                                                        <%=resultt[i].towallet%>
-                                                    <td>
-                                                    <td>
-                                                        <% amount = resultt[i].token_amount%>
-                                                        <%const amount1 = amount.toString().replace(/(\d{3})(?=\d)/g, ',')%>
-                                                        <%=amount1%>
+                                                        <%=resultt[i].transtype%>
                                                     </td>
                                                 </tr>
                                             <%}%>

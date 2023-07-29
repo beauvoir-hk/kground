@@ -12,11 +12,6 @@
             display: none;
         }
     </style>
-    <script>
-        function openPopUp() {
-          var popUp = window.open("pop_up", "Pop-up", "width=500, height=300");
-        }
-        </script>
 
 </head>
 <body class="bg-gradient-primary">
@@ -29,16 +24,19 @@
                     <div class="card-body p-0">
                         <div class="text-center">
                             <br>
-                            <a id="signinlink" href="/index" >홈으로</a>
+                            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
                         </div>
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-15 d-none d-lg-block bg-login-image">
-                                <div class="col-lg-15 d-none d-lg-block bg-login-image">                        
+
+                            <!-- 1열 -->
+                            <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image"> -->
+                                <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image">                         -->
                             <div class="col-lg-6"> 
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <img src="/img/title_011.jpg" width="100%">
+                                        <img src="/img/k.png" width="10%">
+                                        KPoint 거래내역 
                                     </div>
                                     <br>
                                     <!-- Earnings (Monthly) Card Example -->
@@ -64,28 +62,33 @@
                                     <hr> 
                                     <div class="container">
                                         <div class="fs-6">    
-                                        <br>
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-                                                    <td>
-                                                        나의 스크로크 순위 :<%=i+1%><br>
-                                                        참가시간 :<%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
-                                                        <br>
-                                                        시스템 : <%=resultt[i].golfsys%><br>
+                                                    <td>번호 :<%=i+1%><br>
+                                                        <%const korea = new Date(resultt[i].transtime)%>
+                                                        <%const koreanTime=korea.toLocaleString('ko-KR')%>
+                                                        거래시간 :<%=koreanTime%>
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                       <% const kpn = parseInt(resultt[i].kp_amount)*-1%>
+                                                       <% const kpp = parseInt(resultt[i].kp_amount)%>
+                                                       <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
+                                                       <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
+                                                       <% if(resultt[i].transtype == "festival"){%>
+                                                             거래 KPoint :<%=an%><br>
+                                                        <%}%>
+                                                        <% if(resultt[i].transtype == "charge"){%>
+                                                                 거래 KPoint :<%=ap%><br>
+                                                        <%}%>
+                                                        <% if(resultt[i].transtype =="store" ){%>
+                                                                거래 KPoint :<%=an%>
+                                                        <%}%>
+                                                    </td>
+                                                </tr>
 
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        스트로크 :<%=resultt[i].strok%>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td >
-                                                        <img src="/uploads/<%=resultt[i].scorepicture%>" width="200">
-                                                    </td>
-                                                </tr>
                                                 <%}%>
                                                 
                                             </table>
@@ -93,16 +96,17 @@
                                     </div> 
                                 </div>   
                             </div>
+                            <!-- 1열 여기까지 -->
 
-
-
+                            <!-- 2열시작 -->
                             <div class="col-lg-5">
                                 <div class="text-center">
                                     <img src="/img/kk.png"  width="100%" > 
                                 </div> 
                             </div>    
-                            </div>
                         </div>
+                        <!-- 행 -->
+                         
                     </div>
                 </div>
             </div>

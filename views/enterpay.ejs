@@ -11,7 +11,7 @@
     <title>케이그라운드 페스티벌 참가 K포인트 결제 확인</title>
     <%- include('header.ejs') %>
 
-    <body class="bg-gradient-primary" onload="fail()" >
+    <body class="bg-gradient-primary"  >
    
     <div class="container">
         <!-- Outer Row -->
@@ -20,6 +20,7 @@
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         <div class="text-center">
+                            <br>
                             <a class="small" href="/index">홈으로</a>
                         </div>
                         <!-- Nested Row within Card Body -->
@@ -28,8 +29,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <img src="/img/k.png" width="10%">
-                                        <h6 class="h6 text-gray-900 mb-2">참가내역 및 스코어</h6>
+                                        <img src="/img/title_008.jpg" width="100%">
 
                                         <div class="text-primary">
                                             <img src="/img/title_002.png" width="100%">
@@ -37,7 +37,8 @@
                                                 &nbsp;&nbsp;<%=username%>님
                                             </div>
                                             <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                                K포인트 : <%=amount%>
+                                                <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                K포인트 : <%=aa%>
                                             </div>
                                             <hr>
                                         <form class="user" action="/contract/enterpay" method="post">
@@ -56,7 +57,7 @@
                                 </div>
                                 <hr>
                                 <div class="text-center">
-                                    <button class="btn btn-secondary" href="/contract/enterpay_list">대회참가내역 확인 + score입력</button>
+                                    <button class="btn btn-secondary" href="enterpay_list">대회참가내역 확인 + score입력</button>
                                     <br><br>
                                     <button class="btn btn-secondary" href="https://www.bkscreen.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/52/">대회규정</button>
                                 </div>
@@ -68,66 +69,6 @@
                             </div>
 
 
-
-                            <!-- 2열 -->
-                            <div class="col-lg-6 d-none d-lg-block bg-password-image">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <img src="/img/k.png" width="10%">
-                                        <h6>케이그라운드 대회참가 리스트</h6>
-                                    </div>
-                                    <br>
-                                    <!-- Earnings (Monthly) Card Example -->
-                                    <div class="text-center">
-                                        <div class="col-xl-12 col-md-6 mb-4">
-                                            <div class="card border-left-primary shadow h-100 py-2">
-                                                <div class="card-body">
-                                                    <div class="row no-gutters align-items-center">
-                                                        <div class="col mr-2">
-                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                &nbsp;&nbsp;<%=username%>님
-                                                            </div>
-                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">K포인트 : <%=amount%></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <hr> 
-                                <div class="container">
-                                    <br>
-                                    <% if(amount != 0){ %>
-                                    <table class="table">
-                                        <tr>
-                                            <th>
-                                                번호
-                                            </th>
-                                            <th>
-                                                참가시간
-                                            </th>
-                                       
-                                        </tr>
-
-                                        <%for (var i = resultt.length-1; i >= 0; i--){%>
-                                            <tr>
-                                                <td>
-                                                    <%=i+1%>
-                                                </td>
-                                                <td>
-                                                    <%entertimeform= resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
-                                                    <%entertime= resultt[i].entertime%>
-                                                    <input name ="_time" value="<%=entertime%>"  onclick="location.href='/contract/enterscore'" readonly>
-                                                   
-                                                </td>                                                   
-                                            
-                                            </tr>
-                                        <%}%>
-                                    </table>
-                                    <%}%>
-                                </div>       
-                                </div>    
-                            </div>
                                 <div class="container">
                                     <br>
                                         <img src="/img/kk.png"  width="100%" >

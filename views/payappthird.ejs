@@ -5,26 +5,31 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>
             function end(){
-                opener.call();
-                window.close();
-            }
+
+                opener.call()
+                window.close()
+                ()
+        }
+
         </script>
     </head>
-    <body onload="end()">
+    <body onload = "end()">
         <div  class="text-center">                
             <div><br><br><br><br><br>
                  <div class="panel-body">    
-                    <div class="text-center">
-                        <!-- <label>결제가 완료되었습니다.</label>
+                   
+                        <!-- 결제금액 : <%=price%><br><br>
 
-                        <br> -->
-                        <!-- <div class="text-center">    
+                         <label>결제가 완료되었습니다.</label>
+
+                        <br> 
+                         <div class="text-center">    
                             
-                            <button class="btn btn-danger" onclick="location.href='/index'">케이그라운드로 가기</button>
-                        </div> -->
-                    </div>
+                            <button class="btn btn-danger" onclick="end()">케이그라운드로 가기</button> -->
+                        
+
                 </div>    
             </div>
-        </div>
+        </div>   
     </body>
 </html>
