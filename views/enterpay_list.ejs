@@ -19,11 +19,7 @@
         function fail(){
                   alert("대회참가기록이 없어요")
         }
-
-;
-        </script>
-
-    </head>
+</script>
 
     <%if(state==0){%>
     <body class="bg-gradient-primary" onload="fail()" >
@@ -65,7 +61,6 @@
                                                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
                                                                     <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                     K포인트 : <%=aa%>
-                             
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -96,16 +91,14 @@
                                             
                                                 </tr>
         
-                                                <%for (var i = 0;  i < resultt.length ; i++){%>
+                                                <%for (var i = 0;  i < resulttime.length ; i++){%>
                                                     <tr>
                                                         <td>
                                                             <%=i+1%>
                                                         </td>
-                                                        <td>                                                                                                
-                                                            <%const entertime11 = resultt[i].entertime%>
+                                                        <td>  
                                                             
-                                                            <input name ="_time<%=i%>"  value="<%=entertime11%>" readonly onclick="location.href='/contract/enteri/?no=<%= i %>'">
-                                                            
+                                                            <input name ="_time<%=i%>"  value="<%=resulttime[i].entertime%>" onclick="location.href='/contract/enterscore/?no=<%= i %>'">
                                                         </td>                                                   
                                                     
                                                     </tr>

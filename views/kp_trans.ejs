@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>KPoint 보내기</title>
+    <%- include('header.ejs') %>
+    <script>
+
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("비밀번호가 틀렸습니다 . 다시 입력 해 주세요")
+        }
+        </script>
+</head>
+
+<%if(state == 1){%>
+    <body class="bg-gradient-primary" onload="fail()" >
+    <%}else{%>
+        <body class="bg-gradient-primary">      
+        <%}%>
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="text-center">
+                            <a class="small" href="/index">홈으로</a>
+                        </div>
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img src="/img/title_009.jpg" width="100%">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            &nbsp;&nbsp;<%=username%>님
+                                        </div>
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                            K포인트 : <%=aa%>
+                                        </div>
+                                        <hr><br>
+                                        <div class="text-primary">
+                                            <form class="user" action="/contract/gamepay" method="post">
+                                            <div align="left">
+                                                (1) KPoint 받는 휴대폰번호
+                                            <br>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control form-control-user"
+                                                    id="_res_phone" name="_gamepayment"  placeholder="휴대폰번호(숫자만)">
+                                                <br>
+                                                <br>
+                                            </div>
+                                          
+                                            <br>  
+                                            <div align="left">
+                                                (2) 전송 KPoint      
+                    
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        id="trans_kp_amount" name="_gamepayment"  placeholder="K포인트(숫자만)">
+                                                    <br>
+                                                    <br>
+                                                </div>
+                                            </div> 
+                                            <br>
+                                            <div align="left">
+                                                (3) 결제비밀번호      
+                                            </div>  
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control form-control-user"
+                                                        id="_numeric6" name="_numeric6" placeholder="숫자6자리">
+                                                    <br>
+                                                    <br>
+                                                </div> 
+                                            <div class="text-center">    
+                                                <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
+                                                <button class="btn btn-danger" >K포인트 보내기</button><br><br>
+                                            </div>
+                                        </div>
+                                            </form>
+<hr>
+                                <div class="text-center">
+                                    <br>
+                                    <button class="btn btn-secondary" href="/kp_list">Kpoint전체 거래내역</button>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                            
+                            <!-- 2열 -->
+                            <div class="col-lg-6">
+                                <div class="col-lg-5">
+                                    <img src="/img/kk.png"  width="100%" >
+                                </div>      
+                            </div>
+                        </div>
+                        </div> 
+
+                        </div>
+                    </div>
+
+                    <!--row-->
+
+                </div>
+            </div>
+        </div>
+    <!-- Outer Row -->
+    </div>
+</body>
+</html>

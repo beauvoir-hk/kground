@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)https://adt.kground.kr/Admin/MemberList -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="theme-color" content="#EBAE2B">
+<meta name="robots" content="index,follow,noodp">
+<meta name="googlebot" content="index,follow">
+<meta name="google" value="notranslate">
+<meta name="application-name" content="ADMIN-CCPAY">
+<meta name="msapplication-navbutton-color" content="#EBAE2B">
+<meta name="apple-mobile-web-app-status-bar-style" content="#EBAE2B">
+<meta name="apple-mobile-web-app-title" content="ADMIN-CCPAY">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ADMIN-CCPAY">
+<meta property="og:type" content="website">
+<meta name="twitter:title" content="ADMIN-CCPAY">
+<meta name="google-site-verification" content="nsfgUvWKe3ZrzY9zlA3qox3JRijvb_IJ-VNqKm3qe6c">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/all.min.css">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/bootstrap-select.min.css">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/bootstrap-reboot.min.css">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/bootstrap-grid.min.css">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/googleFont_Material-icon.css">
+<link rel="stylesheet" type="text/css" href="./회원목록_files/style.min.css">
+<script type="text/javascript" src="./회원목록_files/jquery-3.4.1.min.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/jquery-ui.min.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/popper.min.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/bootstrap.min.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/bootstrap-select.min.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/jquery.cookie.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/datepicker-ko.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/date-ko-KR.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/validation.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/common.js.다운로드"></script>
+<script type="text/javascript" src="./회원목록_files/paging.js.다운로드"></script>
+<title>회원목록</title>
+</head>
+<body>
+<div>
+<div id="sidebar">
+<div class="user-info-box">
+<div class="user-info">
+<a href="https://adt.kground.kr/Admin/Info">
+<p class="username">tohkpark</p>
+</a>
+</div>
+<div class="bottom-box">
+<a class="go-home-link" href="http://kground.kr/" target="_blank">홈페이지로 가기</a>
+<div class="logout-box" onclick="if (!window.__cfRLUnblockHandlers) return false; CallSubmit(false, &#39;logout&#39;, &#39;post&#39;, &#39;json&#39;)">
+<img src="./회원목록_files/icon-logout.svg" alt="로그아웃 아이콘">
+<p>로그아웃</p>
+</div>
+</div>
+</div>
+<div class="menu-box">
+<div class="menu-row">
+<div class="menu-title" id="menu0">
+<button class="active" type="button" data-toggle="collapse" data-target="#collapse0" aria-expanded="true" aria-controls="collapse">
+기본<i class="g-arrow right"></i>
+</button>
+</div>
+<div id="collapse0" class="collapse show" aria-labelledby="menu0" data-parent="#sidebar">
+<ul class="menu-list">
+<li>
+<a href="https://adt.kground.kr/Admin/DashBoard">
+대시보드
+</a>
+</li>
+<li class="active">
+<a href="https://adt.kground.kr/Admin/MemberList">
+회원목록
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="menu-box">
+<div class="menu-row">
+<div class="menu-title" id="menu1">
+<button class="collapsed" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse">
+관리<i class="g-arrow right"></i>
+</button>
+</div>
+<div id="collapse1" class="collapse" aria-labelledby="menu1" data-parent="#sidebar">
+<ul class="menu-list">
+<li>
+<a href="https://adt.kground.kr/Manage/ManagePD">
+지급 및 차감
+</a>
+</li>
+<li>
+<a href="https://adt.kground.kr/Manage/Settings">
+환경설정
+</a>
+</li>
+<li>
+<a href="https://adt.kground.kr/NoticeBoard/TermsOfUseWrite">
+이용약관
+</a>
+</li>
+<li>
+<a href="https://adt.kground.kr/NoticeBoard/PrivacyPolicyWrite">
+개인정보 처리방침
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="menu-box">
+<div class="menu-row">
+<div class="menu-title" id="menu2">
+<button class="collapsed" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse">
+내역<i class="g-arrow right"></i>
+</button>
+</div>
+<div id="collapse2" class="collapse" aria-labelledby="menu2" data-parent="#sidebar">
+<ul class="menu-list">
+<li>
+<a href="https://adt.kground.kr/List/DWList">
+입/출금 내역
+</a>
+</li>
+<li>
+<a href="https://adt.kground.kr/List/CsList">
+CS 관리
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="menu-box">
+<div class="menu-row">
+<div class="menu-title" id="menu3">
+<button class="collapsed" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse">
+게시판<i class="g-arrow right"></i>
+</button>
+</div>
+<div id="collapse3" class="collapse" aria-labelledby="menu3" data-parent="#sidebar">
+<ul class="menu-list">
+<li>
+<a href="https://adt.kground.kr/NoticeBoard/Notice">
+공지사항
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+	$(function () {
+
+		//var menuTitle = ['메뉴1', '메뉴2', '메뉴3', '메뉴4'];
+
+		//images.forEach(function (item, idx) {
+		//	var container = $(".menu-box");
+		//	var data = "<div class='menu-row'>\
+		//				<div class='menu-title' id='menu"+ idx + "' >\
+		//					<button class='collapsed' type='button' data-toggle='collapse' data-target='#collapse"+ idx + "' aria-expanded='false' aria-controls='collapse" + idx + "'>\
+		//						"+ menuTitle[idx] + "\
+		//						<i class='g-arrow right'></i>\
+		//					</button>\
+		//				</div >\
+		//				<div id='collapse"+ idx + "' class='collapse' aria-labelledby='menu" + idx + "' data-parent='#sidebar'>\
+		//					<ul class='menu-list'>\
+		//						"+ item.map(function (list) {
+		//			return "<li><a href='/views/" + list.img + ".html'><img src='/Content/static/images/menu-" + list.img + ".svg' alt='" + list.title + "아이콘'/>" + list.title + "</a></li>"
+		//		}) + "\
+		//					</ul>\
+		//				</div>\
+		//			</div >";
+
+		//	return container.append(data);
+
+		//});
+
+		//url에 따라 자동으로 메뉴 펼쳐주기
+		$(".menu-list li a").each(function () {
+			var full_path = location.href.toLowerCase();
+			var $this = $(this);
+
+			if ($this.prop("href").toLowerCase() == full_path) {
+				commonFun($this);
+				return false;
+			} else if (full_path.includes("memberdetail")) {
+				var menu = $(".menu-list li a[href='/Admin/MemberList']");
+                commonFun(menu);
+				return false;
+			} else if (full_path.includes("inquire")) {
+                var menu = $(".menu-list li a[href='/NoticeBoard/Inquire']");
+                commonFun(menu);
+				return false;
+            } else if (full_path.includes("termsofusewrite")) {
+                var menu = $(".menu-list li a[href='/NoticeBoard/TermsOfUseWrite']");
+                commonFun(menu);
+                return false;
+            } else if (full_path.includes("privacypolicywrite")) {
+                var menu = $(".menu-list li a[href='/NoticeBoard/PrivacyPolicyWrite']");
+				commonFun(menu);
+				return false;
+            } else if (full_path.includes("mainnoticewrite")) {
+                var menu = $(".menu-list li a[href='/NoticeBoard/MainNoticeWrite']");
+                commonFun(menu);
+                return false;
+			} else if (full_path.includes("noticewrite") || full_path.includes("noticeedit") || full_path.includes("notice")) {
+				var menu_param = $("#notice_code").val();
+                var menu = $(".menu-list li a[href='/NoticeBoard/Notice?notice_code=" + menu_param + "']");
+                if (menu.length < 1) {
+                    menu = $(".menu-list li a[href='/NoticeBoard/Notice']");
+                }
+                commonFun(menu);
+				return false;
+			} else if (full_path.includes("centerdetail")) {
+                var menu = $(".menu-list li a[href='/List/CenterList']");
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.includes("prefectdetail")) {
+                var menu = $(".menu-list li a[href='/List/PrefectList']");
+                commonFun(menu);
+				return false;
+			}
+            else if (full_path.includes("packageproductdetail") || full_path.includes("packageproductlist") || full_path.includes("packageproductregist")) {
+				var menu_param = $("#sort_turn").val();
+				var menu = $(".menu-list li a[href='/List/PackageProductList?sort_turn=" + menu_param + "']");
+
+				if (menu.length < 1) {
+                    menu = $(".menu-list li a[href='/List/PackageProductList']");
+				}
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.includes("productdetail")) {
+                var menu = $(".menu-list li a[href='/List/ProductList']");
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.includes("producttransactiondetail")) {
+                var menu = $(".menu-list li a[href='/List/ProductTransactionList']");
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.includes("productpossessiondetail")) {
+                var menu = $(".menu-list li a[href='/List/ProductPossessionList']");
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.includes("packageusedetail")) {
+                var menu_param = $("#sort_turn").val();
+                var menu = $(".menu-list li a[href='/List/PackageUseList?sort_turn=" + menu_param + "']");
+                if (menu.length < 1) {
+                    menu = $(".menu-list li a[href='/List/PackageUseList']");
+                }
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.toLowerCase().indexOf("/admin/dashboard") !== -1) {
+                var menu = $(".menu-list li a[href='/Admin/DashBoard']");
+                commonFun(menu);
+				return false;
+			}
+            else if (full_path.toLowerCase().indexOf("/admin/dailydashboard") !== -1) {
+                var menu = $(".menu-list li a[href='/Admin/DailyDashBoard']");
+                commonFun(menu);
+                return false;
+            }
+			else if (full_path.toLowerCase().indexOf("/manage/settings") !== -1) {
+                var menu = $(".menu-list li a[href='/Manage/Settings']");
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.toLowerCase().indexOf("/manage/pointdetail") !== -1) {
+                var menu = $(".menu-list li a[href='/Manage/ManagePoint']");
+                commonFun(menu);
+				return false;
+			}
+			else if (full_path.toLowerCase().indexOf("/list/lockupdetail") !== -1) {
+                var menu = $(".menu-list li a[href='/List/LockupList']");
+                commonFun(menu);
+				return false;
+			}
+            else if (full_path.includes("/list/csinfo") || full_path.includes("/list/csregist")) {
+                var menu = $(".menu-list li a[href='/List/CsList']");
+                commonFun(menu);
+                return false;
+			}
+            else if (full_path.includes("/master/csinfo") || full_path.includes("/master/csregist")) {
+                var menu = $(".menu-list li a[href='/Master/CsList']");
+                commonFun(menu);
+                return false;
+            }
+		});
+
+		$(".menu-title button").click(function () {
+			menuIconChange($(this));
+		});
+	});
+
+	function commonFun(elm) {
+		elm.parent().addClass("active");
+
+		var menuItemsBox = elm.parents(".collapse");
+		var menuBox = elm
+			.parents(".collapse")
+			.siblings(".menu-title")
+			.children("button");
+
+		menuItemsBox.addClass("show");
+		menuBox.attr({
+			class: "active",
+			"aria-expanded": true
+		});
+
+		menuIconChange(menuBox);
+	}
+
+	function menuIconChange($this) {
+		var btns = $(".menu-title button");
+		var btn = $this;
+		var arrowIcons = $(".menu-title button .g-arrow");
+		var arrowIcon = $this.children(".g-arrow");
+		var contentsOpen = arrowIcon.parent().parent().next('div').hasClass("show");
+
+		arrowIcons.attr("class", "g-arrow right");
+		arrowIcon.attr("class", "g-arrow down");
+		btns.removeClass("active");
+		btn.addClass("active");
+
+		if (contentsOpen) {
+			arrowIcon.removeClass("down");
+			arrowIcon.addClass("right");
+		}
+	}
+</script></div>
+<form name="frm" id="frm" method="post" enctype="multipart/form-data">
+<input name="__RequestVerificationToken" type="hidden" value="XyxRvrlSYRdDVs3RSJhmZzubNDNqUXMHUFDxa2oLGMV2bYsNxHsuAnATgyBil3Q8ey1Hkef1QJFtiTd9bd8n7enHUnA1">
+<input type="text" style="display:none;visibility:hidden;">
+<input type="hidden" name="page" id="page" value="1">
+<input type="hidden" id="debug" value="False">
+<input type="hidden" id="max_img_mb_size" value="3">
+<input type="hidden" id="point_count" value="8">
+<input type="hidden" name="main_coin_type" id="main_coin_type" value="SCRN">
+<div class="g-container">
+<div class="container">
+<div id="usersList">
+<h1>회원목록</h1>
+<div class="g-shadowed-box row justify-content-center">
+<div>
+<div class="g-search-box g-input-mb">
+<p class="g-title">가입날짜</p>
+<div class="row flex-column align-items-center">
+<div class="row">
+<div class="g-w-88 g-mr-6">
+<button type="button" id="today" class="g-daybox g-box">금일</button>
+</div>
+<div class="g-w-88 g-mr-6">
+<button type="button" id="week-1" class="g-daybox g-box c-active">1주일</button>
+</div>
+<div class="g-w-88 g-mr-6">
+<button type="button" id="month-3" class="g-daybox g-box">3개월</button>
+</div>
+<div class="g-w-88">
+<button type="button" id="all" class="g-daybox g-box">전체</button>
+</div>
+</div>
+<div class="row position-relative">
+<div class="g-w-170 g-mr-30">
+<div class="position-relative g-planbox">
+<input autocomplete="off" type="text" class="g-box mb-0 hasDatepicker c-active" id="sdate" name="start_date">
+<img class="g-plan-img" src="./회원목록_files/icon-calender.svg" alt="From 아이콘">
+</div>
+</div>
+<span class="g-tilde">~</span>
+<div class="g-w-170">
+<div class="position-relative g-planbox">
+<input autocomplete="off" type="text" class="g-box mb-0 c-active hasDatepicker" id="edate" name="end_date">
+<img class="g-plan-img" src="./회원목록_files/icon-calender.svg" alt="To 아이콘">
+</div>
+</div>
+<div id="Datepicker"></div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="g-input-box g-input-mb w-100">
+<label for="state_code">회원구분</label>
+<div class="selectpicker-box">
+<div class="dropdown bootstrap-select" style="width: 100%;"><select name="is_member_out_apply" id="is_member_out_apply" class="selectpicker" data-dropup-auto="false" data-display="static" data-width="100%" title="전체" data-style="g-select" data-size="5" aria-expanded="false" tabindex="-98"><option class="bs-title-option" value=""></option>
+<option value="" selected="">전체</option>
+<option value="false">일반</option>
+<option value="true">탈퇴요청</option>
+</select><button type="button" class="btn dropdown-toggle g-select bs-placeholder" data-display="static" data-toggle="dropdown" role="button" data-id="is_member_out_apply" title="전체"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">전체</div></div> </div></button><div class="dropdown-menu " role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="g-input-box g-input-mb w-100">
+<label for="member_state_code">회원상태</label>
+<div class="selectpicker-box">
+<div class="dropdown bootstrap-select" style="width: 100%;"><select name="member_state_code" id="member_state_code" class="selectpicker" data-dropup-auto="false" data-display="static" data-width="100%" title="전체" data-style="g-select" data-size="5" aria-expanded="false" tabindex="-98"><option class="bs-title-option" value=""></option>
+<option value="" selected="">전체</option>
+<option value="normal">정상</option>
+<option value="stop">정지</option>
+</select><button type="button" class="btn dropdown-toggle g-select bs-placeholder" data-display="static" data-toggle="dropdown" role="button" data-id="member_state_code" title="전체"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">전체</div></div> </div></button><div class="dropdown-menu " role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
+</div>
+</div>
+</div>
+<div class="g-searchbar custom-searchbar">
+<div class="g-input-box">
+<label>유형</label>
+</div>
+<div class="row">
+<div class="g-w-112">
+<div class="dropdown bootstrap-select" style="width: 100%;"><select name="search_type" class="selectpicker" data-dropup-auto="false" data-display="static" data-width="100%" data-style="g-select" tabindex="-98">
+<option value="member_id">아이디</option>
+<option value="member_name">이름</option>
+<option value="member_hp_number">휴대폰번호</option>
+<option value="member_email_address">이메일</option>
+</select><button type="button" class="btn dropdown-toggle g-select" data-display="static" data-toggle="dropdown" role="button" title="아이디"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">아이디</div></div> </div></button><div class="dropdown-menu " role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
+</div>
+<div class="g-w-258">
+<div class="g-custom-input-box">
+<div class="g-input-box">
+<input type="text" id="search_text" name="search_text" placeholder="검색어를 입력하세요.">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button id="search_btn" type="button" class="g-btn max-width g-form-submit-btn">검색</button>
+<div id="resultTable" class="g-table-wrapper">
+<div class="info-box">
+<p class="common-text-style">총 <strong id="total_count">20</strong>건이 검색 되었습니다.</p>
+<button id="clickToDownloadAsExel" class="download-btn common-text-style" type="button" onclick="if (!window.__cfRLUnblockHandlers) return false; fnExcelReport(&#39;회원목록 내역&#39;)">
+<img src="./회원목록_files/icon-download.svg" alt="다운로드 아이콘">회원목록 다운로드
+</button>
+</div>
+<table id="list_table" class="g-table">
+<thead>
+<tr id="area_list_title">
+<th>회원번호</th>
+<th>가입일시</th>
+<th>아이디</th>
+<th>이름</th>
+<th>이메일</th>
+<th>상태</th>
+<th id="not_excel">처리</th>
+<th id="hidden_column" class="hide">국가</th>
+<th id="hidden_column" class="hide">보유 SCRN</th>
+</tr>
+</thead>
+<tbody id="area_member_list"><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41319">41319</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-24 16:42</td><td style="mso-number-format:&#39;@&#39;">01063984803</td><td style="mso-number-format:&#39;@&#39;">이희민</td><td style="mso-number-format:&#39;@&#39;">heemin3751@hanmail.net</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41315">41315</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-24 11:30</td><td style="mso-number-format:&#39;@&#39;">01038750903</td><td style="mso-number-format:&#39;@&#39;">최태진</td><td style="mso-number-format:&#39;@&#39;">ctj1471@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">3,330</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41314">41314</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-23 18:43</td><td style="mso-number-format:&#39;@&#39;">01035511952</td><td style="mso-number-format:&#39;@&#39;">강수련</td><td style="mso-number-format:&#39;@&#39;">Qoxk32@naver.com </td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41313">41313</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-23 18:39</td><td style="mso-number-format:&#39;@&#39;">01020172399</td><td style="mso-number-format:&#39;@&#39;">서복란</td><td style="mso-number-format:&#39;@&#39;">subin277@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41312">41312</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-23 18:09</td><td style="mso-number-format:&#39;@&#39;">01026115270</td><td style="mso-number-format:&#39;@&#39;">고회종</td><td style="mso-number-format:&#39;@&#39;">Khj197209@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41311">41311</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-23 12:07</td><td style="mso-number-format:&#39;@&#39;">01093042616</td><td style="mso-number-format:&#39;@&#39;">김중섭 </td><td style="mso-number-format:&#39;@&#39;">jungseop2616@hanmail.net </td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">140</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41310">41310</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-23 08:52</td><td style="mso-number-format:&#39;@&#39;">01037138677</td><td style="mso-number-format:&#39;@&#39;">이민형</td><td style="mso-number-format:&#39;@&#39;">mincar2000@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41305">41305</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-22 16:57</td><td style="mso-number-format:&#39;@&#39;">01085141657</td><td style="mso-number-format:&#39;@&#39;">정삼식 </td><td style="mso-number-format:&#39;@&#39;">Sik767700@naver.com </td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41303">41303</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-22 15:30</td><td style="mso-number-format:&#39;@&#39;">01040525699</td><td style="mso-number-format:&#39;@&#39;">김동구 </td><td style="mso-number-format:&#39;@&#39;">kdk120618@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">200</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41302">41302</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-22 11:00</td><td style="mso-number-format:&#39;@&#39;">01045433954</td><td style="mso-number-format:&#39;@&#39;">안영민</td><td style="mso-number-format:&#39;@&#39;">an3954@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">200</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41301">41301</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-22 09:09</td><td style="mso-number-format:&#39;@&#39;">01040994565</td><td style="mso-number-format:&#39;@&#39;">김철우</td><td style="mso-number-format:&#39;@&#39;">tiket5@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">200</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41288">41288</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-21 07:59</td><td style="mso-number-format:&#39;@&#39;">01023005852</td><td style="mso-number-format:&#39;@&#39;">박향자</td><td style="mso-number-format:&#39;@&#39;">milkn1400@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41287">41287</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-21 05:37</td><td style="mso-number-format:&#39;@&#39;">01098552859</td><td style="mso-number-format:&#39;@&#39;">김창호</td><td style="mso-number-format:&#39;@&#39;">bizzmail@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41278">41278</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-20 12:52</td><td style="mso-number-format:&#39;@&#39;">01085263389</td><td style="mso-number-format:&#39;@&#39;">하만호</td><td style="mso-number-format:&#39;@&#39;">ysmhaa744@gmall.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">500</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41276">41276</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-20 06:53</td><td style="mso-number-format:&#39;@&#39;">01094336826</td><td style="mso-number-format:&#39;@&#39;">김애숙</td><td style="mso-number-format:&#39;@&#39;">aek6826@hanmail.net</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">140</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41273">41273</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-19 20:44</td><td style="mso-number-format:&#39;@&#39;">01042555705</td><td style="mso-number-format:&#39;@&#39;">이영숙</td><td style="mso-number-format:&#39;@&#39;">Munyoung7710@hanmail.net</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41266">41266</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-19 17:44</td><td style="mso-number-format:&#39;@&#39;">01092555485</td><td style="mso-number-format:&#39;@&#39;">박형규</td><td style="mso-number-format:&#39;@&#39;">bigtwins@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41238">41238</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-18 11:30</td><td style="mso-number-format:&#39;@&#39;">01046530365</td><td style="mso-number-format:&#39;@&#39;">김경수</td><td style="mso-number-format:&#39;@&#39;">kksjjang7@gmail.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">0</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41236">41236</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-18 11:02</td><td style="mso-number-format:&#39;@&#39;">01035619821</td><td style="mso-number-format:&#39;@&#39;">박석원</td><td style="mso-number-format:&#39;@&#39;">sukwon3377@naver.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">160</td></tr><tr><td style="mso-number-format:&#39;@&#39;"><a class="g-type-link" title="회원상세정보로이동" href="https://adt.kground.kr/Admin/MemberDetail?member_idx=41227">41227</a></td><td style="mso-number-format:&#39;@&#39;">2023-07-17 16:50</td><td style="mso-number-format:&#39;@&#39;">01028325800</td><td style="mso-number-format:&#39;@&#39;">남정희</td><td style="mso-number-format:&#39;@&#39;">a28325800@gmail.com</td><td style="mso-number-format:&#39;@&#39;">정상</td><td id="not_excel"> </td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">대한민국</td><td style="mso-number-format:&#39;@&#39;" id="hidden_column" class="hide">980</td></tr></tbody>
+</table>
+<div>
+<nav aria-label="Page navigation example">
+<ul class="pagination justify-content-center" id="area_page"><li class="page-item disabled"><a class="page-link" aria-label="First"><i class="fas fa-angle-double-left fa-lg"></i></a></li><li class="page-item disabled"><a class="page-link" aria-label="Previous"><i class="fas fa-angle-left fa-lg"></i></a></li><li class="page-item active"><a class="page-link">1</a></li><li class="page-item disabled"><a class="page-link" aria-label="Next"><i class="fas fa-angle-right fa-lg"></i></a></li><li class="page-item disabled"><a class="page-link" aria-label="Last"><i class="fas fa-angle-double-right fa-lg"></i></a></li></ul>
+</nav>
+</div>
+</div>
+<div class="modal fade" id="user_turn_list_modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+</div>
+</div>
+</div>
+<input type="hidden" name="member_idx" id="member_idx">
+<input type="hidden" name="coin_count" id="coin_count" value="1">
+<input type="hidden" name="is_trading_use" value="false">
+<input type="hidden" name="before_member_hp_number" id="before_member_hp_number">
+<input type="hidden" name="before_member_email_address" id="before_member_email_address">
+<input type="hidden" name="pre_bool_1" id="pre_bool_1">
+<input type="hidden" name="pre_bool_2" id="pre_bool_2">
+<script type="text/javascript">
+	var list_data_url = "/Admin/MemberListData";
+	var area_data_id = "area_member_list";
+
+	$(function () {
+		$("#center_idx, #prefect_idx").change(function () {
+			var sel_id = $(this).attr("id");
+			var check_id = "";
+			if (sel_id == "prefect_idx") {
+				check_id = "center_idx";
+			}
+			else {
+				check_id = "prefect_idx";
+			}
+			var check_val = parseInt($.trim($("#" + check_id).val()));
+			if (check_val > 0) {
+				alert("지사와 센터중 하나만 선택이 가능합니다.");
+				$(this).val("0").prop("selected", true);
+			}
+		});
+
+		initCalendar();
+
+		GetList();
+	});
+
+	function SetMiningDistributionSettingProcess(member_idx, is_payments) {
+		var confirm_message = parseInt(is_payments) === 1 ? "마이닝 지급대상 처리하시겠습니까?" : "마이닝 지급대상에서 제외하시겠습니까?";
+
+		if (confirm(confirm_message)) {
+			$("#member_idx").val(member_idx);
+			$("#pre_bool_1").val(is_payments);
+			CallSubmit(false, "mining_distribution_setting_process", "post", "json");
+		}
+	}
+
+	function GetUserTurnList(member_idx) {
+		$("#member_idx").val(member_idx);
+		CallSubmit(false, "get_user_turn_list", "post", "html");
+	}
+</script>
+</div>
+</div>
+<div class="modal fade" id="memo-modal" tabindex="-1" role="dialog" aria-labelledby="memo-modal" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="memo_title">TXID</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<img src="./회원목록_files/icon-close.svg" alt="닫기" data-translate-alt="key-00093">
+</button>
+</div>
+<div class="modal-body" id="memo" style="text-align:left;"></div>
+<div class="modal-footer"></div>
+</div>
+</div>
+</div>
+<div class="modal fade" id="personalData" tabindex="-1" role="dialog" aria-labelledby="common_modal" aria-hidden="true"></div>
+</form>
+<div class="ring-back">
+<div class="lds-ring">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</div>
+
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="다음달"><span class="ui-icon ui-icon-circle-triangle-e">다음달</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-year">2023</span>.&nbsp;<span class="ui-datepicker-month">7.</span></div></div><table class="ui-datepicker-calendar"><thead><tr><th scope="col" class="ui-datepicker-week-end"><span title="일요일">일</span></th><th scope="col"><span title="월요일">월</span></th><th scope="col"><span title="화요일">화</span></th><th scope="col"><span title="수요일">수</span></th><th scope="col"><span title="목요일">목</span></th><th scope="col"><span title="금요일">금</span></th><th scope="col" class="ui-datepicker-week-end"><span title="토요일">토</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">1</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">2</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">3</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">4</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">5</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">6</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">7</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">8</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">9</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">10</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">13</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">14</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">15</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">17</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">20</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">21</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">22</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">23</a></td><td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="https://adt.kground.kr/Admin/MemberList#">24</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">27</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">28</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">29</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">30</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="6" data-year="2023"><a class="ui-state-default" href="https://adt.kground.kr/Admin/MemberList#">31</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div></body></html>

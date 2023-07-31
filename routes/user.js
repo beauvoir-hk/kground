@@ -57,6 +57,18 @@ module.exports = ()=>{
     
     })
 
+    //공지
+    router.get("notice", async (req, res)=>{
+        if(!req.session.logined){
+            console.log("?????")
+            res.redirect('/')
+             
+        }else{
+            res.redirect('/notice')
+        }
+    
+    })
+
     //localhost:3000/login [post] 형식으로 요청 시
     router.post("/login", (req, res)=>{
         // 로그인 화면에서 유저가 입력 id, pass값을 변수에 대입
@@ -97,21 +109,21 @@ module.exports = ()=>{
                         // 로그인이 성공하는 조건
                         console.log('db에 로그인한 정보가 있어요', result[0])
                         req.session.logined = result[0]
+                        logphone = result[0].phone
+                         
                         if(result[0].pass=="1234"){
                             res.render("auth",{
-                                phone:_phone
+                                phone:logphone,
+                                state:true
                             })
                             }else{
-                                res.redirect("/")
+                                res.redirect('/?data=false')
                             }
                         }else{
                             console.log('로그인정보 오류result[0]=', result[0])
                             res.redirect('/?data=false')
                         }
-                    }
-                }
-        )
-    })
+                    } } ) })
 
 
     // 회원 가입 (localhost:3000/user/signup주소로 요청시)
@@ -128,8 +140,9 @@ module.exports = ()=>{
         const _nickname = req.body.input_nickname
         const _refferal = req.body.input_refferal
         const _numeric6= req.body.input_numeric6
-        const date = moment()
-        const input_dt=date.format('YYYY-MM-DD HH:MM:SS')
+        // const date = moment()
+        // const input_dt= date.format('YYYY-MM-DD HH:mm:ss')
+        const input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
         console.log(_phone, _pass, _username, _nickname, _refferal, _numeric6 , input_dt )
 
         const tier = "1"
@@ -170,14 +183,7 @@ module.exports = ()=>{
             console.log('로그인정보가 없음')
             res.redirect("/")
         }else{
-            // 유저의 정보는 -> req.session.logined
-            // 토큰의 수량은? -> token.js -> balanceOf(지갑 주소)
-            // const wallet = req.session.logined.wallet
             console.log('로그인 되었어요')
-            // console.log(wallet)
-            // const amount = await token.balance_of(wallet)
-            // console.log(amount)
-            // 해당하는 부분에서 에러가 발생합니다. 
             res.render('index.ejs', {
                 'login_data': req.session.logined, 
             })
@@ -220,7 +226,7 @@ module.exports = ()=>{
         const _jiyeok = req.body.input_jiyeok
         const _birth = req.body.input_birth
         const _golfsys = req.body.input_golfsys
-        const _bestscore = 0
+        const _bestscore = 9999
         console.log(_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
 
         // name 값은 로그인 데이터에서 name 값을 가지고 온다
@@ -438,52 +444,70 @@ router.get('/check_id', function(req, res){
 
 // 문자인증을 생성합니다.
     router.post('/auth', async  (req, res) => {
-        const phone = req.body._phone
-        req.session.phone = phone
-        const gphone = "+82"+ phone
-        console.log("auth 실행 들어옴 gphone =",gphone)
-        // 문자인증 코드를 생성합니다.
-        // 랜덤으로 4자리 인증 코드를 만든다.
-        const auth_code = Math.floor(Math.random() * 10000)
-        console.log("auth 실행 들어옴 auth_code =",auth_code)
-        const expire = new Date()
-        console.log("auth 실행 들어옴 expire =",expire)
-        console.log("process.env.kphonenumber=",process.env.kphonenumber)
-        console.log("gphone=",gphone)
+        const _phone = await req.body._phone
+        console.log("req.body._phonee =",_phone )
 
-        //db에 기록
-        const sql = `
-            insert 
-            into 
-            auth
-            values (?,?,?)
-        `
-        const values = [auth_code,phone,expire]
-        connection.query(
-            sql, 
-            values, 
-            function(err, result){
-                if(err){
-                    console.log(err)
-                    res.send(err)
-                }
-        }
-    )
-
-        twilioClient.messages.create({
-            body: 'GolfPlatform 케이그라운드 인증번호 :   ' + auth_code,
-            from: process.env.kphonenumber,
-            to: gphone
+        const phone =req.session.logined.phone
+        console.log("log_data.phone =",req.session.logined.phone)
+        if(phone != _phone){
+            console.log("전화번호 오류")
+            res.render("auth",{
+                phone:req.session.phone,
+                state:false                            
             })
-            .then(message => console.log("verify.ejs----", message.sid))
-                // 문자인증 코드를 MySQL에서 조회합니다.
-                res.render('auth')
-             
-        })
+            
+            }else{
+                const gphone = "+82"+ phone
+                console.log("auth 실행 들어옴 gphone =",gphone)
+                // 문자인증 코드를 생성합니다.
+                // 랜덤으로 4자리 인증 코드를 만든다.
+                const auth_code = Math.floor(Math.random() * 10000)
+                console.log("auth 실행 들어옴 auth_code =",auth_code)
+                const expire = new Date()
+                console.log("auth 실행 들어옴 expire =",expire)
+                console.log("process.env.kphonenumber=",process.env.kphonenumber)
 
-        router.get('/verify', (req, res)=>{
+                //db에 기록
+                const sql = `
+                    insert 
+                    into 
+                    auth
+                    values (?,?,?)
+                `
+                const values = [auth_code,phone,expire]
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                            res.render("auth",{
+                                state:false                            
+                            })
+                        } else{
+                            state:true
+                            console.log("인증번호 정상")
+                        }})
+            
+                twilioClient.messages.create({
+                    body: 'GolfPlatform 케이그라운드 인증번호 :   ' + auth_code,
+                    from: process.env.kphonenumber,
+                    to: gphone
+                    })
+                    .then(message => console.log("verify.ejs----", message.sid))
+                        // 문자인증 코드를 MySQL에서 조회합니다.
+                res.render('auth',{
+                    _phone : phone,
+                    state:true
+                })
+                }
+            })
+
+
+
+    router.get('/verify', (req, res)=>{
             const _phone = req.session.logined.phone
-            res.render('verify.ejs',{
+            res.render('auth',{
                 phone : _phone
             })
         })

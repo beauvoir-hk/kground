@@ -65,26 +65,24 @@
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-                                                    <td>번호 :<%=i+1%><br>
+                                                    <td><%=i+1%>:
                                                         <%const korea = new Date(resultt[i].transtime)%>
                                                         <%const koreanTime=korea.toLocaleString('ko-KR')%>
-                                                        거래시간 :<%=koreanTime%>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <%=koreanTime%>
+
                                                        <% const kpn = parseInt(resultt[i].kp_amount)*-1%>
                                                        <% const kpp = parseInt(resultt[i].kp_amount)%>
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <% if(resultt[i].transtype == "festival"){%>
-                                                             거래 KPoint :<%=an%><br>
+                                                            [festival]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%> 
                                                         <%}%>
                                                         <% if(resultt[i].transtype == "charge"){%>
-                                                                 거래 KPoint :<%=ap%><br>
+                                                            [charge]&nbsp;&nbsp;&nbsp;&nbsp;<%=ap%> 
                                                         <%}%>
                                                         <% if(resultt[i].transtype =="store" ){%>
-                                                                거래 KPoint :<%=an%>
+                                                            [store]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%>
                                                         <%}%>
                                                     </td>
                                                 </tr>

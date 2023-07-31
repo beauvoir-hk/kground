@@ -14,8 +14,38 @@ const connection = mysql.createConnection({
 
 module.exports = function(){
 
+    router.get('/ksfc', async  function(req, res){
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+            console.log("ksfc")
+            _phone=req.session.logined.phone
+            connection.query(
+                `select
+                *
+                from
+                ksfc
+                where 
+                phone = ?
+                `, 
+                [ _phone ], 
+                function(err, receipt){
+                    if(err){
+                        console.log(err)
+                        res.send('errorpage.ejs')
+                    }else{
+                            console.log(receipt)
+                            res.render("regist",{
+                                login_data:req.session.logined
+                            })
+        }})}})
+
+
     // localhost:3000/golf/regist [get]
-    router.post('/rank', async  function(req, res){
+    router.post('/ksfc', async  function(req, res){
         // 유저가 입력한 데이터를 변수에 대입 
         const _gamenumber = req.body.input_gamenumber
         const _gender = req.body.input_gender
@@ -58,14 +88,90 @@ module.exports = function(){
                         values (?, ?,?, ?, ?, ?, ?)`, 
                         [ _phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
                                 // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                        res.redirect("/")
+                        res.render("regist",
+                        {
+                          login_data:req.session.logined  
+                        })
                         )
                     }
                 }   
         )
     })
 
+    //Kpoint list 출력
+    router.get('stroke_lank', async (req, res)=>{
+        const user = req.session.logined.username
+        const phone = req.session.logined.phone 
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{    
 
+            //phone번호로 로그인된 세션의 score만 읽어온다
+            const sql = `
+            select DISTINCT
+            golfsys
+            from 
+            ksfc
+            where 
+            phone = ?
+             `
+            const values = [phone]
+            connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                        state=false
+                    }else{
+                        state=true
+                        let len =0
+                        if(result.length>=5){
+                            len =5
+                            }else{
+                                len=result.length
+                            }
+                            
+                        //골프시스템별 bestscore구하기
+                        const sql2 = `
+                            select 
+                            *
+                            from 
+                            ksfc
+                            ORDER BY bestscore ASC
+                            `
+                            const values2 = [ phone]
+                            connection.query(
+                                sql2, 
+                                values2, 
+                                function(err, result2){
+                                    if(err){
+                                        console.log(err)
+                                    }else{
+                                    console.log("골프시스템 =",result)
+                                    const etc=result2.length
+                                    res.render('stroke_lank', {
+                                        'resultt': result,
+                                        'resultt2': result2,
+                                        'username' : user, 
+                                        'phone': phone,
+                                        'len': len,
+                                        'state':state
+                                        })  
+                             }})
+                        
+                    }
+                })}})     
+                        
+
+
+router.get('/notice', function(req, res){
+    res.render("notice")
+})
+
+router.get('/regu', function(req, res){
+    res.render("regu")
+})
 
 // return이 되는 변수는 router
     return router
