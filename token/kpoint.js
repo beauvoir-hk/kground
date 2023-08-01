@@ -1,6 +1,8 @@
 
 // express를 사용하기 위하여 express 모듈을 로드 
 const express = require('express')
+const res = require('express').response
+var req = require('request') 
 const fs = require('fs')
 // route부분이기 때문에 express.Router()
 const router = express.Router()
@@ -34,8 +36,7 @@ async function chargelist_insert(_phone,chargedate, price){
     values, 
     function(err, result){
         if(err){
-            console.log(err)
-            res.send(err)
+            console.error(err)
             }else{
                 console.log("충전 정상 charge list 기록")
                 }
@@ -59,8 +60,7 @@ async function log_info_amount_update(_phone,ch_amount ){
         values2, 
         function(err, result2){
             if(err){
-                console.log(err)
-                res.send(err)
+                console.error(err)
                 }else{
                     console.log("charge 수정 성공")
                 }
@@ -80,14 +80,14 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price ){
         values, 
         function(err, result){
             if(err){
-                console.log(err)
+                console.error(err)
             }else{
                 console.log("kpoint list에 기록 정상+본문으로 돌아가고싶다")
             }})}
 //충전------------------------------------------------------------
 
 //가맹점==========================================================
-//storepayt list에 기록
+//storepay list에 기록
 async function store_list_insert(_input_dt, _phone, _username, _storename, pay_amount ){   
     const sql=
             `
@@ -103,7 +103,7 @@ async function store_list_insert(_input_dt, _phone, _username, _storename, pay_a
         values,
         (err, result)=>{
             if(err){
-                res.send(err)
+                console.error(err)
             }else{
                 console.log("상점 거래내역 기록= ",result)
             }
@@ -136,60 +136,84 @@ async function storeamount_update( _storename, charge_amount ){
 
 //페스티벌 참가===============================================================
 //참가비결제를 위해 참가 list (최근순)
-async function enterpay_time( phone){ 
+async function enterscore_update(_golfsys, stroke, _scorepicture, entertime){  
     const sql = `
-        select 
-        *
-        from 
-        score
-        where 
-        phone = ?
-        order by entertime DESC
-        `
-    const values = [phone]
-    connection.query(
-    sql, 
-    values, 
-    function(err, result){
-        if(err){
-            console.log(err)
-            let data=0
-        }else{
-            data=1
-             }
-             return result
-            })
-            
-        }
+                update
+                score
+                set
+                golfsys=?,
+                strok = ?,
+                scorepicture = ?
+                where
+                entertime = ?
+                `
+            const values = [_golfsys, stroke, _scorepicture, entertime]
+            connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log("entertime으로 score 수정한 결과물", result)
+                    }})}
+                    
 
-//상위 5개 score출력을 위한 준비(스코어순)
-async function enterpay_score( phone){ 
-    const sql2 = `
-        select 
-        *
-        from 
-        score
-        where 
-        phone = ?
-        order by strok ASC
-        `
-    const values2 = [phone]
-    connection.query(
-    sql2, 
-    values2, 
-    function(err, result2){
-        if(err){
-            console.log(err)
-            let data=0
-        }else{
-            console.log(err)
-        }
-        return result2
-    })}
-//------------------------------
+
+//페스티벌 참가------------------------------
 
 //enterpay ===============================
+//대회참가비 결제score에 기록
+async function enterpay_score_insert(_input_dt, _phone, _username, _golfsys, _strok , _picture){
+    
+    //스코어리스트에 기록
+    console.log("score에 기록하는 내용 = ",_input_dt, _phone, _username, _golfsys,  _strok , _picture )
+    const sql=
+            `
+            insert 
+            into 
+            score 
+            values ( ?, ?, ?, ?, ? ,?)`
 
+    const values = [_input_dt, _phone, _username, _golfsys, _strok , _picture]
+    
+    connection.query(
+        sql,
+        values,
+        (err, result)=>{
+            if(err){
+                console.log(result)
+                res.send(err)
+            }else{
+                console.log("//대회참가비 결제 sucess")
+            }})}
+
+//대회참가비 결제------------------------------
+
+//Kpoint 거래내역 ===============================            
+async function trans_list_insert(_input_dt, _phone, _username, receiptphone, pay_amount )  {
+    const sql=
+            `
+            insert 
+            into 
+            trans_pay
+            values ( ?, ?, ?, ?, ? )
+            `
+    const values = [_input_dt, _phone, _username, receiptphone, pay_amount]
+    
+    connection.query(
+        sql,
+        values,
+        (err, result)=>{
+            if(err){
+                console.error(err)
+            }else{
+                console.log("KPoint 거래내역 기록= ",result)
+            }
+           
+        })
+    }  
+        
 
 module.exports = {
     chargelist_insert,
@@ -197,8 +221,9 @@ module.exports = {
     kpoint_list_insert, 
     store_list_insert,
     storeamount_update,
-    enterpay_time,
-    enterpay_score
+    enterscore_update,
+    enterpay_score_insert,
+    trans_list_insert
 }
 
 
