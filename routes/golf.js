@@ -10,7 +10,9 @@ const connection = mysql.createConnection({
     password : process.env.password,
     database : process.env.database
 })
-
+//js 파일 로드 
+const kpoint = require("../token/kpoint")
+const error = require("../token/error")
 
 module.exports = function(){
 

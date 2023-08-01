@@ -37,8 +37,9 @@ const connection = mysql.createConnection({
     database : process.env.database
 })
 
-//token.js 파일 로드 
-const token = require("../token/token")
+//js 파일 로드 
+const kpoint = require("../token/kpoint")
+const error = require("../token/error")
 
 // Twilio에 연결합니다
 const twilioClient = require('twilio')(process.env.accountSid, process.env.authToken)
@@ -58,7 +59,7 @@ module.exports = ()=>{
     })
 
     //공지
-    router.get("notice", async (req, res)=>{
+    router.get("/notice", async (req, res)=>{
         if(!req.session.logined){
             console.log("?????")
             res.redirect('/')
@@ -68,6 +69,8 @@ module.exports = ()=>{
         }
     
     })
+                 
+    
 
     //localhost:3000/login [post] 형식으로 요청 시
     router.post("/login", (req, res)=>{
@@ -108,13 +111,15 @@ module.exports = ()=>{
                     if(result.length != 0){
                         // 로그인이 성공하는 조건
                         console.log('db에 로그인한 정보가 있어요', result[0])
+                         
                         req.session.logined = result[0]
                         logphone = result[0].phone
                          
-                        if(result[0].pass=="1234"){
+                        if(result[0].pass == "1234"){
                             res.render("auth",{
                                 phone:logphone,
                                 state:true
+
                             })
                             }else{
                                 res.redirect('/?data=false')

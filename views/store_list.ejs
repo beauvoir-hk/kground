@@ -17,18 +17,21 @@
     <body class="bg-gradient-primary">
 
         <div class="container">
+            <div class="text-center">
+                <br>
+                <a id="signinlink" href="/index" >돌아가기</a>
+            </div>
             <!-- Outer Row -->
             <div class="row justify-content-center">
                 <div class="col-xl-10 col-lg-12 col-md-9">
                     <div class="card o-hidden border-0 shadow-lg my-5">
                         <div class="card-body p-0">
-                            <div class="text-center">
-                                <a id="signinlink" href="javascript:history.back()" >돌아가기</a>
-                            </div>
+
                             <!-- Nested Row within Card Body -->
                             <div class="row">
                                 <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
                             
+                                <!-- 1열 -->
                                 <div class="col-lg-6"> 
                                     <div class="p-5">
                                         <div class="text-center">
@@ -58,48 +61,50 @@
                                             </div>
                                         </div> 
                                         <hr> 
-                                    <div class="container">
-                                        <br>
-                                        <% if(charge_amount != 0){ %>
-                                        <table class="table">
-                                            <tr>
-                                                <th>
-                                                    번호
-                                                </th>
-                                                <th>
-                                                    결제시간
-                                                </th>
-                                                <th>
-                                                    결제한 곳
-                                                </th>
-                                                <th>
-                                                    결제포인트
-                                                </th>                                            
-                                            </tr>
-
-                                            <%for (var i = 0; i < resultt.length; i++){%>
+                                        <div class="container">
+                                            <br>
+                                            <% if(charge_amount != 0){ %>
+                                            <table class="table">
                                                 <tr>
-                                                    <td>
-                                                        <%=i%>
-                                                    </td>
-                                                    <td>
-                                                        <%=resultt[i].transdate%>
-                                                    </td>
-                                                    <td>
-                                                        <%=resultt[i].towallet%>
-                                                    <td>
-                                                    <td>
-                                                        <% amount = resultt[i].token_amount%>
-                                                        <%const amount1 = amount.toString().replace(/(\d{3})(?=\d)/g, ',')%>
-                                                        <%=amount1%>
-                                                    </td>
+                                                    <th>
+                                                        번호
+                                                    </th>
+                                                    <th>
+                                                        결제시간
+                                                    </th>
+                                                    <th>
+                                                        결제한 곳
+                                                    </th>
+                                                    <th>
+                                                        결제포인트
+                                                    </th>                                            
                                                 </tr>
+
+                                                <%for (var i = 0; i < resultt.length; i++){%>
+                                                    <tr>
+                                                        <td>
+                                                            <%=i%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].transdate%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].towallet%>
+                                                        <td>
+                                                        <td>
+                                                            <% amount = resultt[i].token_amount%>
+                                                            <%const amount1 = amount.toString().replace(/(\d{3})(?=\d)/g, ',')%>
+                                                            <%=amount1%>
+                                                        </td>
+                                                    </tr>
+                                                <%}%>
+                                            </table>
                                             <%}%>
-                                        </table>
-                                        <%}%>
-                                    </div>       
+                                        </div>       
                                     </div>    
                                 </div>
+                                <!-- 1열 마침 -->
+                                <!-- 2열 시작 -->
                                 <div class="col-lg-5">
                                     <img src="/img/kk.png"  width="100%" >  
                                 </div>    
@@ -109,7 +114,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
 </body>
 </html>

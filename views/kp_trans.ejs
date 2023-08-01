@@ -27,18 +27,22 @@
         <body class="bg-gradient-primary">      
         <%}%>
     <div class="container">
+        <div class="text-center">
+            <br>
+            <a class="small" href="/index">홈으로</a>
+        </div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
-                        <div class="text-center">
-                            <a class="small" href="/index">홈으로</a>
-                        </div>
+
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
-                                <div class="p-5">
+
+                             <!-- 1열 -->
+                            <div class="col-lg-6">
+                                <div class="p-6">
                                     <div class="text-center">
                                         <img src="/img/title_009.jpg" width="100%">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
@@ -50,14 +54,14 @@
                                         </div>
                                         <hr><br>
                                         <div class="text-primary">
-                                            <form class="user" action="/contract/gamepay" method="post">
+                                            <form class="user" action="/contract/kp_trans" method="post">
                                             <div align="left">
-                                                (1) KPoint 받는 휴대폰번호
+                                                (1) KPoint 수신 휴대폰번호
                                             <br>
                                             </div>
                                             <div class="form-group">
                                                 <input type="text" class="form-control form-control-user"
-                                                    id="_res_phone" name="_gamepayment"  placeholder="휴대폰번호(숫자만)">
+                                                    id="_res_phone" name="_reciept"  placeholder="휴대폰번호(숫자만)">
                                                 <br>
                                                 <br>
                                             </div>
@@ -68,7 +72,7 @@
                     
                                                 <div class="form-group">
                                                     <input type="text" class="form-control form-control-user"
-                                                        id="trans_kp_amount" name="_gamepayment"  placeholder="K포인트(숫자만)">
+                                                        id="trans_kp_amount" name="_sendpay"  placeholder="K포인트(숫자만)">
                                                     <br>
                                                     <br>
                                                 </div>
@@ -103,10 +107,11 @@
                             <!-- 2열 -->
                             <div class="col-lg-6">
                                 <div class="col-lg-5">
-                                    <img src="/img/kk.png"  width="100%" >
-                                </div>      
+                                    <div class="text-center">
+                                        <img src="/img/k.png"  width="100%" >
+                                    </div>      
+                                </div>
                             </div>
-                        </div>
                         </div> 
 
                         </div>

@@ -24,7 +24,7 @@
         PayApp.setParam('goodname', 'K포인트 충전');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'https://kground.co.kr/payment?price='+$('#price').val());
+        PayApp.setParam('returnurl', 'https://kground.co.kr/payment/?price='+$('#price').val());
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
         PayApp.setParam('smsuse', 'n');
         PayApp.setParam('redirectpay', '1');
@@ -75,7 +75,7 @@
                                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
-                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
                                                                     <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                     K포인트 : <%=aa%>
                                                                 </div>
@@ -88,11 +88,11 @@
 
                                         <form role="form" action="charge" method="post" >
                                         <fieldset> 
-                                        <div class="form-group">
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
                                             <br><br>
                                             <label class="control-label">충전금액선택</label>
                                             <br>
-                                            <select class="form-control" name="price" id="price">
+                                            <select class="form-select" name="price" id="price">
                                                 <option value=1000>1,000원 : 1,000K포인트</option>
                                                 <option value=20000>20,000원 : 20,000K포인트</option>
                                                 <option value=50000>50,000원 : 50,000K포인트</option>
@@ -106,13 +106,14 @@
                                                 <input class="form-control" type="text" id="s" name="state" value = "1" disable>
                                             </div> -->
                                         </div>
-                                        
-                                                
-
-                                        <br><hr>
+                                        <br>
+                                        <hr>
                                         <br>
                                         <div class="text-primary" align="center">
-                                            <i class="fas fa-calendar fa-2x text-gray-300">※ 회원가입 후 충전(필독), 휴대폰번호 매우 중요</i>
+                                            <i class="fas fa-calendar fa-2x text-gray-300">
+                                                ※ 회원가입 후 충전(필독)<br>
+                                                 휴대폰번호 매우 중요
+                                            </i>
                                         </div>
                                         <div class="text-center">
                                             <input type="submit"  class="btn btn-danger" value="충전하기" href="#" onclick="payappPay();">   

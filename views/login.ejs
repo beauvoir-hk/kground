@@ -19,8 +19,11 @@
 
     <script>
 
-        function signup(){
-          location.href = '/signup'
+        function popup(){
+            myPopup=window.open("/error_login", "kground", "width=500, height=300");
+        }
+        function close(){
+            window.close(myPopup) 
         }
         function fail(){
                   alert("로그인 실패")

@@ -17,15 +17,16 @@
 <body class="bg-gradient-primary">
 
     <div class="container">
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
+        </div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
-                        <div class="text-center">
-                            <br>
-                            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
-                        </div>
+
                         <!-- Nested Row within Card Body -->
                         <div class="row">
 
@@ -33,7 +34,7 @@
                             <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image"> -->
                                 <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image">                         -->
                             <div class="col-lg-6"> 
-                                <div class="p-5">
+                                <div class="p-6">
                                     <div class="text-center">
                                         <img src="/img/k.png" width="10%">
                                         KPoint 거래내역 
@@ -65,25 +66,42 @@
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-                                                    <td><%=i+1%>:
+                                                    <td>번호:</td>
+                                                    <td><%=i+1%></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>거래시간:</td>
+                                                    <td>
                                                         <%const korea = new Date(resultt[i].transtime)%>
                                                         <%const koreanTime=korea.toLocaleString('ko-KR')%>
                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <%=koreanTime%>
-
                                                        <% const kpn = parseInt(resultt[i].kp_amount)*-1%>
                                                        <% const kpp = parseInt(resultt[i].kp_amount)%>
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
-                                                       <% if(resultt[i].transtype == "festival"){%>
-                                                            [festival]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%> 
+                                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>방법</td>
+                                                    <td>                                                    
+                                                       <% if(resultt[i].transtype.toString() == "festival"){%>
+                                                            [페스터벌]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%> 
                                                         <%}%>
-                                                        <% if(resultt[i].transtype == "charge"){%>
-                                                            [charge]&nbsp;&nbsp;&nbsp;&nbsp;<%=ap%> 
+                                                        <% if(resultt[i].transtype.toString() == "charge"){%>
+                                                            [KP충전]&nbsp;&nbsp;&nbsp;&nbsp;<%=ap%> 
                                                         <%}%>
-                                                        <% if(resultt[i].transtype =="store" ){%>
-                                                            [store]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%>
+                                                        <% if(resultt[i].transtype.toString() =="store" ){%>
+                                                            [가맹점결제]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%>
                                                         <%}%>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>거래금액:</td>
+                                                    <td>                                                    
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <%=resultt[i].kp_amount%>
                                                     </td>
                                                 </tr>
 

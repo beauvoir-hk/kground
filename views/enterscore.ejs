@@ -22,101 +22,111 @@
 <body class="bg-gradient-primary">
 
     <div class="container">
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="/index" >홈으로</a>
+        </div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
-                        <div class="text-center">
-                            <a id="signinlink" href="javascript:history.back()" >홈으로</a>
-                        </div>
+
                         <!-- Nested Row within Card Body -->
-                        <!-- <div class="row"> -->
-                            <!--<div class="col-lg-5 d-none d-lg-block bg-login-image">
-                                <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                        
-                            <div class="col-lg-15"> 
+                        <div class="row">
+
+                            <!-- 1열 -->
+                            <div class="col-lg-6"> 
                                 <div class="p-5">
                                     <div class="text-center">
                                         <img src="/img/title_011.jpg" width="100%">
                                     </div>
-                                    <br>
+                                    
                                     <!-- Earnings (Monthly) Card Example -->
+                                    <!-- 제거 -->
+
                                     <hr> 
-                                <div class="container">
-                                <div class="fs-6">    
-                                    <br>
-                                        <form action="/contract/enterscore" method="post" enctype="multipart/form-data">
-                                    <table class="table">
-                                        <tr>
-                                            <th>
-                                                참가시간
-                                            </th>
-                                            <td>
-                                                <input type="text" name="_time" class="form-control" value="<%=resultt[0].entertime%>" readonly>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>
-                                                참가시스템
-                                            </th>
-                                            <td>
+                                    <div class="container">
+                                        <div class="fs-6">    
+                                        <br>
+                                        <form action="/contract/enterscore/?n=<%=no%>" method="post" enctype="multipart/form-data">
+                                            <!-- <form action="/contract/enterscore" method="post" enctype="multipart/form-data"></form> -->
+                                        <table class="table">
+                                            <tr>
+                                                <th>
+                                                    참가시간
+                                                </th>
+                                                <td>
+                                                    <input type="text" name="_n" class="form-control" value="<%=no%>" readonly></input>
+                                                    <input type="text" name="_time" class="form-control" 
+                                                       value="<%=resultt[0].entertime%>" readonly>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    참가시스템
+                                                </th>
+                                                <td>
 
-                                                <select class="form-control" name="input_golfsys" id="golfsys">
-                                                    <option value="GolfZon">GolfZon</option>
-                                                    <option value="K Golf Club">"K Golf Club</option>
-                                                    <option value="UDR Golf">UDR Golf</option>
-                                                    <option value="GolfZon Park">GolfZon Park</option>
-                                                    <option value="Kakao Friends" >Kakao Friends</option>
-                                                    <option value="GNC">GNC</option>
-                                                    <option value="MS Golf">MS Golf</option>
-                                                    <option value="SG Golf" >SG Golf</option>
-                                                </select>
+                                                    <select class="form-control" name="input_golfsys" id="golfsys">
+                                                        <option value="GolfZon">GolfZon</option>
+                                                        <option value="K Golf Club">"K Golf Club</option>
+                                                        <option value="UDR Golf">UDR Golf</option>
+                                                        <option value="GolfZon Park">GolfZon Park</option>
+                                                        <option value="Kakao Friends" >Kakao Friends</option>
+                                                        <option value="GNC">GNC</option>
+                                                        <option value="MS Golf">MS Golf</option>
+                                                        <option value="SG Golf" >SG Golf</option>
+                                                    </select>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>
-                                                스코어
-                                            </th>
-                                            <td>
-                                                <div class="input-group mb-3">
-                                                    <input type="text" name="input_strok" class="form-control" >
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>
-                                                스코어카드
-                                            </th>  
-                                            <td>
-                                                <span class="input-group-text" id="basic-addon1">사진 : </span>
-                                                
-                                                <input type="file" name="_image" class="form-control" placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
-                                            </td>
-                                        </tr>
-                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    스코어
+                                                </th>
+                                                <td>
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" name="input_strok" class="form-control" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    스코어카드
+                                                </th>  
+                                                <td>
+                                                    <span class="input-group-text" id="basic-addon1">사진 : </span>
+                                                    
+                                                    <input type="file" name="_image" class="form-control" 
+                                                    placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                       
+                                    </div>
                                     <div class="text-center">  
                                         <!-- <input  type="submit" value="strok 등록" id="signup"> -->
-                                        <input ype="submit" value="strok 등록" onclick="location.href='/contract/enterscore/?noo=<%= no %>'">
+                                        <button class="btn btn-danger" type="submit" value="strok 등록" >strok 등록</button>
                                     </div>
                                 </form>
                                     </div>       
-                                    </div> 
-                                    </div>   
-                                </div>
-                                <div class="col-lg-5">
-                                    <div class="text-center">
-                                        <img src="/img/kk.png"  width="100%" > 
-                                    </div> 
-                                </div>    
-                            </div>
+                                </div> 
+                             </div>   
+                            
+                            <!-- 2열 -->
+                            <div class="col-lg-5">
+                                <div class="text-center">
+                                    <img src="/img/kk.png"  width="100%" > 
+                                </div> 
+                            </div>    
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 </body>
 </html>
