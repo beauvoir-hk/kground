@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="../public/js/custom.js"></script>
+
+<link rel="stylesheet" href="../public/css/reset.css">
+<link rel="stylesheet" href="../public/css/style.css">
+
+    <title>케이그라운드와 함께 해주셔서 감사합니다~</title>
+
+    <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
+    <%- include("header.ejs") %>
+    
+</head>
+    
+<body class="bg-gradient-primary">
+
+<!-- Slider main container -->
+<div class="swiper">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+    <!-- Slides -->
+    <div class="swiper-slide">
+      <a href="#">
+          <div class ="text-wrap">
+              <h5>KGROUND Golf Plafrom</h5>
+              <p>스크린에서 우즈는 누구일까?</p>
+          </div>
+          <img scr="/img/title_001.png" alt="">
+      </a>
+
+
+    </div>
+    <div class="swiper-slide">
+      <a href="#">
+          <div class ="text-wrap">
+              <h5>비케이친환경</h5>
+              <p>스크린의 미세먼지에서 자유로와 지자</p>
+          </div>
+          <img scr="/img/title_002.png" alt="">
+      </a>
+
+
+    </div>
+    <div class="swiper-slide">
+      <a href="#">
+          <div class ="text-wrap">
+              <h5>KSFC O2O Golf 대회</h5>
+              <p>세상에 없던 골프</p>
+          </div>
+          <img scr="/img/title_001.png" alt="">
+      </a>
+
+
+    </div>
+    ...
+  </div>
+  <!-- If we need pagination -->
+  <div class="swiper-pagination"></div>
+
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+</div>
+ 
+</body>
+</html>

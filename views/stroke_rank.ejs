@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <% include('header.ejs') %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+    <script>
+        function openPopUp() {
+          var popUp = window.open("pop_up", "Pop-up", "width=500, height=300");
+        }
+    </script>
+
+</head>
+<body class="bg-gradient-primary">
+
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="text-center">
+                            <br>
+                            <a id="signinlink" href="/index" >홈으로</a>
+                        </div>
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-15 d-none d-lg-block bg-login-image">
+                                <div class="col-lg-15 d-none d-lg-block bg-login-image">                        
+                            <div class="col-lg-6"> 
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img src="/img/title_011.jpg" width="100%">
+                                    </div>
+                                    <br>
+                                    <!-- Earnings (Monthly) Card Example -->
+                                    <div class="text-center">
+                                        <div class="col-xl-12 col-md-6 mb-4">
+                                            <div class="card border-left-primary shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                &nbsp;&nbsp;<%=username%>님
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <hr> 
+                                    <div class="container">
+                                        <div class="fs-6">    
+                                        <br>
+                                        <table class="table">
+                                            <%for (var j= 1; j<= <%=resultt2.length%> ;j++){
+                                                <tr>
+                                                    <td> 
+                                                        ◎◎◎ <%=resultt[j].golfsys%>
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <%=j+1%> 
+                                                        <%=resultt2[j].nickname %><br>
+                                                        <%=resultt2[j].bestscore%>
+                                                    </td>
+                                                </tr>
+                                                
+                                                }%>
+                                        </table>
+                                    </div>   
+                                    </div> 
+                                </div>   
+                            </div>
+
+
+
+                            <div class="col-lg-5">
+                                <div class="text-center">
+                                    <img src="/img/kk.png"  width="100%" > 
+                                </div> 
+                            </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
