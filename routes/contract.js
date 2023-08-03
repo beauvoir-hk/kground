@@ -930,11 +930,11 @@ router.post('/gamepay', async (req, res)=>{
                         const trans_tp = storename.toString()
                         kpoint.kpoint_list_insert(_phone, trans_tp,  _input_dt, pay_amount )
                         
-                
-                        res.render("gamepay_list",{
-                            resultt :result6,
-                            amount :req.session.logined.charge_amount
-                                } )
+                res.redirect("gamepay_list")
+                        // res.render("gamepay_list",{
+                        //     resultt :result6,
+                        //     amount :req.session.logined.charge_amount
+                        //         } )
 
                     }})}}})
 
