@@ -13,53 +13,31 @@
         }
     </style>
  
-<!-- JS API 결제요청 호출시 설정된 파라메터 중
-상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
-<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
-<script>
-    
-    PayApp.setDefault('userid',     'qop1513');
-    PayApp.setDefault('shopname',   '케이그라운드');
-        function payappPay(wallet){
-        PayApp.setParam('goodname', 'K포인트 충전');
-        PayApp.setParam('price', $('#price').val());
-        PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'http://localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
-        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
-        PayApp.setParam('smsuse', 'n');
-        PayApp.setParam('redirectpay', '1');
-        PayApp.setParam('skip_cstpage', 'y');
-        PayApp.call();
-    }
-</script>
-<script>
-    window.call = function () {
-        alert('결제가 완료되었습니다');
-        location.href= "index.ejs";
-    }
-</script>
-
 </head>
     <body class="bg-gradient-primary">
+
         <div class="container">
             <div class="text-center">
                 <br>
                 <a id="signinlink" href="/index" >홈으로</a>
+                <br>
             </div>
             <!-- Outer Row -->
             <div class="row justify-content-center">
                 <div class="col-xl-10 col-lg-12 col-md-9">
                     <div class="card o-hidden border-0 shadow-lg my-5">
                         <div class="card-body p-0">
-                            
+
                             <!-- Nested Row within Card Body -->
                             <div class="row">
                                 <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                            
                                 <!-- 1열 -->
                                 <div class="col-lg-6"> 
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <img src="/img/title_010.jpg" width="100%">
+                                            <img src="/img/k.png" width="10%">
+                                            <h6>KSFC 선수등록 리스트</h6>
                                         </div>
                                         <br>
                                         <!-- Earnings (Monthly) Card Example -->
@@ -73,9 +51,8 @@
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
                                                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                                                    <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                                                    K포인트 : <%=aa%>
-                             
+                                                                    <%aa=amount%> 
+                                                                    K포인트: <%=amount%>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -84,40 +61,49 @@
                                             </div>
                                         </div> 
                                         <hr> 
-                                    <div class="container">
-                                        <br>
-                                        <% if(amount != 0){ %>
-                                        <table class="table">
-                                            <tr>
-                                                <th>
-                                                    번호
-                                                </th>
-                                                <th>
-                                                    충전날짜
-                                                </th>
-                                                <th>
-                                                    충전금액
-                                                </th>                                            
-                                            </tr>
-
-                                            <%for (var i = 0; i < resultt.length ; i++){%>
+                                        <div class="container">
+                                            <br>
+                                            
+                                            <table class="table">
+                                                
+                                                <tr>
+                                                    <th>
+                                                        번호
+                                                    </th>
+                                                    <th>
+                                                        참가시스템
+                                                    </th>
+                                                    <th>
+                                                        스코어
+                                                    </th>
+                                                    <th>
+                                                        순위
+                                                    </th>
+                                                </tr>
+                                                <%for (var i = 0; i < resultt2.length; i++){%>
                                                 <tr>
                                                     <td>
                                                         <%=i+1%>
                                                     </td>
                                                     <td>
-                                                        <%=resultt[i].chargedate.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
+                                                        <%=resultt2[i].golfsys%>
                                                     </td>
-                                                     <td>
-                                                        <%=resultt[i].amount%>
+
+                                                    <td>
+                                                        <%=resultt2[i].bestscore%>
                                                     </td>
+                                                    <td>
+                                                        <%rank[i]%>
+                                                             
+                                                    </td>                                            
                                                 </tr>
-                                            <%}%>
-                                        </table>
-                                        <%}%>
-                                    </div>       
+                                                <%}%>
+                                            </table>
+                                        </div>       
                                     </div>    
                                 </div>
+                                <!-- 1열 마침 -->
+                                <!-- 2열 시작 -->
                                 <div class="col-lg-5">
                                     <img src="/img/kk.png"  width="100%" >  
                                 </div>    
@@ -127,7 +113,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
 </body>
 </html>

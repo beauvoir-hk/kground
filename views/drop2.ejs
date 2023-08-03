@@ -15,7 +15,7 @@
             <!-- readonly 옵션은 데이터를 읽는건 가능하지만 수정은 불가능 -->
             <input type='text' name='input_phone' value='<%=login_data['phone']%>' readonly><br>
             <!-- 패스워드를 입력하는 창 출력 -->
-            <input type="password" name="input_pass"><br>
+            <input type="password" name="_pass" id="_pass"><br>
             <!-- 패스워드 작성이 완료되었을때 지정된 주소로 데이터 값을 보내준다. -->
             <p id="check_pass">비밀번호 확인</p>
 
@@ -23,7 +23,7 @@
         </form>
         <script>
             //id가 check_passㅋ트릭햇을때
-            $('#checj_pass').click(function(){
+            $('#check_pass').click(function(){
                 const pass = $('#_pass').value()
                 //비동기통신 ajax사용
                 $.ajax(

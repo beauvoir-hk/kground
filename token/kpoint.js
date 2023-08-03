@@ -241,6 +241,29 @@ async function ksfc_update(_phone,   _golfsys, _bestscore )  {
            
         })
     }   
+
+async function ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore){ 
+    const birth = moment(_birth).format('YYYY-MM-DD');
+
+    const sql=  `             
+        insert 
+        into 
+        ksfc
+        values (?, ?,?, ?, ?, ?, ?)`
+        const values =  [_phone, _username, _gamenumber, _gender, _jiyeok, birth ,_golfsys,_bestscore]
+        
+        connection.query(
+            sql,
+            values,
+            (err, result)=>{
+                if(err){
+                    console.error(err)
+                }else{
+                    console.log("KSFC 기록= ",result)
+                }
+               
+            })
+ } 
     
 async function tier_update(_phone, _bestscore )  {
     
@@ -263,13 +286,14 @@ async function tier_update(_phone, _bestscore )  {
             }else{
                 let rank=99999
                 console.log("tier 기록= ",result)
+                //둥수파악
                 const len = result.length
                 for(var i=0; i<len ;i++ ){
                     if(result[i].bestscore == _bestscore){
                         const rank=i+1
                     }
                 }
-                
+                //tier 판정
                 if(rank > len/60){
                     tier=1
                 }else{
@@ -280,8 +304,30 @@ async function tier_update(_phone, _bestscore )  {
                             tier=3
                         }else{
                             tier=4
-                        }}}}
-                })}
+                        }}}
+                        //tier기록
+                        const sql=
+                            `
+                            update
+                            log_info
+                            set
+                            tier=?,
+                            where
+                            phone = ?
+                            `
+                        const values = [_phone]
+                        
+                        connection.query(
+                            sql,
+                            values,
+                            (err, result)=>{
+                                if(err){   
+                                    console.log(err)}
+                                    else{
+                                        console.log("tier기록 완료")
+                                             }})} 
+                                            })}
+
 
 module.exports = {
     chargelist_insert,
@@ -293,7 +339,8 @@ module.exports = {
     enterpay_score_insert,
     trans_list_insert,
     ksfc_update,
-    tier_update
+    tier_update,
+    ksfc_insert
 }
 
 

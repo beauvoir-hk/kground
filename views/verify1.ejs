@@ -33,69 +33,52 @@
 
 <body class="bg-gradient-primary">
     <div class="container">
-        <div class="text-center">
-            <br>
-            <a id="signinlink" href="/index" >홈으로</a>
-            <br>
-        </div>
+
         <!-- Outer Row -->
         <div class="row justify-content-center">
-            
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
                         
                         <!-- Nested Row within Card Body -->
                         <div class="row">
+                            <div class="text-center">
+                                <br>
+                                <a id="signinlink" href="/index" >홈으로</a>
+                            </div>
                             <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                           
-
+                        
                             <div class="col-lg-6"> 
                                 <div class="p-5">
-
+                                    <div class="p-5">
                                         <div class="text-center">
                                             <img src="/img/k.png" width="10%">
-                                            <h6>내 정보</h6>
-                                        </div>
+                                            <h6>골프플랫폼 케이그라운드 </h6>
+                                            
+                                            <div class="text-center"> 
+                                                <br>
+                                                휴대폰번호 : <%=phone%> 
+                                                SMS문자 인증 하세요...
+                                             </div>
                                     <br>
-                                    <ul>
-                                        <li>
-                                            전화번호 : <%=login_data['phone']%> 
-                                        </li>
-                                        <li>
-                                            성명 : <%=login_data['username']%>
-                                        </li>
-                                        <li>
-                                            닉네임 : <%=login_data['nickname']%>
-                                        </li>
-                                        <li>
-                                            <%amount =login_data['charge_amount']%>
-                                            <%const amount1 = amount.toString().replace(/(\d{3})(?=\d)/g, ',')%>
-                                            K포인트: <%=amount1%>
-                                        </li>
-                                    </ul>
-                                    <hr>
-                                        <div class="text_center" >
-                                            <div class="text-primary">
-                                                <i>비밀번호 변경은<br>
-                                                문자인증을 통해 본인 검증 후 가능합니다.
-                                                <br></i>
-                                                <input type="submit" id="_submit" value="패스워드 변경" onclick="location.href='/auth1'" >
-                                            </div>
-                                        </div> 
+ 
+                                    <form class="user" action="/verify" method="post">
+                                        <label>※ 4자리 이하</label>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user"
+                                            id="auth_code" name='_auth_code'  placeholder="Enter SMS Verification text..">
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="form-group">
+                                            <div class="text-center">
+                                                <button class="btn btn-primary" >문자인증</button>
+                                            </div> 
                                         </div>
                                     </form>
                                     <hr>
 
-                                        <hr>
-                                        <div class="text-center">    
-                                        <hr>
-                                            <button class="btn btn-Secondary" onclick="location.href='/logout'">로그아웃</button>
-                                        </div>   
-                                        <div class="text-center">    
-                                        <hr>
-                                            <button class="btn btn-Secondary" onclick="location.href='/drop2'">회원탈퇴</button>
-                                        </div>  
+                                      </div>  
                                     </div>
                             </div>
                             <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div>     

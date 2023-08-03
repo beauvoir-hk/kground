@@ -50,7 +50,7 @@
                                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                 &nbsp;&nbsp;<%=username%>님
                                                             </div>
-                                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                            <div class="h6 mb-0 font-weight-bold text-gray-800">
                                                                 <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                 K포인트 : <%=aa%>
                                                             </div>
@@ -65,28 +65,22 @@
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-                                                    <td class="text-xs font-weight-bold text-primary text-uppercase mb-1">번호:</td>
-                                                    <td class="text-xs font-weight-bold text-primary text-uppercase mb-1"><%=i+1%></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>거래시간:</td>
+                                                    <td>
+                                                        <div class="text-primary text-uppercase mb-1">
+                                                            <%=i+1%>:
+                                                        </div>
                                                     <td  class="text-uppercase mb-1">
                                                         <%const korea = new Date(resultt[i].transtime)%>
                                                         <%const koreanTime=korea.toLocaleString('ko-KR')%>
-                                                        
                                                         <%=koreanTime%>
+                                                        <br>
                                                        <% const kpn = parseInt(resultt[i].kp_amount)*-1%>
                                                        <% const kpp = parseInt(resultt[i].kp_amount)%>
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>방법</td>
-                                                    <td>                                                    
                                                        <% if(resultt[i].transtype.toString() == "festival"){%>
-                                                            [페스터벌]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%> 
+                                                        [페스터벌]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%> 
                                                         <%}%>
                                                         <% if(resultt[i].transtype.toString() == "charge"){%>
                                                             [KP충전]&nbsp;&nbsp;&nbsp;&nbsp;<%=ap%> 
@@ -96,15 +90,8 @@
                                                         <%}%>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td>거래금액:</td>
-                                                    <td class="text-xs font-weight-bold  text-danger text-uppercase mb-1">                                                    
-                                                            <%=resultt[i].kp_amount%>
-                                                    </td>
-                                                </tr>
-
-                                                <%}%>
                                                 
+                                                <%}%>
                                             </table>
                                     </div> 
                                 </div>   
