@@ -1,5 +1,12 @@
 const express = require('express')
 const router = express.Router()
+// express를 사용하기 위하여 express 모듈을 로드 
+
+const fs = require('fs')
+// route부분이기 때문에 express.Router()
+
+const moment = require('moment')
+const http = require('http');
 
 // mysql의 정보를 등록
 const mysql = require('mysql2')
@@ -41,6 +48,7 @@ module.exports = function(){
                     }else{
                             console.log(receipt)
                             res.render("regist",{
+                                state:0,
                                 login_data:req.session.logined
                             })
         }})}})
@@ -90,7 +98,7 @@ module.exports = function(){
                         values (?, ?,?, ?, ?, ?, ?)`, 
                         [ _phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ], 
                                 // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                        res.render("regist",
+                        res.render("stroke_rank",
                         {
                           login_data:req.session.logined  
                         })
@@ -101,7 +109,7 @@ module.exports = function(){
     })
 
     //Kpoint list 출력
-    router.get('stroke_lank', async (req, res)=>{
+    router.get('/stroke_rank', async (req, res)=>{
         const user = req.session.logined.username
         const phone = req.session.logined.phone 
         if(!req.session.logined){
@@ -152,9 +160,9 @@ module.exports = function(){
                                     }else{
                                     console.log("골프시스템 =",result)
                                     const etc=result2.length
-                                    res.render('stroke_lank', {
-                                        'resultt': result,
-                                        'resultt2': result2,
+                                    res.render('stroke_rank', {
+                                        'resultt': result,  //golfsys
+                                        'resultt2': result2,//bestscore순
                                         'username' : user, 
                                         'phone': phone,
                                         'len': len,

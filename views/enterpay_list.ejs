@@ -17,7 +17,7 @@
           location.href = '/signup'
         }
         function fail(){
-                  alert("대회참가기록이 없어요")
+                  alert("대회참가 기록확인")
         }
 </script>
 
@@ -72,8 +72,8 @@
                                         <hr> 
                                         <div class="text-center">
                                             <h6 class="text-danger">
-                                            아래의 번호 중 check 한 후, <Br>
-                                                스트로크등록 버튼 <br>
+                                           해당 참가시간을 클릭하면 <Br>
+                                               스코어를 등록할 수 있습니다 <br>
                                             ↓↓↓↓↓↓   
                                             </h6>
                                         </div>
@@ -98,7 +98,7 @@
                                                     <tr>
                                                         <td>
                                                             <div name="input_no" value="<%=i%>" 
-                                                            onclick="location.href=('/contract/enterscore/?no=<%=i%>')"><%=i%></div>
+                                                            onclick="location.href=('/contract/enterscore/?no=<%=i%>')"><%=i+1%></div>
                                                         </td>
                                                         <td> 
                                                             <input name = "_time" 
@@ -125,68 +125,7 @@
                                 <!-- 1열 마침 -->
                                 <!-- 2열 시작 -->
                                 <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                                    <div class="col-lg-12"> 
-                                        <div class="p-5">
-                                            <div class="text-center">
-                                                <img src="/img/k.png" width="10%">
-                                                <h6> 마이 스트로크 </h6>
-                                            </div>
-                                            <br>
-                                            <!-- Earnings (Monthly) Card Example -->
-                                            <div class="text-center">
-                                                <div class="col-xl-12 col-md-6 mb-4">
-                                                    <div class="card border-left-primary shadow h-100 py-2">
-                                                        <div class="card-body">
-                                                            <div class="row no-gutters align-items-center">
-                                                                <div class="col mr-2">
-                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                        &nbsp;&nbsp;<%=username%>님
-                                                                    </div>
-                                                                    <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                                                        상위 <%=len%>개 스코어합 : <%=scores_sum%>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                            <div class="container">
-                                        
-                                             <table class="table">
-                                                <%for (var i = 0 ; i <len ; i++){%>
-                                                <tr>
-                                                    <td>
-                                                        최상위 스코어 합(5개) :
-                                                    </td>
-                                                    <td>
-                                                        <%=scores_sum%>
-                                                    </td>
-                                                    <td>
-                                                        나의 스크로크 순위 :<%=i+1%><br>
-                                                        참가시간 :<%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
-                                                        <br>
-                                                        시스템 : <%=resultt[i].golfsys%><br>
-                                                    </td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        스트로크 :<%=resultt[i].strok%>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                   <td >
-                                                        <img src="/uploads/<%=resultt[i].scorepicture%>" width="200">
-                                                    </td>
-                                                </tr>
-                                                <%}%>
-                                                <tr>
-                                                </tr>
-                                            </table>
-                                            </div>       
-                                        </div>    
-                                    </div>
+                                    
                                 </div> <!--2열-->
                 <!-- 행 --> </div>
 

@@ -43,6 +43,21 @@
                                     </div>
                                     
                                     <!-- Earnings (Monthly) Card Example -->
+                                    <div class="text-center">
+                                        <div class="col-xl-12 col-md-6 mb-4">
+                                            <div class="card border-left-primary shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                &nbsp;&nbsp;<%=username%>님<br>(<%=gender%>자부문 대회참여)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
                                     <!-- 제거 -->
 
                                     <hr> 
@@ -54,6 +69,7 @@
                                         <table class="table">
                                             <tr>
                                                 <th>
+                                                    번호<br>
                                                     참가시간
                                                 </th>
                                                 <td>
@@ -68,9 +84,9 @@
                                                 </th>
                                                 <td>
 
-                                                    <select class="form-control" name="input_golfsys" id="golfsys">
+                                                    <select class="form-select" name="input_golfsys" id="golfsys">
                                                         <option value="GolfZon">GolfZon</option>
-                                                        <option value="K Golf Club">"K Golf Club</option>
+                                                        <option value="K Golf Club">K Golf Club</option>
                                                         <option value="UDR Golf">UDR Golf</option>
                                                         <option value="GolfZon Park">GolfZon Park</option>
                                                         <option value="Kakao Friends" >Kakao Friends</option>
@@ -96,7 +112,7 @@
                                                     스코어카드
                                                 </th>  
                                                 <td>
-                                                    <span class="input-group-text" id="basic-addon1">사진 : </span>
+                                                    <span class="input-group-text" id="basic-addon1">스코어카드캡쳐파일  </span>
                                                     
                                                     <input type="file" name="_image" class="form-control" 
                                                     placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
@@ -107,7 +123,7 @@
                                     </div>
                                     <div class="text-center">  
                                         <!-- <input  type="submit" value="strok 등록" id="signup"> -->
-                                        <button class="btn btn-danger" type="submit" value="strok 등록" >strok 등록</button>
+                                        <button class="btn btn-danger" type="submit" value="strok 등록" >스코어등록</button>
                                     </div>
                                 </form>
                                     </div>       

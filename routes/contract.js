@@ -134,21 +134,27 @@ module.exports = ()=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{
-            const s = req.body.state
-            console.log("충전 성공")
-            const phone = req.session.logined.phone
-            console.log('charge get 휴대폰번호 : ', phone)
-            const user = req.session.logined.username
-            res.render('charge', {
-                phone : req.session.logined.phone, 
-                username : req.session.logined.username, 
-                amount : req.session.logined.charge_amount
+                const s = 1//충전 성공 옵션
+                console.log("충전 성공")
+                
+                const _phone = req.session.logined.phone
+                const _user = req.session.logined.username
+                const _amount = req.session.logined.charge_amount
+                res.render('charge', {
+                    phone : _phone, 
+                    username : _user, 
+                    amount : _amount,
+                    st:s
             })}})
 
     router.post('/charge', async (req, res)=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{
+            if(req.body.st!=1){
+                console.log("충전이 안되용")
+            }else{
+
             const price= await req.body.price
             const char=req.session.logined.charge_amount
             const chargeamount=parseInt(char)+parseInt(price)
@@ -168,7 +174,7 @@ module.exports = ()=>{
             const trans_tp="충전"
             kpoint.kpoint_list_insert(_phone, trans_tp,  chargedate, price )
             res.redirect("/")
-        }})      
+}}})      
            
     router.get('/score_list', async (req, res)=>{
         if(!req.session.logined){
@@ -249,7 +255,7 @@ module.exports = ()=>{
             console.log("req.body.no",no)
             
             //대회참가비 리스트
-            const sql = `
+            const sql9 = `
                 select 
                 *
                 from 
@@ -258,10 +264,10 @@ module.exports = ()=>{
                 phone = ?
                 order by entertime DESC
                 `
-            const values = [phone]
+            const values9 = [phone]
             connection.query(
-            sql, 
-            values, 
+            sql9, 
+            values9, 
             function(err, result9){
                 if(err){
                     console.log(err)
@@ -294,28 +300,58 @@ module.exports = ()=>{
                                     console.log(err)
                                     res.send(err)
                                 }else{
-                                    console.log("시간으로 찾은 레코드 :", result)
-                                    console.log('The 2st entertime is: ', result[0].entertime)
-                                    const entertime1 = result[0].entertime
-                                    console.log("5등 이내의 성적과 합과 스코어 등록을 할 레코드를 enterscore로 렌더링")
-                                    res.render('enterscore', {
-                                        no:no,
-                                        resultt : result, 
-                                        username:user,
-                                        login_data : req.session.logined,
-                                        timeresult:result[0],
-                                        entertime : entertime1,
-                                        state:data
-                                    })
+                                    //ksfc에서 성별 가져오기
+                                    const sql2 = `
+                                        select 
+                                        * 
+                                        from 
+                                        ksfc 
+                                        where 
+                                        phone = ?
+                                            `
+                                    // const values =[phone]
+                                    const values2 = [phone]
+
+                                    connection.query(
+                                        sql2, 
+                                        values2, 
+                                        function(err, result2){
+                                            if(err){
+                                                console.log(err)
+                                                res.send(err)
+                                            }else{
+                                                console.log("KSFC성별 추출이 하고 싶어서",result2)
+                                                const gender=result2[0].gender
+                                                console.log("KSFC성별 :",gender)
+                                                if(gender=="남"||gender=="여"){
+                                                console.log("시간으로 찾은 레코드 :", result)
+                                                console.log('The 2st entertime is: ', result[0].entertime)
+                                                const entertime1 = result[0].entertime
+                                                console.log("5등 이내의 성적과 합과 스코어 등록을 할 레코드를 enterscore로 렌더링")
+                                                res.render('enterscore', {
+                                                    no:no,
+                                                    resultt : result, 
+                                                    username:user,
+                                                    login_data : req.session.logined,
+                                                    timeresult:result[0],
+                                                    entertime : entertime1,
+                                                    state:data,
+                                                    gender:gender
+                                        })}else{
+                                            res.render("/regist",({
+                                                state:data
+                                            }))
+                                        }}})}})
                                 }}
-                    )}})}
-            }) 
+                    )}})
+
 
     router.post('/enterscore', upload.single('_image'),async function(req, res){
         if(!req.session.logined){
             res.redirect("/")
-        }else{    
-            console.log("여기가 post인데 실행되나?")
+        }else{
+            const n = req.body._n   
+            console.log("여기가 post인데 실행되나?",n)
             const phone = req.session.logined.phone 
             const user = req.session.logined.username
             const _golfsys = await req.body.input_golfsys
@@ -327,25 +363,27 @@ module.exports = ()=>{
             const _tokenamount = req.session.logined.charge_amount
             const tokenamount = parseInt(_tokenamount)+parseInt(-2000)   
 
-            //결제 시간
-
             const _scorepicture = req.file.filename
             console.log('_scorepicture=',_scorepicture);
 
-            const filename = _scorepicture;            
+            const code = Math.floor(Math.random() * 10000000)
+            console.log("파일이름 중복방지 =",code)
+            // const filename = code.toString()+_scorepicture; 
+            const filename = _scorepicture; 
+            console.log("파일이름 중복방지 filename=",filename)           
             // Save the file to the filesystem.
            // Create the directory if it does not exist
-            if (!fs.existsSync('./public/uploads/')) {
-                fs.mkdirSync('./public/uploads/');
-            }
+            // if (!fs.existsSync('/public/uploads/')) {
+            //     fs.mkdirSync('./public/uploads/');
+            // }
 
             // Check if the file exists
             if (req.file) {
-                const filepath = './public/uploads/' + filename;
+                const filepath = './public/uploads/'+filename
                 console.log("filepath = ",filepath)
                 const image = fs.readFileSync(filepath)
                 // If the file exists, write it to the filesystem
-                if (fs.existsSync(filepath)) {
+                if (!fs.existsSync(filepath)) {
                     // fs.writeFile(filepath,JSON.stringify(filepath), (err) => {
                         fs.writeFile(filepath,image, (err) => {
                         if (err) {
@@ -359,7 +397,7 @@ module.exports = ()=>{
                     console.log('File does not exist!');
                 }}
             
-            const n = req.body._n    
+   
             console.log("enterscore post no ======", n )
 
             //score출력을 위한 준비
@@ -380,12 +418,13 @@ module.exports = ()=>{
                         if(err){
                             console.log(err)
                         }else{
+                            console.log("result2   미리보기=",result2.length )
                             const entertime =result2[n].entertime
 
                             console.log("entertime과 갱신내용 미리보기=", entertime, stroke, _scorepicture )
 
                             //enterscore_update
-                            kpoint.enterscore_update(_golfsys, stroke, _scorepicture, entertime)
+                            kpoint.enterscore_update(_golfsys, stroke,filename, entertime)
                             
                             //kpoint list에 기록
                             const trans_tp = "festival"
@@ -435,7 +474,11 @@ module.exports = ()=>{
                                         }
                                         console.log("scores_sum=", sco_sum)
                                         const scores_sum = sco_sum.toString()
-                                    
+
+                                         //ksfc 5위내의 점수 입력(tier을 위해)
+                                        kpoint.ksfc_update(phone,scores_sum )
+                                        kpoint.tier_update(phone,_golfsys,scores_sum )
+
                                         res.render('score_list', {
                                                 'resultt':result2,
                                                 'username' : user, 
@@ -525,20 +568,46 @@ module.exports = ()=>{
                             }
                             console.log("scores_sum=", sco_sum)
                             const scores_sum = sco_sum.toString()
-                            
-                            res.render('enterpay_list', {
-                                    'enterpay':result,
-                                    'resultt':result2,
+                            const sql3 = `
+                                select 
+                                *
+                                from 
+                                ksfc
+                                where 
+                                phone = ?
+                                `
+                            const values3 = [phone]
+                            connection.query(
+                            sql3, 
+                            values3, 
+                            function(err, result3){
+                                if(err){
+                                    console.log(err) 
+                               }else{
+                                    if(result3.length == 0){
+                                        const st=3 
+                                        res.render("regist",{
+                                            state:st,
+                                            'login_data' : req.session.logined, 
+                                        }) 
+                                    }else{
 
-                                    'username' : user, 
-                                    'amount' : amount,
-                                    'phone': phone,
-                                    'login_data' : req.session.logined,  
-                                    'state':data ,
-                                    'scores_sum' : scores_sum,
-                                    'len': len           
-                                    })  
-                            }})}})}})
+                                    console.log("ksfc===",result3[0])
+                                    const gender = result3[0].gender
+                                    res.render('enterpay_list', {
+                                        'enterpay':result,
+                                        'resultt':result2,
+
+                                        'username' : user, 
+                                        'amount' : amount,
+                                        'phone': phone,
+                                        'login_data' : req.session.logined,  
+                                        'state':data ,
+                                        'scores_sum' : scores_sum,
+                                        'len': len           
+                                        })}
+                                    }})
+                                }})}})}})
 
     // router.post('/enterpay_list', async (req, res)=>{
     //     if(!req.session.logined){
@@ -891,67 +960,52 @@ module.exports = ()=>{
                             //log_info 금액 수정 log_info
                             ch_amount = parseInt(_charge_amount) - parseInt(pay_amount)
                             kpoint.log_info_amount_update(_phone, ch_amount  )        
-                            console.log("로그인포테이블에 수정된 KPoint 갱신입력 성공",charge_amount  )
+                            console.log("로그인포테이블에 수정된 KPoint 갱신입력 성공",ch_amount  )
                             
                             //KP_list에 추가 all
                             const trans_tp = storename.toString()
                             kpoint.kpoint_list_insert(_phone, trans_tp,  _input_dt, pay_amount )
                             
-                            const sql6 = `
-                                select 
-                                *
-                                from 
-                                store_pay
-                                where 
-                                phone = ?
-                                order by transdate DESC
-                                `
-                            const values6 = [_phone]
-                            connection.query(
-                                sql6, 
-                                values6, 
-                                function(err, result6){
-                                    if(err){
-                                        console.log(err)
-                                    }else{  
-                                        res.render("gamepay_list",{
-                                            resultt :result6,
-                                            amount :req.session.logined.charge_amount
-                                        }
-                    )}} ) }})}}})
+                 
+                            res.render("gamepay_list",{
+                                resultt :result6,
+                                amount :req.session.logined.charge_amount
+                                    } )
+
+                        }})}}})
 
     router.get('/gamepay_list', async (req, res)=>{
     if(!req.session.logined){
         res.redirect("/")
         }else{  
             console.log("가맹점 거래내역보기 성공")  
-            // const phone = req.session.logined.phone 
-            // const user = req.session.logined.username         
-            // const tokenamount = req.session.logined.charge_amount
-            // const sql = `
-            //         select 
-            //         *
-            //         from 
-            //         store_pay
-            //         where 
-            //         phone = ?
-            //         order by transdate DESC
-            //     `
-            // const values = [phone]
-            // connection.query(
-            //     sql, 
-            //     values, 
-            //     function(err, result){
-            //         if(err){
-            //             console.log(err)
-            //         }else{     
-            //             res.render('gamepay_list', {
-            //                 'resultt': result,
-            //                 'username' : user, 
-            //                 'amount':tokenamount,
-            //                 'phone': req.session.logined.phone
-                }
-            })
+            const phone = req.session.logined.phone 
+            const user = req.session.logined.username         
+            const tokenamount = req.session.logined.charge_amount
+            const sql = `
+                    select 
+                    *
+                    from 
+                    store_pay
+                    where 
+                    phone = ?
+                    order by transdate DESC
+                `
+            const values = [phone]
+            connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }else{     
+                        res.render('gamepay_list', {
+                            'resultt': result,
+                            'username' : user, 
+                            'amount':tokenamount,
+                            'phone': req.session.logined.phone
+                })}})
+            }})
 
     router.get('/kp_trans', async (req, res)=>{
         if(!req.session.logined){
@@ -986,7 +1040,7 @@ module.exports = ()=>{
             const receiptphone =await req.body._reciept//수신자폰
 
             const pay_amount = await req.body._sendpay
-            console.log("gamepay_amount =",pay_amount)
+            console.log("transpay_amount =",pay_amount)
             // const date = moment()
             // const _input_dt = date 
             const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
@@ -1033,8 +1087,8 @@ module.exports = ()=>{
                         console.log(err)
                     }else{ 
                         //수신자 금액 정정 
-                        console.log("&&&&&&&&&&&&&&&&&", result6[0])
-                        const reciept_amount=result6[0].charge_amount
+                        console.log("&&&&&&&&&&&&&&&&&", receiptphone)
+                        const reciept_amount = result6[0].charge_amount
             
                         reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)
                         kpoint.log_info_amount_update( receiptphone, reciep_amount)
@@ -1072,36 +1126,74 @@ module.exports = ()=>{
                                     const trans_tp1=_username
                                     send=parseInt(pay_amount)*-1
                                     kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, send )
+                                    if(!req.session.logined){
+                                        res.redirect("/")
+                                        }else{  
+                                            console.log("회원끼리 거래내역보기 성공")  
+                                            const phone = req.session.logined.phone 
+                                            const user = req.session.logined.username         
+                                            const tokenamount = req.session.logined.charge_amount
+                                            const sql = `
+                                            select 
+                                            *
+                                            from 
+                                            trans_pay
+                                            where 
+                                            sendphone = ?
+                                            order by transdate DESC
+                                                `
+                                            const values = [phone]
+                                            connection.query(
+                                                sql, 
+                                                values, 
+                                                function(err, result){
+                                                    if(err){
+                                                        console.log(err)
+                                                    }else{     
+                                                        res.render('transpay_list', {
+                                                            'resultt': result,
+                                                            'username' : user, 
+                                                            'amount':tokenamount,
+                                                            'phone': req.session.logined.phone
+                                                })}})
+                                            }}
                         
-                                    //kpoint trans list                                                    
-                                    const sql = `
-                                        select 
-                                        *
-                                        from 
-                                        trans_pay
-                                        where 
-                                        sendphone = ?
-                                        order by transdate DESC
-                                    `
-                                    const values = [_phone]
-                                    connection.query(
-                                        sql, 
-                                        values, 
-                                        function(err, result){
-                                            if(err){
-                                                console.log(err)
-                                            }else{  
-                                                console.log("trans list에 기록 정상")
-                                
-                                                res.render("transpay_list",{
-                                                    login_data : req.session.logined,
-                                                    username :  rec_username,
-                                                    amount : send_amount,
-                                                    resultt :result
-                                                   
-                                                }
-            )}} ) }})}})}}})
+             })}})}}})
 
+
+//kpoint trans list 
+router.get('/transpay_list', async (req, res)=>{
+    if(!req.session.logined){
+        res.redirect("/")
+        }else{  
+            console.log("회원끼리 거래내역보기 성공")  
+            const phone = req.session.logined.phone 
+            const user = req.session.logined.username         
+            const tokenamount = req.session.logined.charge_amount
+            const sql = `
+            select 
+            *
+            from 
+            trans_pay
+            where 
+            sendphone = ?
+            order by transdate DESC
+                `
+            const values = [phone]
+            connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }else{     
+                        res.render('transpay_list', {
+                            'resultt': result,
+                            'username' : user, 
+                            'amount':tokenamount,
+                            'phone': req.session.logined.phone
+                })}})
+            }})
 
     return router
 }

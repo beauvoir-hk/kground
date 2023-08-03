@@ -37,7 +37,7 @@
 
                             <!-- 1열 -->
                                 <div class="col-lg-6"> 
-                                    <div class="p-6">
+                                    <div class="p-5">
                                         <div class="text-center">
                                             <img src="/img/k.png" width="10%">
                                             <h6> 마이 스트로크 </h6>
@@ -63,12 +63,13 @@
                                             </div>
                                         </div> 
                                         <div class="container">
-                                    
                                          <table class="table">
                                             <%for (var i = 0 ; i <resultt.length ; i++){%>
                                             <tr>
                                                 <td>
-                                                    나의 스크로크 순위 :<%=i+1%><br>
+                                                    <div class="text-warning bg-dark">
+                                                        나의 스크로크 순위 :<%=i+1%><br>
+                                                    </div>
                                                     참가시간 :<%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
                                                     <br>
                                                     시스템 : <%=resultt[i].golfsys%><br>
@@ -82,18 +83,19 @@
                                             </tr>
                                             <tr>
                                                <td >
-                                                    <img src="/uploads/<%=resultt[i].scorepicture%>" 
-                                                    width="300">
+                                                <div class="text-danger">
+                                                    <%if(resultt[i].scorepicture!=""){%>
+                                                        <img src="/uploads/<%=resultt[i].scorepicture%>" 
+                                                        width="300">
+                                                    <%}else{%>스코어 등록하세요~"<%}%>
+                                                </div>       
+                                                <hr>
                                                 </td>
+                                               
                                             </tr>
                                             <%}%>
-                                            <tr>
-                                                <td>
-                                                    최상위 스코어 합(5개) :
-                                                </td>
-                                                <td>
-                                                    <%=scores_sum%>
-                                                </td>
+
+
                                             </tr>
                                         </table>
                                         </div>       

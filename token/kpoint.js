@@ -206,14 +206,82 @@ async function trans_list_insert(_input_dt, _phone, _username, receiptphone, pay
         values,
         (err, result)=>{
             if(err){
-                console.error(err)
+                console.log(err)
             }else{
                 console.log("KPoint 거래내역 기록= ",result)
             }
            
         })
-    }  
-        
+    } 
+    
+    
+//KSFC ===============================            
+async function ksfc_update(_phone,   _golfsys, _bestscore )  {
+    //tier을 위한 준비
+    const sql=
+            `
+            update
+            ksfc
+            set
+            bestscore=?,
+            where
+            phone = ? && golfsys=?
+            `
+    const values =  [_bestscore, _golfsys, _phone]
+    
+    connection.query(
+        sql,
+        values,
+        (err, result)=>{
+            if(err){
+                console.error(err)
+            }else{
+                console.log("KSFC 기록= ",result)
+            }
+           
+        })
+    }   
+    
+async function tier_update(_phone, _bestscore )  {
+    
+    const sql=
+            `
+            select 
+            *
+            from 
+            ksfc
+            order by bestscore ASC
+            `
+    const values = [_phone]
+    
+    connection.query(
+        sql,
+        values,
+        (err, result)=>{
+            if(err){
+                console.error(err)
+            }else{
+                let rank=99999
+                console.log("tier 기록= ",result)
+                const len = result.length
+                for(var i=0; i<len ;i++ ){
+                    if(result[i].bestscore == _bestscore){
+                        const rank=i+1
+                    }
+                }
+                
+                if(rank > len/60){
+                    tier=1
+                }else{
+                    if(rank > len/30){
+                        tier=2
+                    }else{
+                        if(rank > len/5){
+                            tier=3
+                        }else{
+                            tier=4
+                        }}}}
+                })}
 
 module.exports = {
     chargelist_insert,
@@ -223,7 +291,9 @@ module.exports = {
     storeamount_update,
     enterscore_update,
     enterpay_score_insert,
-    trans_list_insert
+    trans_list_insert,
+    ksfc_update,
+    tier_update
 }
 
 

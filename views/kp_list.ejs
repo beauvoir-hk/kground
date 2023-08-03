@@ -34,7 +34,7 @@
                             <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image"> -->
                                 <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image">                         -->
                             <div class="col-lg-6"> 
-                                <div class="p-6">
+                                <div class="p-5">
                                     <div class="text-center">
                                         <img src="/img/k.png" width="10%">
                                         KPoint 거래내역 
@@ -42,7 +42,7 @@
                                     <br>
                                     <!-- Earnings (Monthly) Card Example -->
                                     <div class="text-center">
-                                        <div class="col-xl-12 col-md-6 mb-4">
+                                        <div class="col-xl-12 col-md-10 mb-4">
                                             <div class="card border-left-primary shadow h-100 py-2">
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
@@ -61,26 +61,25 @@
                                         </div> 
                                     </div>
                                     <hr> 
-                                    <div class="container">
-                                        <div class="fs-6">    
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">    
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-                                                    <td>번호:</td>
-                                                    <td><%=i+1%></td>
+                                                    <td class="text-xs font-weight-bold text-primary text-uppercase mb-1">번호:</td>
+                                                    <td class="text-xs font-weight-bold text-primary text-uppercase mb-1"><%=i+1%></td>
                                                 </tr>
                                                 <tr>
                                                     <td>거래시간:</td>
-                                                    <td>
+                                                    <td  class="text-uppercase mb-1">
                                                         <%const korea = new Date(resultt[i].transtime)%>
                                                         <%const koreanTime=korea.toLocaleString('ko-KR')%>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        
                                                         <%=koreanTime%>
                                                        <% const kpn = parseInt(resultt[i].kp_amount)*-1%>
                                                        <% const kpp = parseInt(resultt[i].kp_amount)%>
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
-                                                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                       
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -99,16 +98,14 @@
                                                 </tr>
                                                 <tr>
                                                     <td>거래금액:</td>
-                                                    <td>                                                    
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <%=resultt[i].kp_amount%>
+                                                    <td class="text-xs font-weight-bold  text-danger text-uppercase mb-1">                                                    
+                                                            <%=resultt[i].kp_amount%>
                                                     </td>
                                                 </tr>
 
                                                 <%}%>
                                                 
                                             </table>
-                                        </div>       
                                     </div> 
                                 </div>   
                             </div>

@@ -12,18 +12,31 @@
             display: none;
         }
     </style>
+    <script>
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("KSFC대회참가 신청을 해주세요")
+        }
+</script>
 </head>
-<body class="bg-gradient-primary">
+    <%if(state==3){%>
+    <body class="bg-gradient-primary" onload="fail()" >
+        <%}else{%>
+            <body class="bg-gradient-primary" >
+                <%}%>
     <div class="container">
+        <div class="text-center">
+            <a id="signinlink" href="/index" >홈으로</a>
+        </div>
     <!-- Outer Row -->
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <br>
-                    <div class="text-center">
-                        <a id="signinlink" href="javascript:history.back()" >홈으로</a>
-                    </div>
+
                     <!-- Nested Row within Card Body -->
                     <div class="row">
                         <!-- <div class="col-lg-6">  -->
@@ -103,21 +116,21 @@
                                             <th>참가시스템: </th>
                                             <td>
                                                     <input type="radio" value="GolfZon" class="btn-check" name="input_golfsys" id="btnradio23" autocomplete="off" checked="">
-                                                    <label class="btn btn-outline-primary" for="btnradio23">GolfZon</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio23"> GolfZon</label>
                                                     <input type="radio" value="GolfZon Park" class="btn-check" name="input_golfsys" id="btnradio24" autocomplete="off">
-                                                    <label class="btn btn-outline-primary" for="btnradio24">GolfZon Park</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio24"> GolfZon Park</label>
                                                     <input type="radio" value="Kakao Friends" class="btn-check" name="input_golfsys" id="btnradio25" autocomplete="off" >
                                                     <label class="btn btn-outline-primary" for="btnradio25">Kakao Friends</label>
                                                     <input type="radio" value="UDR Golf" class="btn-check" name="input_golfsys" id="btnradio26" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio26">UDR Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio26"> UDR Golf</label>
                                                     <input type="radio" value="K Golf" class="btn-check" name="input_golfsys" id="btnradio27" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio27">K Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio27"> K Golf Club </label>
                                                     <input type="radio" value="GNC" class="btn-check" name="input_golfsys" id="btnradio28" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio28">GNC</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio28"> GNC</label>
                                                     <input type="radio" value="SG Golf" class="btn-check" name="input_golfsys" id="btnradio29" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio29">SG Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio29"> SG Golf</label>
                                                     <input type="radio" value="MS Golf" class="btn-check" name="input_golfsys" id="btnradio30" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio29">MS Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio29"> MS Golf</label>
                                             </td>
                                         </tr>
                                     </table>

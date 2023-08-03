@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="/js/custom.js"></script>
+
     <title>케이그라운드와 함께 해주셔서 감사합니다~</title>
 
     <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
@@ -24,7 +32,7 @@
                     <div class="row">
                         <!-- 1열 -->
                         <div class="col-lg-6"> 
-                            <div class="p-6">
+                            <div class="p-5">
                                 <div class="text-center">
                                     <br>
                                     <img src="/img/k.png" width="10%">
@@ -51,16 +59,16 @@
                                                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                         <div align="right">
                                                                             <%if(login_data['tier'] == 1){ %>
-                                                                                <img src="img/tier_004.png" width="40px">
+                                                                                <img src="img/tier_004.png" width="50px">
                                                                             <%}%>
                                                                             <%if(login_data['tier'] == 2){ %>
-                                                                                <img src="img/tier_003.png" width="40px">
+                                                                                <img src="img/tier_003.png" width="50px">
                                                                             <%}%>                     
                                                                             <%if(login_data['tier'] == 3){ %>
-                                                                                <img src="img/tier_002.png" width="40px">
+                                                                                <img src="img/tier_002.png" width="50px">
                                                                             <%}%>                                                                             
                                                                             <%if(login_data['tier'] == 4){ %>
-                                                                                <img src="img/tier_001.png" width="40px">
+                                                                                <img src="img/tier_001.png" width="50px" height="60px">
                                                                             <%}%>                                                                                                                              
                                                                             <br>
                                                                             <%if(login_data['tier'] == 1){ %>
@@ -122,7 +130,7 @@
                                 
                                 <a href="/golf/ksfc"><img src="/img/80_014.png" alt="KSFC선수등록"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/golf/stroke_lank"><img src="/img/80_026.png" alt="KSFC랭킹"></a>
+                                <a href="/golf/stroke_rank"><img src="/img/80_026.png" alt="KSFC랭킹"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="golf/regu"><img src="/img/80_010.png"  alt="대회규정"></a>
                                 <br><br>
