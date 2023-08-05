@@ -195,13 +195,14 @@ module.exports = function(){
 
     // stroke_rank
     router.get('/stroke_rank', async (req, res)=>{
+        const rank=[]
         const user = req.session.logined.username
         const phone = req.session.logined.phone 
         if(!req.session.logined){
             res.redirect("/")
         }else{    
 
-            //phone번호로 로그인된 세션의 score만 읽어온다
+            //phone번호로 로그인된 세션의 golfsys만 읽어온다
             const sql = `
             select DISTINCT
             golfsys
@@ -214,20 +215,16 @@ module.exports = function(){
             connection.query(
                 sql, 
                 values, 
-                function(err, result){
+                function(err, my){
                     if(err){
                         console.log(err)
                         state=false
                     }else{
                         state=true
                         let len =0
-                        if(result.length>=5){
-                            len =5
-                            }else{
-                                len=result.length
-                            }
-                            
-                        //골프시스템별 bestscore구하기
+                        len=my.length
+    
+                        //골프시스템별 bestscore구하기(전체모두 부르기)
                         const sql2 = `
                             select 
                             *
@@ -239,18 +236,28 @@ module.exports = function(){
                             connection.query(
                                 sql2, 
                                 values2, 
-                                function(err, result2){
+                                function(err, all){
                                     if(err){
                                         console.log(err)
                                     }else{
-                                    console.log("골프시스템 =",result)
-                                    const etc=result2.length
+                                    console.log("골프시스템 =",my)
+                                    const etc=all.length
+
+                                     for(var j=0; j<len; j++){
+                                        for(var i=0; i<etc; i++){
+                                            if(my[j].bestscore==all[i].bestscore){
+                                            rank[j]=i+1
+                                            }
+                                     } }  
+
                                     res.render('stroke_rank', {
-                                        'resultt': result,  //golfsys
-                                        'resultt2': result2,//bestscore순
+                                        'resultt':my,  //golfsys
+                                        'resultt2': all,//bestscore순
                                         'username' : user, 
                                         'phone': phone,
                                         'len': len,
+                                        etc:etc,
+                                        myrank:rank,
                                         'state':state
                                         })  
                              }})

@@ -13,13 +13,6 @@
         }
     </style>
   
- <script>
- $(document).ready(function() {
-   $("#button").on("click", function() {
-     alert("Hello, world!");
-   });
- });
- </script>
 <!-- JS API 결제요청 호출시 설정된 파라메터 중
 상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
 <script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
@@ -125,7 +118,7 @@
                                             </i>
                                         </div>
                                         <div class="text-center">
-                                            <input type="submit"  class="btn btn-danger" value="충전하기" href="#" onclick="payappPay();">   
+                                            <input type="submit"  class="btn btn-danger" value="충전하기" href="#" onclick="payappPay()">   
                                        </div>
                                         </fieldset>
                                         </form>

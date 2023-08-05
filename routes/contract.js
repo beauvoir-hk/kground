@@ -134,6 +134,7 @@ module.exports = ()=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{
+
                 const s = 1//충전 성공 옵션
                 console.log("충전하러 가자")
                 
@@ -151,26 +152,63 @@ module.exports = ()=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{
-            const price= await req.body.price
-            const char=req.session.logined.charge_amount
-            const chargeamount=parseInt(char)+parseInt(price)
-            const date =  moment()
-            const chargedate = date.format('YYYY-MM-DD HH:mm:ss')
-            console.log("charge date :",chargedate )
+        //     console.log("const response = await payappOapiPost(postdata)=,response");
+        // // PayApp API에 요청을 보내고 응답을 출력합니다.
+        // const price= await req.body.price
+        // const _phone = req.session.logined.phone
+        // const postdata = {
+        //     cmd: 'payrequest',
+        //     userid: 'qop1513',
+        //     goodname: '케이그라운드',
+        //     price: parseInt(price),
+        //     recvphone:  _phone,
+        //     returnurl: 'https://kground.co.kr/payment/?price='+parseInt(price),
+        //     openpaytype:'card,phone,kakaopay,naverpay,smilepay',
+        //     smsuse: 'n',
+        //     redirectpay: '1',
+        //     skip_cstpage: 'y'
+        // }
+        // const response = await kpoint.payappOapiPost(postdata);
+        // console.log("const response = await payappOapiPost(postdata)=",response);
+        const _phone = req.session.logined.phone
+        const _user = req.session.logined.username
+        const _amount = req.session.logined.charge_amount
+        res.render('charge', {
+            phone : _phone, 
+            username : _user, 
+            amount : _amount,
             
-            const _phone = req.session.logined.phone
- 
-            //충전 리스트에 추가기록
-            kpoint.chargelist_insert(_phone,chargedate, price)
-            
-            //원장기록 update
-            kpoint.log_info_amount_update(_phone,chargeamount )
+        })
 
-            //kpoint 전체거래내역에 추가
-            const trans_tp="charge"
-            kpoint.kpoint_list_insert(_phone, trans_tp,  chargedate, price )
-            res.redirect("/")
+        //    res.redirect("../")
 }})      
+
+router.get('/charge', async (req, res)=>{
+    if(!req.session.logined){
+        res.redirect("/")
+    }else{  
+        const char=req.session.logined.charge_amount
+        const chargeamount=parseInt(char)+parseInt(price)
+        const date =  moment()
+        const chargedate = date.format('YYYY-MM-DD HH:mm:ss')
+        console.log("charge date :",chargedate )
+        
+        
+
+        //충전 리스트에 추가기록
+        kpoint.chargelist_insert(_phone,chargedate, price)
+        
+        //원장기록 update
+        kpoint.log_info_amount_update(_phone,chargeamount )
+
+        //kpoint 전체거래내역에 추가
+        const trans_tp="charge"
+        kpoint.kpoint_list_insert(_phone, trans_tp,  chargedate, price )
+
+        res.redirect("../")
+    }})
+
+
            
     router.get('/score_list', async (req, res)=>{
         if(!req.session.logined){
@@ -201,7 +239,7 @@ module.exports = ()=>{
                     console.log(err)            
                 }else{
                     console.log(result2.length)
-                    console.log("//상위 5개 score출력을 위한 준비: ", result2)
+                    // console.log("//상위 5개 score출력을 위한 준비: ", result2)
           
                     let len=0
                     let sco_sum =0
@@ -474,7 +512,7 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
                                         //ksfc 5위내의 점수 입력(tier을 위해)
                                     kpoint.ksfc_update(phone,scores_sum )
                                     kpoint.tier_update(phone,_golfsys,scores_sum )
-                                    res.redirect("/score_list")
+                                    // res.redirect("/score_list")
                                     res.render('score_list', {
                                             'resultt':result2,
                                             'username' : user, 
@@ -929,14 +967,15 @@ router.post('/gamepay', async (req, res)=>{
                         //KP_list에 추가 all
                         const trans_tp = storename.toString()
                         kpoint.kpoint_list_insert(_phone, trans_tp,  _input_dt, pay_amount )
-                        
-                res.redirect("gamepay_list")
-                        // res.render("gamepay_list",{
-                        //     resultt :result6,
-                        //     amount :req.session.logined.charge_amount
-                        //         } )
+
+                        res.render("gamepay_list",{
+                            resultt :result,
+                            amount :req.session.logined.charge_amount,
+                            username:req.session.logined.username
+                                } )
 
                     }})}}})
+                    
 
 router.get('/gamepay_list', async (req, res)=>{
 if(!req.session.logined){
@@ -1050,6 +1089,7 @@ router.post('/kp_trans', async (req, res)=>{
                 if(err){
                     console.log(err)
                 }else{ 
+                    if(result6.length!=0){
                     //수신자 금액 정정 
                     console.log("&&&&&&&&&&&&&&&&&", receiptphone)
                     const reciept_amount = result6[0].charge_amount
@@ -1080,6 +1120,8 @@ router.post('/kp_trans', async (req, res)=>{
                             if(err){
                                 console.log(err)
                             }else{ 
+
+                                if(result2.length!=0){
                                 send_amount = (parseInt(_charge_amount) - parseInt(pay_amount))
                                 kpoint.log_info_amount_update( _phone, send_amount  )
 
@@ -1122,7 +1164,7 @@ router.post('/kp_trans', async (req, res)=>{
                                             })}})
                                         }}
                     
-            })}})}}})
+            }})}}})}}})
 
 
 //kpoint trans list 

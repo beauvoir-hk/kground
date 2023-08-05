@@ -20,6 +20,46 @@ const connection = mysql.createConnection({
     password : process.env.password,
     database : process.env.database
 })
+const http = require('http');
+
+const payappApiDomain = 'api.payapp.kr';
+const payappApiUrl = '/oapi/apiLoad.html';
+
+
+// PayApp API에 POST 요청을 보내는 함수
+async function payappOapiPost(postdata) {
+    // POST 요청을 생성합니다.
+
+//     const request = http.request('POST', `https://api.payapp.kr/oapi/apiLoad.html`, {
+//         headers: {
+//           'Content-Type': 'application/x-www-form-urlencoded',
+//         },
+//       });
+      
+//       request.on('response', async (response) => {
+//         if (response.statusCode !== 200) {
+//           throw new Error(`Invalid response status code: response.statusCode`);
+//         }
+
+//         // POST 요청에 헤더를 추가합니다.
+//         request.set('Content-Type', 'application/x-www-form-urlencoded');
+    
+//         // POST 요청에 데이터를 추가합니다.
+//         request.set('Content-Length', Buffer.byteLength(postdata));
+    
+//         // POST 요청을 보내고 응답을 수신합니다.
+//         response = await request.send(postdata);
+    
+//         // 응답의 상태 코드를 확인합니다.
+//         if (response.statusCode !== 200) {
+//         throw new Error(`Invalid response status code: response.statusCode`);        }
+
+//         // 응답의 본문을 반환합니다.
+//         return await response.text();
+//   })
+}
+
+
 
 //충전 리스트에 기록
 async function chargelist_insert(_phone,chargedate, price){
@@ -82,7 +122,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price ){
             if(err){
                 console.error(err)
             }else{
-                console.log("kpoint list에 기록 정상+본문으로 돌아가고싶다")
+                console.log("kpoint list에 기록 정상+본문으로 돌아가고싶다",result)
             }})}
 //충전------------------------------------------------------------
 
@@ -105,7 +145,7 @@ async function store_list_insert(_input_dt, _phone, _username, _storename, pay_a
             if(err){
                 console.error(err)
             }else{
-                console.log("상점 거래내역 기록= ",result)
+                console.log("상점 거래내역 기록= ",result.length)
             }
            
         })}  
@@ -208,7 +248,7 @@ async function trans_list_insert(_input_dt, _phone, _username, receiptphone, pay
             if(err){
                 console.log(err)
             }else{
-                console.log("KPoint 거래내역 기록= ",result)
+                console.log("KPoint 거래내역 기록= ",result.length)
             }
            
         })
@@ -223,11 +263,11 @@ async function ksfc_update(_phone,   _golfsys, _bestscore )  {
             update
             ksfc
             set
-            bestscore=?,
+            bestscore=?
             where
             phone = ? && golfsys=?
             `
-    const values =  [_bestscore, _golfsys, _phone]
+    const values =  [_bestscore, _phone, _golfsys]
     
     connection.query(
         sql,
@@ -236,7 +276,7 @@ async function ksfc_update(_phone,   _golfsys, _bestscore )  {
             if(err){
                 console.error(err)
             }else{
-                console.log("KSFC 기록= ",result)
+                console.log("KSFC 기록= ",result.length)
             }
            
         })
@@ -249,7 +289,7 @@ async function ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _bi
         insert 
         into 
         ksfc
-        values (?, ?,?, ?, ?, ?, ?)`
+        values (?, ?,?, ?, ?, ?, ?,?)`
         const values =  [_phone, _username, _gamenumber, _gender, _jiyeok, birth ,_golfsys,_bestscore]
         
         connection.query(
@@ -259,7 +299,7 @@ async function ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _bi
                 if(err){
                     console.error(err)
                 }else{
-                    console.log("KSFC 기록= ",result)
+                    console.log("KSFC 기록됨= ",result.length)
                 }
                
             })
@@ -275,11 +315,11 @@ async function tier_update(_phone, _bestscore )  {
             ksfc
             order by bestscore ASC
             `
-    const values = [_phone]
+    
     
     connection.query(
         sql,
-        values,
+       
         (err, result)=>{
             if(err){
                 console.error(err)
@@ -311,11 +351,11 @@ async function tier_update(_phone, _bestscore )  {
                             update
                             log_info
                             set
-                            tier=?,
+                            tier=?
                             where
                             phone = ?
                             `
-                        const values = [_phone]
+                        const values = [tier,_phone]
                         
                         connection.query(
                             sql,
@@ -325,8 +365,8 @@ async function tier_update(_phone, _bestscore )  {
                                     console.log(err)}
                                     else{
                                         console.log("tier기록 완료")
-                                             }})} 
-                                            })}
+                 }})} 
+      })}
 
 
 module.exports = {
@@ -340,32 +380,7 @@ module.exports = {
     trans_list_insert,
     ksfc_update,
     tier_update,
-    ksfc_insert
+    ksfc_insert,
+    payappOapiPost
 }
 
-
-// 함수 호출
-// balance_of('0x3778671B6beA5D1dcdd059F1e226B096c82c13a0')
-// create_wallet()
-
-// 함수 호출 
-// trans_from_token(process.env.private_key2, 10)
-
-
-// trade_token('0x2aB031861b7672Df302527129AA090B060496Df5', 111)
-
-
-// 토큰 생성 함수를 호출
-// create_token('test', 'tes', 0, 100000)
-
-// // JSON형태 파일을 생성
-// const fs = require('fs')
-// const test = {
-//     name : 'test'
-// }
-// // 파일에 데이터를 넣기 위해서는 문자형으로 변환 
-// const testJSON = JSON.stringify(test)
-
-// console.log(testJSON)
-
-// fs.writeFileSync('test.json', testJSON)

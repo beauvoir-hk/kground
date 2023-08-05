@@ -175,7 +175,9 @@ module.exports = ()=>{
                     }else{
                         console.log(receipt)
                         // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                        res.redirect("/")
+                        res.render("auth",{
+                            phone:_phone,
+                            state:3})
                     }
                 }
         )
@@ -444,7 +446,7 @@ router.get('/check_id', function(req, res){
         if(req.session.logined){
             const _st=1
             console.log("req.body.st",_st)
-            console.log("로그인됨",_s)
+            console.log("로그인됨")
                 res.render("auth",{
                     phone:req.session.phone,
                     state:_state,
