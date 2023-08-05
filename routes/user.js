@@ -116,11 +116,14 @@ module.exports = ()=>{
                         logphone = result[0].phone
                         console.log("result[0].pass",result[0].pass)
                         console.log("result[0].pass=='1234'",result[0].pass=='1234')
+                        
+                        //비밀번호 1234일때 문자인증후 비밀번호 + 선수등록  필수
                         if(result[0].pass == "1234"){
                             res.render("auth",{
                                 phone:logphone,
-                                state:3
-
+                                state:3, //문자인증 비밀번호 변경에 대한안내
+                                st:1 ,//로그린 상태는 전번고정
+                                dir:0//비밀번호 변경 화면 선택 (1,두개다변경,2 로그인, 3결제)
                             })
                             }else{
                                 res.redirect('/?data=false')
@@ -175,9 +178,10 @@ module.exports = ()=>{
                     }else{
                         console.log(receipt)
                         // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                        res.render("auth",{
+                        res.render("regist",{
                             phone:_phone,
-                            state:3})
+                            state:0//처음참가신청
+                        })
                     }
                 }
         )
@@ -306,13 +310,78 @@ module.exports = ()=>{
             console.log('로그인 정보 없음')
             res.redirect("/")
         }else{
-            const balance = req.session.logined.chage_amount
-            res.render('my.ejs', {
-                login_data : req.session.logined, 
-                charge_amount : balance
+
+            res.render("my",{
+                login_data:req.session.logined
             })
         }
     })
+
+
+router.post('/change_pass_all', async function(req, res){
+    const input_new_pass = await req.body.input_pass
+    const input_new_pass6 = await req.body.input_paypass6
+    const phone=req.body._phone
+    console.log(input_new_pass)
+    state=0    
+    const sql = `
+                update
+                log_info
+                set
+                pass = ?,
+                numeric6 = ?
+                where
+                phone = ?
+                `
+    const values = [input_new_pass,input_new_pass6,  phone]
+    connection.query(
+        sql, 
+        values, 
+        function(err, result){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log('loginfo sql',input_new_pass, phone)
+                console.log("로그인비밀번호 변경성공", result)
+                res.render("regist",{
+                    phone:phone,
+                    state:0
+                })
+            } } )
+        })
+
+
+router.post('/change_pass1', async function(req, res){
+    const input_new_pass = await req.body.input_pass
+    const phone=req.body._phone
+    console.log(input_new_pass)
+    state=0    
+    const sql = `
+                update
+                log_info
+                set
+                pass = ?
+                where
+                phone = ?
+                `
+    const values = [input_new_pass, phone]
+    connection.query(
+        sql, 
+        values, 
+        function(err, result){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log('loginfo sql',input_new_pass, phone)
+                console.log("로그인비밀번호 변경성공", result)
+                res.render("change_pass1",{
+                    phone:phone,
+                    state:0
+                })
+            } } )
+        })
 
 router.post('/change_pass', async function(req, res){
     const input_new_pass = await req.body.input_pass
@@ -338,13 +407,9 @@ router.post('/change_pass', async function(req, res){
             }else{
                 console.log('loginfo sql',input_new_pass, phone)
                 console.log("로그인비밀번호 변경성공", result)
-                res.render("change_pass",{
-                    state:1,
-                    _phone:phone
-                })
+                res.redirect("/")
             } } )
         })
-
 
 router.post('/change_paypass6', async function(req, res){
     const phone=req.body._phone
@@ -370,7 +435,7 @@ router.post('/change_paypass6', async function(req, res){
             }else{
                 console.log('loginfo sql',input_new_pass6, phone)
                     console.log("결제비밀번호 변경성공", result)
-                    res.redirect('/')
+                    res.redirect("/")
             }}
 )})
                         
@@ -438,39 +503,282 @@ router.get('/check_id', function(req, res){
                 )}
     })
 
+//회원인지확인(KP거래)
+    router.get('/check_id1', function(req, res){
+        const input_id = req.query._id
+        const state =req.query.state
+        console.log("state =",state )
 
-    router.get('/auth1', async  (req, res) => {
-        const _state=3
-        console.log("req.body.state",_state)
-
-        if(req.session.logined){
-            const _st=1
-            console.log("req.body.st",_st)
-            console.log("로그인됨")
-                res.render("auth",{
-                    phone:req.session.phone,
-                    state:_state,
-                    st:_st                            
-                })
+        const sql = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values = [input_id]
+        connection.query(
+    
+        sql, 
+        values, 
+        function(err, result){
+            if(err){
+                console.log(err)
             }else{
-                const _st=0
-                console.log("req.body.st",_st)
-                res.render("auth",{
-                    
-                    phone:req.session.phone,
-                    state:_state,
-                    st:_st
-                })}
-            })
+                //전번으로 select한 db의 데이터가 있으면 result!=0
+                if(result.length != 0){
+                    res.send(true)
+                    // res.render("verify",{
+                    //     'phone' : input_id
+                    }else{
+                        res.send(false)
+                        } 
+                    } }
+        )})
 
-    // 문자인증을 생성합니다.
-    router.post('/auth', async  (req, res) => {
+    router.get('/auth6', async  (req, res) => {
+        const _state=3
+        const _dir= await req.body.dir
         const _st=0
+        if(req.session.logined){
+            res.render("auth6",{
+                phone:req.session.logined.phone,
+                state:_state,
+                st:_st,
+                dir:_dir
+    })}})
+        
+
+    // 비밀번호 찾기
+    router.post('/auth6', async  (req, res) => {
+        let _st=0//전번입력받아진행
+        const _dir= await req.body.dir
         if(req.session.logined){
              _st=1
         }
-            const phone = await req.body._phone
-            console.log("req.body._phonee =",phone )
+        const phone = req.session.logined.phone
+        console.log("req.body._phonee =",phone )
+
+        const gphone = "+82"+ phone
+        console.log("auth 실행 들어옴 gphone =",gphone)
+        // 문자인증 코드를 생성합니다.
+        // 랜덤으로 4자리 인증 코드를 만든다.
+        const auth_code = Math.floor(Math.random() * 10000)
+        console.log("auth 실행 들어옴 auth_code =",auth_code)
+        const expire = new Date()
+        console.log("auth 실행 들어옴 expire =",expire)
+        console.log("process.env.kphonenumber=",process.env.kphonenumber)
+
+        //db에 기록
+        const sql = `
+            insert 
+            into 
+            auth
+            values (?,?,?)
+        `
+        const values = [auth_code,phone,expire]
+        connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    res.render("auth6",{
+                        st:_st,//
+                        state:3,  
+                        dir:_dir                        
+                    })
+                } else{
+                        
+                        console.log("인증번호 발행")
+                    
+        
+                        twilioClient.messages.create({
+                            body: 'GolfPlatform 케이그라운드 인증번호 :   ' + auth_code,
+                            from: process.env.kphonenumber,
+                            to: gphone
+                            })
+                            .then(message => console.log("verify.ejs----", message.sid))
+                                // 문자인증 코드를 MySQL에서 조회합니다.
+                            res.render('auth6',{
+                                phone : phone,
+                                state:1,
+                                st:_st,
+                                dir:_dir
+
+                            })}
+            })})
+
+
+    router.get('/auth2', async  (req, res) => {
+        const _state=3
+        const _dir= 2//로그인만변경
+        const _st=0//기로그인
+        if(req.session.logined){
+            res.render("auth2",{
+                phone:req.session.logined.phone,
+                state:_state,
+                st:_st,
+                dir:_dir
+    })}})
+        
+
+    // 비밀번호 찾기
+    router.post('/auth2', async  (req, res) => {
+        let _st=0//전번입력받아진행
+        if(req.session.logined){
+             _st=1//기로그인
+        }
+        const phone = req.session.logined.phone
+        console.log("req.body._phonee =",phone )
+
+        const gphone = "+82"+ phone
+        console.log("auth 실행 들어옴 gphone =",gphone)
+        // 문자인증 코드를 생성합니다.
+        // 랜덤으로 4자리 인증 코드를 만든다.
+        const auth_code = Math.floor(Math.random() * 10000)
+        console.log("auth 실행 들어옴 auth_code =",auth_code)
+        const expire = new Date()
+        console.log("auth 실행 들어옴 expire =",expire)
+        console.log("process.env.kphonenumber=",process.env.kphonenumber)
+
+        //db에 기록
+        const sql = `
+            insert 
+            into 
+            auth
+            values (?,?,?)
+        `
+        const values = [auth_code,phone,expire]
+        connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    res.render("auth2",{
+                        st:_st,//
+                        state:3,  
+                        dir :2                      
+                    })
+                } else{
+                        
+                        console.log("인증번호 발행")
+                    
+        
+                        twilioClient.messages.create({
+                            body: 'GolfPlatform 케이그라운드 인증번호 :   ' + auth_code,
+                            from: process.env.kphonenumber,
+                            to: gphone
+                            })
+                            .then(message => console.log("verify.ejs----", message.sid))
+                                // 문자인증 코드를 MySQL에서 조회합니다.
+                            res.render('auth2',{
+                                phone : phone,
+                                state:1,
+                                st:_st,
+                                dir :2  
+
+                            })}
+            })})
+
+            router.get('/auth1', async  (req, res) => {
+                const _state=3
+                const _dir=1//로그+결제 모두 변경
+                const _st=0
+                res.render("auth1",{
+                
+                state:_state,
+                st:_st,
+                dir:_dir
+            })})
+                
+        
+            // 비밀번호 찾기
+            router.post('/auth1', async  (req, res) => {
+                let _st=0//전번입력받아진행
+                if(req.session.logined){
+                     _st=1
+                }
+                const phone = await req.body._phone//로그인 안되어서 입력 받음 
+                console.log("req.body._phonee =",phone )
+        
+                const gphone = "+82"+ phone
+                console.log("auth 실행 들어옴 gphone =",gphone)
+                // 문자인증 코드를 생성합니다.
+                // 랜덤으로 4자리 인증 코드를 만든다.
+                const auth_code = Math.floor(Math.random() * 10000)
+                console.log("auth 실행 들어옴 auth_code =",auth_code)
+                const expire = new Date()
+                console.log("auth 실행 들어옴 expire =",expire)
+                console.log("process.env.kphonenumber=",process.env.kphonenumber)
+        
+                //db에 기록
+                const sql = `
+                    insert 
+                    into 
+                    auth
+                    values (?,?,?)
+                `
+                const values = [auth_code,phone,expire]
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                            res.render("auth1",{
+                                st:_st,//
+                                phone:phone,
+                                state:3,  
+                                dir:1                        
+                            })
+                        } else{
+                                
+                                console.log("인증번호 발행")
+                            
+                
+                                twilioClient.messages.create({
+                                    body: 'GolfPlatform 케이그라운드 인증번호 :   ' + auth_code,
+                                    from: process.env.kphonenumber,
+                                    to: gphone
+                                    })
+                                    .then(message => console.log("verify.ejs----", message.sid))
+                                        // 문자인증 코드를 MySQL에서 조회합니다.
+                                    res.render('auth1',{
+                                        phone : phone,
+                                        state:1,
+                                        st:_st,
+                                        dir:1
+        
+                                    })}
+                    })})        
+
+    // 문자인증(폰번호 입력된 상태로 렌더린 당함)
+    router.get('/auth', async  (req, res) => {
+        const _dir= req.body.dir
+        const _state = req.body.state
+        let _st=0
+        if(req.session.logined){
+             _st=1
+        }
+        res.render("auth",{
+            state:_state,
+            st:_st,
+            dir:_dir
+        })
+
+    })
+    router.post('/auth', async  (req, res) => {
+        const _dir= req.body.dir
+        const _state = req.body.state
+        let _st=0
+        if(req.session.logined){
+             _st=1
+        }
+            const phone = req.session.logined.phone
+            console.log("req.session.logined.phone =",phone )
 
             const gphone = "+82"+ phone
             console.log("auth 실행 들어옴 gphone =",gphone)
@@ -498,7 +806,7 @@ router.get('/check_id', function(req, res){
                         console.log(err)
                         res.render("auth",{
                             st:_st,
-                            state:false                            
+                            state:3                           
                         })
                     } else{
                             
@@ -516,24 +824,32 @@ router.get('/check_id', function(req, res){
                                     phone : phone,
                                     state:1,
                                     st:_st
-
+                                    
                                 })}
                 })})
 
 
     router.get('/verify', (req, res)=>{
-            const _phone = req.session.logined.phone
-            res.render('auth',{
-                phone : req.body._phone
-            })
+            // const direct = dir
+            // res.render('auth',{
+            //     dir:dir,
+            //     phone : req.body._phone
+            // })
         })
 
     // 문자인증을 확인합니다.
     router.post('/verify', async (req, res) => {
+
+        const _dir=req.body.dir
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>_dir=", _dir)
         const code1 = await req.body.input_auth_code
         const code = parseInt(code1)
+        const vphone =req.body._phone 
         console.log('req=',code)
-        const vphone = req.body._phone
+        if(req.session.login){
+            vphone = req.session.logined.phone
+        }
+
         console.log('req.session.phone=',vphone)
         
         //인증문자가 맞는지 비교한다
@@ -560,6 +876,7 @@ router.get('/check_id', function(req, res){
                         console.log("User가 없습니다.")
                         return
                     }else{
+                        const vphone=result[0].phone
                             //인증문자가 찾아지면
                         console.log('sql=',sql)
                         console.log(result[0])
@@ -580,18 +897,224 @@ router.get('/check_id', function(req, res){
                             res.render("auth",{
                                 state:2
                             })
-                        } else{ if (code == result[0].auth_code && expireTime < 180) {
-                            //비밀번호 변경하도록 폰번호를 렌더링한다
-                            //     res.render("change_pass",{
-                            //     'tophone':phone
-                            // })
+                        }else{ 
+                            
+                            console.log("인증성공, 로그+결제비밀번호 밖구기로 갈 것")
+                            res.render("change_pass",{
+                                phone :vphone,
+                                state:1
+
+                            })  }}
+                                }})})
+
+    
+    router.post('/verify1', async (req, res) => {
+
+        const _dir=req.body.dir
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>_dir=", _dir)
+        const code1 = await req.body.input_auth_code
+        const code = parseInt(code1)
+        const vphone =await req.body._phone 
+        console.log('req=',code)
+        if(req.session.login){
+            vphone = req.session.logined.phone
         
-                        console.log("인증성공, 비밀번호 밖구기로 갈 것")
-                        res.render("change_pass",{
-                            _phone :vphone,
+
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>vphone=", vphone)
+        }
+        //인증문자가 맞는지 비교한다
+
+        //폰번호로 db에서 db에서 전번으로 인증번호를 찾고
+        const sql = `
+                select 
+                * 
+                from 
+                auth 
+                where 
+                auth_code = ?
+                `
+        const values = [code]
+        connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log("err")
+                }else{
+    
+                    if (result.length === 0) {
+                        console.log("User가 없습니다.")
+                        return
+                    }else{
+                        const phone=result[0].phone
+                            //인증문자가 찾아지면
+                        console.log('sql=',sql)
+                        console.log(result[0])
+                        //3분이 지났는지 확인
+                        console.log('문자전송시간-',result[0].expire)
+                        const now = new Date()
+                        console.log('현재시간 : ',now)
+                        expireTime =Math.floor((now.getTime()- result[0].expire.getTime())/ 1000)  ; 
+                        console.log('expireTime=',expireTime)
+        
+                        console.log(`시간차 ${expireTime}`)
+                        console.log(`auth_code ${result[0].auth_code}`)
+                        // 인증코드와 유효시간 모두 검사한 결과를 비교해서
+                        console.log('code === result[0].auth_code',code == result[0].auth_code,code,result[0].auth_code)
+                        console.log('expire_time > now', expireTime < 180)
+                        if (code == result[0].auth_code && expireTime > 180) {
+                            console.log("인증시간이 지났습니다.")
+                            res.render("auth1",{
+                                
+                                state:2
+                            })
+                        }else{ 
+                            
+                            console.log("인증성공, 로그+결제비밀번호 밖구기로 갈 것")
+                            
+                            res.render("change_pass1",{
+                                phone :phone,
+                                state:1
+                            })  }}
+                                    }})})
+
+    router.post('/verify2', async (req, res) => {
+
+        const _dir=req.body.dir
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>_dir=", _dir)
+        const code1 = await req.body.input_auth_code
+        const code = parseInt(code1)
+        const vphone =req.body._phone 
+        console.log('req=',code)
+        if(req.session.login){
+            vphone = req.session.logined.phone
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>vphone=", vphone)
+        }
+        
+        //인증문자가 맞는지 비교한다
+
+        //폰번호로 db에서 db에서 전번으로 인증번호를 찾고
+        const sql = `
+                select 
+                * 
+                from 
+                auth 
+                where 
+                auth_code = ?
+                `
+        const values = [code]
+        connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log("err")
+                }else{
+    
+                    if (result.length === 0) {
+                        console.log("User가 없습니다.")
+                        return
+                    }else{
+                        const vphone=result[0].phone
+                            //인증문자가 찾아지면
+                        console.log('sql=',sql)
+                        console.log(result[0])
+                        //3분이 지났는지 확인
+                        console.log('문자전송시간-',result[0].expire)
+                        const now = new Date()
+                        console.log('현재시간 : ',now)
+                        expireTime =Math.floor((now.getTime()- result[0].expire.getTime())/ 1000)  ; 
+                        console.log('expireTime=',expireTime)
+        
+                        console.log(`시간차 ${expireTime}`)
+                        console.log(`auth_code ${result[0].auth_code}`)
+                        // 인증코드와 유효시간 모두 검사한 결과를 비교해서
+                        console.log('code === result[0].auth_code',code == result[0].auth_code,code,result[0].auth_code)
+                        console.log('expire_time > now', expireTime < 180)
+                        if (code == result[0].auth_code && expireTime > 180) {
+                            console.log("인증시간이 지났습니다.")
+                            res.render("auth2",{
+                                state:2
+                            })
+                        }else{ 
+                            
+                            console.log("인증성공, 로그+결제비밀번호 밖구기로 갈 것")
+                            res.render("change_pass2",{
+                                phone :vphone,
+                                state:1
+
+                            })  }}
+}})})
+
+router.post('/verify6', async (req, res) => {
+
+    const _dir=req.body.dir
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>_dir=", _dir)
+    const code1 = await req.body.input_auth_code
+    const code = parseInt(code1)
+    const vphone =req.body._phone 
+    console.log('req=',code)
+    if(req.session.login){
+        vphone = req.session.logined.phone
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>vphone=", vphone)
+    }
+
+    
+    
+    //인증문자가 맞는지 비교한다
+
+    //폰번호로 db에서 db에서 전번으로 인증번호를 찾고
+    const sql = `
+            select 
+            * 
+            from 
+            auth 
+            where 
+            auth_code = ?
+            `
+    const values = [code]
+    connection.query(
+        sql, 
+        values, 
+        function(err, result){
+            if(err){
+                console.log("err")
+            }else{
+
+                if (result.length === 0) {
+                    console.log("User가 없습니다.")
+                    return
+                }else{
+                    const phone=result[0].phone
+                        //인증문자가 찾아지면
+                    console.log('sql=',sql)
+                    console.log(result[0])
+                    //3분이 지났는지 확인
+                    console.log('문자전송시간-',result[0].expire)
+                    const now = new Date()
+                    console.log('현재시간 : ',now)
+                    expireTime =Math.floor((now.getTime()- result[0].expire.getTime())/ 1000)  ; 
+                    console.log('expireTime=',expireTime)
+    
+                    console.log(`시간차 ${expireTime}`)
+                    console.log(`auth_code ${result[0].auth_code}`)
+                    // 인증코드와 유효시간 모두 검사한 결과를 비교해서
+                    console.log('code === result[0].auth_code',code == result[0].auth_code,code,result[0].auth_code)
+                    console.log('expire_time > now', expireTime < 180)
+                    if (code == result[0].auth_code && expireTime > 180) {
+                        console.log("인증시간이 지났습니다.")
+                        res.render("auth6",{
                             state:2
-                             })
-                    }}}}})})
+                        })
+                    }else{ 
+                        
+                        console.log("인증성공, 로그+결제비밀번호 밖구기로 갈 것")
+                        res.render("change_pass6",{
+                            phone :vphone,
+                            state:1
+                        })  }}
+}})})
+
 
 // return이 되는 변수는 router
     return router

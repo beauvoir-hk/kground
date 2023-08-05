@@ -52,17 +52,22 @@
                                         <tr>
                                             <th>대회참가: </th>
                                             <td>
-                                                <input type="radio" name="input_gamenumber" value="5" class="btn-check"  id="btnradio20" autocomplete="off" checked="">
+                                                <input type="radio" name="input_gamenumber" value="5" class="btn-check"  
+                                                id="btnradio20" autocomplete="off" checked="">
                                                 <label class="btn btn-outline-primary" for="btnradio20">제5회 대회(지역선수 선발전, 7~9월)</label>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>성별선택: </th>
                                             <td>
-                                                <input type="radio" name="input_gender" value="남" class="btn-check"  id="btnradio21" autocomplete="off" checked="">
+                                                <input type="radio" name="input_gender" value="남" class="btn-check"  
+                                                id="btnradio21" autocomplete="off" checked="true">
                                                 <label class="btn btn-outline-primary" for="btnradio21">남</label>
-                                                <input type="radio" name="input_gender" value="여" class="btn-check"  id="btnradio22" autocomplete="off">
-                                                <label class="btn btn-outline-primary" for="btnradio22">여</label>
+                                                <%}else{if(resultt[0].gender=="여"){%>
+                                                <input type="radio" name="input_gender" value="여" class="btn-check"  
+                                                id="btnradio22" autocomplete="off" checked="true">
+                                                <label class="btn btn-outline-danger" for="btnradio22">여</label>
+                                                <%}}%>
                                             </td>
                                         </tr>
                                         <tr>

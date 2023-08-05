@@ -79,15 +79,14 @@
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        
-                                                       <% if(resultt[i].transtype.toString() == "festival"){%>
-                                                        [페스터벌]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%> 
-                                                        <%}%>
-                                                        <% if(resultt[i].transtype.toString() == "charge"){%>
-                                                            [KP충전]&nbsp;&nbsp;&nbsp;&nbsp;<%=ap%> 
-                                                        <%}%>
-                                                        <% if(resultt[i].transtype.toString() =="store" ){%>
-                                                            [가맹점결제]&nbsp;&nbsp;&nbsp;&nbsp;<%=an%>
-                                                        <%}%>
+                                                       [<%=resultt[i].transtype.toString()%>]
+                                                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <%if(resultt[i].transtype.toString()=="charge"){%>
+                                                            <%=ap%>
+                                                        <%}else{%>
+                                                            <%=an%>
+                                                     
+                                                         <%}%>
                                                     </td>
                                                 </tr>
                                                 

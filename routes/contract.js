@@ -968,12 +968,12 @@ router.post('/gamepay', async (req, res)=>{
                         const trans_tp = storename.toString()
                         kpoint.kpoint_list_insert(_phone, trans_tp,  _input_dt, pay_amount )
 
-                        res.render("gamepay_list",{
-                            resultt :result,
-                            amount :req.session.logined.charge_amount,
-                            username:req.session.logined.username
-                                } )
-
+                        // res.render("gamepay_list",{
+                        //     resultt :result,
+                        //     amount :req.session.logined.charge_amount,
+                        //     username:req.session.logined.username
+                        //         } )
+                            res.redirect("gamepay_list")
                     }})}}})
                     
 
@@ -1002,6 +1002,7 @@ if(!req.session.logined){
                 if(err){
                     console.log(err)
                 }else{     
+                    console.log("가명점에 결제한 건수:  ", result.length)
                     res.render('gamepay_list', {
                         'resultt': result,
                         'username' : user, 
@@ -1128,6 +1129,7 @@ router.post('/kp_trans', async (req, res)=>{
                                 //KP_list에 추가 all(수신자)
                                 const trans_tp=rec_username
                                 kpoint.kpoint_list_insert(receiptphone, trans_tp,  _input_dt, pay_amount )
+                                
                                 //KP_list에 추가 all(송신자)
                                 const trans_tp1=_username
                                 send=parseInt(pay_amount)*-1
@@ -1136,32 +1138,34 @@ router.post('/kp_trans', async (req, res)=>{
                                     res.redirect("/")
                                     }else{  
                                         console.log("회원끼리 거래내역보기 성공")  
-                                        const phone = req.session.logined.phone 
-                                        const user = req.session.logined.username         
-                                        const tokenamount = req.session.logined.charge_amount
-                                        const sql = `
-                                        select 
-                                        *
-                                        from 
-                                        trans_pay
-                                        where 
-                                        sendphone = ?
-                                        order by transdate DESC
-                                            `
-                                        const values = [phone]
-                                        connection.query(
-                                            sql, 
-                                            values, 
-                                            function(err, result){
-                                                if(err){
-                                                    console.log(err)
-                                                }else{     
-                                                    res.render('transpay_list', {
-                                                        'resultt': result,
-                                                        'username' : user, 
-                                                        'amount':tokenamount,
-                                                        'phone': req.session.logined.phone
-                                            })}})
+                                        // const phone = req.session.logined.phone 
+                                        // const user = req.session.logined.username         
+                                        // const tokenamount = req.session.logined.charge_amount
+                                        // const sql = `
+                                        // select 
+                                        // *
+                                        // from 
+                                        // trans_pay
+                                        // where 
+                                        // sendphone = ?
+                                        // order by transdate DESC
+                                        //     `
+                                        // const values = [phone]
+                                        // connection.query(
+                                        //     sql, 
+                                        //     values, 
+                                        //     function(err, result){
+                                        //         if(err){
+                                        //             console.log(err)
+                                        //         }else{     
+                                        //             res.render('transpay_list', {
+                                        //                 'resultt': result,
+                                        //                 'username' : user, 
+                                        //                 'amount':tokenamount,
+                                        //                 'phone': req.session.logined.phone
+                                            // }
+                                            // )}})
+                                        res.redirect("transpay_list")
                                         }}
                     
             }})}}})}}})

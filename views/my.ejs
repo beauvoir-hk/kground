@@ -62,10 +62,11 @@
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
-                                                            <div class=" text-primary ">
+                                                            <div class=" text-secondary ">
                                                                 <ul>
                                                                     <li>
                                                                         전화번호 : <%=login_data['phone']%> 
+                                                                       
                                                                     </li>
                                                                     <li>
                                                                         성명 : <%=login_data['username']%>
@@ -75,8 +76,8 @@
                                                                     </li>
                                                                     <li>
                                                                         <%amount =login_data['charge_amount']%>
-                                                                        <%const amount1 = amount.toString().replace(/(\d{3})(?=\d)/g, ',')%>
-                                                                        K포인트: <%=amount1%>
+                                                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                                    K포인트 : <%=aa%>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -88,15 +89,22 @@
                                         </div>                                     
                                         <div class="text-center" >
                                             <div class="text-danger">
-                                                <i>비밀번호 변경은<br>
+                                                <i>비밀번호(로그인+결제) 변경은<br>
                                                 문자인증을 통해 본인 검증 후 가능합니다.
                                                 <br></i>
                                                 <button class="btn btn-primary" 
-                                                onclick="location.href='/auth1'" >비밀번호변경</button>
+                                                onclick="location.href='/auth2/?dir=2'" >로그인비밀번호변경</button>
                                             </div>
                                         </div> 
+                                        <br>
+                                        <br>
+                                        <div class="text-center" >
+                                            <div class="text-danger">
+                                        <button class="btn btn-danger" 
+                                                onclick="location.href='/auth6/?dir=6'" >결제비밀번호변경</button>
+
                                         </div>
-                                    </form>
+                                
                                     <hr>
 
                                         <hr>

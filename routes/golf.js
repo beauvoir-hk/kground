@@ -56,7 +56,8 @@ module.exports = function(){
                         res.render("regist",{
                             state:0,
                             username : _username,
-                            phone:  _phone
+                            phone:  _phone,
+                            resultt: receipt
                         }) 
      }}  )
     }})

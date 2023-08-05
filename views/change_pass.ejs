@@ -25,7 +25,9 @@
         <body class="bg-gradient-primary"  >
             <%}}%>
         <div class="container">
-
+            <div class="text-center">
+                <a id="signinlink" href="/index" >홈으로</a>
+            </div>
         
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -43,18 +45,18 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <img src="/img/k.png" width="10%">
-                                        <h6>비밀번호 변경</h6>
+                                        <h6>로그인 + 결제비밀번호 변경</h6>
                                     </div>
 
                                     <!-- 유저가 회원 정보를 입력하는 공간 -->
-                                    <form action="/change_pass", method="post">
+                                    <form action="/change_pass_all", method="post">
                                         <div align="right">  
                                             <span class="small"name="_phone" value="<%=_phone%>" >전화번호 : <%=_phone%></span>
                                         </div>
 
                                         <br>[로그인 비밀번호 변경]
 
-                                         <div class="display" id="info">
+                                        
                                             <div class="form-group">
                                                 <input type="password" name="input_pass" id="_pass" class="form-control" placeholder="비밀번호"  >
                                             </div>
@@ -65,36 +67,28 @@
                                                 <span class="small">※ 비밀번호 일치 시 비밀번호변경 버튼 활성</span>
                                             </div>
                                             <br>
-                                           <div class="text-center">  
-                                                <input  type="submit" value="로그인비밀번호변경" id="signup" disabled>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    
                                     <br>
                                     <br>[결제비밀번호변경]
-                                   
-                                    <form action="/change_paypass6", method="post">
-
-                                        <div align="right" style="display: none;">  
+                                      <div align="right" style="display: none;">  
                                             <span class="small" name="_phone" value="<%=_phone%>"><%=_phone%></span>
                                         </div>
 
-                                         <div class="display" id="info">
                                             <div class="form-group">
                                                 <input type="password" name="input_paypass6" id="_paypass6" class="form-control" placeholder="비밀번호"  >
                                             </div>
                                             <div class="form-group">
                                                 <input type="password" id="_confirm6" class="form-control" placeholder="비밀번호 확인"  >
                                             </div>
+
                                             <div align="right">  
                                                 <span class="small">※ 비밀번호 일치 시 비밀번호변경 버튼 활성</span>
                                             </div>
                                             <br>
-
+                                    
+                                            <div class="display" id="info">
                                             <br>
                                             <div class="text-center">  
-                                                <input  type="submit" value="결제비밀번호변경" id="signup6" disabled>
+                                                <input  type="submit" value="로그인 + 결제비밀번호변경" id="signup6" disabled>
                                             </div>
                                         </div>
                                     </form>
@@ -109,9 +103,9 @@
         </div>    
     <script>
         $('#_confirm6').keyup(function(){
-            const password = $('#_paypass6').val()
-            const confirm = $('#_confirm6').val()
-            if(password == confirm){
+            const password6 = $('#_paypass6').val()
+            const confirm6 = $('#_confirm6').val()
+            if(password == confirm&&password6 == confirm6){
                 $('#signup6').removeAttr('disabled')
             }else{
                 $('#signup6').attr('disabled', 'true')

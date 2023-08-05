@@ -59,9 +59,15 @@
 
 </head>
 
-        <body class="bg-gradient-primary"  >
-
-
+<% if(state==3){%>
+    <body class="bg-gradient-secondary" onload="wel()" >
+<%}else{ if(state==0){%>
+<body class="bg-gradient-infomation" onload="fail()" >
+    <%}else{ if(state==1){%>
+        <body class="bg-gradient-danger" onload="send()" >
+            <%}else{ if(state==2){%>    
+                <body class="bg-gradient-primary" onload="timeover()" >
+            <%}}}}%>
     <div class="container">
 
         <!-- Outer Row -->
@@ -74,9 +80,66 @@
                             <div class="text-center">
                                 <br>
                                 <a id="signinlink" href="/index" >홈으로</a>
-                                   
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h6 class="h6 text-gray-900 mb-2">
+                                            로그인비밀번호 변경<br>
+                                            
+                                        </h6>
+                                        <br>
+                                        <div class="text-primary">
+                                        <i class="small" >
+                                            <br>휴대폰번호로 인증 해 주세요
+                                        </i>
+                                    </div>
+                                    </div>
+                                    <form class="user" action="/auth1" method="post">
+                                        <div class="form-group">
+                                             <input type="text" class="form-control form-control-user" 
+                                                id="_id" name="_phone">
+
+                                                <br>
+                                            <div class="text-center">    
+                                                <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
+                                                <button class="btn btn-primary" >인증번호전송</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                      <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->  
+                                    <form class="user" action="/verify1" method="post">
+                                        <br>
+                                        <div class="text-danger">
+                                            <label class="small">※ 전송된 인증번호를 3분 이내에 입력하세요
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user"
+                                            id="check_id" name='input_auth_code'  placeholder="4자리 이하 인증번호 입력">
+                                        </div>
+                                        <br>                                        
+                                        <div class="form-group">
+                                        <div class="text-center">
+                                                <button class="btn btn-danger" >인증확인</button>
+                                        </div>
+                                        </div>
+                                    </form>  
+                                    <hr>
+                                    <br>
+                                    <br>
+                                    <div class="text-center">
+                                        <a class="small" href="/signup">회원가입</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="/">이미 회원 가입하셨다면 로그인</a>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-lg-6 d-none d-lg-block ">
-                                <img src="./img/k.png" width="400px">
+                                <img src="./img/kk.png" width="400px">
                             </div>
 
                         </div>
