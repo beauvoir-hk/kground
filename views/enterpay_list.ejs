@@ -21,11 +21,8 @@
         }
 </script>
 
-    <%if(state==0){%>
-    <body class="bg-gradient-primary" onload="fail()" >
-        <%}else{%>
-            <body class="bg-gradient-primary" >
-                <%}%>
+
+<body class="bg-gradient-primary" >
         <div class="container">
             <div class="text-center">
                 <br>
@@ -106,7 +103,13 @@
                                                             readonly 
                                                             onclick="location.href=('/contract/enterscore/?no=<%=i%>')">                                                           
                                                         </td>                                                   
-                                                    
+                                                        <td>
+                                                            <div class="text-secondary">
+                                                                <%if(enterpay[i].scorepicture!=""){%>
+                                                                    등록완료
+                                                                    <%}%>
+                                                            </div>
+                                                        </td>
                                                         </tr>
                                                     <%}%>
                                                 </table>

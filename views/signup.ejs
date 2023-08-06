@@ -11,73 +11,79 @@
             display: none;
         }
     </style>
-    </head>
-    <body class="bg-gradient-primary">
+</head>
+<body class="bg-gradient-primary">
+    <div class="container">
 
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-             <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6"> 
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <br>
-                                        <a id="signinlink" href="/index" >홈으로</a>
-                                        <img src="/img/k.png" width="10%">
-                                       
-                                        <h6>케이그라운드 회원가입</h6>
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="text-center">
+                            <br>
+                            <a id="signinlink" href="/index" >홈으로</a>
+                            <br><br>
+                        </div>
+                        <div class="col-lg-6"> 
+                            <div class="p-5">
+
+                                <div class="text-center">
+                                
+                                    <img src="/img/005.jpg" width="300px">
+                                    <br><br>
+                                    <h6>케이그라운드 회원가입</h6>
+                                </div>
+                                <br><br>
+                                <!-- 유저가 회원 정보를 입력하는 공간 -->
+                                <form action="/signup", method="post">
+                                    <div class="form-group">
+                                        <input type="text" name="input_phone" id="_id" class="form-control form-control-user" placeholder="전화번호"  >
                                     </div>
-
-                                   <!-- 유저가 회원 정보를 입력하는 공간 -->
-                                    <form action="/signup", method="post">
+                                    <div align="right">  
+                                        <span class="small" id="check_id">전화번호 입력 후 여기를 클릭</span>
+                                    </div>
+                                    <br>
+                                    <div class="display" id="info">
                                         <div class="form-group">
-                                            <input type="text" name="input_phone" id="_id" class="form-control form-control-user" placeholder="전화번호"  >
+                                            <input type="password" name="input_pass" id="_pass" class="form-control" placeholder="비밀번호"  >
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" id="_confirm" class="form-control" placeholder="비밀번호 확인"  >
                                         </div>
                                         <div align="right">  
-                                            <span class="small" id="check_id">전화번호 입력 후 여기를 클릭</span>
+                                            <span class="small">※ 비밀번호 일치 시 회원가입버튼 활성</span>
                                         </div>
                                         <br>
-                                        <div class="display" id="info">
-                                            <div class="form-group">
-                                                <input type="password" name="input_pass" id="_pass" class="form-control" placeholder="비밀번호"  >
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" id="_confirm" class="form-control" placeholder="비밀번호 확인"  >
-                                            </div>
-                                            <div align="right">  
-                                                <span class="small">※ 비밀번호 일치 시 회원가입버튼 활성</span>
-                                            </div>
-                                            <br>
-                                            <div class="form-group">
-                                                <input type="text" name="input_username" class="form-control" placeholder="성명"  >
-                                            </div><br>
-                                            <div class="form-group">
-                                                <input type="text" name="input_nickname" class="form-control" placeholder="닉네임"   >
-                                            </div><br>
-                                            <div class="form-group">
-                                                <input type="text" name="input_refferal" class="form-control" placeholder="추천인(선택)"  >
-                                            </div><br>
-                                            <div class="form-group">
-                                                <input type="password" name="input_numeric6" class="form-control" placeholder="결제비밀번호(6자리숫자)"  >
-                                            </div>
-                                            <br>
-                                            <div class="text-center">  
-                                                <input  type="submit" value="회원가입" id="signup" disabled>
-                                            </div>
+                                        <div class="form-group">
+                                            <input type="text" name="input_username" class="form-control" placeholder="성명"  >
+                                        </div><br>
+                                        <div class="form-group">
+                                            <input type="text" name="input_nickname" class="form-control" placeholder="닉네임"   >
+                                        </div><br>
+                                        <div class="form-group">
+                                            <input type="text" name="input_refferal" class="form-control" placeholder="추천인(선택)"  >
+                                        </div><br>
+                                        <div class="form-group">
+                                            <input type="password" name="input_numeric6" class="form-control" placeholder="결제비밀번호(6자리숫자)"  >
                                         </div>
-                                    </form>
-                                </div>
-                            </div>  
-                            <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div> 
-                        </div>
+                                        <br>
+                                        <div class="text-center">  
+                                            <input  type="submit" value="회원가입" id="signup" disabled>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>  
+                        <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div> 
                     </div>
                 </div>
             </div>
         </div>
-        </div>    
+    </div>
+    </div>    
     <script>
         $('#check_id').click(function(){
             const input_id = $('#_id').val()

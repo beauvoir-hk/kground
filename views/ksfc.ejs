@@ -12,21 +12,37 @@
             display: none;
         }
     </style>
+    <script>
+        function regist(){
+            alert("대회 참가신청을 하시기 바랍니다 ")
+        }
+        function fail(){
+                  alert("이 시스템에는 이미 신청되어 있습니다")
+        }
+</script>
 </head>
-<body class="bg-gradient-primary">
+    <%if(state==3){%>
+    <body class="bg-gradient-primary" onload="fail()" >
+        <%}else {if(state==5){%>
+            <body class="bg-gradient-primary" onload="regist()">
+                <%}else{%>
+                <body class="bg-gradient-primary" >
+                <%}}%>
     <div class="container">
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="/index" >홈으로</a>
+        </div>
     <!-- Outer Row -->
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <br>
-                    <div class="text-center">
-                        <a id="signinlink" href="javascript:history.back()" >홈으로</a>
-                    </div>
+
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <!-- <div class="col-lg-6">  -->
+                        <div class="col-lg-6"> 
                             <div class="p-5">
 
                                 <div class="text-center">
@@ -34,14 +50,10 @@
                                     <h6>KSFC 참가신청</h6>
                                 </div>
                                 <br>
-                                    <!-- 유저게임참가 상황을 등록하는 입력창을 하나 구현  -->  
-                                <div class="text-center"><%=login_data['username']%>님</div>
 
                                 
-                                <form action="/regist", method="post">
-                                <div class="text-center">
-                                    <input id="_id" name="input_phone" value="<%=login_data['phone']%>">
-                                </div>
+                                <form action="/golf/ksfc", method="post">
+                                
                                 <!-- <div align="right">  
                                     <span class="small" id="check_id">☞ 여기 클릭 (참가등록 중복확인)</span>
                                 </div>
@@ -52,28 +64,23 @@
                                         <tr>
                                             <th>대회참가: </th>
                                             <td>
-                                                <input type="radio" name="input_gamenumber" value="5" class="btn-check"  
-                                                id="btnradio20" autocomplete="off" checked="">
+                                                <input type="radio" name="input_gamenumber" value="5" class="btn-check"  id="btnradio20" autocomplete="off" checked="">
                                                 <label class="btn btn-outline-primary" for="btnradio20">제5회 대회(지역선수 선발전, 7~9월)</label>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>성별선택: </th>
                                             <td>
-                                                <input type="radio" name="input_gender" value="남" class="btn-check"  
-                                                id="btnradio21" autocomplete="off" checked="true">
+                                                <input type="radio" name="input_gender" value="남" class="btn-check"  id="btnradio21" autocomplete="off" checked="">
                                                 <label class="btn btn-outline-primary" for="btnradio21">남</label>
-                                                <%}else{if(resultt[0].gender=="여"){%>
-                                                <input type="radio" name="input_gender" value="여" class="btn-check"  
-                                                id="btnradio22" autocomplete="off" checked="true">
-                                                <label class="btn btn-outline-danger" for="btnradio22">여</label>
-                                                <%}}%>
+                                                <input type="radio" name="input_gender" value="여" class="btn-check"  id="btnradio22" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="btnradio22">여</label>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>지역선택: </th>
                                             <td>                                                
-                                                <select class="form-control" name="input_jiyeok" id="input_jiyeok">
+                                                <select class="form-select" name="input_jiyeok" id="input_jiyeok">
                                                     <option value="서울특별시">서울특별시</option>
                                                     <option value="부산광역시">부산광역시</option>
                                                     <option value="대구광역시">대구광역시</option>
@@ -100,7 +107,8 @@
                                             <th>생년월일입력(8자리) : </th>
                                             <td>
                                                 <div>
-                                                    <input type="text"  name="input_birth" class="form-control" placeholder="생년월일을 입력하시오" aria-label="golf_code" aria-describedby="basic-addon3">
+                                                    <input type="text"  name="input_birth" class="form-control" value="19660101"
+                                                    placeholder="생년월일을 입력하시오" aria-label="golf_code" aria-describedby="basic-addon3">
                                                 </div>
                                             </td>
                                         </tr>
@@ -108,21 +116,21 @@
                                             <th>참가시스템: </th>
                                             <td>
                                                     <input type="radio" value="GolfZon" class="btn-check" name="input_golfsys" id="btnradio23" autocomplete="off" checked="">
-                                                    <label class="btn btn-outline-primary" for="btnradio23">GolfZon</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio23"> GolfZon</label>
                                                     <input type="radio" value="GolfZon Park" class="btn-check" name="input_golfsys" id="btnradio24" autocomplete="off">
-                                                    <label class="btn btn-outline-primary" for="btnradio24">GolfZon Park</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio24"> GolfZon Park</label>
                                                     <input type="radio" value="Kakao Friends" class="btn-check" name="input_golfsys" id="btnradio25" autocomplete="off" >
                                                     <label class="btn btn-outline-primary" for="btnradio25">Kakao Friends</label>
                                                     <input type="radio" value="UDR Golf" class="btn-check" name="input_golfsys" id="btnradio26" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio26">UDR Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio26"> UDR Golf</label>
                                                     <input type="radio" value="K Golf" class="btn-check" name="input_golfsys" id="btnradio27" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio27">K Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio27"> K Golf Club </label>
                                                     <input type="radio" value="GNC" class="btn-check" name="input_golfsys" id="btnradio28" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio28">GNC</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio28"> GNC</label>
                                                     <input type="radio" value="SG Golf" class="btn-check" name="input_golfsys" id="btnradio29" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio29">SG Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio29"> SG Golf</label>
                                                     <input type="radio" value="MS Golf" class="btn-check" name="input_golfsys" id="btnradio30" autocomplete="off" >
-                                                    <label class="btn btn-outline-primary" for="btnradio29">MS Golf</label>
+                                                    <label class="btn btn-outline-primary" for="btnradio30"> MS Golf</label>
                                             </td>
                                         </tr>
                                     </table>

@@ -114,8 +114,7 @@ module.exports = ()=>{
                          
                         req.session.logined = result[0]
                         logphone = result[0].phone
-                        console.log("result[0].pass",result[0].pass)
-                        console.log("result[0].pass=='1234'",result[0].pass=='1234')
+
                         
                         //비밀번호 1234일때 문자인증후 비밀번호 + 선수등록  필수
                         if(result[0].pass == "1234"){
@@ -178,7 +177,7 @@ module.exports = ()=>{
                     }else{
                         console.log(receipt)
                         // sql 쿼리문이 정상적으로 작동하면 로그인 화연으로 돌아간다. 
-                        res.render("regist",{
+                        res.render("ksfc",{
                             phone:_phone,
                             state:0//처음참가신청
                         })
@@ -216,76 +215,7 @@ module.exports = ()=>{
         }
     })
 
-    router.get('/regist', function(req, res){
 
-        if(!req.session.logined){
-            console.log(req.session.logined)
-            res.redirect("/")
-        }else{
-            res.render('regist.ejs',{
-                login_data : req.session.logined
-            })
-        }
-    })
-
-    router.post('/regist', async  function(req, res){
-        const _phone = await req.session.logined.phone
-
-        
-        // 유저가 입력한 데이터를 변수에 대입 
-        const _gamenumber = req.body.input_gamenumber
-        const _gender = req.body.input_gender
-        const _jiyeok = req.body.input_jiyeok
-        const _birth = req.body.input_birth
-        const _golfsys = req.body.input_golfsys
-        const _bestscore = 9999
-        console.log(_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
-
-        // name 값은 로그인 데이터에서 name 값을 가지고 온다
-        // 로그인 정보는 session 저장
-        // name 값을 가지고 오려면 session 안에 있는 name을 추출
-
-        const _username= await req.session.logined.username
-        console.log(_username)
-        // // session 안에 있는 로그인 한 사람의 지갑 주소를 
-        // 추출
-        // const addr = req.session.login.wallet
-        // console.log(addr)
-        // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
-        // DB 안에 있는 goods table의 정보를 불러온다. 
-        const sql = `
-                insert 
-                into 
-                ksfc
-                values (?, ?, ?, ?, ?, ?,?,?)
-                ` 
-                const values = [
-                _phone, 
-                _username,
-                _gamenumber, 
-                _gender, 
-                _jiyeok, 
-                _birth ,
-                _golfsys ,
-                _bestscore
-                ]
-        
-        connection.query(
-            sql, 
-            values,
-            function(err, result){
-                if(err){
-                    console.log(err)
-                    res.send(err)
-                }else{
-                    console.log(result)     
-                    // sql 쿼리문이 정상적으로 작동하면 메인 화연으로 돌아간다. 
-                    res.redirect("/index")
-                }
-            })
-    })
-
-    
     router.get('/check_pass', function(req, res){
         // 유저가 보낸 데이터를 변수에 대입
         const input_pass = req.query._pass
@@ -344,9 +274,9 @@ router.post('/change_pass_all', async function(req, res){
             }else{
                 console.log('loginfo sql',input_new_pass, phone)
                 console.log("로그인비밀번호 변경성공", result)
-                res.render("regist",{
+                res.render("ksfc",{
                     phone:phone,
-                    state:0
+                    state:0//이거매우중요(로그인 없이 가기 때문에 여기 전번을 가지고 대회참가등록해야함)
                 })
             } } )
         })

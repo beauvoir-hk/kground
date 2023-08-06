@@ -39,7 +39,8 @@
                                 <div class="col-lg-6"> 
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <img src="/img/k.png" width="10%">
+                                            <img src="/img/005.jpg" width="300px">
+                                            <br>
                                             <h6> 마이 스코어 </h6>
                                         </div>
                                         <br>
@@ -62,11 +63,11 @@
                                                 </div>
                                             </div>
                                         </div> 
-                                        <div class="container">
+                                        <div class="text-center">
                                          <table class="table">
                                             <%for (var i = 0 ; i <resultt.length ; i++){%>
                                             <tr>
-                                                <td>
+                                                <td width="300px">
                                                     <div class="text-warning bg-dark">
                                                         나의 스크로크 순위 :<%=i+1%><br>
                                                     </div>
@@ -86,7 +87,7 @@
                                                 <div class="text-danger">
                                                     <%if(resultt[i].scorepicture!=""){%>
                                                         <img src="/uploads/<%=resultt[i].scorepicture%>" 
-                                                        width="300">
+                                                        width="250px">
                                                     <%}else{%>스코어 등록하세요~"<%}%>
                                                 </div>       
                                                 <hr>

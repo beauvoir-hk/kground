@@ -256,18 +256,19 @@ async function trans_list_insert(_input_dt, _phone, _username, receiptphone, pay
     
     
 //KSFC ===============================            
-async function ksfc_update(_phone,   _golfsys, _bestscore )  {
+async function ksfc_update(_bestscore, _sysrank, _phone, _golfsys )  {
     //tier을 위한 준비
     const sql=
             `
             update
             ksfc
             set
-            bestscore=?
+            bestscore=?,
+            sysrank=?
             where
-            phone = ? && golfsys=?
+            phone = ? && golfsys=? 
             `
-    const values =  [_bestscore, _phone, _golfsys]
+    const values =  [_bestscore, _sysrank,  _phone, _golfsys]
     
     connection.query(
         sql,
@@ -282,15 +283,15 @@ async function ksfc_update(_phone,   _golfsys, _bestscore )  {
         })
     }   
 
-async function ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore){ 
-    const birth = moment(_birth).format('YYYY-MM-DD');
+async function ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime){ 
+   
 
     const sql=  `             
         insert 
         into 
         ksfc
-        values (?, ?,?, ?, ?, ?, ?,?)`
-        const values =  [_phone, _username, _gamenumber, _gender, _jiyeok, birth ,_golfsys,_bestscore]
+        values (?, ?,?, ?, ?, ?, ?,?,?,?)`
+        const values =  [_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys,_bestscore,_sysrank, _registtime]
         
         connection.query(
             sql,
@@ -304,48 +305,67 @@ async function ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _bi
                
             })
  } 
+
     
-async function tier_update(_phone, _bestscore )  {
-    
+async function tier_update( _phone, _gender)  {
+    let wrank=0
+    let champsys=""
+    let sysrank=0
+
+//    golfsys 필드마다 rank가 가장 낮은 레코드를 선택
     const sql=
-            `
-            select 
-            *
-            from 
-            ksfc
-            order by bestscore ASC
-            `
-    
-    
+        `
+        SELECT 
+        *
+        FROM ksfc
+        GROUP BY golfsys
+        ORDER BY rank ASC;
+        where phone=?
+        LIMIT 1
+        `
+    const values=[_phone]
     connection.query(
         sql,
-       
+        values,
         (err, result)=>{
             if(err){
                 console.error(err)
             }else{
-                let rank=99999
-                console.log("tier 기록= ",result)
-                //둥수파악
-                const len = result.length
-                for(var i=0; i<len ;i++ ){
-                    if(result[i].bestscore == _bestscore){
-                        const rank=i+1
-                    }
-                }
-                //tier 판정
-                if(rank > len/60){
-                    tier=1
-                }else{
-                    if(rank > len/30){
-                        tier=2
-                    }else{
-                        if(rank > len/5){
-                            tier=3
+                champsys=result[0].golfsys
+                sysrank = parseInt(result[0].rank)
+                console.log(" golfsys 필드마다 rank가 가장 낮은 레코드를 선택",result)
+                const sql=
+                    `
+                    SELECT 
+                    golfsys, COUNT(*) AS count
+                    FROM ksfc
+                    where golfsys=? && gender=?
+                     
+                `
+                const values=[champsys, _gender]
+                connection.query(
+                    sql,
+                    values,
+                    (err, result2)=>{
+                        if(err){
+                            console.error(err)
                         }else{
-                            tier=4
-                        }}}
-                        //tier기록
+                            console.log(" ksfc 테이블에서 제일 잘한 golfsys 레코드의 수",result2)
+                            wrank=parseInt(result2[0])
+                            if(sysrank>wrank /60){
+                                tier=1
+                            }else{
+                                if(sysrank>wrank/30){
+                                    tier=2
+                                }else{
+                                    if(sysrank>wrank/5){
+                                        tier=3
+                                    }else{
+                                        tier=4
+                                }}}
+                        }
+
+//tier기록
                         const sql=
                             `
                             update
@@ -365,8 +385,9 @@ async function tier_update(_phone, _bestscore )  {
                                     console.log(err)}
                                     else{
                                         console.log("tier기록 완료")
-                 }})} 
-      })}
+                        }})
+                    }) 
+                }})}
 
 
 module.exports = {
