@@ -25,43 +25,14 @@ module.exports = function(){
 
 
     router.get('/ksfc', function(req, res){
-
         if(!req.session.logined){
             console.log(req.session.logined)
             res.redirect("/")
+
         }else{
-            res.render('ksfc.ejs',{
-                state:0,
-
-                login_data : req.session.logined
-            })
-        }
-    })
-
-// localhost:3000/golf/  [get]
-router.post('/ksfc', async  function(req, res){
-    let data=0
-    if(req.body.state==0){ //로그인없이 회원가입 후 바로 옴
-            _phone=req.body.phone
-        }else{
-            const _phone = req.session.logined.phone
-        
-
-            // name 값은 로그인 데이터에서 name 값을 가지고 온다
-            // 로그인 정보는 session 저장
-            // name 값을 가지고 오려면 session 안에 있는 name을 추출
-            
-            const _username=   req.session.logined.username
-            console.log(_username)
-            // 유저가 입력한 데이터를 변수에 대입 
-            const _gamenumber = await req.body.input_gamenumber
-            const _gender =await  req.body.input_gender
-            const _jiyeok =await  req.body.input_jiyeok
-            const _birth = await req.body.input_birth
-            const _golfsys = await req.body.input_golfsys
-            
-            console.log("이거?",_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
-
+            const _phone=req.body.phone
+            const phone=req.session.logined.phone
+            //기신청자 인지 판단하자
             const sql = `
                 select
                 *
@@ -76,14 +47,10 @@ router.post('/ksfc', async  function(req, res){
                 function(err, receipt){
                     if(err){
                         console.log(err)
-                    
                     }else{
-                        console.log("kkkffsssssssssssc",receipt)
                         if(receipt.length!=0){
-
-                            console.log("0개 아니면",receipt)
-
-     //폰에서 같은 golfsys 가 있으면 이미 등록되어 있음 경고
+                            
+        //폰에서 같은 golfsys 가 있으면 이미 등록되어 있나???
                             for(var i=0; i<receipt.length;i++){
                                 if(_golfsys == receipt[i].golfsys){
                                     data=3
@@ -91,28 +58,84 @@ router.post('/ksfc', async  function(req, res){
                                     data=0
                                 }
                             }
-                        
-                            if(data==3){
+                            if(data==0){
+                                //기등록 시스템이 아니다...모두 입력 받아야 함          
+                                console.log("같은 시스템이 아니니 등록")
                                 res.render("ksfc",{
-                                    //이미 등록되어 있어요 3
-                                    state:data
+                                    state:5
                                 })
                             }else{
-                                console.log("캍은 시스템이 아니니 등록")
-                                const _bestscore = 9999
-                                const _registtime = moment().format('YYYY-MM-DDTHH:mm:ss')
-                                const _sysrank = 9999
-                                console.log(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_registtime)
-                                kpoint.ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
-                                // res.render("ksfc_list",{
-                                //         username: _username,
-                                //         amount:req.session.logined.charge_amount
-                                //     })
-                                res.redirect("ksfc_list")
+                                //기등록 시스템이니 ... 골프시스템만 다시 입력
+                                res.render("ksfc1",{
+                                    resultt:receipt,
 
-                            }
+                                    state:5
+                                })
+                                }
                         }else{
-//갈은 시스템에 등록이 안되어 있으면 테이블에 삽입
+                            res.render("ksfc",{
+                                state:5
+                            })}
+                        }
+                    })}})
+
+
+// localhost:3000/golf/  [get]
+router.post('/ksfc', async  function(req, res){
+    let data=0
+    const _phone=""
+    if(req.body.state==0){ //로그인없이 회원가입 후 바로 옴
+            _phone=req.body.phone
+        }else{
+            const _phone = req.session.logined.phone
+            const _username=   req.session.logined.username
+            const _amount=req.session.logined.charge_amount
+                                                
+            // 유저가 입력한 데이터를 변수에 대입 
+            const _gamenumber = await req.body.input_gamenumber
+            const _gender =await  req.body.input_gender
+            const _jiyeok =await  req.body.input_jiyeok
+            const _birth = await req.body.input_birth
+            const _golfsys = await req.body.input_golfsys
+
+            //기신청자 인지 판단하자
+            const sql = `
+                select
+                *
+                from
+                ksfc
+                where 
+                phone = ?`
+            const values = [_phone]
+            connection.query(
+                sql, 
+                values,  
+                function(err, receipt){
+                    if(err){
+                        console.log(err)
+                     }else{
+                        if(receipt.length!=0){
+                            console.log("receipt.length",receipt.length)
+     //폰에서 같은 golfsys 가 있으면 이미 등록되어 있음 경고
+                            for(var i=0; i<receipt.length;i++){
+                                if(_golfsys == receipt[i].golfsys){
+                                    data=3
+                                }else{
+                                    console.log("같은 golfsys 없음")
+                                }
+                            }
+                            console.log("data==",data)
+                            console.log("receipt[0].golfsys=",receipt[0].golfsys)
+                            console.log("_golfsys=",_golfsys)
+                            const _phone = req.session.logined.phone
+                            const _username=   req.session.logined.username
+//기등록 시스템이 아니면
+
+                            if(data==0){
+           
+                                console.log("같은 시스템이 아니니 등록")
+                                console.log("이거?",_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
+
                                 const _bestscore = 9999
                                 const _registtime = moment().format('YYYY-MM-DDTHH:mm:ss')
                                 const _sysrank = 9999
@@ -122,8 +145,66 @@ router.post('/ksfc', async  function(req, res){
                                 //         username: _username,
                                 //         amount:req.session.logined.charge_amount
                                 //     })
-                                res.redirect("ksfc_list")
-                            }}})}})
+                                res.render("ksfc_list",{
+                                    phone:_phone,
+                                    username:_username,
+                                    amount:_amount
+                                })
+                            
+//기 시스템과 같으면 ksfc
+                             }else{
+                                    res.render("/index")
+                                }
+                                   
+                        }else{
+                            //등록된 내용이 하나도 없으면
+                            console.log("같은 시스템이 아니니 등록")
+                                console.log("이거?",_gamenumber, _gender, _jiyeok, _birth ,_golfsys)
+
+                                const _bestscore = 9999
+                                const _registtime = moment().format('YYYY-MM-DDTHH:mm:ss')
+                                const _sysrank = 9999
+                                console.log(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_registtime)
+                                kpoint.ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
+                                // res.render("ksfc_list",{
+                                //         username: _username,
+                                //         amount:req.session.logined.charge_amount
+                                //     })
+                                res.render("ksfc_list",{
+                                    phone:_phone,
+                                    username:_username,
+                                    amount:_amount
+                                })
+                            }
+                        }
+                    }
+                )}})
+
+router.post('/ksfc1', async  function(req, res){
+
+            // 기 등록한 데이터오 입력 받지 않도록  
+            const _gamenumber = await req.body.input_gamenumber
+            const _gender =await  req.body.input_gender
+            const _jiyeok =await  req.body.input_jiyeok
+            const _birth = await req.body.input_birth
+            const _golfsys = await req.body.input_golfsys
+
+            const _bestscore = 9999
+            const _registtime = moment().format('YYYY-MM-DDTHH:mm:ss')
+            const _sysrank = 9999
+            console.log(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_registtime)
+            kpoint.ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
+            // res.render("ksfc_list",{
+            //         username: _username,
+            //         amount:req.session.logined.charge_amount
+            //     })
+            res.redirect("ksfc_list",{
+                phone:_phone,
+                username:_username,
+                amount:req.session.logined.charge_amount
+            })
+ })
+
 
     // stroke_rank
     router.get('/ksfc_list', async (req, res)=>{
@@ -133,7 +214,7 @@ router.post('/ksfc', async  function(req, res){
         }else{    
             const _user = req.session.logined.username
             const _phone = req.session.logined.phone 
-            const _amount= req.session.logined.amount
+            const _amount= req.session.logined.charge_amount
             //phone번호로 로그인된 세션의 score만 읽어온다
             const sql = `
                 select 

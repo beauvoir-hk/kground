@@ -14,7 +14,7 @@
     </style>
     <script>
         function regist(){
-            alert("대회 참가신청을 하시기 바랍니다 ")
+            alert("참가하실 골프시스템을 추가 선택하시기 바랍니다 ")
         }
         function fail(){
                   alert("이 시스템에는 이미 신청되어 있습니다")
@@ -54,7 +54,7 @@
                                 <br>
 
                                 
-                                <form action="/golf/ksfc", method="post">
+                                <form action="/golf/ksfc1", method="post">
                                 
                                 <!-- <div align="right">  
                                     <span class="small" id="check_id">☞ 여기 클릭 (참가등록 중복확인)</span>
@@ -66,51 +66,33 @@
                                         <tr>
                                             <th>대회참가: </th>
                                             <td>
-                                                <input type="radio" name="input_gamenumber" value="5" class="btn-check"  id="btnradio20" autocomplete="off" checked="">
+                                                <input type="radio" name="input_gamenumber" value="5" class="btn-check"  
+                                                id="btnradio20" autocomplete="off" checked="" readonly>
                                                 <label class="btn btn-outline-primary" for="btnradio20">제5회 대회(지역선수 선발전, 7~9월)</label>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>성별선택: </th>
                                             <td>
-                                                <input type="radio" name="input_gender" value="남" class="btn-check"  id="btnradio21" autocomplete="off" checked="">
-                                                <label class="btn btn-outline-primary" for="btnradio21">남</label>
-                                                <input type="radio" name="input_gender" value="여" class="btn-check"  id="btnradio22" autocomplete="off">
-                                                <label class="btn btn-outline-primary" for="btnradio22">여</label>
+                                                <input type="text"  name="input_gender" class="form-control" value=" <%=resultt.gender %>  "
+                                                aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>지역선택: </th>
-                                            <td>                                                
-                                                <select class="form-select" name="input_jiyeok" id="input_jiyeok">
-                                                    <option value="서울특별시">서울특별시</option>
-                                                    <option value="부산광역시">부산광역시</option>
-                                                    <option value="대구광역시">대구광역시</option>
-                                                    <option value="인천광역시">인천광역시</option>
-                                                    <option value="광주광역시" >광주광역시</option>
-                                                    <option value="대전광역시">대전광역시</option>
-                                                    <option value="울산광역시">울산광역시</option>
-                                                    <option value="제주특별자치도" >제주특별자치도</option>
-                                                    <option value="강원도">강원도</option>
-                                                    <option value="경기도">경기도</option>
-                                                    <option value="충청남도">충청남도</option>
-                                                    <option value="충청북도">충청북도</option>
-                                                    <option value="경상북도" >경상북도</option>
-                                                    <option value="경상남도">경상남도</option>
-                                                    <option value="전라남도">전라남도</option>
-                                                    <option value="전라북도" >전라북도</option>
-                                                    <option value="글로벌팀">글로벌팀</option>
-                                                    <option value="연예인팀" >연예인팀</option>
-                                                </select>
-                                        
+                                            <td> 
+                                                <input type="text"  name="input_jiyeok" class="form-control" value=" <%=resultt.input_jiyeok   %>  "
+                                                  aria-label="golf_code" aria-describedby="basic-addon3" readonly>
+                                       
+                                               
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>생년월일입력(8자리) : </th>
                                             <td>
                                                 <div>
-                                                    <input type="text"  name="input_birth" class="form-control" 
-                                                    placeholder="생년월일(8자리)" aria-label="golf_code" aria-describedby="basic-addon3">
+                                                    <input type="text"  name="input_birth" class="form-control" value=" <%=resultt.input_birth  %>  "
+                                                      aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                                 </div>
                                             </td>
                                         </tr>

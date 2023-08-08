@@ -24,6 +24,8 @@
     <div class="container">
         <div class="text-center">
             <br>
+            <a id="signinlink" href="javascript:history.back()" >뒤로 가기</a> 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a id="signinlink" href="/index" >홈으로</a>
         </div>
         <!-- Outer Row -->
@@ -49,8 +51,14 @@
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
-                                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                &nbsp;&nbsp;<%=username%>님<br>(<%=gender%>자부문 대회참여)
+                                                            &nbsp;&nbsp;<%=username%>님<br>
+                                                            <%if(gender=="여"){%>
+                                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                                    (<%=gender%>자부문 대회참여)
+                                                             <%}else{if(gender=="남"){%>
+                                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    (<%=gender%>자부문 대회참여)
+                                                            <%}}%>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -113,8 +121,10 @@
                                        
                                     </div>
                                     <div class="text-center">  
-                                        <!-- <input  type="submit" value="strok 등록" id="signup"> -->
-                                        <button class="btn btn-danger" type="submit" >확인</button>
+                                        <!-- <input  type="submit" value="strok 등록" id="signup">
+                                        <button class="btn btn-danger" type="submit" onclick="location.href='/constract/enterpay_list'">
+                                            확인
+                                        </button> -->
                                     </div>
                                 </form>
                                     </div>       

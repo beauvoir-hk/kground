@@ -58,6 +58,8 @@
                                                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
                                                                     <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                     K포인트 : <%=aa%>
+                                                                    <br>
+                                                                    참가시스템 :<%ksfcres[0].golfsys%>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -106,7 +108,7 @@
                                                         <td>
                                                             <div class="text-secondary">
                                                                 <%if(enterpay[i].scorepicture!=""){%>
-                                                                    등록완료
+                                                                    <h6>√</h6>
                                                                     <%}%>
                                                             </div>
                                                         </td>

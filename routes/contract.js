@@ -6,6 +6,7 @@ const router = express.Router()
 const moment = require('moment')
 const http = require('http');
 
+
 // 파일 업로드를 사용하기위한 모듈
 const multer = require('multer')
 const storage = multer.diskStorage(
@@ -365,43 +366,91 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
         const _tokenamount = req.session.logined.charge_amount
         const tokenamount = parseInt(_tokenamount)+parseInt(-2000)  
 
-//스코어카드 파일 기록
+// //스코어카드 파일 기록
         const _scorepicture = req.file.filename
         console.log('_scorepicture=',_scorepicture);
 
-        // const code = Math.floor(Math.random() * 10000000)
-        // console.log("파일이름 중복방지 =",code)
-        // const filename = code.toString()+_scorepicture; 
+//         // const code = Math.floor(Math.random() * 10000000)
+//         // console.log("파일이름 중복방지 =",code)
+//         // const filename = code.toString()+_scorepicture; 
         const filename = _scorepicture; 
         console.log("파일이름 filename=",filename)           
-        // Save the file to the filesystem.
-        // Create the directory if it does not exist
-        // if (!fs.existsSync('/public/uploads/')) {
-        //     fs.mkdirSync('./public/uploads/');
-        // }
-
-        // Check if the file exists
+//         // Save the file to the filesystem.
+        
+//         // Check if the file exists
         if (req.file) {
             const filepath = './public/uploads/'+filename
-            console.log("filepath = ",filepath)
-            const image = fs.readFileSync(filepath)
-            // If the file exists, write it to the filesystem
-            if (!fs.existsSync(filepath)) {
-                // fs.writeFile(filepath,JSON.stringify(filepath), (err) => {
-                    fs.writeFile(filepath,image, (err) => {
-                    if (err) {
-                        console.log(err);
-                        res.send(err);
-                    } else {
-                        console.log('File saved successfully!');
-                    }
-                })
-            } else {
-                console.log('File does not exist!');
-            }}
-        
+//             console.log("filepath = ",filepath)
+//             const image = fs.readFileSync(filepath)
+//             // If the file exists, write it to the filesystem
+//             if (!fs.existsSync(filepath)) {
+//                 // fs.writeFile(filepath,JSON.stringify(filepath), (err) => {
+//                     fs.writeFile(filepath,image, (err) => {
+//                     if (err) {
+//                         console.log(err);
+//                         res.send(err);
+//                     } else {
+//                         console.log('File saved successfully!');
+//                     }
+//                 })
+//             } else {
+//                 console.log('File does not exist!');
+//             }}
+   
+const fs = require('fs');
+const path = require('path');
 
-        console.log("enterscore post no ======", n )
+const uploadImage = (req, res) => {
+  // Check if the file was uploaded successfully
+//   if (req.files && req.files.image && req.files.image.name) {
+
+    // Get the file name
+    // const filename = req.files.image.name;
+
+    // Move the file to the uploaded images directory
+    // const destinationPath = path.join(__dirname, 'uploads', filename);
+
+    // console.log("destinationPath=",destinationPath)
+    fs.move(req.files.image.path, filepath , (err) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send('The image was uploaded successfully!');
+      }
+    });
+
+//   } else {
+//     res.status(400).send('There was an error uploading the image.');
+//   }
+};
+
+
+
+
+console.log("enterscore post no ======", n )
+}
+
+
+
+
+
+
+// const ssh2 = require('ssh2');
+
+// const client = new ssh2.Client();
+// client.connect('34.22.89.71', 22, 'tohkpark', 'scrn*1000');
+
+//             // Create a new SFTP session
+//             const sftp = client.sftp();
+
+//             // Upload a file
+//             sftp.put('filepath', 'filepath');
+
+//             // Download a file
+//             sftp.get('filepath', 'filepath');
+
+//             // Close the connection
+//             client.close();
 
 //score_list result2
         const sql2 = `
@@ -532,7 +581,7 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
                                                                 })  
 
                                                         }})}
-                            }})}}) }})   
+                            }})}}) }  }) 
 
             
 router.get('/enterpay_list', async (req, res)=>{
@@ -575,17 +624,39 @@ router.get('/enterpay_list', async (req, res)=>{
                         state:0,
                         phone:phone,
                         username:username
-                    }) 
+                        }) 
                     }else{
-                        res.render('enterpay_list', {
-                        'enterpay':result, 
-                        'username' : user, 
-                        'amount' : amount,
-                        'phone': phone,
-                        'login_data' : req.session.logined,  
-       
-                        })}
-                }})}})
+                        //참가시스템 검색
+                        const sql2 = `
+                            select 
+                            * 
+                            from 
+                            ksfc 
+                            where 
+                            phone = ?
+                                `
+                        const values2 = [phone]
+
+                        connection.query(
+                            sql2, 
+                            values2, 
+                            function(err, result2){
+                                if(err){
+                                    console.log(err)
+                                    res.send(err)
+                                }else{
+                                    console.log("result2",result2)
+                                    res.render('enterpay_list', {
+                                        ksfcres:result2,
+                                        'enterpay':result, 
+                                        'username' : user, 
+                                        'amount' : amount,
+                                        'phone': phone,
+                                        'login_data' : req.session.logined,  
+                    
+                                    })}
+                })}}})}})
+
 
 //2000원 결제
 router.get('/enterpay', async (req, res)=>{
@@ -704,15 +775,16 @@ router.post('/enterpay', async (req, res)=>{
                     if(result2.length==0){//스코어가 하나도 없으면 다시 대회참가신청
                         res.render("enterpay")
                     }else{
-                            res.render('enterpay_list', {
-                                'enterpay':result2,
-                                'username' :  _username, 
-                                'amount' : balance,
-                                'phone': phone,
-                                state: 0               
-                    })
+                            // res.render('enterpay_list', {
+                            //     'enterpay':result2,
+                            //     'username' :  _username, 
+                            //     'amount' : balance,
+                            //     'phone': phone,
+                            //     state: 0       
+                            res.redirect("enterpay_list")        
+                    // })
                 }}})}}})
-                    // }})} }})
+                   
 
 
 router.get('/gamepay_list', async (req, res)=>{
@@ -850,7 +922,9 @@ router.post('/gamepay', async (req, res)=>{
                             console.log(err)
                         }else{ 
                             //가맹점 추가 금액    
-                        const _store_amount = parseInt(result[0].store_amunt) + parseInt(pay_amount)
+                        const store_amount = parseInt(result[0].store_amunt) + parseInt(pay_amount)
+                        const _store_amount = store_amount.toString()
+                        console.log("가게의 어마운트",_store_amount   )
                         kpoint.storeamount_update( _storename, _store_amount  )
                         
                         //log_info 금액 수정 log_info
@@ -1027,7 +1101,7 @@ router.post('/kp_trans', async (req, res)=>{
                                 //KP_list에 추가 all(송신자)
                                 const trans_tp1=_username
                                 send=parseInt(pay_amount)*-1
-                                kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, send )
+                                //kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, send )
                                 if(!req.session.logined){
                                     res.redirect("/")
                                     }else{  
@@ -1095,8 +1169,12 @@ if(!req.session.logined){
                         'username' : user, 
                         'amount':tokenamount,
                         'phone': req.session.logined.phone
-            })}})
+                    })}
+                 })
         }})
+
+
+
 
 return router
 }
