@@ -69,7 +69,10 @@
                 <body class="bg-gradient-primary" onload="timeover()" >
             <%}}}}%>
     <div class="container">
-
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="/index" >홈으로</a>
+        </div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
@@ -77,28 +80,27 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="text-center">
-                                <br>
-                                <a id="signinlink" href="/index" >홈으로</a>
-                            </div>
+
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
+                                        <img src="/img/005.jpg" width="300px">
+                                        <br><br>
                                         <h6 class="h6 text-gray-900 mb-2">
                                             로그인비밀번호 변경<br>
                                             
                                         </h6>
                                         <br>
                                         <div class="text-primary">
-                                        <i class="small" >
-                                            <br>휴대폰번호로 인증 해 주세요
-                                        </i>
-                                    </div>
+                                            <i class="small" >
+                                                <br>휴대폰번호로 인증 해 주세요
+                                            </i>
+                                        </div>
                                     </div>
                                     <form class="user" action="/auth1" method="post">
                                         <div class="form-group">
                                              <input type="text" class="form-control form-control-user" 
-                                                id="_id" name="_phone">
+                                                id="_id" name="phone">
 
                                                 <br>
                                             <div class="text-center">    

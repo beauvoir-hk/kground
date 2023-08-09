@@ -141,19 +141,20 @@ router.post('/ksfc', async  function(req, res){
                                 const _sysrank = 9999
                                 console.log(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_registtime)
                                 kpoint.ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
-                                // res.render("ksfc_list",{
-                                //         username: _username,
-                                //         amount:req.session.logined.charge_amount
-                                //     })
+ 
                                 res.render("ksfc_list",{
                                     phone:_phone,
                                     username:_username,
-                                    amount:_amount
+                                    amount:_amount,
+                                    resultt2:receipt
                                 })
                             
 //기 시스템과 같으면 ksfc
                              }else{
-                                    res.render("/index")
+                                res.render('index.ejs', {
+                                    'login_data': req.session.logined,
+                                    'amount' : req.session.logined.charge_amount,
+                                })
                                 }
                                    
                         }else{
@@ -166,11 +167,9 @@ router.post('/ksfc', async  function(req, res){
                                 const _sysrank = 9999
                                 console.log(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_registtime)
                                 kpoint.ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
-                                // res.render("ksfc_list",{
-                                //         username: _username,
-                                //         amount:req.session.logined.charge_amount
-                                //     })
+
                                 res.render("ksfc_list",{
+                                    resultt2:receipt,
                                     phone:_phone,
                                     username:_username,
                                     amount:_amount
@@ -182,28 +181,42 @@ router.post('/ksfc', async  function(req, res){
 
 router.post('/ksfc1', async  function(req, res){
 
-            // 기 등록한 데이터오 입력 받지 않도록  
+            // 기 등록한 데이터 입력 받지 않도록  
             const _gamenumber = await req.body.input_gamenumber
             const _gender =await  req.body.input_gender
             const _jiyeok =await  req.body.input_jiyeok
             const _birth = await req.body.input_birth
             const _golfsys = await req.body.input_golfsys
-
+            //phone번호로 로그인된 세션의 score만 읽어온다
+            const sql = `
+                select 
+                *
+                from 
+                ksfc
+                order by bestscore ASC
+                `
+            const values = [_phone]
+            connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                        state=false
+                    }else{
             const _bestscore = 9999
             const _registtime = moment().format('YYYY-MM-DDTHH:mm:ss')
             const _sysrank = 9999
             console.log(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_registtime)
             kpoint.ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
-            // res.render("ksfc_list",{
-            //         username: _username,
-            //         amount:req.session.logined.charge_amount
-            //     })
-            res.redirect("ksfc_list",{
+ 
+            res.render("ksfc_list",{
+                resultt2:result,
                 phone:_phone,
                 username:_username,
                 amount:req.session.logined.charge_amount
             })
- })
+ }})})
 
 
     // stroke_rank

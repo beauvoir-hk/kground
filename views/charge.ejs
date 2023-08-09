@@ -40,7 +40,25 @@
 
 </script>
 
+<script>
+
+    function popup(){
+        myPopup=window.open("/error_login", "kground", "width=500, height=300");
+    }
+    function close(){
+        window.close(myPopup) 
+    }
+    function fail(){
+              alert("KPoint를 중전해 주십시오")
+    }
+    </script>
 </head>
+<%if(st==0){%>
+<body class="bg-gradient-primary" onload="fail()"  >
+    <%}else{%>
+        <body class="bg-gradient-primary" >
+            <%}%>
+
     <body class="bg-gradient-primary">
 
         <div class="container">

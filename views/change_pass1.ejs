@@ -18,7 +18,7 @@
     
 </head>
 <% if(state==1){%>
-    <body class="bg-gradient-primary" onload="authok()" >
+    <body class="bg-gradient-primary" onload="passchangeok()" >
         <%}else{ if(state==2){%>
             <body class="bg-gradient-primary" onload="authok()" >
                 <%}else{%>
@@ -44,20 +44,22 @@
                             <div class="col-lg-6"> 
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <img src="/img/k.png" width="10%">
+                                        <img src="/img/005.jpg" width="300px">
                                         <h6>비밀번호 변경</h6>
                                     </div>
 
                                     <!-- 유저가 회원 정보를 입력하는 공간 -->
                                     <form action="/change_pass1", method="post">
-                                        <div align="right">  
-                                            <span class="small"name="_phone" readonly> 
-                                                전화번호 : <%=phone%> 
-                                            </span>
+                                        <br>
+                                        <div class="text-warning bg-dark">
+                                            [로그인 비밀번호 변경]
                                         </div>
-
-                                        <br>[로그인 비밀번호 변경]
-
+                                        <br>
+                                        <div align="right">  
+                                            <input class="small"name="_phone" value="<%=phone%>" readonly> 
+                                               
+                                        </div>
+                                        <br>
                                          <div class="display" id="info">
                                             <div class="form-group">
                                                 <input type="password" name="input_pass" id="_pass" class="form-control" placeholder="비밀번호"  >
@@ -74,17 +76,19 @@
                                             </div>
                                         </div>
                                     </form>
-                                    
+                                    <hr>
                                     <br>
-                                    <br>[결제비밀번호변경]
-                                   
+                                    <br>
+                                    <div class="text-warning bg-dark">
+                                        [결제비밀번호변경]
+                                    </div>    
+                                    <br>
+                                    <div align="right" >  
+                                        <input class="small" name="_phone" value="<%=phone%>" readonly>
+                                            
+                                    </div>
+                                    <br>
                                     <form action="/change_paypass6", method="post">
-
-                                        <div align="right" >  
-                                            <span class="small" name="phone" value="<%=phone%>" readonly>
-                                                <%=phone%>  </span>
-                                        </div>
-
                                          <div class="display" id="info">
                                             <div class="form-group">
                                                 <input type="password" name="input_paypass6" id="_paypass6" maxlength='6' class="form-control" placeholder="비밀번호(숫자6자리)"  >
