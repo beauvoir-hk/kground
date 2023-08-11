@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="/js/custom.js"></script>
+
+    <title>케이그라운드와 함께 해주셔서 감사합니다~</title>
+
+    <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
+    <%- include("header.ejs") %>
+    
+</head>
+    
+<body class="bg-gradient-primary">
+    <div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <!-- 1열 -->
+                        <div class="col-lg-6"> 
+                            <div class="p-6">
+                                <div class="text-center">
+                                    <br>
+                                    <img src="/img/k.png" width="10%">
+                                    <h6>골프플랫폼 케이그라운드</h6>
+                                </div>
+                                <br>
+                                <!-- Earnings (Monthly) Card Example -->
+                                <div class="text-center">
+                                    <div class="col-xl-12 col-md-6 mb-4">
+                                        
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="row no-gutters align-items-center">
+                                                  
+                                                    <div class="col mr-2">
+                                                        <table>
+                                                            <tr>
+                                                                <td width="200">
+                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;<%=login_data['username']%>님
+                                                                    </div>
+                                                                </td>
+                                                                <td rowspan="2" width="100">
+                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                        <div align="right">
+                                                                            
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="text-xs font-weight-bold mb-1 text-secondary text-uppercase">
+                                                                           
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                since 2023.8.11<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;회원수 : <%= total_count%>
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;KPoint 총잔액 : <%=total_charge%>
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;총충전지급 :<%=total_charge_count%>, <%= total_charge_charge%>
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;총입금 : <%=tot_deposit_count%>,<%=total_deposit%>
+                                <br><br>
+                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;관리자 지급  
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;관리자 차감  
+                                                                
+                                <br><br>
+                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;회원목록  
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;충전내역  
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;대회참가내역 
+                                                                
+                                <br><br>
+                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;가맹점결제 내역   
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;KSFC스코어 
+                                                                
+                                <br><br>
+
+                                &nbsp;&nbsp;&nbsp;&nbsp;<a href="admin/db_update">DB수정</a>
+                                <br><br>
+                                <a href="golf/notice"><img src="/img/80_015.png" alt="공지사항"></a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="golf/regu"><img src="/img/80_018.png"  alt="대회규정"></a>
+                                
+                                
+                            </div>
+                        </div>  
+                        
+                        <!-- 2열  -->
+                        <div class="text-center">
+                            <div class="col-lg-6">
+                                <img src="/img/kk.png"  width="50%" >
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    </div>   
+</body>
+</html>

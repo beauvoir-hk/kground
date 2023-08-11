@@ -24,8 +24,6 @@
     <div class="container">
         <div class="text-center">
             <br>
-            <a id="signinlink" href="javascript:history.back()" >뒤로 가기</a> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a id="signinlink" href="/index" >홈으로</a>
         </div>
         <!-- Outer Row -->
@@ -51,15 +49,7 @@
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
-                                                            &nbsp;&nbsp;<%=username%>님<br>
-                                                            <%if(gender=="여"){%>
-                                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                                    (<%=gender%>자부문 대회참여)
-                                                             <%}else{if(gender=="남"){%>
-                                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                    (<%=gender%>자부문 대회참여)
-                                                            <%}}%>
-                                                            </div>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
@@ -67,64 +57,23 @@
                                         </div>
                                     </div> 
                                     <!-- 제거 -->
+
                                     <hr> 
-                                    <div class="text-center">
-                                        <div class="text-danger">
-                                          
-                                          스코어 등록 완료 되었습니다^^
-                                        </div>
-                                    </div>
-                                    
                                     <div class="container">
                                         <div class="fs-6">    
                                         <br>
-                                        <form action="/contract/enterpay_list" method="post" enctype="multipart/form-data">
-                                            <!-- <form action="/contract/enterscore" method="post" enctype="multipart/form-data"></form> -->
-                                        <table class="table">
-                                            <tr>
-                                                <td>
-                                                    번호<br>
-                                                    참가<br>시간
-                                                </td>
-                                                <td>
-                                                    <input type="text" name="_n" class="form-control" value="<%=no%>" readonly></input>
-                                                    <input type="text" name="_time" class="form-control" 
-                                                       value="<%=resultt[0].entertime%>" readonly>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    참가<br>시스템
-                                                </td>
-                                                <td>
-                                                    <%=resultt[0].golfsys%>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    스코어
-                                                </td>
-                                                <td>
-                                                    <%=resultt[0].strok%>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    스코어<br>카드
-                                                </td>  
-                                                <td>
-                                                    <img src="/uploads/<%=resultt[0].scorepicture%>" 
-                                                        width="250">
-                                                </td>
-                                            </tr>
-                                        </table>
-                                       
+                                        <!-- <form action="/contract/enterscore/?n=<%=no%>" method="post" enctype="multipart/form-data"> -->
+                                            <form action="/contract/enterscore1" method="post" enctype="multipart/form-data">
+                                        
+                                                    <span class="input-group-text" id="basic-addon1">스코어카드캡쳐파일  </span>
+                                                    
+                                                    <input type="file" name="_image" class="form-control" 
+                                                    placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
+                                        
                                     </div>
                                     <div class="text-center">  
-                                        <!-- <input  type="submit" value="strok 등록" id="signup">
-                                        <button class="btn btn-danger" type="submit" onclick="location.href='/constract/enterpay_list'">
-                                            확인
-                                        </button> -->
+                                        
+                                        <button class="btn btn-danger" type="submit" value="strok 등록" >스코어등록</button>
                                     </div>
                                 </form>
                                     </div>       

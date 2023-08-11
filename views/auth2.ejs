@@ -83,17 +83,24 @@
                                             
                                         </h6>
                                         <br>
+                                        <div class="text-danger">
+                                            <i>비밀번호(로그인+결제) 변경은<br>
+                                            문자인증을 통해 본인 검증 후 가능합니다.
+                                            <br></i>
+                                            
+                                        </div>
                                         <div class="text-primary">
-                                        <i class="small" >
-                                            <br>휴대폰번호로 인증 해 주세요
-                                        </i>
-                                    </div>
-                                    </div>
+                                            <i class="small" >
+                                                <br>휴대폰번호로 인증 해 주세요
+                                            </i>
+                                        </div>
+                                   
+                                    
                                     <form class="user" action="/auth2" method="post">
                                         <div class="form-group">
                                            
                                             <input type="text" class="form-control form-control-user" 
-                                                id="_id" name="phone"  value="<%=phone%>" readonly>
+                                                id="_id" name="_phone"  value="<%=phone%>" readonly>
                                                 <br>
                                             <div class="text-center">    
                                                 <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
@@ -102,7 +109,7 @@
                                         </div>
                                     </form>
                                         
-                                    <form class="user" action="/verify2" method="post">
+                                    <form class="user" action="/verify2/?phone=<%=phone%>" method="post">
                                         <br>
                                         <div class="text-danger">
                                             <label class="small">※ 전송된 인증번호를 3분 이내에 입력하세요

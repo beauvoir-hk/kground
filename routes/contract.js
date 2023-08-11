@@ -97,21 +97,21 @@ module.exports = ()=>{
     router.get('/charge_list', async (req, res)=>{
         const user = req.session.logined.username
         const kp_amount = req.session.logined.charge_amount   
-        const phone = req.session.logined.phone
+        const phone = await req.session.logined.phone
 
         if(!req.session.logined){
             res.redirect("/")
         }else{    
             console.log("//charge 테이블 최신자료 순으로 정렬")
            const sql = `
-                    select 
-                    *
-                    from 
-                    charge_list
-                    where 
-                    phone = ?
-                    order by chargedate DESC
-                `
+                select 
+                *
+                from 
+                charge_list
+                where 
+                phone = ?
+                order by chargedate DESC
+            `
             const values = [phone]
             connection.query(
                 sql, 
@@ -119,7 +119,7 @@ module.exports = ()=>{
                 function(err, result){
                     if(err){
                         console.log(err)
-                    }
+                    }else{
                     console.log("result=", result)
                     console.log("result=", result.length) 
                     console.log("kp_amount =",    kp_amount)  
@@ -128,7 +128,7 @@ module.exports = ()=>{
                         'username' : user, 
                         'amount' :  kp_amount,
                         'phone': req.session.logined.phone
-                        })})}
+                        })}})}
 })
 
     router.get('/charge', async (req, res)=>{
@@ -428,17 +428,7 @@ const uploadImage = (req, res) => {
 //   }
 };
 
-
-
-
-console.log("enterscore post no ======", n )
-}
-
-
-
-
-
-
+  
 // const ssh2 = require('ssh2');
 
 // const client = new ssh2.Client();
@@ -585,8 +575,10 @@ console.log("enterscore post no ======", n )
                                                                 })  
 
                                                         }})}
-                            }})}}) }  }) 
+                            }})}}) }}})   
 
+
+    
             
 router.get('/enterpay_list', async (req, res)=>{
     if(!req.session.logined){
@@ -1072,7 +1064,7 @@ router.post('/kp_trans', async (req, res)=>{
 
             var charge_amount= 0
             var reciep_amount =0
-
+            
             //비밀번호 맞는지 확인
             const numeric6 = await req.body._numeric6
             

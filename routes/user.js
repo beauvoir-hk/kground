@@ -277,19 +277,19 @@ router.post("/login", async (req, res)=>{
 router.post('/change_pass', async function(req, res){
     const input_new_pass = await req.body.input_pass
     const input_new_pass6 = await req.body.input_paypass6
-    const phone=req.body.phone
+    const phone=req.body._phone
     console.log(input_new_pass)
     state=0    
     const sql = `
-                update
-                log_info
-                set
-                pass = ?,
-                numeric6 = ?
-                where
-                phone = ?
-                `
-    const values = [input_new_pass,input_new_pass6,  phone]
+        update
+        log_info
+        set
+        pass = ?,
+        numeric6 = ?
+        where
+        phone = ?
+        `
+    const values = [input_new_pass, input_new_pass6,  phone]
     connection.query(
         sql, 
         values, 
@@ -298,15 +298,16 @@ router.post('/change_pass', async function(req, res){
                 console.log(err)
                 res.send(err)
             }else{
-                console.log('loginfo sql',input_new_pass, phone)
+
+                console.log('loginfo sql',input_new_pass, input_new_pass6,  phone)
                 console.log("로그인비밀번호 변경성공", result)
                 res.render("ksfc",{
                     phone:phone,
-
+                    
                     state:0//이거매우중요(로그인 없이 가기 때문에 여기 전번을 가지고 대회참가등록해야함)
-                })
-            } } )
-        })
+                    })
+                }})
+ })
 
 
 router.post('/change_pass1', async function(req, res){
@@ -337,10 +338,8 @@ router.post('/change_pass1', async function(req, res){
                 console.log('loginfo sql',input_new_pass, phone)
                 console.log("로그인비밀번호 변경성공", result)
 
-                res.render("change_pass1",{
-                    phone:phone,
-                    state:1
-                })
+                res.render("login")
+                
             } } )
         })
 
@@ -348,9 +347,12 @@ router.post('/change_pass1', async function(req, res){
 
  router.post('/change_pass2', async function(req, res){
         
+    const phone =   req.body._phone
+    console.log("phone=", phone)
+
     const input_new_pass = await req.body.input_pass
-    const phone=await req.body.phone
-    console.log(input_new_pass)
+    console.log("input_new_pass=",input_new_pass)
+
     state=0    
     const sql = `
                 update
@@ -371,6 +373,7 @@ router.post('/change_pass1', async function(req, res){
             }else{
                 console.log('loginfo sql',input_new_pass, phone)
                 console.log("로그인비밀번호 변경성공", result)
+
                 //로그인비밀번호 성공시 다시 로그인으로
                 res.render("login",{  
                     phone:phone,
@@ -381,7 +384,7 @@ router.post('/change_pass1', async function(req, res){
 
         
 router.post('/change_paypass6', async function(req, res){
-    const phone=req.body._phone
+    const phone=req.body.phone
     const input_new_pass6 = await req.body.input_paypass6
     console.log(input_new_pass6)
     
@@ -404,7 +407,7 @@ router.post('/change_paypass6', async function(req, res){
             }else{
                 console.log('loginfo sql',input_new_pass6, phone)
                     console.log("결제비밀번호 변경성공", result)
-                    res.render("login",{
+                    res.render("index",{
                         state:1
             })}}
 )})
@@ -512,8 +515,9 @@ router.get('/check_id', function(req, res){
         const _dir= await req.body.dir
         const _st=0
         if(req.session.logined){
+            const phone= req.session.logined.phone
             res.render("auth6",{
-                phone:req.session.logined.phone,
+                phone:phone,
                 state:_state,
                 st:_st,
                 dir:_dir
@@ -524,11 +528,12 @@ router.get('/check_id', function(req, res){
     router.post('/auth6', async  (req, res) => {
         let _st=0//전번입력받아진행
         const _dir= await req.body.dir
+        const phone = req.session.logined.phone
         if(req.session.logined){
+            
              _st=1
         }
-        const phone = req.session.logined.phone
-        console.log("req.body._phonee =",phone )
+        console.log("phone =",phone )
 
         const gphone = "+82"+ phone
         console.log("auth 실행 들어옴 gphone =",gphone)
@@ -580,14 +585,14 @@ router.get('/check_id', function(req, res){
         }) } )
 
 
-
     router.get('/auth2', async  (req, res) => {
         const _state=3
         const _dir= 2//로그인만변경
         const _st=0//기로그인
+        const phone = req.session.logined.phone
         if(req.session.logined){
             res.render("auth2",{
-                phone:req.session.logined.phone,
+                phone:phone,
                 state:_state,
                 st:_st,
                 dir:_dir
@@ -596,13 +601,15 @@ router.get('/check_id', function(req, res){
 
     // 비밀번호 찾기
     router.post('/auth2', async  (req, res) => {
-        let _st=0//전번입력받아진행
+            let _st=0//전번입력받아진행
+            
         if(req.session.logined){
-             _st=1//기로그인
+                _st=1
         }
-        const phone = req.session.logined.phone
-        console.log("req.body._phonee =",phone )
-
+        const phone = req.body._phone
+        console.log("req.body.phone =",phone )
+        
+       
         const gphone = "+82"+ phone
         console.log("auth 실행 들어옴 gphone =",gphone)
         // 문자인증 코드를 생성합니다.
@@ -651,7 +658,10 @@ router.get('/check_id', function(req, res){
                             dir :2  
 
                         })}
-            })})
+            }) 
+})        
+
+
 
 router.get('/auth1', async  (req, res) => {
     const _state=3
@@ -734,6 +744,8 @@ router.post('/auth1', async  (req, res) => {
         })
     }
  } )        
+
+
 
     // 문자인증(폰번호 입력된 상태로 렌더린 당함)
     router.get('/auth', async  (req, res) => {
@@ -965,8 +977,10 @@ router.post('/auth1', async  (req, res) => {
         console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>_dir=", _dir)
         const code1 = await req.body.input_auth_code
         const code = parseInt(code1)
-        const vphone =req.body.phone 
+        const vphone =req.query.phone 
         console.log('req=',code)
+        console.log('req.query.phone =',req.query.phone )
+
         if(req.session.login){
             vphone = req.session.logined.phone
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>vphone=", vphone)
@@ -1033,15 +1047,8 @@ router.post('/verify6', async (req, res) => {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>_dir=", _dir)
     const code1 = await req.body.input_auth_code
     const code = parseInt(code1)
-    const vphone =req.body.phone 
+    const vphone = req.session.logined.phone
     console.log('req=',code)
-    if(req.session.login){
-        vphone = req.session.logined.phone
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>vphone=", vphone)
-    }
-
-    
-    
     //인증문자가 맞는지 비교한다
 
     //폰번호로 db에서 db에서 전번으로 인증번호를 찾고
@@ -1066,8 +1073,8 @@ router.post('/verify6', async (req, res) => {
                     console.log("User가 없습니다.")
                     return
                 }else{
-                    const phone=result[0].phone
-                        //인증문자가 찾아지면
+                    
+                    //인증문자가 찾아지면
                     console.log('sql=',sql)
                     console.log(result[0])
                     //3분이 지났는지 확인

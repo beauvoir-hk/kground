@@ -30,9 +30,9 @@
                 <%}}%>
     <div class="container">
         <div class="text-center">
-            <div class="text-white"></div>
-            <br>
-            <a id="signinlink" href="/index" >홈으로</a>
+            <div class="text-white">
+                <br>
+                <a id="signinlink" href="/index" >홈으로</a>
             </div>
         </div>
     <!-- Outer Row -->
@@ -48,11 +48,15 @@
                             <div class="p-5">
 
                                 <div class="text-center">
-                                    <img src="/img/k.png" width="10%">
-                                    <h6>KSFC 참가신청</h6>
+                                    <img src="/img/005.jpg" width="300px">
+                                    <h6>KSFC 참가 추가신청</h6>
                                 </div>
                                 <br>
-
+                                <div align="right" >  
+                                    <input class="small" name="_phone" value="<%=phone%>" readonly>
+                                         
+                                </div>
+                                <br>
                                 
                                 <form action="/golf/ksfc1", method="post">
                                 
@@ -74,14 +78,14 @@
                                         <tr>
                                             <th>성별선택: </th>
                                             <td>
-                                                <input type="text"  name="input_gender" class="form-control" value=" <%=resultt.gender %>  "
+                                                <input type="text"  name="input_gender" class="form-control" value=" <%=resultt[0].gender %>  "
                                                 aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>지역선택: </th>
                                             <td> 
-                                                <input type="text"  name="input_jiyeok" class="form-control" value=" <%=resultt.input_jiyeok   %>  "
+                                                <input type="text"  name="input_jiyeok" class="form-control" value=" <%=resultt[0].jiyeok%>"
                                                   aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                        
                                                
@@ -91,10 +95,18 @@
                                             <th>생년월일입력(8자리) : </th>
                                             <td>
                                                 <div>
-                                                    <input type="text"  name="input_birth" class="form-control" value=" <%=resultt.input_birth  %>  "
+                                                    <input type="text"  name="input_birth" class="form-control" value=" <%=resultt[0].birth%>  "
                                                       aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                                 </div>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            기 참가 시스템 :
+                                            <%const sys_count = resultt.length%>
+                                            <%for(var i=0;i<sys_count;++i){%>
+                                                <%=resultt[i].golfsys%>
+                                                ,
+                                            <%}%>
                                         </tr>
                                         <tr>
                                             <th>참가시스템: </th>

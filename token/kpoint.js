@@ -22,8 +22,31 @@ const connection = mysql.createConnection({
 })
 const http = require('http');
 
-const payappApiDomain = 'api.payapp.kr';
-const payappApiUrl = '/oapi/apiLoad.html';
+//log_info 리스트에 갱신기록
+async function log_info_update(_phone,_nickname, _refferal, _pass ){
+        //user_info에 대해 갱신
+        const sql3 = `
+            update
+            log_info
+            set
+            referral=?,
+            nickname=?
+            pass = ?,
+            where
+            phone = ?
+            `
+        const values3 =[_phone,_nickname, _refferal, _pass ]    
+        connection.query(
+            sql3, 
+            values3,
+        function(err, result3){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log("user_info에 대해 갱신")
+                }
+})}
 
 
 //충전 리스트에 기록
@@ -46,9 +69,30 @@ async function chargelist_insert(_phone,chargedate, price){
                     if (result.length == 0) {
                         console.log("충전 자료가 하나도 없다네")
                     } else {
+
                       console.log("충전 정상 charge list 기록")
-                    }
-    }})
+                      const sql = `
+                      select 
+                      *
+                      from 
+                      charge_list
+                      where 
+                      phone = ?
+                      order by chargedate DESC
+                  `
+                  const values = [phone]
+                  connection.query(
+                      sql, 
+                      values, 
+                      function(err, result){
+                          if(err){
+                              console.log(err)
+                          }else{
+                            console.log("충전 정상 charge list 기록결과")
+                          }
+                    })
+
+    }}})
    }
 
 
