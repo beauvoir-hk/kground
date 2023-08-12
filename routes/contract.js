@@ -376,20 +376,20 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
         const _tokenamount = req.session.logined.charge_amount
         const tokenamount = parseInt(_tokenamount)+parseInt(-2000)  
 
-// //스코어카드 파일 기록
-    //    const _scorepicture = req.file.filename
-    //     console.log('_scorepicture=',_scorepicture);
+//스코어카드 파일 기록
+       const _scorepicture = req.file.filename
+        console.log('_scorepicture=',_scorepicture);
 
-//         // const code = Math.floor(Math.random() * 10000000)
-//         // console.log("파일이름 중복방지 =",code)
-//         // const filename = code.toString()+_scorepicture; 
+        // const code = Math.floor(Math.random() * 10000000)
+        // console.log("파일이름 중복방지 =",code)
+        // const filename = code.toString()+_scorepicture; 
                 
-//         // Save the file to the filesystem. 
+        // Save the file to the filesystem. 
         
-//         // Check if the file exists
-       
-//             console.log("filepath = ",filepath)
-//             const image = fs.readFileSync(filepath)
+        // Check if the file exists
+        filepath ="/uploads/"+_scorepicture
+            console.log("filepath = ",filepath)
+            // const image = fs.readFileSync(filepath)
 //             // If the file exists, write it to the filesystem
 //             if (!fs.existsSync(filepath)) {
 //                 // fs.writeFile(filepath,JSON.stringify(filepath), (err) => {
@@ -476,11 +476,11 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
                         console.log("entertime과 갱신내용 미리보기=", entertime, stroke )
 
                         //enterscore_update
-                        kpoint.enterscore_update(_golfsys, stroke, entertime)
+                        kpoint.enterscore_update(_golfsys, stroke,_scorepicture, entertime)
                         
 //kpoint list 거래 전체 기록테이블에 추가 
                         const trans_tp = "festival"
-                        const price =2000
+                        const price ='2000'
                         const enterdate = moment().format('YYYY-MM-DDTHH:mm:ss')
                         kpoint.kpoint_list_insert(phone, trans_tp,  enterdate, price )
 
