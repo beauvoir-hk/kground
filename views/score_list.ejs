@@ -66,6 +66,7 @@
                                         <div class="text-center">
                                          <table class="table">
                                             <%for (var i = 0 ; i <resultt.length ; i++){%>
+                                                <%if(resultt[i].strok!='9999'){%>
                                             <tr>
                                                 <td width="300px">
                                                     <div class="text-warning bg-dark">
@@ -94,10 +95,8 @@
                                                 </td>
                                                
                                             </tr>
+                                                <%}%>
                                             <%}%>
-
-
-                                            </tr>
                                         </table>
                                         </div>       
                                     </div>    

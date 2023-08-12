@@ -38,7 +38,8 @@ const connection = mysql.createConnection({
 
 //js 파일 로드 
 const kpoint = require("../token/kpoint")
-const error = require("../token/error")
+const error = require("../token/error");
+const { id } = require('date-fns/locale');
 
 
 module.exports = ()=>{
@@ -189,9 +190,10 @@ module.exports = ()=>{
                 if(err){
                     console.log(err)            
                 }else{
+                     
                     console.log(result2.length)
                     // console.log("//상위 5개 score출력을 위한 준비: ", result2)
-          
+                    
                     let len=0
                     let sco_sum =0
                     
@@ -206,8 +208,10 @@ module.exports = ()=>{
                     console.log("len : ", len)
                     
                     for(var i=0; i<len; i++){
+                        if(result2[i].strok!='9999'){
                         sco_sum = sco_sum + parseInt(result2[i].strok)
                         console.log("strok, sco_sum = ", result2[i].strok, sco_sum )
+                        }
                     }
                     console.log("scores_sum=", sco_sum)
                     const scores_sum = sco_sum.toString()
@@ -328,6 +332,7 @@ module.exports = ()=>{
                                                             res.render('enterscore1', {
                                                                 no:no,
                                                                 resultt : result, 
+                                                                resultt2: result2,
                                                                 username:user,
                                                                 login_data : req.session.logined,
                                                                 timeresult:result[0],
@@ -339,6 +344,7 @@ module.exports = ()=>{
                                                             res.render('enterscore', {
                                                                 no:no,
                                                                 resultt : result, 
+                                                                resultt2: result2,
                                                                 username:user,
                                                                 login_data : req.session.logined,
                                                                 timeresult:result[0],
@@ -371,19 +377,17 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
         const tokenamount = parseInt(_tokenamount)+parseInt(-2000)  
 
 // //스코어카드 파일 기록
-        const _scorepicture = req.file.filename
-        console.log('_scorepicture=',_scorepicture);
+    //    const _scorepicture = req.file.filename
+    //     console.log('_scorepicture=',_scorepicture);
 
 //         // const code = Math.floor(Math.random() * 10000000)
 //         // console.log("파일이름 중복방지 =",code)
 //         // const filename = code.toString()+_scorepicture; 
-        const filename = _scorepicture; 
-        console.log("파일이름 filename=",filename)           
-//         // Save the file to the filesystem.
+                
+//         // Save the file to the filesystem. 
         
 //         // Check if the file exists
-        if (req.file) {
-            const filepath = './public/uploads/'+filename
+       
 //             console.log("filepath = ",filepath)
 //             const image = fs.readFileSync(filepath)
 //             // If the file exists, write it to the filesystem
@@ -401,10 +405,10 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
 //                 console.log('File does not exist!');
 //             }}
    
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
-const uploadImage = (req, res) => {
+// const uploadImage = (req, res) => {
   // Check if the file was uploaded successfully
 //   if (req.files && req.files.image && req.files.image.name) {
 
@@ -415,18 +419,18 @@ const uploadImage = (req, res) => {
     // const destinationPath = path.join(__dirname, 'uploads', filename);
 
     // console.log("destinationPath=",destinationPath)
-    fs.move(req.files.image.path, filepath , (err) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(200).send('The image was uploaded successfully!');
-      }
-    });
+    // fs.move(req.files.image.path, filepath , (err) => {
+    //   if (err) {
+    //     res.status(500).send(err);
+    //   } else {
+    //     res.status(200).send('The image was uploaded successfully!');
+    //   }
+    // });
 
 //   } else {
 //     res.status(400).send('There was an error uploading the image.');
 //   }
-};
+// };
 
   
 // const ssh2 = require('ssh2');
@@ -469,10 +473,10 @@ const uploadImage = (req, res) => {
 //리스트에서 선택 한 것과 똑 같은 위치의 결제시간획득해서 score에 갱신등록
                         const entertime =result2[n].entertime
 
-                        console.log("entertime과 갱신내용 미리보기=", entertime, stroke, _scorepicture )
+                        console.log("entertime과 갱신내용 미리보기=", entertime, stroke )
 
                         //enterscore_update
-                        kpoint.enterscore_update(_golfsys, stroke,filename, entertime)
+                        kpoint.enterscore_update(_golfsys, stroke, entertime)
                         
 //kpoint list 거래 전체 기록테이블에 추가 
                         const trans_tp = "festival"
@@ -544,8 +548,11 @@ const uploadImage = (req, res) => {
                                                         console.log("len : ", len)
                                                         
                                                         for(var i=0; i<len; i++){
+                                                            //스코어가 갱신 안된것은 제외
+                                                            if(result2[i].strok!='9999'){
                                                             sco_sum = sco_sum + parseInt(result2[i].strok)
                                                             console.log("strok, sco_sum = ", result2[i].strok, sco_sum )
+                                                            }
                                                         }
                                                         console.log("scores_sum=", sco_sum)
                                                         const scores_sum = sco_sum.toString()
@@ -575,7 +582,7 @@ const uploadImage = (req, res) => {
                                                                 })  
 
                                                         }})}
-                            }})}}) }}})   
+                            }})}}) }})   
 
 
     
@@ -619,7 +626,7 @@ router.get('/enterpay_list', async (req, res)=>{
                     res.render("enterpay",{
                         state:0,
                         phone:phone,
-                        username:username
+                        username:user
                         }) 
                     }else{
 
@@ -723,7 +730,7 @@ router.post('/enterpay', async (req, res)=>{
         const input_numeric6 = await req.body._numeric6
         const _golfsys = ""
         console.log("numeric6 =",input_numeric6)
-        const _strok = 0
+        const _strok = 9999
         const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
         const phone =  req.session.logined.phone
         console.log("_phone=",phone)

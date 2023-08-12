@@ -58,8 +58,7 @@
                                                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
                                                                     <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                     K포인트 : <%=aa%>
-                                                                    <br>
-                                                                    참가시스템 :<%ksfcres[0].golfsys%>
+                                                                   
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -78,7 +77,7 @@
                                         </div>
                                         <br>
                                             <form action="/contract/enterscore" method="post">
-                                            <% if(amount != 0){ %>
+                                             
                                             <table class="table">
                                                 <tr>
                                                     <th>
@@ -88,7 +87,9 @@
                                                         </div>
                                                     </th>
                                                     <th>
-                                                        참가시간
+                                                        <div class="h6 mb-0 font-weight-bold text-uppercase text-gray-800">
+                                                            참가시간(※ 스코어등록 완료 → √)
+                                                        </div>
                                                     </th>
                                             
                                                 </tr>
@@ -109,13 +110,13 @@
                                                             <div class="text-secondary">
                                                                 <%if(enterpay[i].scorepicture!=""){%>
                                                                     <h6>√</h6>
-                                                                    <%}%>
+                                                                <%}%>
                                                             </div>
                                                         </td>
                                                         </tr>
                                                     <%}%>
                                                 </table>
-                                                <%}%>
+                                                
                                             <br>
                                             <br>    
 

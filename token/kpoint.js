@@ -200,18 +200,18 @@ async function storeamount_update( _storename, save_amount ){
 
 //페스티벌 참가===============================================================
 //참가비결제를 위해 참가 list (최근순)
-async function enterscore_update(_golfsys, stroke, _scorepicture, entertime){  
+async function enterscore_update(_golfsys, stroke,   entertime){  
     const sql = `
                 update
                 score
                 set
                 golfsys=?,
                 strok = ?,
-                scorepicture = ?
+                 
                 where
                 entertime = ?
                 `
-            const values = [_golfsys, stroke, _scorepicture, entertime]
+            const values = [_golfsys, stroke,  entertime]
             connection.query(
                 sql, 
                 values, 

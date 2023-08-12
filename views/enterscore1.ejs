@@ -49,6 +49,14 @@
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
+                                                            &nbsp;&nbsp;<%=username%>님<br>
+                                                            <%if(gender=="여"){%>
+                                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                                    (<%=gender%>자부문 대회참여)
+                                                             <%}else{if(gender=="남"){%>
+                                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    (<%=gender%>자부문 대회참여)
+                                                            <%}}%>
                                                            
                                                         </div>
                                                     </div>
@@ -64,21 +72,62 @@
                                         <br>
                                         <!-- <form action="/contract/enterscore/?n=<%=no%>" method="post" enctype="multipart/form-data"> -->
                                             <form action="/contract/enterscore1" method="post" enctype="multipart/form-data">
-                                        
-                                                    <span class="input-group-text" id="basic-addon1">스코어카드캡쳐파일  </span>
-                                                    
-                                                    <input type="file" name="_image" class="form-control" 
-                                                    placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
-                                        
-                                    </div>
-                                    <div class="text-center">  
-                                        
-                                        <button class="btn btn-danger" type="submit" value="strok 등록" >스코어등록</button>
-                                    </div>
-                                </form>
-                                    </div>       
+                                                <div class="text-warning bg-dark">
+                                                    기 참가 시스템 :
+                                                        <%const sys_count = resultt2.length%>
+                                                        <%for(var i=0;i<sys_count;++i){%>
+                                                            <%=resultt2[i].golfsys%>
+                                                            ,
+                                                        <%}%>
+                                                </div>
+                                                
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>
+                                                            번호<br>
+                                                            참가시간
+                                                        </th>
+                                                        <td>
+                                                            <%=resultt[0].entertime%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            참가시스템
+                                                        </th>
+                                                        <td>
+                                                            <%=resultt[0].golfsys%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            스코어
+                                                        </th>
+                                                        <td>
+                                                            <%if(resultt[0].strok!='9999'){%>
+                                                                &nbsp;
+                                                                <%}else{%>
+                                                                <%=resultt[0].strok%>
+                                                                <%}}%>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+                                                <!-- <div class="text-center">  
+                                                    <button class="btn btn-danger" type="submit" value=" " >스코어리스트</button>
+                                                </div> -->
+                                                <br>
+                                                <hr>
+                                                </form>
+                                                <div class="text-center">  
+                                                    <a href="http://pf.kakao.com/_ttxaSxj/chat">스코어카드캡쳐파일 제출</a>
+                                                </div>
+                                            </div>
+                                        </div>       
+                                    </div> 
+                                 </div> 
                                 </div> 
-                             </div>   
+                            </div>    
                             
                             <!-- 2열 -->
                             <div class="col-lg-5">
