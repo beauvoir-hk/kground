@@ -39,8 +39,6 @@ const connection = mysql.createConnection({
 //js 파일 로드 
 const kpoint = require("../token/kpoint")
 const error = require("../token/error");
-const { id } = require('date-fns/locale');
-
 
 module.exports = ()=>{
 
@@ -625,6 +623,7 @@ router.get('/enterpay_list', async (req, res)=>{
                     //스코어가 하나도 없어서 
                     res.render("enterpay",{
                         state:0,
+                        amount:amount,
                         phone:phone,
                         username:user
                         }) 
@@ -652,11 +651,11 @@ router.get('/enterpay_list', async (req, res)=>{
                                     console.log("result2",result2)
                                     res.render('enterpay_list', {
                                         ksfcres:result2,
-                                        'enterpay':result, 
-                                        'username' : user, 
-                                        'amount' : amount,
-                                        'phone': phone,
-                                        'login_data' : req.session.logined,  
+                                        enterpay:result, 
+                                        username : user, 
+                                        amount : amount,
+                                        phone: phone,
+                                        login_data : req.session.logined,  
                     
                                     })}
                 })}}})}})
@@ -735,8 +734,10 @@ router.post('/enterpay', async (req, res)=>{
         const phone =  req.session.logined.phone
         console.log("_phone=",phone)
         const _username =  req.session.logined.username
-        const ch =  req.session.logined.username
+        // const ch =  req.session.logined.username
         const _picture = ""
+        const balance=req.session.logined.charge_amount
+
         console.log("input_numeric6",input_numeric6)
         console.log("req.session.logined.numeric6=",req.session.logined.numeric6)
 
@@ -744,7 +745,7 @@ router.post('/enterpay', async (req, res)=>{
         if(input_numeric6 != req.session.logined.numeric6){
             da=0
             res.render("enterpay",{
-                amount : req.session.logined.charge_amount,
+                amount : balance,
                 username :_username,
                 state : da
             })
@@ -792,6 +793,8 @@ router.post('/enterpay', async (req, res)=>{
                 }else{
                     if(result2.length==0){//스코어가 하나도 없으면 다시 대회참가신청
                         res.render("enterpay",{
+                            amount : balance,
+                            username :_username,
                             state:0
                         })
                     }else{

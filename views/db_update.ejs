@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>케이그라운드</title>
+    <%- include("header.ejs") %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gradient-primary">
+    <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="text-center">
+                            <br>
+                            <a id="signinlink" href="/index" >홈으로</a>
+                            <br><br>
+                        </div>
+                        <!-- 1열 -->
+                        <div class="col-lg-6"> 
+                            <div class="p-5">
+
+                                <div class="text-center">
+                                
+                                    <img src="/img/005.jpg" width="300px">
+                                    <br><br>
+                                    <h6>케이그라운드 회원자료 수정</h6>
+                                </div>
+                                <br>
+                                <hr><br>
+                                <form action="/admin/db_update", method="post">
+                                    <div class="form-group">
+                                        전화번호 : <input type="text" name="input_phone" value="<%=resultt[0].phone%>" readonly   >
+                                    </div><br>
+                                    <div class="form-group">
+                                        성명 : <input type="text" name="input_username"  value="<%=resultt[0].username%>" readonly    >
+                                    </div><br><hr><br>
+
+                                    <div class="form-group">
+                                        닉네임 : 
+                                        <input type="text" name="input_nickname" value="<%=resultt[0].nickname%>"   >
+                                    </div><br>
+                                    <div class="form-group">
+                                        추천인 : 
+                                        <input type="text" name="input_refferal" value="<%=resultt[0].refferal%>"    >
+                                    </div><br>
+                                    <div class="form-group">
+                                        보유KPoint :  
+                                        <% const chargeamount = resultt[0].charge_amount%>
+                                        <%aa=chargeamount.toString() %>
+                                        <input type="text" name="input_amount"  value="<%=aa%>"  >
+                                    </div><br>
+                                    <div class="form-group">
+                                        tier(티어) :  
+                                        <% const tr = resultt[0].tier%>
+                                        <%aa=tr.toString() %>
+                                         <input type="text" name="input_tier" value="<%=aa%>"    >
+                                    </div><br>
+                                    <div class="form-group">
+                                       메모(필수) : <input type="text" name="input_memo" class="form-control" >
+                                    </div><br>
+                                    <br><br>
+                                    <div class="text-center">  
+                                        <input class="btn btn-danger"  type="submit" value="관리자회원정보수정"   >
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    <!-- //2열   -->
+                    <div class="col-lg-5">
+                        <img src="/img/kk.png"  width="100%" >
+                    </div> 
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>    

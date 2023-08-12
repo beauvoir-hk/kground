@@ -35,8 +35,9 @@
                             <div class="p-6">
                                 <div class="text-center">
                                     <br>
-                                    <img src="/img/k.png" width="10%">
-                                    <h6>골프플랫폼 케이그라운드</h6>
+                                    <img src="/img/005.jpg" width="300px">
+                                    <br>
+                                    <h6>골프플랫폼 케이그라운드 관리자모드</h6>
                                 </div>
                                 <br>
                                 <!-- Earnings (Monthly) Card Example -->
@@ -50,24 +51,56 @@
                                                     <div class="col mr-2">
                                                         <table>
                                                             <tr>
-                                                                <td width="200">
+                                                                <td width="300"  >
                                                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                        &nbsp;&nbsp;&nbsp;&nbsp;<%=login_data['username']%>님
+                                                                        관리자 : <%=login_data['username']%>님
                                                                     </div>
-                                                                </td>
-                                                                <td rowspan="2" width="100">
-                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                        <div align="right">
-                                                                            
-                                                                            
+                                                                    <div class="text-start">
+                                                                        <div class="text-xs font-weight-bold mb-1 text-secondary text-uppercase">
+                                                                        since 2023.7.1(5회대회부터)
+                                                                        <br><br>
+                                                                        회원수 : <%= total_count%>
+                                                                        <br>
+                                                                        KPoint 총잔액 :  
+                                                                                <%aa=total_charge.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                                <%=aa%>
+                                                                        <br><br>
+                                                                        총지급 :<%=total_charge_count%>건, 
+                                                                                <%aa=total_charge_charge.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                                <%=aa%>
+                                                                        <br>
+                                                                        총입금 : <%=tot_deposit_count%>건, 
+                                                                                <%aa=total_deposit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                                <%=aa%>
+                                                                        <br><br>
+                                                                        <br><br>
+                                                                        관리자 지급  
+                                                                        <br>
+                                                                        관리자 차감  
+                                                                        <br><br>
+                                                                        
+                                                                        회원목록  
+                                                                        <br>
+                                                                        충전내역  
+                                                                        <br>
+                                                                        대회참가내역 
+                                                                                                        
+                                                                        <br><br>
+                                                                        
+                                                                        가맹점결제 내역   
+                                                                        <br>
+                                                                         KSFC스코어 
+                                                                                                        
+                                                                        <br><br>
+                                        
+                                                                        <a class="btn btn-danger" href="/admin/admin_ok"> DB수정 </a>
+                                                                        <br><br>
+                                                                        <a class="btn btn-danger" href="/admin/admin_scoreok"> score수정 </a>
+                                                                        <br><br>
+                                                                        <a href="golf/notice"><img src="/img/80_015.png" alt="공지사항"></a>
+                                                                       
+                                                                        <a href="golf/regu"><img src="/img/80_018.png"  alt="대회규정"></a> 
                                                                         </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="text-xs font-weight-bold mb-1 text-secondary text-uppercase">
-                                                                           
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -79,42 +112,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                since 2023.8.11<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;회원수 : <%= total_count%>
-                                <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;KPoint 총잔액 : <%=total_charge%>
-                                <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;총충전지급 :<%=total_charge_count%>, <%= total_charge_charge%>
-                                <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;총입금 : <%=tot_deposit_count%>,<%=total_deposit%>
-                                <br><br>
+                            <div>
                                 
-                                &nbsp;&nbsp;&nbsp;&nbsp;관리자 지급  
-                                <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;관리자 차감  
-                                                                
-                                <br><br>
-                                
-                                &nbsp;&nbsp;&nbsp;&nbsp;회원목록  
-                                <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;충전내역  
-                                <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;대회참가내역 
-                                                                
-                                <br><br>
-                                
-                                &nbsp;&nbsp;&nbsp;&nbsp;가맹점결제 내역   
-                                <br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;KSFC스코어 
-                                                                
-                                <br><br>
-
-                                &nbsp;&nbsp;&nbsp;&nbsp;<a href="admin/db_update">DB수정</a>
-                                <br><br>
-                                <a href="golf/notice"><img src="/img/80_015.png" alt="공지사항"></a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="golf/regu"><img src="/img/80_018.png"  alt="대회규정"></a>
                                 
                                 
                             </div>

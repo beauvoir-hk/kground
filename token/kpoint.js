@@ -22,20 +22,45 @@ const connection = mysql.createConnection({
 })
 const http = require('http');
 
+async function log_info_insert_memo(_phone,_username, _memo, _memotime, memo_admin){
+    const sql = `
+    insert 
+    into 
+    admin_memo
+    values (?,?,?,?,?)
+    `
+const values = [_phone,_username, _memo,  _memotime, memo_admin]
+
+connection.query(
+    sql,
+    values,
+    (err, result)=>{
+        if(err){   
+            console.log(err)}
+            else{
+                if (result.length == 0) {
+                    console.log("memo 기록 하나도 없다네")
+                } else {
+                  console.log("adim memo 에 기록 정상 ")
+                }
+}})}
+
+
 //log_info 리스트에 갱신기록
-async function log_info_update(_phone,_nickname, _refferal, _pass ){
+async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
         //user_info에 대해 갱신
         const sql3 = `
             update
             log_info
             set
-            referral=?,
-            nickname=?
-            pass = ?,
+            refferal=?,
+            nickname=?,
+            charge_amount = ?,
+            tier=?
             where
             phone = ?
             `
-        const values3 =[_phone,_nickname, _refferal, _pass ]    
+        const values3 =[_refferal,_nickname,  _amount,  _tier, _phone ]    
         connection.query(
             sql3, 
             values3,
@@ -45,8 +70,9 @@ async function log_info_update(_phone,_nickname, _refferal, _pass ){
                 res.send(err)
             }else{
                 console.log("user_info에 대해 갱신")
-                }
-})}
+                
+                }})
+}
 
 
 //충전 리스트에 기록
@@ -443,6 +469,9 @@ module.exports = {
     trans_list_insert,
     ksfc_update,
     tier_update,
-    ksfc_insert
+    ksfc_insert,
+    log_info_update,
+    log_info_insert_memo
+
 }
 

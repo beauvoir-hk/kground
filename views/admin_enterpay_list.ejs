@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+    <script>
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("대회참가 기록확인")
+        }
+</script>
+
+
+<body class="bg-gradient-primary" >
+        <div class="container">
+            <div class="text-center">
+                <br>
+                <a id="signinlink" href="/index" >홈으로</a>
+            </div>
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+
+                                <!-- 1열 -->
+                                <div class="col-lg-6" >
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <img src="/img/title_011.jpg" width="100%">
+                                             
+                                        </div>
+                                        <br>
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="text-center">
+                                            <div class="col-xl-12 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    <input name="_username" value="<%=username%>"><br>
+                                                                    <input name="_phone" value="<%=phone%>"><br>
+                                                                </div>
+                                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                                                                                                      
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        
+                                        <hr> 
+                                        <div class="text-center">
+                                            <h6 class="text-danger">
+                                           해당 참가시간을 클릭하면 <Br>
+                                               스코어를 등록할 수 있습니다 <br>
+                                            ↓↓↓↓↓↓   
+                                            </h6>
+                                        </div>
+                                        <br>
+                                            <form action="/contract/enterscore" method="post">
+                                             
+                                            <table class="table">
+                                                <tr>
+                                                    <th>
+                                                        
+                                                        <div class="h6 mb-0 font-weight-bold text-uppercase text-gray-800">
+                                                        번호
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="h6 mb-0 font-weight-bold text-uppercase text-gray-800">
+                                                            참가시간(※ 스코어등록 완료 → √)
+                                                        </div>
+                                                    </th>
+                                            
+                                                </tr>
+        
+                                                <%for (var i = 0;  i < enterpay.length ; i++){%>
+                                                    <tr>
+                                                        <td>
+                                                                <%=i+1%>
+                                                        </div>
+                                                        </td>
+                                                        <td> 
+                                                            <input name = "_time" 
+                                                            value='<%=enterpay[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>' 
+                                                            readonly 
+                                                            onclick="location.href=('/admin/admin_enterscore/?no=<%=i%>&phone=<%=phone%>&user=<%=username%>')">                                                           
+                                                        </td>                                                   
+                                                        <td>
+                                                            <div class="text-secondary">
+                                                                <%if(enterpay[i].scorepicture!=""){%>
+                                                                    <h6>√</h6>
+                                                                <%}%>
+                                                            </div>
+                                                        </td>
+                                                        </tr>
+                                                    <%}%>
+                                                </table>
+                                                
+                                            <br>
+                                            <br>    
+
+                                        </form>
+
+                                        <div class="container">
+                                            <br>
+                                                <img src="/img/kk.png"  width="100%" >
+                                        </div> 
+                                    </div>
+                                </div>
+                                <!-- 1열 마침 -->
+                                <!-- 2열 시작 -->
+                                <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                                    
+                                </div> <!--2열-->
+                <!-- 행 --> </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

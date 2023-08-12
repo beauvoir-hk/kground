@@ -8,12 +8,15 @@
     <meta name="author" content="">
     <link
   rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
-/>
+  href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script src="/js/custom.js"></script>
-
+<style>
+    .display{
+        display: none;
+    }
+</style>
     <title>케이그라운드와 함께 해주셔서 감사합니다~</title>
 
     <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
@@ -52,7 +55,14 @@
                                                             <tr>
                                                                 <td width="200">
                                                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                                        &nbsp;&nbsp;&nbsp;&nbsp;<%=login_data['username']%>님
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp
+                                                                        <span class="small" id="check_admin">
+                                                                            <%=login_data['username']%>님
+                                                                        </span>
+                                                                        <div class="display" id="info"> 
+                                                                            <input id="_id" value="<%=login_data['phone']%>" ><br>
+                                                                            <a href="/admin/admin_index">관리자모드로</a>
+                                                                        </div>
                                                                     </div>
                                                                 </td>
                                                                 <td rowspan="2" width="100">
@@ -124,14 +134,15 @@
                                 <a href="/contract/gamepay_list"><img src="/img/80_008.png" alt="매장결제이력"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="https://www.payapp.kr/L/z2TBxB/z3sgLB4?PREPAGE">
-                                    <img src="/img/80_009.png"  alt="홀인원만 참가하기"></a> 
+                                    <img src="/img/80_009.png"  alt="홀인원만 참가하기">
+                                </a> 
                                 <br><br>
                                 
-                                <a href="/contract/kp_trans"><img src="/img/80_010.png" width="80px" alt="KP보내기"></a>
+                                <a href="/contract/kp_trans"><img src="/img/80_010.png" alt="KP보내기"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="/contract/transpay_list"><img src="/img/80_011.png" width="80px" alt="KP보내기내역"></a>
+                                <a href="/contract/transpay_list"><img src="/img/80_011.png" alt="KP보내기내역"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="https://bk-ecoscreengolf.netlify.app"><img src="/img/80_020.png" width="80px" alt="KP보내기내역"></a>
+                                <a href="https://bk-ecoscreengolf.netlify.app"><img src="/img/80_020.png" alt="KP보내기내역"></a>
                                 <br><br>
 
                                 <a href="/golf/ksfc1"><img src="/img/80_013.png" alt="KSFC선수등록"></a>
@@ -146,10 +157,13 @@
                                 <a href="/logout"><img src="/img/80_017.png" alt="로그아웃"></a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="golf/regu"><img src="/img/80_018.png"  alt="대회규정"></a>
-                                
+                                <br><br>
                                 
                             </div>
                         </div>  
+
+
+                        
                         
                         <!-- 2열  -->
                         <div class="text-center">
@@ -162,6 +176,33 @@
             </div>
         </div>
     </div> 
-    </div>   
+    </div>  
+    <script>
+        $('#check_admin').click(function(){
+            const input_id = $('#_id').val()
+            // alert("input_id=",input_id)
+            // ajax을 이용하여 서버와 비동기 통신
+            // 해당하는 id가 데이터베이스에 존재하는가?
+            $.ajax(
+                {
+                    url : '/check_admin',   //비동기 통신을 할 주소값
+                    method : 'get', 
+                    datatype : 'json', 
+                    data : {
+                        _id : input_id,
+                    }
+                }
+            )
+            .done(function(result){
+                if(result){
+                    $('#info').toggleClass('display')
+                    $('#check_id').toggleClass('display')
+                    $('#_id').attr('readonly', 'true')
+                }else{
+                    // alert("이미 케이그라운드의 회원이십니다.")
+                }
+            })
+        })
+        </script> 
 </body>
 </html>

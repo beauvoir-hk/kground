@@ -104,11 +104,9 @@
                                                             스코어
                                                         </th>
                                                         <td>
-                                                            <%if(resultt[0].strok!='9999'){%>
-                                                                &nbsp;
-                                                                <%}else{%>
-                                                                <%=resultt[0].strok%>
-                                                                <%}}%>
+                                                            <div class="input-group mb-3">
+                                                                <input type="text" name="input_strok" class="form-control" value="<%=resultt[0].strok%>" >
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </table>

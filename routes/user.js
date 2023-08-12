@@ -476,6 +476,40 @@ router.get('/check_id', function(req, res){
                 )}
     })
 
+router.get('/check_admin', function(req, res){
+    const input_id = req.query._id
+
+    console.log("input_id =",input_id )
+    
+
+        const sql = `
+            select 
+            *
+            from 
+            admin
+            where 
+            phone = ?
+        `
+        const values = [input_id]
+        connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                }else{
+                    //전번으로 select한 db의 데이터가 있으면 result!=0
+                    if(result.length == 0){
+                        res.send(false)
+                        
+                        }else{
+                            res.send(true)
+                            }
+                }
+            }
+        )})
+    
+
 //회원인지확인(KP거래)
     router.get('/check_id1', function(req, res){
         const input_id = req.query._id
