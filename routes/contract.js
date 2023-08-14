@@ -8,21 +8,21 @@ const http = require('http');
 
 
 // 파일 업로드를 사용하기위한 모듈
-const multer = require('multer')
-const storage = multer.diskStorage(
-    {
-        destination : function(req, file, cb){
-            cb(null, './public/uploads/')
-        }, 
-        filename : function(req, file, cb){
-            cb(null, file.originalname)
-        }
-    }
-)
+// const multer = require('multer')
+// const storage = multer.diskStorage(
+//     {
+//         destination : function(req, file, cb){
+//             cb(null, './public/uploads/')
+//         }, 
+//         filename : function(req, file, cb){
+//             cb(null, file.originalname)
+//         }
+//     }
+// )
 // 유저가 보낸 파일을 저장할 위치를 설정
-const upload = multer({
-    storage : storage
-})
+// const upload = multer({
+//     storage : storage
+// })
 
 // mysql의 정보를 등록
 const mysql = require('mysql2')
@@ -356,7 +356,8 @@ module.exports = ()=>{
                         )}})
 
 
-router.post('/enterscore', upload.single('_image'),async function(req, res){
+// router.post('/enterscore', upload.single('_image'),async function(req, res){
+    router.post('/enterscore',async function(req, res){
     if(!req.session.logined){
         res.redirect("/")
     }else{
@@ -375,8 +376,8 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
         const tokenamount = parseInt(_tokenamount)+parseInt(-2000)  
 
 //스코어카드 파일 기록
-       const _scorepicture = req.file.filename
-        console.log('_scorepicture=',_scorepicture);
+        // const _scorepicture = req.file.filename
+        // console.log('_scorepicture=',_scorepicture);
 
         // const code = Math.floor(Math.random() * 10000000)
         // console.log("파일이름 중복방지 =",code)
@@ -385,8 +386,8 @@ router.post('/enterscore', upload.single('_image'),async function(req, res){
         // Save the file to the filesystem. 
         
         // Check if the file exists
-        filepath ="/uploads/"+_scorepicture
-            console.log("filepath = ",filepath)
+        // filepath ="/uploads/"+_scorepicture
+        //     console.log("filepath = ",filepath)
             // const image = fs.readFileSync(filepath)
 //             // If the file exists, write it to the filesystem
 //             if (!fs.existsSync(filepath)) {
