@@ -798,14 +798,16 @@ router.post('/kp_trans', async (req, res)=>{
                                         kpoint.log_info_amount_update( _phone, send_amount  )
 
                                         //KP_list에 추가 all(수신자)
-                                        const trans_tp = rec_username
+                                        const trans_tp = _username
+                                        console.log("회원끼리의 거래내역을 kp_list에 insert",receiptphone, trans_tp,  _input_dt, pay_amount ,send_amount) 
                                         kpoint.kpoint_list_insert(receiptphone, trans_tp,  _input_dt, pay_amount ,send_amount )
                                         
                                         //KP_list에 추가 all(송신자)
-                                        const trans_tp1=_username
-                                        send=parseInt(pay_amount)*-1
-
-                                        //kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, send ,send_amount )
+                                        const trans_tp1=rec_username
+                                        send = parseInt(pay_amount)*-1
+                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                        console.log("0.01초 더한시간",new_dt) 
+                                        kpoint.kpoint_list_insert(_phone, trans_tp1,  new_dt, send ,send_amount )
 
                                         if(!req.session.logined){
                                             res.redirect("/")
