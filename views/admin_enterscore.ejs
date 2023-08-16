@@ -69,7 +69,7 @@
                                     <div class="container">
                                         <div class="fs-6">    
                                         <br>
-                                        <!-- <form action="/contract/enterscore/?n=<%=no%>" method="post" enctype="multipart/form-data"> -->
+                                        
                                             <form action="/admin/admin_enterscore" method="post" enctype="multipart/form-data">
                                                 <div class="text-warning bg-dark">
                                                 기 참가 시스템 :
@@ -80,57 +80,59 @@
                                                     <%}%>
                                                 </div>
                                                 <table class="table">
-                                                <tr>
-                                                    <th>
-                                                        번호<br>
-                                                        참가시간
-                                                    </th>
-                                                    <td>
-                                                        <input type="text" name="_n" class="form-control" value="<%=no%>" readonly></input>
-                                                        <input type="text" name="_time" class="form-control" 
-                                                        value="<%=resultt[0].entertime%>" readonly>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>
-                                                        참가시스템
-                                                    </th>
-                                                    <td>
-                                                        <%=resultt[0].strok%><br>
-                                                        <select class="form-select" name="input_golfsys" id="golfsys">
-                                                            <option value="GolfZon">GolfZon</option>
-                                                            <option value="K Golf Club">K Golf Club</option>
-                                                            <option value="UDR Golf">UDR Golf</option>
-                                                            <option value="GolfZon Park">GolfZon Park</option>
-                                                            <option value="Kakao Friends" >Kakao Friends</option>
-                                                            <option value="GNC">GNC</option>
-                                                            <option value="MS Golf">MS Golf</option>
-                                                            <option value="SG Golf" >SG Golf</option>
-                                                        </select>                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>
-                                                        스코어
-                                                    </th>
-                                                    <td>
-                                                        <div class="input-group mb-3">
-                                                            <input type="text" name="input_strok" class="form-control" value="<%=resultt[0].strok%>" >
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>
-                                                        스코어카드
-                                                    </th>  
-                                                    <td>
-                                                        
-                                                        <span class="input-group-text" >스코어카드캡쳐파일 제출  </span>
-                                                        
-                                                        <input type="file" name="_image" class="form-control" 
-                                                        placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                                    <tr>
+                                                        <th>
+                                                            번호<br>
+                                                            참가시간
+                                                        </th>
+                                                        <td>
+                                                            <input type="text" name="_n" class="form-control" value="<%=no%>" readonly> 
+                                                            <input type="text" name="_time" class="form-control" 
+                                                            value="<%=resultt[0].entertime%>" readonly>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            참가시스템
+                                                        </th>
+                                                        <td>
+                                                            <%=resultt[0].golfsys%><br>
+                                                            <select class="form-select" name="input_golfsys" id="golfsys">
+                                                                <option value="GolfZon">GolfZon</option>
+                                                                <option value="K Golf Club">K Golf Club</option>
+                                                                <option value="UDR Golf">UDR Golf</option>
+                                                                <option value="GolfZon Park">GolfZon Park</option>
+                                                                <option value="Kakao Friends" >Kakao Friends</option>
+                                                                <option value="GNC">GNC</option>
+                                                                <option value="MS Golf">MS Golf</option>
+                                                                <option value="SG Golf" >SG Golf</option>
+                                                            </select>                                                    
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            스코어
+                                                        </th>
+                                                        <td>
+                                                            <%=resultt[0].strok%><br>
+                                                            <div class="input-group mb-3">
+                                                                <input type="text" name="input_strok" class="form-control" value="<%=resultt[0].strok%>" >
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            스코어카드
+                                                        </th>  
+                                                        <td>
+                                                            
+                                                            <span class="input-group-text" >스코어카드캡쳐파일 제출  </span>
+                                                            
+                                                            <input type="file" name="_image" class="form-control" 
+                                                            placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             
                                             <div class="text-center">  
                                                 <button class="btn btn-danger" type="submit" value="strok 등록" >스코어등록</button>

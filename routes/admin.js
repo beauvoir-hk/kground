@@ -628,8 +628,8 @@ router.post('/admin_enterscore', upload.single('_image'),async function(req, res
         const tokenamount = parseInt(_tokenamount)+parseInt(-2000)  
 
 //스코어카드 파일 기록
-        const _scorepicture = req.file.filename
-        console.log('_scorepicture=',_scorepicture);
+        // const _scorepicture = req.file.filename
+        // console.log('_scorepicture=',_scorepicture);
 
         // const code = Math.floor(Math.random() * 10000000)
         // console.log("파일이름 중복방지 =",code)
@@ -638,8 +638,8 @@ router.post('/admin_enterscore', upload.single('_image'),async function(req, res
         // Save the file to the filesystem. 
         
         // Check if the file exists
-        filepath ="/uploads/"+_scorepicture
-            console.log("filepath = ",filepath)
+        // filepath ="/uploads/"+_scorepicture
+        //     console.log("filepath = ",filepath)
             // const image = fs.readFileSync(filepath)
 //             // If the file exists, write it to the filesystem
 //             if (!fs.existsSync(filepath)) {
@@ -725,7 +725,7 @@ router.post('/admin_enterscore', upload.single('_image'),async function(req, res
                         const entertime =result2[n].entertime
 
                         console.log("entertime과 갱신내용 미리보기=", entertime, stroke )
-
+                        const _scorepicture=""
                         //enterscore_update
                         kpoint.enterscore_update(_golfsys, stroke,_scorepicture, entertime)
                         

@@ -63,40 +63,97 @@
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
                                                             <div class=" text-secondary ">
-                                                                <ul>
-                                                                    <li>
-                                                                        전화번호 : <%=login_data['phone']%> 
-                                                                       
-                                                                    </li>
-                                                                    <li>
-                                                                        성명 : <%=login_data['username']%>
-                                                                    </li>
-                                                                    <li>
-                                                                        닉네임 : <%=login_data['nickname']%>
-                                                                    </li>
-                                                                    <li>
-                                                                        <%amount =login_data['charge_amount']%>
-                                                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                                                                    K포인트 : <%=aa%>
-                                                                    </li>
-                                                                </ul>
+                                                                <form action="/my", method="post">
+                                                                    <ul>
+                                                                        <li>
+                                                                            전화번호 : <%=login_data['phone']%> 
+                                                                        <br>
+                                                                        </li>
+                                                                        <li>
+                                                                            성명 : <%=login_data['username']%>
+                                                                        </li>
+                                                                        <li>
+                                                                            닉네임 : <%=login_data['nickname']%><br>
+                                                                            <div class="form-group">
+                                                                                <input type="text" name="input_nickname" class="form-control" 
+                                                                                value="<%=login_data['nickname']%>" placeholder="* 닉네임"   >
+                                                                            </div> 
+                                                                        </li>
+                                                                        <li>
+                                                                            성별 : <%=login_data['gender']%>(* 남/여 중 입력)<br> 
+                                                                            <input type="text" name="input_gender" class="form-control" 
+                                                                             value="<%=login_data['gender']%>"   >
+                                                                        </li>
+                                                                        <li>
+                                                                            생년월일 : <%=login_data['birth']%> (* 생년월일(8자리))<br> 
+                                                                            <div class="form-group">
+                                                                                <input type="text" name="input_birth" class="form-control"  
+                                                                                value="<%=login_data['birth']%>"   >
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            참가지역 : (수정시 필수선택)
+                                                                            <select class="form-select" name="input_jiyeok" id="input_jiyeok">
+                                                                                <option value="경상남도">경상남도</option>
+                                                                                <option value="서울특별시">서울특별시</option>
+                                                                                <option value="부산광역시">부산광역시</option>
+                                                                                <option value="대구광역시">대구광역시</option>
+                                                                                <option value="인천광역시">인천광역시</option>
+                                                                                <option value="광주광역시" >광주광역시</option>
+                                                                                <option value="대전광역시">대전광역시</option>
+                                                                                <option value="울산광역시">울산광역시</option>
+                                                                                <option value="제주특별자치도" >제주특별자치도</option>
+                                                                                <option value="강원도">강원도</option>
+                                                                                <option value="경기도">경기도</option>
+                                                                                <option value="충청남도">충청남도</option>
+                                                                                <option value="충청북도">충청북도</option>
+                                                                                <option value="경상북도" >경상북도</option>
+                                                                                
+                                                                                <option value="전라남도">전라남도</option>
+                                                                                <option value="전라북도" >전라북도</option>
+                                                                                <option value="글로벌팀">글로벌팀</option>
+                                                                                <option value="연예인팀" >연예인팀</option>
+                                                                            </select><br>
+                                                                        </li>
+                                                                        <li>
+                                                                            추천인 : <%=login_data['refferal']%><br> 
+                                                                            <div class="form-group">
+                                                                                <input type="text" name="input_refferal" class="form-control"  
+                                                                                value="<%=login_data['refferal']%>"    >
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            
+                                                                            <%amount =login_data['charge_amount']%>
+                                                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                                        K포인트 : <%=aa%>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                    <div class="text-center" >
+                                                                        <div class="text-danger"> 
+                                                                            <button class="btn btn-primary" type="submit">회원정보수정</button>
+                                                                        </div>
+                                                                    </div> 
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                        </div>                                     
+                                        </div>   
+                                        <hr>                                  
                                         <div class="text-center" >
                                             <div class="text-danger">
-                                                <i>비밀번호(로그인+결제) 변경은<br>
+                                                <i>※ 비밀번호(로그인+결제) 변경은<br>
                                                 문자인증을 통해 본인 검증 후 가능합니다.
                                                 <br></i>
                                                 <button class="btn btn-primary" 
                                                 onclick="location.href='/auth2'" >로그인비밀번호변경</button>
                                             </div>
                                         </div> 
-                                        <br>
+
                                         <hr>
                                         <br>
                                         <div class="text-center" >

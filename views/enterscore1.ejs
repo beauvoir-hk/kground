@@ -88,7 +88,10 @@
                                                             참가시간
                                                         </th>
                                                         <td>
-                                                            <%=resultt[0].entertime%>
+                                                            <input type="text" name="_n" class="form-control" value="<%=no%>" readonly> 
+                                                            <br>
+                                                            <input type="text" name="_time" class="form-control" 
+                                                            value="<%=resultt[0].entertime%>" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -105,10 +108,12 @@
                                                         </th>
                                                         <td>
                                                             <div class="input-group mb-3">
-                                                                <input type="text" name="input_strok" class="form-control" value="<%=resultt[0].strok%>" >
+                                                                <input type="text" name="input_strok" class="form-control" 
+                                                                value="<%=resultt[0].strok%>" readonly>
                                                             </div>
                                                         </td>
                                                     </tr>
+                                                    
                                                 </table>
                                             
                                                 <!-- <div class="text-center">  
@@ -117,8 +122,11 @@
                                                 <br>
                                                 <hr>
                                                 </form>
+                                               
                                                 <div class="text-center">  
-                                                    <a href="http://pf.kakao.com/_ttxaSxj/chat">스코어카드캡쳐파일 제출</a>
+                                                    ※ score 등록에 관한 문의는 <br>
+                                                    고객센터로 하시면 됩니다.
+                                                    <a href="http://pf.kakao.com/_ttxaSxj/chat">고객센터</a>
                                                 </div>
                                             </div>
                                         </div>       

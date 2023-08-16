@@ -76,7 +76,7 @@
                                             </h6>
                                         </div>
                                         <br>
-                                            <form action="/contract/enterscore" method="post">
+                                            <!-- <form action="/contract/enterscore" method="post"> -->
                                              
                                             <table class="table">
                                                 <tr>
@@ -98,13 +98,13 @@
                                                     <tr>
                                                         <td>
                                                             <div name="input_no" value="<%=i%>" 
-                                                            onclick="location.href=('/contract/enterscore/?no=<%=i%>')"><%=i+1%></div>
+                                                            onclick="location.href=('/golf/enterscore/?no=<%=i%>')"><%=i+1%></div>
                                                         </td>
                                                         <td> 
                                                             <input name = "_time" 
                                                             value='<%=enterpay[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>' 
                                                             readonly 
-                                                            onclick="location.href=('/contract/enterscore/?no=<%=i%>')">                                                           
+                                                            onclick="location.href=('/golf/enterscore/?no=<%=i%>')">                                                           
                                                         </td>                                                   
                                                         <td>
                                                             <div class="text-secondary">
@@ -120,7 +120,7 @@
                                             <br>
                                             <br>    
 
-                                        </form>
+                                        <!-- </form> -->
 
                                         <div class="container">
                                             <br>

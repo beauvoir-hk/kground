@@ -106,7 +106,7 @@ async function chargelist_insert(_phone,chargedate, price){
                       phone = ?
                       order by chargedate DESC
                   `
-                  const values = [phone]
+                  const values = [_phone]
                   connection.query(
                       sql, 
                       values, 
@@ -148,14 +148,15 @@ async function log_info_amount_update(_phone,ch_amount ){
 
 
 //kpoint list에 충전기록
-async function kpoint_list_insert(_phone, trans_tp,  chargedate, price ){   
+async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_amount ){   
     const sql = `
         insert 
         into 
         kp_list
-        values (?,?,?,?)
+        
+        values (?,?,?,?,?)
         `
-    const values = [_phone, chargedate, trans_tp, price ]
+    const values = [_phone, chargedate, trans_tp, price,charge_amount ]
 
     connection.query(
         sql,
@@ -196,7 +197,7 @@ async function store_list_insert(_input_dt, _phone, _username, _storename, pay_a
                     if (result.length == 0) {
                         console.log("가맹점 거래내역 기록 하나도 없다네")
                     } else {
-                      console.log("가맹점 거래내역 기록= ",result.length)
+                      console.log("가맹점 거래내역 기록= ",result)
                     }
     }})    
  }  
@@ -220,13 +221,23 @@ async function storeamount_update( _storename, save_amount ){
                 if(err){
                     console.log(err)
                 }else{
-                    console.log("//store의 chage금액 수정=",save_amount, _storename)
+                    if(result3.affectedRows!=0){
+                        console.log("//store의 chage금액 수정=",save_amount, _storename)
+                        
+                    }else{
+                        console.log("가맹점 테이블 수정완료이 완료되지 못했습니다")
+                        res.render("gamepay",
+                        {
+                            state:0
+                        })}
+                    
                 }})}          
 //가먕점 ---------------------------------------------------------------------
 
 //페스티벌 참가===============================================================
 //참가비결제를 위해 참가 list (최근순)
 async function enterscore_update(_golfsys, stroke,  _scorepicture, entertime){  
+    console.log("entertime으로 score 수정준비",_golfsys, stroke,  _scorepicture, entertime)
     const sql = `
                 update
                 score
@@ -311,10 +322,10 @@ async function trans_list_insert(_input_dt, _phone, _username, receiptphone, pay
 } 
     
     
-//KSFC ===============================            
+// KSFC ===============================            
 async function ksfc_update(_bestscore, _sysrank, _phone, _golfsys )  {
 
-    console.log("ksfc_update==========",  _bestscore, _sysrank, _phone, _golfsys)
+    console.log(" ksfc_update==========",  _bestscore, _sysrank, _phone, _golfsys)
     
     //tier을 위한 준비
     const sql=
@@ -339,7 +350,7 @@ async function ksfc_update(_bestscore, _sysrank, _phone, _golfsys )  {
                     if (result.length == 0) {
                         console.log("KSFC 기록 하나도 없다네")
                     } else {
-                      console.log("KPoint 거래내역 기록= ",result.length)
+                      console.log(" bestscore=?, sysrank=?거래내역 기록= ",result)
                     }
     }}) 
 } 
@@ -383,13 +394,8 @@ async function tier_update( _phone, _gender)  {
         *
         FROM
         ksfc
-        GROUP BY
-        golfsys
-        ORDER BY
-        rank ASC
-        LIMIT
-        1
         WHERE phone=?
+        ORDER BY sysrank ASC
         `
     const values=[_phone]
     connection.query(

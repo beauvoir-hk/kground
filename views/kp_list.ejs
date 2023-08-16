@@ -88,6 +88,9 @@
                                                             <%=an%>
                                                      
                                                          <%}%>
+                                                         <br>
+                                                         <% const kpa = parseInt(resultt[i].charge_amount)%>
+                                                         &nbsp;&nbsp;&nbsp;&nbsp;<%=kpa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                     </td>
                                                 </tr>
                                                 
