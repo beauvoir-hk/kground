@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+    <script>
+        function openPopUp() {
+          var popUp = window.open("pop_up", "Pop-up", "width=500, height=300");
+        }
+        </script>
+
+</head>
+<body class="bg-gradient-primary">
+
+    <div class="container">
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="/index" >홈으로</a>
+        </div>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+
+                            <!-- 1열 -->
+                            <div class="col-lg-6"> 
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img src="/img/title_011.jpg" width="100%">
+                                    </div>
+                                    
+                                    <!-- Earnings (Monthly) Card Example -->
+                                    <div class="text-center">
+                                        <div class="col-xl-12 col-md-6 mb-4">
+                                            <div class="card border-left-primary shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <input name="_username" value="<%=username%>"><br>
+                                                            <input name="_phone" value="<%=phone%>"><br>
+                                                            <%if(gender=="여"){%>
+                                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                                    (<%=gender%>자부문 대회참여)
+                                                             <%}else{if(gender=="남"){%>
+                                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    (<%=gender%>자부문 대회참여)
+                                                            <%}}%>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <!-- 제거 -->
+
+                                    <hr> 
+                                    <div class="container">
+                                        <div class="fs-6">    
+                                        <br>
+                                        
+                                            <form action="/admin/admin_enterscore_1" method="post" enctype="multipart/form-data">
+                                                <div class="text-warning bg-dark">
+                                                기 참가 시스템 :
+                                                    <%const sys_count = resultt2.length%>
+                                                    <%for(var i=0;i<sys_count;++i){%>
+                                                        <%=resultt2[i].golfsys%>
+                                                        ,
+                                                    <%}%>
+                                                </div>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>
+                                                            번호<br>
+                                                            참가시간
+                                                        </th>
+                                                        <td>
+                                                            <input type="text" name="_n" class="form-control" value="<%=no%>" readonly> 
+                                                            <input type="text" name="_time" class="form-control" 
+                                                            value="<%=resultt[0].entertime%>" readonly>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            참가시스템
+                                                        </th>
+                                                        <td>
+                                                            <%=resultt[0].golfsys%><br>
+                                                            <select class="form-select" name="input_golfsys" id="golfsys">
+                                                                <option value="GolfZon">GolfZon</option>
+                                                                <option value="K Golf Club">K Golf Club</option>
+                                                                <option value="UDR Golf">UDR Golf</option>
+                                                                <option value="GolfZon Park">GolfZon Park</option>
+                                                                <option value="Kakao Friends" >Kakao Friends</option>
+                                                                <option value="GNC">GNC</option>
+                                                                <option value="MS Golf">MS Golf</option>
+                                                                <option value="SG Golf" >SG Golf</option>
+                                                            </select>                                                    
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            스코어
+                                                        </th>
+                                                        <td>
+                                                            <%=resultt[0].strok%><br>
+                                                            <div class="input-group mb-3">
+                                                                <input type="text" name="input_strok" class="form-control" value="<%=resultt[0].strok%>" >
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>
+                                                            스코어카드
+                                                        </th>  
+                                                        <td>
+                                                            
+                                                            <span class="input-group-text" >스코어카드캡쳐파일 제출  </span>
+                                                            
+                                                            <input type="file" name="_image" class="form-control" 
+                                                            placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+                                            <div class="text-center">  
+                                                <button class="btn btn-danger" type="submit" value="strok 등록" >스코어등록</button>
+                                            </div>
+                                            <br>
+                                            <hr>
+                                            </form>
+                                            <div class="text-center">  
+                                                <a href="http://pf.kakao.com/_ttxaSxj/chat">스코어카드캡쳐파일 제출</a>
+                                            </div>
+                                        </div>
+                                    </div>       
+                                </div> 
+                             </div> 
+                            </div> 
+                        </div>    
+                            
+                        <!-- 2열 -->
+                        <div class="col-lg-5">
+                            <div class="text-center">
+                                <img src="/img/kk.png"  width="100%" > 
+                            </div> 
+                        </div>    
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+
+
+

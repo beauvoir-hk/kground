@@ -92,7 +92,7 @@
                                                                             </div>
                                                                         </li>
                                                                         <li>
-                                                                            참가지역 : (수정시 필수선택)
+                                                                            *참가지역 : <div class="text-danger">(수정시 필수선택)</div>
                                                                             <select class="form-select" name="input_jiyeok" id="input_jiyeok">
                                                                                 <option value="경상남도">경상남도</option>
                                                                                 <option value="서울특별시">서울특별시</option>
@@ -116,7 +116,21 @@
                                                                             </select><br>
                                                                         </li>
                                                                         <li>
-                                                                            추천인 : <%=login_data['refferal']%><br> 
+                                                                             *참가시스템: <div class="text-danger">(수정시 필수선택)</div>
+                                                                             <select class="form-select" name="input_golfsys"  >
+                                                                                <option value="GolfZon">GolfZon</option>
+                                                                                <option value="GolfZon Park">GolfZon Park</option>
+                                                                                <option value="Kakao Friends">Kakao Friends</option>
+                                                                                <option value="UDR Golf">UDR Golf</option>
+                                                                                <option value="K Golf Club">K Golf Club</option>
+                                                                                <option value="GNC" >GNC</option>
+                                                                                <option value="SG Golf">SG Golf</option>
+                                                                                <option value="MS Golf">MS Golf</option>
+                                                                            </select><br>
+
+                                                                        </li>
+                                                                        <li>
+                                                                            추천인(선택) : <%=login_data['refferal']%><br> 
                                                                             <div class="form-group">
                                                                                 <input type="text" name="input_refferal" class="form-control"  
                                                                                 value="<%=login_data['refferal']%>"    >
@@ -145,37 +159,41 @@
                                         </div>   
                                         <hr>                                  
                                         <div class="text-center" >
-                                            <div class="text-danger">
+                                            <div class="text-info bg-dark">
                                                 <i>※ 비밀번호(로그인+결제) 변경은<br>
                                                 문자인증을 통해 본인 검증 후 가능합니다.
-                                                <br></i>
+                                            </i>
+                                            </div>
+                                             <br>
                                                 <button class="btn btn-primary" 
                                                 onclick="location.href='/auth2'" >로그인비밀번호변경</button>
-                                            </div>
+
                                         </div> 
 
                                         <hr>
-                                        <br>
+
                                         <div class="text-center" >
                                             <div class="text-danger">
                                                 <button class="btn btn-danger" 
                                                 onclick="location.href='/auth6'" >결제비밀번호변경
-                                            </button>
+                                                </button>
+                                            </div>
                                         </div>
-                                
-                                    <hr>
+                                        <hr>
+                                        <br>
+                                        <hr>
+                                        <div class="text-center">    
 
-                                        <hr>
-                                        <div class="text-center">    
-                                        <hr>
                                             <button class="btn btn-secondary" onclick="location.href='/logout'">로그아웃</button>
-                                        </div>   
+                                        </div>  
+                                        <hr> 
                                         <div class="text-center">    
-                                        <hr>
+
                                             <button class="btn btn-secondary" onclick="location.href='/drop2'">회원탈퇴</button>
                                         </div>  
                                     </div>
-                            </div>
+                                </div>   
+                             
                             <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div>     
 
                         </div>

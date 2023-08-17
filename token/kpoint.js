@@ -387,7 +387,7 @@ async function tier_update( _phone, _gender)  {
     let champsys=""
     let sysrank=0
 
-//    golfsys 필드마다 rank가 가장 낮은 레코드를 선택
+// 나의   golfsys 필드기준 정렬, rank가 가장 낮은 레코드를 선택
     const sql=
         `
         SELECT
@@ -405,18 +405,22 @@ async function tier_update( _phone, _gender)  {
             if(err){
                 console.error(err)
             }else{
-                champsys=result[0].golfsys
-                sysrank = parseInt(result[0].rank)
-                console.log(" golfsys 필드마다 rank가 가장 낮은 레코드를 선택",result)
+                champsys=result[0].golfsys//rank 오름차순정렬 가장낮은 골프시스템
+                sysrank = parseInt(result[0].rank)//가장낮은 골프시스템의 rank
+                console.log(" 내 rank가 가장 낮은 레코드를 선택",result)
+                console.log(" 내 rank가 가장 낮은 레코드의 골프시스쳄과 순위",champsys,sysrank)
+
+                // 골프시스템 카운팅(성별)
                 const sql=
                     `
                     SELECT 
                     golfsys, COUNT(*) AS count
                     FROM ksfc
                     where golfsys=? && gender=?
-                     
                 `
-                const values=[champsys, _gender]
+                //ORDER BY sysrank ASC 
+                    
+                const values=[champsys, _gender]//내 1등 골프시스템& 성별 기준의 골프시스템과 갯수 
                 connection.query(
                     sql,
                     values,
@@ -424,23 +428,30 @@ async function tier_update( _phone, _gender)  {
                         if(err){
                             console.error(err)
                         }else{
-                            console.log(" ksfc 테이블에서 제일 잘한 golfsys 레코드의 수",result2)
-                            wrank=parseInt(result2[0])
-                            if(sysrank>wrank /60){
-                                tier=1
-                            }else{
-                                if(sysrank>wrank/30){
-                                    tier=2
+                            console.log(" where golfsys=? && gender=?",champsys, _gender)
+                            console.log(" 성별 ksfc 테이블에서 제일 잘한 golfsys 레코드의 수",result2)
+                            wrank=parseInt(result2[0].count)//레코드의 갯수
+                            console.log("wrank=", wrank)
+                            const tier=1
+                            if(wrank>5){
+                                
+                                if(sysrank > wrank /60){
+                                    tier=1
                                 }else{
-                                    if(sysrank>wrank/5){
-                                        tier=3
+                                    if(sysrank > wrank/30){
+                                        tier=2
                                     }else{
-                                        tier=4
-                                }}}
-                        }
-
+                                        if(sysrank > wrank/5){
+                                            tier=3
+                                        }else{
+                                            tier=4
+                                    }}}
+                            }else{
+                                console.log("wrank가 5보다 작아 tier에 영행을 미치지 않는다" )
+                            }
+                       
 //tier기록
-                        const sql=
+                        const sql1=
                             `
                             update
                             log_info
@@ -449,18 +460,18 @@ async function tier_update( _phone, _gender)  {
                             where
                             phone = ?
                             `
-                        const values = [tier,_phone]
+                        const values1 = [tier,_phone]
                         
                         connection.query(
-                            sql,
-                            values,
-                            (err, result)=>{
+                            sql1,
+                            values1,
+                            (err, result1)=>{
                                 if(err){   
                                     console.log(err)}
                                     else{
                                         console.log("tier기록 완료")
                         }})
-                    }) 
+                    }}) 
                 }})}
 
 

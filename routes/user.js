@@ -72,7 +72,7 @@ module.exports = ()=>{
                  
     
 
-//localhost:3000/login [post] 형식으로 요청 시
+//localhost:3000/ login [post] 형식으로 요청 시
 router.post("/login", async (req, res)=>{
     // 로그인 화면에서 유저가 입력 id, pass값을 변수에 대입
     const _phone = await req.body.input_phone.trim()
@@ -168,27 +168,43 @@ router.post("/login", async (req, res)=>{
         const _amount = 0
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
 
-            const sql = `
-                    insert 
-                    into 
-                    log_info 
-                    values ( ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)
-                    `
-            const values =
-                [_phone, _pass, _username, _nickname,_gender,
-                    _birth, _jiyeok, _refferal, _numeric6, _amount,tier,input_dt] 
+        const sql = `
+                insert 
+                into 
+                log_info 
+                values ( ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)
+                `
+        const values =
+            [_phone, _pass, _username, _nickname,_gender,
+                _birth, _jiyeok, _refferal, _numeric6, _amount,tier,input_dt] 
 
-                connection.query(
-                    sql,
-                    values,
-                    (err, result)=>{
-                        if(err){   
-                            console.log(err)}
-                            else{
-                                 console.log("회원가입")
-                                res.render("login")
-                                }
-                })}) 
+            connection.query(
+                sql,
+                values,
+                (err, result)=>{
+                    if(err){   
+                        console.log(err)}
+                        else{
+                                console.log("회원가입")
+                            res.render("login")
+                            }
+                })
+
+
+        //KSFC에 추가
+        const game_number = 5
+        const golf_sys="GolfZon"
+        const bestscore=9999
+        const sysrank=0
+        console.log("ksfc_insert :",_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
+        kpoint.ksfc_insert(_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
+        res.render("my",{
+            phone:logphone,
+            login_data:req.session.logined,
+            state:1
+        })
+    })    
+            
             
 
 
@@ -258,8 +274,8 @@ router.post("/login", async (req, res)=>{
         }else{
             const _phone=req.session.logined.phone 
 
-             const sql =
-                 `
+                const sql =
+                    `
                 select 
                 *
                 from 
@@ -267,63 +283,107 @@ router.post("/login", async (req, res)=>{
                 where 
                 phone = ?
                 `
-            const values =
-                [_phone] 
+            const values =[_phone] 
 
-                connection.query(
-                    sql,
-                    values,
-                    (err, result)=>{
-                        if(err){   
-                            console.log(err)}
-                            else{
-                                const _nickname =   req.body.input_nickname.trim()
-                                const _gender =   req.body.input_gender.trim()
-                                const _birth =  req.body.input_birth.trim()
-                                const _jiyeok =   req.body.input_jiyeok.trim()
-                                const _refferal =   req.body.input_refferal.trim()
-                                // const date = moment()
-                                // const input_dt= date.format('YYYY-MM-DD HH:mm:ss')
-                                 
-                                console.log( _nickname,_gender, _birth,_jiyeok, _refferal  )
+            connection.query(
+            sql,
+            values,
+            (err, result)=>{
+                if(err){   
+                    console.log(err)}
+                    else{
 
-                                // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
 
-                                const sql = `
-                                    update
-                                    log_info
-                                    set
-                                    nickname=?,
-                                    gender=?,
-                                    birth =?,
-                                    jiyeok=?,
-                                    refferal=?
-                                    where
-                                    phone = ?
-                                    `
-                                const values =
-                                    [_nickname,_gender,_birth, _jiyeok, _refferal, _phone] 
+                    //수정입력
+                    const _nickname =   req.body.input_nickname.trim()
+                    const _gender =   req.body.input_gender
+                    const _birth =  req.body.input_birth.trim()
+                    const _jiyeok =   req.body.input_jiyeok
+                    const _refferal =   req.body.input_refferal.trim()
+                    const golf_sys = req.body.input_golfsys
+                    // const date = moment()
+                    // const input_dt= date.format('YYYY-MM-DD HH:mm:ss')
+                        
+                    console.log( _nickname,_gender, _birth,_jiyeok, _refferal  )
 
-                                    connection.query(
+                    // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
+
+                    const sql = `
+                        update
+                        log_info
+                        set
+                        nickname=?,
+                        gender=?,
+                        birth =?,
+                        jiyeok=?,
+                        refferal=?
+                        where
+                        phone = ?
+                        `
+                    const values =
+                        [_nickname,_gender,_birth, _jiyeok, _refferal, _phone] 
+
+                        connection.query(
+                        sql,
+                        values,
+                        (err, result)=>{
+                            if(err){   
+                                console.log(err)}
+                                else{
+                                    if(result.affectedRows==0){
+                                        console.log("회원정보수정완료이 완료되지 못했습니다")
+                                        res.render("my",
+                                        {
+                                            state:0
+                                        })
+                                    }else{
+                                        //KSFC에 추가
+                                        const _phone=req.session.logined.phone  
+                                        const _username=req.session.logined.username
+                                        const _input_dt=req.session.logined.logdate
+                                        const new_dt = moment(_input_dt).add(0, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                       
+                                        const sql=
+                                            `
+                                            SELECT
+                                            *
+                                            FROM
+                                            ksfc
+                                            WHERE registtime=?
+                                           
+                                            `
+                                        const values=[new_dt ]
+                                        connection.query(
                                         sql,
                                         values,
-                                        (err, result)=>{
-                                            if(err){   
-                                                console.log(err)}
-                                                else{
-                                                    if(result.affectedRows!=0){
-                                                        console.log("회원정보수정완료")
-                                                        res.redirect("index")
-                                                    }else{
-                                                        console.log("회원정보수정완료이 완료되지 못했습니다")
-                                                        res.render("my",
-                                                        {
-                                                            state:0
-                                                        })}
-                                                }}) 
-                                }}) 
-                            }})
+                                        (err, result2)=>{
+                                            if(err){
+                                                console.error(err)
+                                            }else{
+                                                if(result2.length<1 && result2.golfsys!=golf_sys){
+                                                    //새로운 시스템 등록이고 중복시간이 없으면
+                                                    const game_number = 5
+                                                    const bestscore=9999
+                                                    const sysrank=0
 
+                                                    console.log("ksfc_insert" ,_phone, _username, game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,_input_dt  )
+                                                    kpoint.ksfc_insert(_phone, _username, game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,_input_dt)
+                                                    console.log("회원정보 추가완료")
+                                                    res.redirect("index")
+                                                }else{
+                                                    //중복시스템이거나 중복시간일 때는 수정
+                                                    const _bestscore = result2[0].bestscore
+                                                    const _sysrank= result2[0].sysrank
+                                                    
+                                                    const _golfsys=golf_sys
+                                                    kpoint.ksfc_update(_bestscore, _sysrank, _phone, _golfsys )
+                                                    console.log("회원정보 수정완료")
+                                                    res.redirect("index")
+                                                    }
+                                                } 
+                                })}}}) 
+                    }})
+}})
 
 
 router.post('/change_pass', async function(req, res){
