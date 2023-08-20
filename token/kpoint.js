@@ -143,17 +143,19 @@ async function log_info_amount_update(_phone,ch_amount ){
                 console.error(err)
                 }else{
                     console.log("charge 수정 성공")
+                    req.session.logined.charge_amount=ch_amount
                 }
             })}
 
 
 //kpoint list에 충전기록
 async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_amount ){   
+    console.log("회원끼리의 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,charge_amount) 
+    
     const sql = `
         insert 
         into 
         kp_list
-        
         values (?,?,?,?,?)
         `
     const values = [_phone, chargedate, trans_tp, price,charge_amount ]
@@ -295,7 +297,7 @@ async function enterpay_score_insert(_input_dt, _phone, _username, _golfsys, _st
 
 //대회참가비 결제------------------------------
 
-//Kpoint 거래내역 ===============================            
+//친구끼리 거래내역 ===============================            
 async function trans_list_insert(_input_dt, _phone, _username, receiptphone, pay_amount )  {
     const sql=
             `

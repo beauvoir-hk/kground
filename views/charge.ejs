@@ -24,7 +24,7 @@
         PayApp.setParam('goodname', 'K포인트 충전');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'https://kground.co.kr/payment/?price='+$('#price').val());
+        PayApp.setParam('returnurl', 'https://kground.co.kr/payment/?price='+$('#price').val()&'phone='+$('#phone').val());
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
         PayApp.setParam('smsuse', 'n');
         PayApp.setParam('redirectpay', '1');
@@ -115,10 +115,9 @@
                                             <label class="control-label">충전금액선택</label>
                                             <br>
                                             <select class="form-select" name="price" id="price">
-                                                <option value=1000>1,000원 : 1,000K포인트</option>
+                                                <option value=100000>100,000원 : 100,000K포인트</option>
                                                 <option value=20000>20,000원 : 20,000K포인트</option>
                                                 <option value=50000>50,000원 : 50,000K포인트</option>
-                                                <option value=100000>100,000원 : 100,000K포인트</option>
                                                 <option value=200000>200,000원 : 200,000K포인트</option>
                                                 <option value=300000>300,000원 : 300,000K포인트</option>
                                             </select>
@@ -139,7 +138,7 @@
                                             </i>
                                         </div>
                                         <div class="text-center">
-                                            <input type="submit"  class="btn btn-danger" value="충전하기" href="#" onclick="payappPay()">   
+                                            <input type="submit"  class="btn btn-danger" value="충전하기"  onclick="payappPay()">   
                                        </div>
                                         </fieldset>
                                         </form>

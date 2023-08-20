@@ -700,20 +700,21 @@ router.post('/kp_trans', async (req, res)=>{
         data=1
         const receiptphone =await req.body._reciept.trim()//수신자폰
 
-        const pay_amount = await req.body._sendpay.trim()
+        const pay_amount = await req.body._sendpay.trim()//보낼금액
         console.log("transpay_amount =",pay_amount)
         // const date = moment()
         // const _input_dt = date 
-        const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
-        const _phone =  req.session.logined.phone //송신자폰
+        const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
+
+        //보내는 사람의  정보
+        const _phone =  req.session.logined.phone  
         const _username = req.session.logined.username
         const _charge_amount = req.session.logined.charge_amount
         
-        //charge모지란지 확인
-                
+        //보내는 사람의 charge모지란지 확인
         if(_charge_amount<pay_amount){
 
-            //2000원 미만이면 충전하러
+            //거래금액 미만이면 충전하러 갈것
             res.render("charge",{
                 st:0,
                 username:req.session.logined.username,
@@ -737,13 +738,16 @@ router.post('/kp_trans', async (req, res)=>{
                     state : da
                 })
         }else{
+            //비밀번호 맞다면 거래
             da = 1 
             
-            //log_info 정보(수신자)
-            charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)
+            //log_info 정보(보내는 사람)
+            charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)//차감
+            req.session.logined.charge_amount= charge_amount//차감계산된 금액으로 세션정보를 수정
             kpoint.log_info_amount_update(_phone, charge_amount   )        
-            console.log("로그인포테이블에 수정된 KPoint 갱신입력 성공",charge_amount  )
+            console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
             
+            //수신자의 전번
             const sql6 = `
                 select 
                 *
@@ -751,7 +755,6 @@ router.post('/kp_trans', async (req, res)=>{
                 log_info
                 where 
                 phone = ?
-                
                 `
             const values6 = [ receiptphone]
             connection.query(
@@ -762,15 +765,19 @@ router.post('/kp_trans', async (req, res)=>{
                         console.log(err)
                     }else{ 
                         if(result6.length!=0){
+
                         //수신자 금액 정정 
                         console.log("&&&&&&&&&&&&&&&&&", receiptphone)
                         const reciept_amount = result6[0].charge_amount
             
-                        reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)
+                        reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)//수신 받은 금액 추가
+                        console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone, reciep_amount  )
                         kpoint.log_info_amount_update( receiptphone, reciep_amount)
 
-                        //선물하기거래리스트에 거래내역 추가 
+                        //친구끼리 거래하기거래리스트에 거래내역 추가 
                         const rec_username= result6[0].username.toString()
+                       
+                        console.log("친구끼리 거래 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
                         kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
 
 
@@ -794,25 +801,25 @@ router.post('/kp_trans', async (req, res)=>{
                                 }else{ 
 
                                     if(result2.length!=0){
-                                        send_amount = (parseInt(_charge_amount) - parseInt(pay_amount))
-                                        kpoint.log_info_amount_update( _phone, send_amount  )
 
-                                        //KP_list에 추가 all(수신자)
-                                        const trans_tp = _username
-                                        console.log("회원끼리의 거래내역을 kp_list에 insert",receiptphone, trans_tp,  _input_dt, pay_amount ,send_amount) 
-                                        kpoint.kpoint_list_insert(receiptphone, trans_tp,  _input_dt, pay_amount ,send_amount )
+                                        //친구에게 보내기 내역 기록
+                                        //KP_list에 추가  //보내는 사람
+                                        const trans_tp = _username//보내는 사람
+                                        console.log("회원끼리의 거래내역을 kp_list에 insert",receiptphone, trans_tp,  _input_dt, pay_amount ,charge_amount) 
+                                        const _pay_amount= parseInt(pay_amount)* -1
+                                        kpoint.kpoint_list_insert(receiptphone, trans_tp,  _input_dt, _pay_amount ,charge_amount )
                                         
-                                        //KP_list에 추가 all(송신자)
-                                        const trans_tp1=rec_username
-                                        send = parseInt(pay_amount)*-1
-                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                        console.log("0.01초 더한시간",new_dt) 
-                                        kpoint.kpoint_list_insert(_phone, trans_tp1,  new_dt, send ,send_amount )
+                                        // //KP_list에 추가 all(송신자)
+                                        // const trans_tp1=rec_username//받는사람
+                                        // send = parseInt(pay_amount)
+                                        // const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                        // console.log("0.01초 더한시간",new_dt) 
+                                        // kpoint.kpoint_list_insert(_phone, trans_tp1,  new_dt, send ,reciep_amount)
 
                                         if(!req.session.logined){
                                             res.redirect("/")
                                             }else{  
-                                            console.log("회원끼리 거래내역보기 성공")  
+                                             
                                             const phone = req.session.logined.phone 
                                             const user = req.session.logined.username         
                                             const tokenamount = req.session.logined.charge_amount
