@@ -337,6 +337,7 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, c
                     console.log(err)
                 }else{
                     const reffer= result2[0].refferal
+                    console.log("reffer=", reffer)
                     //추천인이 있는지 확인
                     if(reffer==""){
                         console.log("추천인 없음")
@@ -348,7 +349,7 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, c
                             from 
                             log_info
                             where 
-                            refferal = ?
+                            username = ?
                             `
                         const values3 = [reffer]
                         connection.query(
@@ -358,8 +359,9 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, c
                             if(err){
                                 console.log(err)
                             }else{
-                                //전번확보
+                                //추천인전번확보
                                 const phone= result3[0].phone
+                                console.log("reffer's phone=", phone)
                                 //추천보너스 계산
                                 const eventcha = parseInt(price) * 0.1 
                                 const eventch = Math.round(eventcha) 
