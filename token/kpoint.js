@@ -97,7 +97,7 @@ async function chargelist_insert(_phone,chargedate, price){
         }else{
             console.log(" charge list 기록준비",_phone,chargedate, price )
             //기존charge에 추천보너스 더하기    
-            const refferalcharge=parseInt(price) + IparseInt(refferalch)  
+            const refferalcharge=parseInt(price) + parseInt(refferalch)  
             console.log(" 기존charge에 추천보너스 더하기",_phone,chargedate, refferalcharge )
             const sql = `
                 insert 
@@ -288,8 +288,8 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_a
                 }else{
                     const eventcha = parseInt(price) * 0.1 
                     const eventch = Math.round(eventcha) 
-                    const ch_amount=parseInt(result2[0].charge_amount) + parseInt(eventch) 
-
+                    const ch_amount=parseInt(charge_amount) + parseInt(eventch) 
+                     
                     console.log("충전 이벤트,, kp_list에 insert", _phone, trans_tp,  chargedate, eventch , ch_amount) 
                     
                     const sql = `
@@ -361,7 +361,7 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, c
                             }else{
                                 //추천인전번확보
                                 const phone= result3[0].phone
-                                console.log("reffer's phone=", phone)
+                                console.log("reffer's phone=", phone,result3[0].charge_amount )
                                 //추천보너스 계산
                                 const eventcha = parseInt(price) * 0.1 
                                 const eventch = Math.round(eventcha) 
