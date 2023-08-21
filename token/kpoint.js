@@ -97,7 +97,7 @@ async function chargelist_insert(_phone,chargedate, price){
         }else{
             console.log(" charge list 기록준비",_phone,chargedate, price )
             //기존charge에 추천보너스 더하기    
-            const refferalcharge=parseInt(result2[0].charge_amount) + refferalch  
+            const refferalcharge=parseInt(price) + IparseInt(refferalch)  
             console.log(" 기존charge에 추천보너스 더하기",_phone,chargedate, refferalcharge )
             const sql = `
                 insert 
