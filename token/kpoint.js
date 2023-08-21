@@ -77,81 +77,51 @@ async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
 
 //충전 리스트에 기록
 async function chargelist_insert(_phone,chargedate, price){
-       
-    const sql = `
-        insert 
-        into 
-        charge_list
-        values (?,?,?)
-        `
-    const values = [_phone, chargedate, price ]
-    connection.query(
-        sql,
-        values,
-        (err, result)=>{
-            if(err){   
-                console.log(err)}
-                else{
-                    if (result.length == 0) {
-                        console.log("충전 자료가 하나도 없다네")
-                    } else {
-
-                      console.log("충전 정상 charge list 기록")
-                     
-                          }
-                    }})
-   }
-
-
-
-//충전 리스트에 기록
-async function chargelist_refferal_insert(_phone,chargedate, price){
-    
     const refferalcha = parseInt(price) * 0.1 +0.5
-    const  refferalch = Math.round(refferalcha)
-    const sql =
-        `
-        insert 
-        into 
+    const refferalch = Math.round(refferalcha) 
+    const sql2 = `
+        select 
+        *
+        from 
         charge_list
-        values (?,?,?)
+        where 
+        phone = ?
         `
-    const values = [_phone, chargedate,refferalch ]
+    const values2 = [_phone]
     connection.query(
-    sql,
-    values,
-    (err, result)=>{
-        if(err){   
-            console.log(err)}
-            else{
-                if (result.length == 0) {
-                    console.log("충전 자료가 하나도 없다네")
-                } else {
+    sql2, 
+    values2, 
+    function(err, result2){
+        if(err){
+            console.log(err)
+        }else{
+            console.log("충전 정상 charge list 기록결과")
+                
+            const refferalcharge=parseInt(result2[0].amount) + refferalch  
+            const sql = `
+                insert 
+                into 
+                charge_list
+                values (?,?,?)
+                `
+            const values = [_phone, chargedate , refferalcharge ]
+            connection.query(
+                sql,
+                values,
+                (err, result)=>{
+                    if(err){   
+                        console.log(err)}
+                        else{
+                            if (result.length == 0) {
+                                console.log("충전 자료가 하나도 없다네")
+                            } else {
 
-                    console.log("충전 정상 charge list 기록")
-                    const sql = `
-                        select 
-                        *
-                        from 
-                        charge_list
-                        where 
-                        phone = ?
-                        order by chargedate DESC
-                        `
-                const values = [_phone]
-                connection.query(
-                    sql, 
-                    values, 
-                    function(err, result){
-                        if(err){
-                            console.log(err)
-                        }else{
-                        console.log("충전 정상 charge list 기록결과")
-                        }
-                })
-
-    }}})
-   }
+                            console.log("충전 정상 charge list 기록")
+                            
+                                }
+                            }})
+   }})
+}
 
 
 //원본 디비에 충전금액 수정 
@@ -174,9 +144,9 @@ async function log_info_amount_update(_phone, price ){
             }else{
                 const refferalcha = parseInt(price) * 0.1 +0.5
                 const refferalch = Math.round(refferalcha) 
-                const ch_amount=pardeInt(result2[0].charge_amount) + parseInt(refferalch)    
+                const ch_amount=parseInt(result2[0].charge_amount) + parseInt(refferalch)    
 
-                const sql2 = `
+                const sql = `
                     update
                     log_info
                     set
@@ -184,12 +154,12 @@ async function log_info_amount_update(_phone, price ){
                     where
                     phone = ?
                     `
-                const values2 = [ch_amount, _phone]
+                const values = [ch_amount, _phone]
                                 
                 connection.query(
-                    sql2, 
-                    values2, 
-                    function(err, result2){
+                    sql, 
+                    values, 
+                    function(err, result){
                         if(err){
                             console.error(err)
                             }else{
@@ -267,14 +237,15 @@ async function log_info_refferal_update(_phone,refferalch ){
                                     req.session.logined.charge_amount=chargeamount
                                     req.session.save().then(() => {
                                         // The save operation is complete.
-                                        res.send("session save is now " +req.session.logined.charge_amount)
+                                        res.send("session save is now " + req.session.logined.charge_amount)
                                       })
                                 }})
                         }})
                     }}})}
 
 //kpoint list에 충전기록
-async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_amount ){   
+async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_amount ){  
+     
     console.log("회원끼리의 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,charge_amount) 
     
     const sql = `
@@ -301,7 +272,8 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_am
  }
 
 
- async function kpoint_list_event_insert(_phone, trans_tp,  chargedate, price, charge_amount ){   
+ async function kpoint_list_event_insert(_phone, trans_tp,  chargedt, price, charge_amount ){   
+    const chargedate = moment(chargedt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
     const sql2 = `
                 select 
                 *
@@ -320,7 +292,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_am
                 }else{
                     const eventcha = parseInt(price) * 0.1 +0.5
                     const eventch = Math.round(eventcha) 
-                    const ch_amount=pardeInt(result2[0].charge_amount) + parseInt(eventch) 
+                    const ch_amount=parseInt(result2[0].charge_amount) + parseInt(eventch) 
 
                     console.log("충전 이벤트,, kp_list에 insert", _phone, trans_tp,  chargedate, eventch , ch_amount) 
                     
@@ -348,7 +320,8 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_am
  }
 
   //kpoint list에 충전기록
-async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedate, price, charge_amount ){   
+async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, charge_amount ){   
+    const chargedate = moment(chargedt).add(0.11, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
     console.log("충전이벤트 kp_list에 insert",_phone, trans_tp,  chargedate, price, charge_amount) 
     
     const sql2 = `
@@ -724,7 +697,7 @@ module.exports = {
     log_info_amount_update, 
     kpoint_list_insert, 
     kpoint_list_event_insert,
-    chargelist_refferal_insert,
+    chargelist_refferal_update,
     store_list_insert,
     storeamount_update,
     enterscore_update,
