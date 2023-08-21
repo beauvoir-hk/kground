@@ -77,7 +77,7 @@ async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
 
 //충전 리스트에 기록
 async function chargelist_insert(_phone,chargedate, price){
-    const refferalcha = parseInt(price) * 0.1 +0.5
+    const refferalcha = parseInt(price) * 0.1 
     const refferalch = Math.round(refferalcha) 
     const sql2 = `
         select 
@@ -142,7 +142,7 @@ async function log_info_amount_update(_phone, price ){
         if(err){
             console.error(err)
             }else{
-                const refferalcha = parseInt(price) * 0.1 +0.5
+                const refferalcha = parseInt(price) * 0.1 
                 const refferalch = Math.round(refferalcha) 
                 const ch_amount=parseInt(result2[0].charge_amount) + parseInt(refferalch)    
 
@@ -164,11 +164,7 @@ async function log_info_amount_update(_phone, price ){
                             console.error(err)
                             }else{
                                 console.log("charge 수정 성공")
-                                req.session.logined.charge_amount=ch_amount
-                                req.session.save().then(() => {
-                                    // The save operation is complete.
-                                    res.send("session save is now " +req.session.logined.charge_amount)
-                                })
+                             
                             }
                         })}})}
 
@@ -234,11 +230,7 @@ async function log_info_refferal_update(_phone,refferalch ){
                                 console.error(err)
                                 }else{
                                     console.log("charge 수정 성공")
-                                    req.session.logined.charge_amount=chargeamount
-                                    req.session.save().then(() => {
-                                        // The save operation is complete.
-                                        res.send("session save is now " + req.session.logined.charge_amount)
-                                      })
+                                   
                                 }})
                         }})
                     }}})}
@@ -290,7 +282,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_a
                 if(err){
                     console.log(err)
                 }else{
-                    const eventcha = parseInt(price) * 0.1 +0.5
+                    const eventcha = parseInt(price) * 0.1 
                     const eventch = Math.round(eventcha) 
                     const ch_amount=parseInt(result2[0].charge_amount) + parseInt(eventch) 
 
@@ -302,7 +294,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_a
                         kp_list
                         values (?,?,?,?,?)
                         `
-                    const values = [_phone, chargedate, trans_tp, price,charge_amount ]
+                    const values = [_phone, chargedate, trans_tp, eventch, ch_amount ]
 
                     connection.query(
                         sql,
@@ -361,7 +353,7 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, c
                                 console.log(err)
                             }else{
                                 const phone= result3[0].phone
-                                const eventcha = parseInt(price) * 0.1 +0.5
+                                const eventcha = parseInt(price) * 0.1 
                                 const eventch = Math.round(eventcha) 
                                 const chargeamount=ParseInt(result3[0].charge_amount)+ParseInt(eventch)
 
@@ -697,7 +689,6 @@ module.exports = {
     log_info_amount_update, 
     kpoint_list_insert, 
     kpoint_list_event_insert,
-    chargelist_refferal_update,
     store_list_insert,
     storeamount_update,
     enterscore_update,
