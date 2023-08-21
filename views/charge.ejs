@@ -24,7 +24,7 @@
         PayApp.setParam('goodname', 'K포인트 충전');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'https://kground.co.kr/payment/?price='+$('#price').val()&'phone='+$('#phone').val());
+        PayApp.setParam('returnurl', 'https://kground.co.kr/payment/?price='+$('#price').val());
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
         PayApp.setParam('smsuse', 'n');
         PayApp.setParam('redirectpay', '1');
@@ -97,7 +97,6 @@
                                                                     &nbsp;&nbsp;<%=username%>님
                                                                 </div>
                                                                 <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                                                 
                                                                     <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                     K포인트 : <%=aa%>
                                                                 </div>

@@ -81,9 +81,10 @@
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        
-                                                       [<%const trtype =resultt[i].transtype.toString()%>]
+                                                       [<%= resultt[i].transtype %>]
+                                                       <%const trtype =resultt[i].transtype.toString()%>
                                                         &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <%if(trtype=="charge"||trtype=="10% event"||trtype=="refferal"){ %>
+                                                        <%if(trtype=="charge"||trtype=="event"||trtype=="refferal"){ %>
                                                             <%=ap%>
                                                         <%}else{%>
                                                             <%=an%>

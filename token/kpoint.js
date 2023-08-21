@@ -83,7 +83,7 @@ async function chargelist_insert(_phone,chargedate, price){
         select 
         *
         from 
-        charge_list
+        log_info
         where 
         phone = ?
         `
@@ -97,7 +97,7 @@ async function chargelist_insert(_phone,chargedate, price){
         }else{
             console.log(" charge list 기록준비",_phone,chargedate, price )
             //기존charge에 추천보너스 더하기    
-            const refferalcharge=parseInt(result2[0].amount) + refferalch  
+            const refferalcharge=parseInt(result2[0].charge_amount) + refferalch  
             console.log(" 기존charge에 추천보너스 더하기",_phone,chargedate, refferalcharge )
             const sql = `
                 insert 
@@ -317,7 +317,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_a
 
   //kpoint list에 충전기록
 async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, charge_amount ){   
-    const chargedate = moment(chargedt).add(0.11, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+    const chargedate = moment(chargedt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
     console.log("충전이벤트 kp_list에 insert",_phone, trans_tp,  chargedate, price, charge_amount) 
     
     const sql2 = `
