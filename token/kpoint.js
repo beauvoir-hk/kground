@@ -144,9 +144,83 @@ async function log_info_amount_update(_phone,ch_amount ){
                 }else{
                     console.log("charge 수정 성공")
                     req.session.logined.charge_amount=ch_amount
+                    req.session.save().then(() => {
+                        // The save operation is complete.
+                        res.send("session save is now " +req.session.logined.charge_amount)
+                      })
                 }
             })}
 
+
+//원본 디비에 추천금액 수정 
+async function log_info_refferal_update(_phone,refferalch ){
+    const sql2 = `
+        select 
+        *
+        from 
+        log_info
+        where 
+        phone = ?
+        `
+    const values2 = [_phone]
+    connection.query(
+    sql2, 
+    values2, 
+    function(err, result2){
+        if(err){
+            console.log(err)
+        }else{
+            const reffer= result2[0].refferal
+            if(reffer==""){
+                console.log("추천인 없음")
+            }else{
+                const sql3 = `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    refferal = ?
+                    `
+                const values3 = [reffer]
+                connection.query(
+                sql3, 
+                values3, 
+                function(err, result3){
+                    if(err){
+                        console.log(err)
+                    }else{
+                    const phone= result3[0].phone
+                    const chargeamount=ParseInt(result3[0].charge_amount)+ParseInt(refferalch)
+
+                    console.log("추천인의 phone",phone, price,chargeamount )    
+
+                    const sql2 = `
+                        update
+                        log_info
+                        set
+                        charge_amount = ?
+                        where
+                        phone = ?
+                        `
+                    const values2 = [chargeamount, phone]
+                                    
+                    connection.query(
+                        sql2, 
+                        values2, 
+                        function(err, result2){
+                            if(err){
+                                console.error(err)
+                                }else{
+                                    console.log("charge 수정 성공")
+                                    req.session.logined.charge_amount=chargeamount
+                                    req.session.save().then(() => {
+                                        // The save operation is complete.
+                                        res.send("session save is now " +req.session.logined.charge_amount)
+                                      })
+                                }})
+                        }})
+                    }}})}
 
 //kpoint list에 충전기록
 async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_amount ){   
@@ -174,7 +248,74 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price,charge_am
                     }
     }})
  }
-      
+  //kpoint list에 충전기록
+async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedate, price, charge_amount ){   
+    console.log("충전이벤트 kp_list에 insert",_phone, trans_tp,  chargedate, price, charge_amount) 
+    
+    const sql2 = `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                `
+            const values2 = [_phone]
+            connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                }else{
+                    const reffer= result2[0].refferal
+                    if(reffer==""){
+                        console.log("추천인 없음")
+                    }else{
+                        const sql3 = `
+                            select 
+                            *
+                            from 
+                            log_info
+                            where 
+                            refferal = ?
+                            `
+                        const values3 = [reffer]
+                        connection.query(
+                        sql3, 
+                        values3, 
+                        function(err, result3){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const phone= result3[0].phone
+                                const chargeamount=ParseInt(result3[0].charge_amount)+ParseInt(price)
+
+                                console.log("추천인의 phone",phone, price,chargeamount )
+
+                                const sql = `
+                                    insert 
+                                    into 
+                                    kp_list
+                                    values (?,?,?,?,?)
+                                    `
+                                const values = [phone, chargedate, trans_tp, price, chargeamount ]
+
+                                connection.query(
+                                sql,
+                                values,
+                                (err, result)=>{
+                                    if(err){   
+                                        console.log(err)}
+                                        else{
+                                            if (result.length == 0) {
+                                                console.log("kpoint list에 기록 하나도 없다네")
+                                            } else {
+                                            console.log("kpoint list에 기록 정상+본문으로 돌아가고싶다")
+                                            }}})
+                                        }})
+}}})}
+   
 //충전------------------------------------------------------------
 
 //가맹점==========================================================
@@ -490,7 +631,8 @@ module.exports = {
     tier_update,
     ksfc_insert,
     log_info_update,
-    log_info_insert_memo
-
+    log_info_insert_memo,
+    kpoint_list_refferal_insert,
+    log_info_refferal_update
 }
 
