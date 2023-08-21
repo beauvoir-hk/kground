@@ -73,16 +73,17 @@
                                                     <td  class="text-uppercase mb-1">
                                                         <%const korea = new Date(resultt[i].transtime)%>
                                                         <%const koreanTime=korea.toLocaleString('ko-KR')%>
+                                                      
                                                         <%=koreanTime%>
                                                         <br>
-                                                       <% const kpn = parseInt(resultt[i].kp_amount)*-1%>
-                                                       <% const kpp = parseInt(resultt[i].kp_amount)%>
+                                                       <% const kpn = parseInt(resultt[i].kp_amount)*-1 %>
+                                                       <% const kpp = parseInt(resultt[i].kp_amount) %>
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        
-                                                       [<%=resultt[i].transtype.toString()%>]
+                                                       [<%const trtype =resultt[i].transtype.toString()%>]
                                                         &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <%if(resultt[i].transtype.toString()=="charge"){%>
+                                                        <%if(trtype=="charge"||trtype=="10% event"||trtype=="refferal"){ %>
                                                             <%=ap%>
                                                         <%}else{%>
                                                             <%=an%>

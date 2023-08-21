@@ -46,7 +46,7 @@ connection.query(
 }})}
 
 
-//log_info 리스트에 갱신기록
+//my : log_info 리스트에 갱신기록
 async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
         //user_info에 대해 갱신
         const sql3 = `
@@ -78,7 +78,7 @@ async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
 //충전 리스트에 기록
 async function chargelist_insert(_phone,chargedate, price){
     const refferalcha = parseInt(price) * 0.1 
-    const refferalch = Math.round(refferalcha) 
+    const refferalch = Math.round(refferalcha) //추천보너스
     const sql2 = `
         select 
         *
@@ -95,9 +95,10 @@ async function chargelist_insert(_phone,chargedate, price){
         if(err){
             console.log(err)
         }else{
-            console.log("충전 정상 charge list 기록결과")
-                
+            console.log(" charge list 기록준비",_phone,chargedate, price )
+            //기존charge에 추천보너스 더하기    
             const refferalcharge=parseInt(result2[0].amount) + refferalch  
+            console.log(" 기존charge에 추천보너스 더하기",_phone,chargedate, refferalcharge )
             const sql = `
                 insert 
                 into 
@@ -142,10 +143,13 @@ async function log_info_amount_update(_phone, price ){
         if(err){
             console.error(err)
             }else{
+                //추천보너스 계산
                 const refferalcha = parseInt(price) * 0.1 
                 const refferalch = Math.round(refferalcha) 
+                //기존charge에 추천보너스 더하기 
                 const ch_amount=parseInt(result2[0].charge_amount) + parseInt(refferalch)    
-
+                console.log(" 기존charge에 추천보너스 더하기",
+                            _phone,result2[0].charge_amount ,price, ch_amount )
                 const sql = `
                     update
                     log_info
@@ -170,7 +174,7 @@ async function log_info_amount_update(_phone, price ){
 
 
 //원본 디비에 추천금액 수정 
-async function log_info_refferal_update(_phone,refferalch ){
+async function log_info_refferal_update(_phone,price ){
     const sql2 = `
         select 
         *
@@ -208,7 +212,7 @@ async function log_info_refferal_update(_phone,refferalch ){
                         console.log(err)
                     }else{
                     const phone= result3[0].phone
-                    const chargeamount=ParseInt(result3[0].charge_amount)+ParseInt(refferalch)
+                    const chargeamount=ParseInt(result3[0].charge_amount)+parseInt(price)
 
                     console.log("추천인의 phone",phone, price,chargeamount )    
 
@@ -333,9 +337,11 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, c
                     console.log(err)
                 }else{
                     const reffer= result2[0].refferal
+                    //추천인이 있는지 확인
                     if(reffer==""){
                         console.log("추천인 없음")
                     }else{
+                        //추천인이 있으면 추천인 전번구하기
                         const sql3 = `
                             select 
                             *
@@ -352,12 +358,15 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price, c
                             if(err){
                                 console.log(err)
                             }else{
+                                //전번확보
                                 const phone= result3[0].phone
+                                //추천보너스 계산
                                 const eventcha = parseInt(price) * 0.1 
                                 const eventch = Math.round(eventcha) 
-                                const chargeamount=ParseInt(result3[0].charge_amount)+ParseInt(eventch)
+                                //추천인의 충전금액+추천보너스
+                                const chargeamount = parseInt(result3[0].charge_amount)+parseInt(eventch)
 
-                                console.log("추천인의 phone",phone,eventch,chargeamount )
+                                console.log("추천인의 phone",phone, chargedate, trans_tp, eventch,chargeamount )
 
                                 const sql = `
                                     insert 
