@@ -492,8 +492,8 @@ router.get('/admin_enterpay_list', async (req, res)=>{
         }else{
                         
             data=1
-            const phone = req.query.phone 
-            const user = req.query.user
+            const phone = req.session.logined.phone 
+            const user = req.session.logined.username
              const no = req.query.no
             console.log("req.body.no",no)        
             console.log("//리스트 중 몇번째?를 선택했는지 전달받은 매개변수", no,phone,user)
@@ -580,7 +580,7 @@ router.get('/admin_enterpay_list', async (req, res)=>{
     
                                                         //만약 스코어카드가 이미 있으면 기 score내용은 수정 불가 하도록 조치
                                                         if(result[0].scorepicture!=""){
-                                                            res.render('admin_enterscore_1', {
+                                                            res.render('admin_enterscore', {
                                                                 no:no,
                                                                 resultt : result, 
                                                                 resultt2: result2,
@@ -593,7 +593,7 @@ router.get('/admin_enterpay_list', async (req, res)=>{
                                                                 gender:gender
                                                             })
                                                         }else{
-                                                            res.render('admin_enterscore_1', {
+                                                            res.render('admin_enterscore', {
                                                                 no:no,
                                                                 resultt : result, 
                                                                 resultt2: result2,
