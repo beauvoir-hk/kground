@@ -994,7 +994,7 @@ router.post('/admin_enterscore_1', upload.single('_image'),async function(req, r
                             const trans_tp = "festival"
                             const price ='2000'
                             const enterdate = moment().format('YYYY-MM-DDTHH:mm:ss')
-                            kpoint.kpoint_list_insert(phone, trans_tp,  enterdate, price )
+                            //kpoint.kpoint_list_insert(phone, trans_tp,  enterdate, price )
     
     //성별을 얻기 위해
                             const sql2 = `
