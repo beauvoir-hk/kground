@@ -550,8 +550,17 @@ router.post('/gamepay', async (req, res)=>{
 
             //가맹점에 결제할 금액입력
             const pay_amount = await req.body._gamepayment.trim()
-            console.log("gamepay_amount =", pay_amount  )
-
+            if(pay_amount<=0){
+                const pay_amount=0
+                console.log("gamepay_amount가 입력되지 않았어요 "  )
+                res.render("gamepay",{
+                    state:false
+                })
+                
+            }else{
+                console.log("gamepay_amount =", pay_amount  )
+            
+             
             //기존 나의 잔액확인
             const _charge_amount = req.session.logined.charge_amount
             
@@ -651,7 +660,7 @@ router.post('/gamepay', async (req, res)=>{
                                         kpoint.log_info_amount_update2(store_phone ,pay_amount )  
                                         res.redirect("gamepay_list")
                                     }})
-                    }})}}}})
+                    }})}}}}})
                     
 
 router.get('/gamepay_list', async (req, res)=>{
