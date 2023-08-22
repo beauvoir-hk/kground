@@ -511,6 +511,9 @@ router.get('/notice', function(req, res){
 router.get('/regu', function(req, res){
     res.render("regu")
 })
+router.get('/bkecho', function(req, res){
+    res.render("bkecho")
+})
 
 router.get('/enterscore',async function(req, res){
     if(!req.session.logined){
