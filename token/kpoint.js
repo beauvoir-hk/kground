@@ -124,6 +124,101 @@ async function chargelist_insert(_phone,chargedate, price){
    }})
 }
 
+//원본 디비에 금액 추가 수정(festival, store=gamepay, transpay) 
+async function log_info_amount_update2(_phone, price ){   
+    const sql2 = `
+        select 
+        *
+        from 
+        log_info
+        where 
+        phone = ?
+        `
+    const values2 = [_phone]
+    connection.query(
+    sql2, 
+    values2, 
+    function(err, result2){
+        if(err){
+            console.error(err)
+            }else{
+                //추천보너스 계산
+                // const refferalcha = parseInt(price) * 0.1 
+                // const refferalch = Math.round(refferalcha) 
+                //기존charge에 추천보너스 더하기 
+                const ch_amount=parseInt(result2[0].charge_amount) + parseInt(price)    
+                console.log(" 기존charge에 추천보너스 더하기",
+                            _phone,result2[0].charge_amount ,price, ch_amount )
+                const sql = `
+                    update
+                    log_info
+                    set
+                    charge_amount = ?
+                    where
+                    phone = ?
+                    `
+                const values = [ch_amount, _phone]
+                                
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.error(err)
+                            }else{
+                                console.log("log_info 추가 금액 더해서 수정 성공")
+                             
+                            }
+                        })}})}
+
+
+//원본 디비에 금액 감액 수정(festival, store=gamepay, transpay) 
+async function log_info_amount_update1(_phone, price ){   
+    const sql2 = `
+        select 
+        *
+        from 
+        log_info
+        where 
+        phone = ?
+        `
+    const values2 = [_phone]
+    connection.query(
+    sql2, 
+    values2, 
+    function(err, result2){
+        if(err){
+            console.error(err)
+            }else{
+                //추천보너스 계산
+                // const refferalcha = parseInt(price) * 0.1 
+                // const refferalch = Math.round(refferalcha) 
+                //기존charge에 추천보너스 더하기 
+                const ch_amount=parseInt(result2[0].charge_amount) - parseInt(price)    
+                console.log(" 기존charge에 감액하기",
+                            _phone,result2[0].charge_amount ,price, ch_amount )
+                const sql = `
+                    update
+                    log_info
+                    set
+                    charge_amount = ?
+                    where
+                    phone = ?
+                    `
+                const values = [ch_amount, _phone]
+                                
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.error(err)
+                            }else{
+                                console.log("log_info 감액 수정 성공")
+                             
+                            }
+                        })}})}
+
 
 //원본 디비에 충전금액 수정 
 async function log_info_amount_update(_phone, price ){   
@@ -146,8 +241,8 @@ async function log_info_amount_update(_phone, price ){
                 //추천보너스 계산
                 const refferalcha = parseInt(price) * 0.1 
                 const refferalch = Math.round(refferalcha) 
-                //기존charge에 추천보너스 더하기 
-                const ch_amount=parseInt(result2[0].charge_amount) + parseInt(refferalch)    
+                //기존charge+ 충전금액 + 추천보너스 
+                const ch_amount=parseInt(result2[0].charge_amount) + parseInt(price) +parseInt(refferalch)    
                 console.log(" 기존charge에 추천보너스 더하기",
                             _phone,result2[0].charge_amount ,price, ch_amount )
                 const sql = `
@@ -167,7 +262,7 @@ async function log_info_amount_update(_phone, price ){
                         if(err){
                             console.error(err)
                             }else{
-                                console.log("charge 수정 성공")
+                                console.log("charge 수정 성공",result )
                              
                             }
                         })}})}
@@ -698,6 +793,8 @@ async function tier_update( _phone, _gender)  {
 module.exports = {
     chargelist_insert,
     log_info_amount_update, 
+    log_info_amount_update1,
+    log_info_amount_update2,
     kpoint_list_insert, 
     kpoint_list_event_insert,
     store_list_insert,

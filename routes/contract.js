@@ -397,39 +397,35 @@ router.post('/enterpay', async (req, res)=>{
             })
         }else{
             da=1
-            const server = http.createServer((req, res) => {
-                // Send a warning message
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                res.write('Warning: This is a test message.');
-                res.end();
-                })
             let price = 2000
             //대회참가비 결제
-            // enterpay를 score에 기록
+            // 1. enterpay를 score에 기록
             kpoint.enterpay_score_insert(_input_dt, phone, _username, _golfsys, _strok , _picture)    
             
-            //충전금액 수정 log-info       
+            //2. 나의 충전금액 수정 log-info       
             const balance = parseInt(req.session.logined.charge_amount)-price
             req.session.logined.charge_amount = balance 
             console.log("참가비결제 결과수정 balance, _phone =",balance, phone )  
-            kpoint.log_info_amount_update(phone, balance )
+            kpoint.log_info_amount_update1(phone, price )
             console.log("//충전금액(감액) 수정 ")
             
-            //kp_list에 insert
+            //3. kp_list에 insert
             const trans_tp="festival"
             kpoint.kpoint_list_insert(phone, trans_tp,  _input_dt, price, balance)
 
-            //결제비 리스트 출력 
+            //4. 케이그라운드 참가비 결제 전번에 추가 갱신
+            const kphone="01037248010"
+            
             const sql2 = `
                 select 
                 *
                 from 
-                score
+                log_info
                 where 
                 phone = ?
-                order by entertime DESC
+                
                 `
-            const values2 = [phone]
+            const values2 = [kphone]
             connection.query(
             sql2, 
             values2, 
@@ -438,12 +434,11 @@ router.post('/enterpay', async (req, res)=>{
                     console.log(err)            
                 }else{
                     if(result2.length==0){//스코어가 하나도 없으면 다시 대회참가신청
-                        res.render("enterpay",{
-                            amount : balance,
-                            username :_username,
-                            state:0
-                        })
-                    }else{
+                        log_info_update("01037248010이 없음")
+                        }else{
+                            //금액20000추가 갱신
+                            kpoint.log_info_amount_update2(kphone, price )
+
                             // res.render('enterpay_list', {
                             //     'enterpay':result2,
                             //     'username' :  _username, 
@@ -510,6 +505,8 @@ router.get('/gamepay', async (req, res)=>{
             })
 }}) 
 
+
+//가맹점 결제
 router.post('/gamepay', async (req, res)=>{
     if(!req.session.logined){
         let data=0
@@ -587,7 +584,9 @@ router.post('/gamepay', async (req, res)=>{
                     })
                 }else{
                     da = 1 
-                    //비밀번호 일치하면 가맹점거래리스트에 거래내역 추가 store_pay
+
+                    //비밀번호 일치하면 
+                    //1. 가맹점거래리스트에 거래내역 추가 : store_pay(나 기준 거래 내역)
                     // const pay=parseInt(pay_amount)*-1
                     kpoint.store_list_insert(_input_dt, _phone, _username, _storename, pay_amount  )       
                     
@@ -608,29 +607,50 @@ router.post('/gamepay', async (req, res)=>{
                             if(err){
                                 console.log(err)
                             }else{ 
-                            //가맹점 추가 금액 계산    
+
+                            //2.가맹점 추가 금액 계산 수정 : store (kpoint추가)
                             const _store_amount = parseInt(result[0].store_amount) + parseInt(pay_amount)
                             // const _store_amount = store_amount.toString()
-                            console.log("가게의 어마운트(before)",result[0].store_amount, pay_amount)
-                            console.log("가게의 어마운트(after)",_store_amount)
-                            //가맹점 테이블 수정
+                            console.log("가맹점 kpoint량(before)",result[0].store_amount, pay_amount)
+                            console.log("가맹점의 갱신(after)",_storename, _store_amount)
+                            
+                            //가맹점 store 테이블 수정
                             kpoint.storeamount_update( _storename, _store_amount  )
                             
-                            //log_info 금액 수정 log_info
-                            const ch_amount = parseInt(_charge_amount) - parseInt(pay_amount)
-                            kpoint.log_info_amount_update(_phone, ch_amount  )        
-                            console.log("로그인포 테이블에 수정된 KPoint 갱신입력 성공",ch_amount  )
+                            //3. 냐의 log_info 금액 수정 log_info(kpoint차감)
+                             const ch_amount = parseInt(_charge_amount) - parseInt(pay_amount)
+                             console.log("로그인포 테이블에 수정된 KPoint 갱신입력 성공",_phone, ch_amount)
+                            kpoint.log_info_amount_update1(_phone, pay_amount   )        
                             
-                            //KP_list에 추가 all
-                            const trans_tp = storename.toString()
-                            kpoint.kpoint_list_insert(_phone, trans_tp,  _input_dt, pay_amount,ch_amount )
+                          
+                            //5. 가맹점 log_info 금액 수정 log_info((kpoint추가))
+                            const store_phone = result[0].phone
+                            const sql2 = `
+                                select 
+                                *
+                                from 
+                                log_info
+                                where 
+                                phone = ?                        
+                            `
+                            const values2 = [ store_phone ]
+                            connection.query(
+                                sql2, 
+                                values2, 
+                                function(err, result2){
+                                    if(err){
+                                        console.log(err)
+                                    }else{ 
+                                        //4. KP_list에 추가 +가맹점 금액추가 
+                                        const store_amount = parseInt(result2[0].charge_amount) + parseInt(pay_amount)
+                                        const trans_tp = _storename.toString()
+                                        console.log("가맹점거래 kpoint_list_insert =",_phone, trans_tp,  _input_dt, pay_amount, store_amount  )
+                                        kpoint.kpoint_list_insert(_phone, trans_tp, _input_dt, pay_amount, ch_amount )
 
-                            // res.render("gamepay_list",{
-                            //     resultt :result,
-                            //     amount :req.session.logined.charge_amount,
-                            //     username:req.session.logined.username
-                            //         } )
-                                res.redirect("gamepay_list")
+                                        //5. 가맹점에 입금된 금액 추가 계산 : log_info
+                                        kpoint.log_info_amount_update2(store_phone ,pay_amount )  
+                                        res.redirect("gamepay_list")
+                                    }})
                     }})}}}})
                     
 
@@ -741,11 +761,10 @@ router.post('/kp_trans', async (req, res)=>{
             //비밀번호 맞다면 거래
             da = 1 
             
-            //log_info 정보(보내는 사람)
-            charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)//차감
-            req.session.logined.charge_amount= charge_amount//차감계산된 금액으로 세션정보를 수정
-            kpoint.log_info_amount_update(_phone, charge_amount   )        
-            console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
+            //1. log_info 정보 감액수정(보내는 사람 즉 나)
+            
+            kpoint.log_info_amount_update1(_phone,pay_amount )        
+            
             
             //수신자의 전번
             const sql6 = `
@@ -766,18 +785,17 @@ router.post('/kp_trans', async (req, res)=>{
                     }else{ 
                         if(result6.length!=0){
 
-                        //수신자 금액 정정 
+                        //2. 수신자(친구) 금액 추가 정정 
                         console.log("&&&&&&&&&&&&&&&&&", receiptphone)
                         const reciept_amount = result6[0].charge_amount
             
-                        reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)//수신 받은 금액 추가
-                        console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone, reciep_amount  )
-                        kpoint.log_info_amount_update( receiptphone, reciep_amount)
+                       
+                        kpoint.log_info_amount_update2( receiptphone,pay_amount)
 
-                        //친구끼리 거래하기거래리스트에 거래내역 추가 
+                        //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
                         const rec_username= result6[0].username.toString()
                        
-                        console.log("친구끼리 거래 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                        console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
                         kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
 
 
@@ -803,18 +821,23 @@ router.post('/kp_trans', async (req, res)=>{
                                     if(result2.length!=0){
 
                                         //친구에게 보내기 내역 기록
-                                        //KP_list에 추가  //보내는 사람
+                                        //4. KP_list에 추가  //보내는 사람=나
                                         const trans_tp = _username//보내는 사람
-                                        console.log("회원끼리의 거래내역을 kp_list에 insert",receiptphone, trans_tp,  _input_dt, pay_amount ,charge_amount) 
+                                        charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)//차감
+                                        req.session.logined.charge_amount= charge_amount//차감계산된 금액으로 세션정보를 수정
+                                        console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
+                                        console.log("친구에게 보낸내역 kp_list에 insert",receiptphone, trans_tp,  _input_dt, pay_amount ,charge_amount) 
                                         const _pay_amount= parseInt(pay_amount)* -1
                                         kpoint.kpoint_list_insert(receiptphone, trans_tp,  _input_dt, _pay_amount ,charge_amount )
                                         
                                         // //KP_list에 추가 all(송신자)
-                                        // const trans_tp1=rec_username//받는사람
-                                        // send = parseInt(pay_amount)
-                                        // const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                        // console.log("0.01초 더한시간",new_dt) 
-                                        // kpoint.kpoint_list_insert(_phone, trans_tp1,  new_dt, send ,reciep_amount)
+                                        const trans_tp1=rec_username//받는사람
+                                        const reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)//수신 받은 금액 추가
+                                        console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone, reciep_amount  )
+                                        
+                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                        console.log("0.01초 더한시간",new_dt) 
+                                        kpoint.kpoint_list_insert(_phone, trans_tp1,  new_dt, pay_amount ,reciep_amount)
 
                                         if(!req.session.logined){
                                             res.redirect("/")

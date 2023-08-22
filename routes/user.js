@@ -213,14 +213,34 @@ router.post("/login", async (req, res)=>{
             console.log('로그인정보가 없음')
             res.redirect("/")
         }else{
-            console.log('로그인 되었어요')
-            res.render('index.ejs', {
-                'login_data': req.session.logined, 
-                amount:req.session.logined.amount
-            })
-        }
-    
-    })
+        console.log('로그인 되었어요 원장다시 읽기')    
+        //원장을 다시 읽는다
+        const phone=req.session.logined.phone
+        
+        const sql = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values = [phone]
+        connection.query(
+        sql, 
+        values, 
+        function(err, result){
+            if(err){
+                console.log(err)
+                
+            }else{
+                res.render('index.ejs', {
+                    login_data: req.session.logined, 
+                    amount:req.session.logined.amount,
+                    phone:req.session.logined.phone
+                })
+            }})
+    }})
 
    
     // 회원 탈퇴 sql api
