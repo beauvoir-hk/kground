@@ -361,18 +361,17 @@ router.post("/login", async (req, res)=>{
                                         const _phone=req.session.logined.phone  
                                         const _username=req.session.logined.username
                                         const _input_dt=req.session.logined.logdate
-                                        const new_dt = moment(_input_dt).add(0, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                       
+                                        
+                                        let st=0
                                         const sql=
                                             `
                                             SELECT
                                             *
                                             FROM
                                             ksfc
-                                            WHERE registtime=?
-                                           
+                                            WHERE phone = ?
                                             `
-                                        const values=[new_dt ]
+                                        const values=[_phone ]
                                         connection.query(
                                         sql,
                                         values,
@@ -380,24 +379,55 @@ router.post("/login", async (req, res)=>{
                                             if(err){
                                                 console.error(err)
                                             }else{
-                                                if(result2.length<1 && result2.golfsys!=golf_sys){
-                                                    //새로운 시스템 등록이고 중복시간이 없으면
+                                                console.log("my ksfc 확인:",result2.length )
+                                                for(var i=0;i<result2.length; ++i){
+                                                    console.log("golf_sys==result2[i].golfsys:",golf_sys==result2[i].golfsys )
+                                                    if(golf_sys==result2[i].golfsys){
+                                                        st=1
+                                                        break
+                                                    }else{
+                                                        st=0
+                                                    }
+                                                }
+                                                if(result2.length<1 || st!=1){
+                                                    console.log("result2.length<1 || st!=1 :",result2.length<1 || st!=1 )
+                                                    //등록된 ksfc가 없다 insert
                                                     const game_number = 5
                                                     const bestscore=9999
                                                     const sysrank=0
-
-                                                    console.log("ksfc_insert" ,_phone, _username, game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,_input_dt  )
-                                                    kpoint.ksfc_insert(_phone, _username, game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,_input_dt)
-                                                    console.log("회원정보 추가완료")
+                                                    const new_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
+                                                    console.log(" new_dt =",new_dt )
+                                                    console.log("ksfc_insert" ,_phone, _username, game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,new_dt  )
+                                                    kpoint.ksfc_insert(_phone, _username, game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,new_dt)
+                                                    console.log("my ksfc 정보 추가완료")
                                                     res.redirect("index")
-                                                }else{
-                                                    //중복시스템이거나 중복시간일 때는 수정
-                                                    const _bestscore = result2[0].bestscore
-                                                    const _sysrank= result2[0].sysrank
-                                                    
-                                                    const _golfsys=golf_sys
-                                                    kpoint.ksfc_update(_bestscore, _sysrank, _phone, _golfsys )
-                                                    console.log("회원정보 수정완료")
+                                                }else{ 
+
+                                                    //ksfc가 이미 존재하면 수정
+                                                    let bestscore=9999
+                                                    let sysrank=0
+                                                    //중복시스템일 때는 수정
+                                                    for(var i=0; i<result2.length ; ++i){
+                                                        if(golf_sys==result2[i].golfsys){
+                                                            if(bestscore > parseInt(result2[i].bestscore)){
+                                                                bestscore = result2[i].bestscore
+                                                            }else{
+                                                                console.log("베스트스코어가 아님")
+                                                            }
+                                                            if(sysrank < parseInt(result2[i].sysrank)){
+                                                                sysrank = result2[i].sysrank
+                                                            }else{
+                                                                console.log("베스트순위가 아님")
+                                                            }
+                                                                                                           
+                                                        const  _bestscore = bestscore
+                                                        const _sysrank=  sysrank
+                                                        const _golfsys=golf_sys
+                                                        
+                                                        kpoint.ksfc_update(_bestscore, _sysrank, _phone, _golfsys )
+                                                        console.log("myksfc 정보 수정완료")
+                                                        }
+                                                    }
                                                     res.redirect("index")
                                                     }
                                                 } 

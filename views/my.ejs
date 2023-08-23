@@ -50,7 +50,7 @@
                         <div class="row">
 
                             <div class="col-lg-6"> 
-                                <div class="p-5">
+                                <div class="p-6">
                                         <div class="text-center">
                                             <img src="/img/k.png" width="10%">
                                             <h6>내 정보</h6>
@@ -92,7 +92,8 @@
                                                                             </div>
                                                                         </li>
                                                                         <li>
-                                                                            *참가지역 : <div class="text-danger">(수정시 필수선택)</div>
+                                                                            *참가지역 :<%=login_data['jiyeok']%><br> 
+                                                                            <div class="text-danger">(수정시 필수선택)</div>
                                                                             <select class="form-select" name="input_jiyeok" id="input_jiyeok">
                                                                                 <option value="경상남도">경상남도</option>
                                                                                 <option value="서울특별시">서울특별시</option>
@@ -108,7 +109,6 @@
                                                                                 <option value="충청남도">충청남도</option>
                                                                                 <option value="충청북도">충청북도</option>
                                                                                 <option value="경상북도" >경상북도</option>
-                                                                                
                                                                                 <option value="전라남도">전라남도</option>
                                                                                 <option value="전라북도" >전라북도</option>
                                                                                 <option value="글로벌팀">글로벌팀</option>
@@ -116,14 +116,15 @@
                                                                             </select><br>
                                                                         </li>
                                                                         <li>
-                                                                             *참가시스템: <div class="text-danger">(수정시 필수선택)</div>
+                                                                             *참가시스템: <%=login_data['golfsys']%><br> 
+                                                                             <div class="text-danger">(수정시 필수선택)</div>
                                                                              <select class="form-select" name="input_golfsys"  >
                                                                                 <option value="GolfZon">GolfZon</option>
                                                                                 <option value="GolfZon Park">GolfZon Park</option>
                                                                                 <option value="Kakao Friends">Kakao Friends</option>
                                                                                 <option value="UDR Golf">UDR Golf</option>
                                                                                 <option value="K Golf Club">K Golf Club</option>
-                                                                                <option value="GNC" >GNC</option>
+                                                                                <option value="GNC Golf" >GNC Golf</option>
                                                                                 <option value="SG Golf">SG Golf</option>
                                                                                 <option value="MS Golf">MS Golf</option>
                                                                             </select><br>
@@ -146,6 +147,9 @@
                                                                     </ul>
                                                                     <div class="text-center" >
                                                                         <div class="text-danger"> 
+                                                                            ☞☞☞ 위 모든항목을 빠짐없이 입력한 다음 아래 버튼을 눌러야 합니다.<br>  
+                                                                            차후 중대한 오류의 원인 되기도 합니다
+                                                                            <br> 반드시 챙겨주십시오<br>
                                                                             <button class="btn btn-primary" type="submit">회원정보수정</button>
                                                                         </div>
                                                                     </div> 
@@ -162,7 +166,10 @@
                                             <div class="text-info bg-dark">
                                                 <i>※ 비밀번호(로그인+결제) 변경은<br>
                                                 문자인증을 통해 본인 검증 후 가능합니다.
-                                            </i>
+                                            </i><br><br>
+                                            반드시 비밀번호들을 변경해 주십시오<br><br>
+                                            로그인은 개인정보를 지키는데 중요하고<br>
+                                            결제 비밀번호는 KPoint를 지키는데 중요합니다.
                                             </div>
                                              <br>
                                                 <button class="btn btn-primary" 

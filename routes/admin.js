@@ -691,102 +691,123 @@ router.post('/admin_enterscore', upload.single('_image'),async function(req, res
                         const trans_tp = "festival"
                         const price ='2000'
                         const enterdate = moment().format('YYYY-MM-DDTHH:mm:ss')
-                        kpoint.kpoint_list_insert(phone, trans_tp,  enterdate, price, tokenamount )
+                        //kpoint.kpoint_list_insert(phone, trans_tp,  enterdate, price, tokenamount )
 
-//성별을 얻기 위해
-                        const sql2 = `
-                            select 
-                            *
-                            from 
-                            ksfc
-                            where 
-                            phone = ?  
-                            `
-                        const values2 = [phone]
-                        connection.query(
-                            sql2, 
-                            values2, 
-                            function(err, result3){
-                                if(err){
-                                    console.log(err)
-                                    }else{
-                                        const gender = req.session.logined.gender
-                                        console.log("젠더가 ??",gender )
-                                            
+//성별을 얻기 위해ksfc
+const sql3 = `
+select 
+*
+from 
+ksfc
+where 
+phone = ?  
+`
+const values3 = [phone]
+connection.query(
+sql3, 
+values3, 
+function(err, result3){
+if(err){
+    console.log(err)
+    }else{
+        const ggender=result3[0].gender
+        console.log("젠더가 구해지나??",ggender )
+            
 
 //나의 같은 골프 시스템, 스코어 순 내림차순 정열 5등 안의 score 준비+ 합계구하기
-                                            const sql2 = `
-                                                select 
-                                                *
-                                                from 
-                                                score
-                                                where 
-                                                phone = ? && golfsys = ? 
-                                                order by strok ASC
-                                                `
-                                            const values2 = [phone, _golfsys]
-                                            connection.query(
-                                                sql2, 
-                                                values2, 
-                                                function(err, result4){
-                                                    if(err){
-                                                        console.log(err)
-                                                    }else{
-                                                        
-                                                        console.log("//상위 5개 score출력을 위한 준비: ", result4.length)
-        
-//나의 같은 골프 시스템, 같은성별,5위까지의 합    
-                                                        let len=0
-                                                        let sco_sum =0
-                                                        
-                                                        if(result4.length > 5){
-                                                            len =5
-                                                        }else{
-                                                            len = result4.length
-                                                        }
-                                                        if(len>0){
-                                                            data=1
-                                                        }
-                                                        console.log("len : ", len)
-                                                        
-                                                        for(var i=0; i<len; i++){
-                                                            //스코어가 갱신 안된것은 제외
-                                                            if(result4[i].strok!='9999'){
-                                                            sco_sum = sco_sum + parseInt(result4[i].strok)
-                                                            console.log("strok, sco_sum = ", result4[i].strok, sco_sum )
-                                                            }
-                                                        }
-                                                        console.log("scores_sum=", sco_sum)
-                                                        const scores_sum = sco_sum.toString()
+        const sql4 = `
+            select 
+            *
+            from 
+            score
+            where 
+            phone = ? && golfsys = ? 
+            order by strok ASC
+            `
+        const values4 = [phone, _golfsys ]
+        connection.query(
+        sql4, 
+        values4, 
+        function(err, result4){
+            if(err){
+                console.log(err)
+            }else{
+                console.log("같은 성별, 시스템의 상위 5개 score출력을 위한 준비: ", result4.length)
+
+//나의 같은 골프 시스템,  5위까지의 합    
+                let len=0
+                let sco_sum =0
+                
+                if(result4.length > 5){
+                    len =5
+                }else{
+                    len = result4.length
+                }
+                if(len>0){
+                    data=1
+                }
+                console.log("나와같은 골프시스템의 len : ", len)
+                
+                for(var i=0; i<len; i++){
+                    //스코어가 갱신 안된것은 제외
+                    if(result4[i].strok!='9999'){
+                        sco_sum = sco_sum + parseInt(result4[i].strok)
+                        console.log("strok, sco_sum = ", result4[i].strok, sco_sum )
+                    }
+                }
+                console.log("scores_sum=", sco_sum)
+                const scores_sum = sco_sum.toString()
 
 //ksfc 5위내의 점수(베스트스코어)와 등수  ksfc에 입력(tier을 위해)
-                                                        for(var i=0; i<result2.length; i++){
-                                                            if(scores_sum==result2[i].bestscore){
-                                                                sysrank=i+1
-                                                                break
-                                                            }
-                                                        }
-                                                        console.log("ksfc_update = ",scores_sum, sysrank, phone, _golfsys )
-                                                        kpoint.ksfc_update(scores_sum, sysrank, phone, _golfsys ) 
+                const sql5 = `
+                    select 
+                    *
+                    from 
+                    ksfc
+                    where 
+                    golfsys = ? && gender=?
+                    order by bestscore ASC
+                    `
+                const values5 = [_golfsys, ggender]
+                connection.query(
+                sql5, 
+                values5, 
+                function(err, result5){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log("같은 성별, 시스템의 상위 5개 score출력을 위한 준비: ", result5.length)
+                        let sysrank=result5.length
+                        for(var i=0; i<result5.length; i++){
+                            if(scores_sum < result2[i].bestscore){
+                                sysrank=sysrank-1
+                                
+                            }
+                        }
+                        const _sysrank = sysrank.toString()
+                        console.log("ksfc_update=", scores_sum, _sysrank, phone, _golfsys)
+                        kpoint.ksfc_update(scores_sum, _sysrank, phone, _golfsys ) 
 
-//log_info에 tier 갱신 
-                                                        console.log("tier_update = ",phone,gender)
-                                                        kpoint.tier_update(phone,gender)
-                                                        // res.redirect("/score_list")
-                                                        res.render('score_list', {
-                                                                'resultt':result2,
-                                                                'username' : user, 
-                                                                'phone': phone,
-                                                                'amount' : tokenamount,
-                                                                'login_data' : req.session.logined,  
-                                                                'scores_sum' : scores_sum,
-                                                                'state':data,
-                                                                'len': len , 
-                                                                gender:gender         
-                                                                })  
+//log_info에 tier 갱신      
+                        const gender  = ggender 
+                        console.log("tier_update=", phone,gender)  
+                        kpoint.tier_update(phone,gender)
+                        // res.redirect("/score_list")
+                        res.render('score_list', {
+                                'resultt':result2,
+                                'username' : user, 
+                                'phone': phone,
+                                'amount' : tokenamount,
+                                'login_data' : req.session.logined,  
+                                'scores_sum' : scores_sum,
+                                'state':data,
+                                'len': len ,  
+                                gender:gender         
+                                })  
+                        }})
+            }})
+}})}}) }}) 
 
-                                                        }})}
-})}}) }})   
 
 
 router.get('/admin_enterscore_1',async function(req, res){
@@ -963,6 +984,7 @@ router.post('/admin_enterscore_1', upload.single('_image'),async function(req, r
     //                 console.log('File does not exist!');
     //             }}
 
+            //나의 스코어를 입력최근순서대로 선택
             const sql2 = `
                 select 
                 *
@@ -974,124 +996,142 @@ router.post('/admin_enterscore_1', upload.single('_image'),async function(req, r
                 `
                 const values2 = [phone]
                 connection.query(
-                    sql2, 
-                    values2, 
-                    function(err, result2){
-                        if(err){
-                            console.log(err)
-                        }else{
-                            console.log("result2   미리보기=",result2.length )
-    
-    //리스트에서 선택 한 것과 똑 같은 위치의 결제시간획득해서 score에 갱신등록
-                            const entertime =result2[n].entertime
-    
-                            console.log("entertime과 갱신내용 미리보기=", entertime, stroke,_scorepicture )
-                            // const _scorepicture=""
-                            //enterscore_update
-                            kpoint.enterscore_update(_golfsys, stroke,_scorepicture, entertime)
-                            
-    //kpoint list 거래 전체 기록테이블에 추가 
-                            const trans_tp = "festival"
-                            const price ='2000'
-                            const enterdate = moment().format('YYYY-MM-DDTHH:mm:ss')
-                            //kpoint.kpoint_list_insert(phone, trans_tp,  enterdate, price )
-    
-    //성별을 얻기 위해
-                            const sql2 = `
-                                select 
-                                *
-                                from 
-                                ksfc
-                                where 
-                                phone = ?  
-                                `
-                            const values2 = [phone]
-                            connection.query(
-                                sql2, 
-                                values2, 
-                                function(err, result2){
-                                    if(err){
-                                        console.log(err)
+                sql2, 
+                values2, 
+                function(err, result2){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        console.log("result2   미리보기=",result2.length )
+
+//리스트에서 선택 한 것과 똑 같은 위치의 결제시간획득해서 score에 갱신등록
+                        const entertime =result2[n].entertime
+
+                        console.log("entertime과 갱신내용 미리보기=", entertime, stroke,_scorepicture )
+                        // const _scorepicture=""
+                        //enterscore_update
+                        kpoint.enterscore_update(_golfsys, stroke,_scorepicture, entertime)
+                        
+//kpoint list 거래 전체 기록테이블에 추가 
+                        const trans_tp = "festival"
+                        const price ='2000'
+                        const enterdate = moment().format('YYYY-MM-DDTHH:mm:ss')
+                        //kpoint.kpoint_list_insert(phone, trans_tp,  enterdate, price )
+
+//성별을 얻기 위해ksfc
+                        const sql3 = `
+                            select 
+                            *
+                            from 
+                            ksfc
+                            where 
+                            phone = ?  
+                            `
+                        const values3 = [phone]
+                        connection.query(
+                        sql3, 
+                        values3, 
+                        function(err, result3){
+                            if(err){
+                                console.log(err)
+                                }else{
+                                    const ggender=result3[0].gender
+                                    console.log("젠더가 구해지나??",ggender )
+                                        
+
+//나의 같은  골프 시스템, 스코어 순 내림차순 정열 5등 안의 score 준비+ 합계구하기
+                                    const sql4 = `
+                                        select 
+                                        *
+                                        from 
+                                        score
+                                        where 
+                                        phone = ? && golfsys = ? 
+                                        order by strok ASC
+                                        `
+                                    const values4 = [phone, _golfsys]
+                                    connection.query(
+                                    sql4, 
+                                    values4, 
+                                    function(err, result4){
+                                        if(err){
+                                            console.log(err)
                                         }else{
-                                                    const ggender=result2[0].gender
-                                                console.log("젠더가 구해지나??",ggender )
-                                                
-    
-    //나의 같은 골프 시스템, 스코어 순 내림차순 정열 5등 안의 score 준비+ 합계구하기
-                                                const sql2 = `
-                                                    select 
-                                                    *
-                                                    from 
-                                                    score
-                                                    where 
-                                                    phone = ? && golfsys = ? 
-                                                    order by strok ASC
-                                                    `
-                                                const values2 = [phone, _golfsys]
-                                                connection.query(
-                                                    sql2, 
-                                                    values2, 
-                                                    function(err, result2){
-                                                        if(err){
-                                                            console.log(err)
-                                                        }else{
+                                            console.log("같은 시스템의 상위 5개 score출력을 위한 준비: ", result4.length)
+
+//나의 같은 골프 시스템,  5위까지의 합    
+                                            let len=0
+                                            let sco_sum =0
+                                            
+                                            if(result4.length > 5){
+                                                len =5
+                                            }else{
+                                                len = result4.length
+                                            }
+                                            if(len>0){
+                                                data=1
+                                            }
+                                            console.log("나와같은 골프시스템의 len : ", len)
+                                            
+                                            for(var i=0; i<len; i++){
+                                                //스코어가 갱신 안된것은 제외
+                                                if(result4[i].strok!='9999'){
+                                                    sco_sum = sco_sum + parseInt(result4[i].strok)
+                                                    console.log("strok, sco_sum = ", result4[i].strok, sco_sum )
+                                                }
+                                            }
+                                            console.log("scores_sum=", sco_sum)
+                                            const scores_sum = sco_sum.toString()
+
+//ksfc 5위내의 점수(베스트스코어)와 등수  ksfc에 입력(tier을 위해)
+                                            const sql5 = `
+                                                select 
+                                                *
+                                                from 
+                                                ksfc
+                                                where 
+                                                golfsys = ? && gender=?
+                                                order by  bestscore  ASC
+                                                `
+                                            const values5 = [_golfsys, ggender]
+                                            connection.query(
+                                            sql5, 
+                                            values5, 
+                                            function(err, result5){
+                                                if(err){
+                                                    console.log(err)
+                                                }else{
+                                                    console.log("같은 성별, 시스템의 상위 5개 score출력을 위한 준비: ", result5.length)
+                                                    let sysrank=result5.length
+                                                    for(var i=0; i<result5.length; i++){
+                                                        if(scores_sum < result2[i].bestscore){
+                                                            sysrank=sysrank-1
                                                             
-                                                            console.log(result2.length)
-                                                            console.log("//상위 5개 score출력을 위한 준비: ", result2.length)
-            
-    //나의 같은 골프 시스템, 같은성별,5위까지의 합    
-                                                            let len=0
-                                                            let sco_sum =0
-                                                            
-                                                            if(result2.length > 5){
-                                                                len =5
-                                                            }else{
-                                                                len = result2.length
-                                                            }
-                                                            if(len>0){
-                                                                data=1
-                                                            }
-                                                            console.log("len : ", len)
-                                                            
-                                                            for(var i=0; i<len; i++){
-                                                                //스코어가 갱신 안된것은 제외
-                                                                if(result2[i].strok!='9999'){
-                                                                sco_sum = sco_sum + parseInt(result2[i].strok)
-                                                                console.log("strok, sco_sum = ", result2[i].strok, sco_sum )
-                                                                }
-                                                            }
-                                                            console.log("scores_sum=", sco_sum)
-                                                            const scores_sum = sco_sum.toString()
-    
-    //ksfc 5위내의 점수(베스트스코어)와 등수  ksfc에 입력(tier을 위해)
-                                                            for(var i=0; i<result2.length; i++){
-                                                                if(scores_sum==result2[i].bestscore){
-                                                                    sysrank=i+1
-                                                                    break
-                                                                }
-                                                            }
-                                                            console.log("ksfc_update=", scores_sum, sysrank, phone, _golfsys)
-                                                            kpoint.ksfc_update(scores_sum, sysrank, phone, _golfsys ) 
-    
-    //log_info에 tier 갱신      
-                                                            const gender  = req.session.logined.gender  
-                                                            console.log("tier_update=", phone,gender)  
-                                                            kpoint.tier_update(phone,gender)
-                                                            // res.redirect("/score_list")
-                                                            res.render('score_list', {
-                                                                    'resultt':result2,
-                                                                    'username' : user, 
-                                                                    'phone': phone,
-                                                                    'amount' : tokenamount,
-                                                                    'login_data' : req.session.logined,  
-                                                                    'scores_sum' : scores_sum,
-                                                                    'state':data,
-                                                                    'len': len ,  
-                                                                    gender:gender         
-                                                                    })  
-    
-                                                            }})}
-                                })}}) }}) 
+                                                        }
+                                                    }
+                                                    const _sysrank = sysrank.toString()
+                                                    console.log("ksfc_update=", scores_sum, _sysrank, phone, _golfsys)
+                                                    kpoint.ksfc_update(scores_sum, _sysrank, phone, _golfsys ) 
+
+        //log_info에 tier 갱신      
+                                                    const gender  = ggender 
+                                                    console.log("tier_update=", phone,gender)  
+                                                    kpoint.tier_update(phone,gender)
+                                                    // res.redirect("/score_list")
+                                                    res.render('score_list', {
+                                                            'resultt':result2,
+                                                            'username' : user, 
+                                                            'phone': phone,
+                                                            'amount' : tokenamount,
+                                                            'login_data' : req.session.logined,  
+                                                            'scores_sum' : scores_sum,
+                                                            'state':data,
+                                                            'len': len ,  
+                                                            gender:gender         
+                                                            })  
+                                                    }})
+                                        }})
+                            }})}}) }}) 
 
 
 
