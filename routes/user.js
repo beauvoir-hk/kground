@@ -213,33 +213,45 @@ router.post("/login", async (req, res)=>{
             console.log('로그인정보가 없음')
             res.redirect("/")
         }else{
-        console.log('로그인 되었어요 원장다시 읽기')    
-        //원장을 다시 읽는다
-        const phone=req.session.logined.phone
-        
-        const sql = `
-            select 
-            *
-            from 
-            log_info
-            where 
-            phone = ?
-            `
-        const values = [phone]
-        connection.query(
-        sql, 
-        values, 
-        function(err, result){
-            if(err){
-                console.log(err)
+             
+            //원장을 다시 읽을 준비
+            const phone=req.session.logined.phone
+            //const login_data = req.session.logined
+            console.log('로그인 되었어요 원장다시 읽기준비',login_data)   
+
+            //로그아웃
+            req.session.destroy(function(err){
+                if(err){
+                    console.log(err)
+                }else{
+                    
                 
-            }else{
-                res.render('index.ejs', {
-                    login_data: req.session.logined, 
-                    amount:req.session.logined.amount,
-                    phone:req.session.logined.phone
-                })
-            }})
+            
+            const sql = `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                `
+            const values = [phone]
+            connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    
+                }else{
+                    //session수정
+                    req.session.logined= result[0]
+                    res.render('index.ejs', {
+                        login_data: req.session.logined, 
+                        amount:req.session.logined.amount,
+                        phone:req.session.logined.phone
+                    })
+                }}) }})
     }})
 
    

@@ -779,7 +779,7 @@ if(err){
                         console.log("같은 성별, 시스템의 상위 5개 score출력을 위한 준비: ", result5.length)
                         let sysrank=result5.length
                         for(var i=0; i<result5.length; i++){
-                            if(scores_sum < result2[i].bestscore){
+                            if(scores_sum < result5[i].bestscore){
                                 sysrank=sysrank-1
                                 
                             }

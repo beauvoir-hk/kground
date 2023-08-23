@@ -245,6 +245,7 @@ async function log_info_amount_update(_phone, price ){
                 const ch_amount=parseInt(result2[0].charge_amount) + parseInt(price) +parseInt(refferalch)    
                 console.log(" 기존charge에 추천보너스 더하기",
                             _phone,result2[0].charge_amount ,price, ch_amount )
+                            
                 const sql = `
                     update
                     log_info
