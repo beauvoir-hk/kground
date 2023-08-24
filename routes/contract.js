@@ -571,15 +571,15 @@ router.post('/gamepay', async (req, res)=>{
                     const _phone =  req.session.logined.phone
                     const _username = req.session.logined.username
                     const _charge =req.session.logined.charge_amount
-
+                    console.log("_phone",_phone)
                     //비밀번호 맞는지 확인
                     const sql8 = `
-                                    select 
-                                    *
-                                    from 
-                                    log_info
-                                    where 
-                                    phone = ?                        
+                            select 
+                            *
+                            from 
+                            log_info
+                            where 
+                            phone = ?                        
                                 `
                     const values8 = [_phone ]
                     connection.query(
@@ -590,7 +590,7 @@ router.post('/gamepay', async (req, res)=>{
                                 console.log(err)
                             }else{ 
 
-                                 console.log("_phone",_phone ,result8)
+                                console.log("_phone",_phone ,result8)
                                 //비밀번호 틀리면 다시결제화면으로
                                 if( numeric6 != result8[0].numeric6){
                                     let da = 0
