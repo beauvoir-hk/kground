@@ -246,10 +246,11 @@ router.post("/login", async (req, res)=>{
                 }else{
                     //session수정
                     req.session.logined= result[0]
+                    console.log("index refresh -->result[0].amount",result[0].amount)
                     res.render('index.ejs', {
                         login_data: req.session.logined, 
-                        amount:req.session.logined.amount,
-                        phone:req.session.logined.phone
+                        amount:result[0].amount,
+                        phone:result[0].phone
                     })
                 }}) }})
     }})

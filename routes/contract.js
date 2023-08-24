@@ -63,7 +63,8 @@ module.exports = ()=>{
         }else{    
             //kpoint 최신자료 순 정렬
             console.log("kpoint 최신자료 순 정렬 (kp_list) ")
-            const sql = `
+            const sql =
+                `
                     select 
                     *
                     from 
@@ -718,14 +719,14 @@ router.get('/kp_trans', async (req, res)=>{
         data=1
         // const wallet = req.session.logined.wallet
         const balance = req.session.logined.charge_amount
-        const _amount= req.session.logined.username
+        const _user= req.session.logined.username
         const _phone= req.session.logined.phone
         const s = req.body.state
         
         res.render('kp_trans', {
             amount : balance,
             phonenum : _phone,
-            username : _amount,
+            username : _user,
             state : 0
         })
     }}) 
@@ -892,6 +893,13 @@ router.post('/kp_trans', async (req, res)=>{
                                          }}})                    
             }}}})}}else{
                 console.log("내가 나에게 보낼 수 없다") 
+                res.render('kp_trans', {
+                    amount :  _charge_amount,
+                    phonenum : _phone,
+                    username :  _username,
+                    state : 1
+                     
+                })
             }
         }}
             )
