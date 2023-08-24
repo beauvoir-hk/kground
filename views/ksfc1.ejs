@@ -49,7 +49,7 @@
 
                                 <div class="text-center">
                                     <img src="/img/005.jpg" width="300px">
-                                    <h6>KSFC 참가 추가신청</h6>
+                                    <h6>KSFC 참가시스템 추가신청</h6>
                                 </div>
                                 <br>
                                 <div align="right" >  
@@ -68,49 +68,53 @@
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     <table class="table">
                                         <tr>
-                                            <th>대회참가: </th>
                                             <td>
+                                                대회참가: 
                                                 <input type="radio" name="input_gamenumber" value="5" class="btn-check"  
                                                 id="btnradio20" autocomplete="off" checked="" readonly>
                                                 <label class="btn btn-outline-primary" for="btnradio20">제5회 대회(지역선수 선발전, 7~9월)</label>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>성별선택: </th>
                                             <td>
+                                                성별선택 : 
                                                 <input type="text"  name="input_gender" class="form-control" value=" <%=resultt[0].gender %>  "
                                                 aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>지역선택: </th>
                                             <td> 
-                                                <input type="text"  name="input_jiyeok" class="form-control" value=" <%=resultt[0].jiyeok%>"
+                                                지역선택:  <br>
+                                                <input type="text"  name="input_jiyeok" class="form-control" value=" <%=resultt[0].jiyoek%>"
                                                   aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                        
                                                
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>생년월일입력(8자리) : </th>
                                             <td>
+                                                생년월일입력(8자리) :
                                                 <div>
-                                                    <input type="text"  name="input_birth" class="form-control" value=" <%=resultt[0].birth%>  "
-                                                      aria-label="golf_code" aria-describedby="basic-addon3" readonly>
+                                                    <input type="text"  name="input_birth" class="form-control" 
+                                                        value=' <%=resultt[0].birth.toLocaleString("ko-KR", {year: "2-digit",month: "2-digit",day: "2-digit"})%>  '
+                                                        
+                                                          aria-label="golf_code" aria-describedby="basic-addon3" readonly>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            기 참가 시스템 :
-                                            <%const sys_count = resultt.length%>
-                                            <%for(var i=0;i<sys_count;++i){%>
-                                                <%=resultt[i].golfsys%>
-                                                ,
-                                            <%}%>
-                                        </tr>
-                                        <tr>
-                                            <th>참가시스템: </th>
-                                            <td>    ※ 기 참가시스템은 다시 선택하지 않도록 유의해 주십시오~<br>
+                                            <td>
+                                                <div class="text-warning bg-dark text-uppercase mb-1">
+                                                    <br>기 참가 시스템 :<br>
+                                                    <%const sys_count = resultt.length%>
+                                                    <%for(var i=0;i<sys_count;++i){%>
+                                                        <%=resultt[i].golfsys%>
+                                                        ,
+                                                    <%}%>
+                                                    <br><br>
+                                                </div>
+
+                                                참가시스템: ※ 기 참가시스템은 다시 선택하지 않도록 유의해 주십시오~<br>
                                                     <input type="radio" value="GolfZon" class="btn-check" name="input_golfsys" id="btnradio23" autocomplete="off" checked="">
                                                     <label class="btn btn-outline-primary" for="btnradio23"> GolfZon</label>
                                                     <input type="radio" value="GolfZon Park" class="btn-check" name="input_golfsys" id="btnradio24" autocomplete="off">

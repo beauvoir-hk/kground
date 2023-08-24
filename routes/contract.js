@@ -746,12 +746,14 @@ router.post('/kp_trans', async (req, res)=>{
         // const date = moment()
         // const _input_dt = date 
         const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
-
+        
         //보내는 사람의  정보
         const _phone =  req.session.logined.phone  
         const _username = req.session.logined.username
         const _charge_amount = req.session.logined.charge_amount
         
+        //내가 나에게 보내는가?
+        if(receiptphone!=_phone){
         //보내는 사람의 charge모지란지 확인
         if(_charge_amount<pay_amount){
 
@@ -888,7 +890,11 @@ router.post('/kp_trans', async (req, res)=>{
                                                         'phone': req.session.logined.phone
                                             })}})
                                          }}})                    
-            }}}})}}})
+            }}}})}}else{
+                console.log("내가 나에게 보낼 수 없다") 
+            }
+        }}
+            )
 
 //kpoint trans list 
 router.get('/transpay_list', async (req, res)=>{

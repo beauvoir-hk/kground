@@ -72,7 +72,7 @@
                                         <div class="fs-6">    
                                         <br>
                                         
-                                            <form action="/admin/admin_enterscore_1" method="post" enctype="multipart/form-data">
+                                            <form action="/admin/admin_enterscore" method="post" enctype="multipart/form-data">
                                                 <div class="text-warning bg-dark">
                                                 기 참가 시스템 :
                                                     <%const sys_count = resultt2.length%>
@@ -83,57 +83,39 @@
                                                 </div>
                                                 <table class="table">
                                                     <tr>
-                                                        <th>
-                                                            번호<br>
-                                                            참가시간
-                                                        </th>
                                                         <td>
-                                                            <input type="text" name="_n" class="form-control" value="<%=no%>" readonly> 
-                                                            <input type="text" name="_time" class="form-control" 
+                                                            번   호:<input type="text" name="_n" class="form-control" value="<%=no%>" readonly> <br>
+                                                            참가시간:<input type="text" name="_time" class="form-control" 
                                                             value="<%=resultt[0].entertime%>" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>
-                                                            참가시스템
-                                                        </th>
                                                         <td>
-                                                            <%=resultt[0].golfsys%><br>
+                                                            참가시스템:<%=resultt[0].golfsys%><br>
                                                             <select class="form-select" name="input_golfsys" id="golfsys">
                                                                 <option value="GolfZon">GolfZon</option>
                                                                 <option value="K Golf Club">K Golf Club</option>
                                                                 <option value="UDR Golf">UDR Golf</option>
                                                                 <option value="GolfZon Park">GolfZon Park</option>
-                                                                <option value="Kakao Friends" >Kakao Friends</option>
-                                                                <option value="GNC Golf ">GNC Golf</option>
+                                                                <option value="Kakao Friends">Kakao Friends</option>
+                                                                <option value="GNC Golf">GNC Golf</option>
                                                                 <option value="MS Golf">MS Golf</option>
                                                                 <option value="SG Golf" >SG Golf</option>
                                                             </select>                                                    
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th>
-                                                            스코어
-                                                        </th>
                                                         <td>
-                                                            <%=resultt[0].strok%><br>
+                                                            스코어: <%=resultt[0].strok%><br>
+                                                            <br> 홀의 기준 타수(par)에서 자신의 타수를 뺀 값의 합을 입력해 주세요
+                                                            <br>ex) 18홀 72타 기준 75 : 3
+                                                            <br>ex) 18홀 72타 기준 65 : -7
                                                             <div class="input-group mb-3">
                                                                 <input type="text" name="input_strok" class="form-control" value="<%=resultt[0].strok%>" >
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <th>
-                                                            스코어카드
-                                                        </th>  
-                                                        <td>
-                                                            
-                                                            <span class="input-group-text" >스코어카드캡쳐파일 제출  </span>
-                                                            
-                                                            <input type="file" name="_image" class="form-control" 
-                                                            placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
-                                                        </td>
-                                                    </tr>
+
                                                 </table>
                                             
                                             <div class="text-center">  
@@ -144,7 +126,13 @@
                                             <hr>
                                             </form>
                                             <div class="text-center">  
-                                                <a href="http://pf.kakao.com/_ttxaSxj/chat">스코어카드캡쳐파일 제출</a>
+                                                            
+                                                스코어카드:<span class="input-group-text" >캡쳐파일은 아래의 고객센터에 제출하세요  </span><br>
+                                                
+                                                <!-- <input type="file" name="_image" class="form-control" 
+                                                placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1"> -->
+                                                                                      
+                                                <a href="http://pf.kakao.com/_ttxaSxj/chat">[고객센터]</a>
                                             </div>
                                         </div>
                                     </div>       
