@@ -197,15 +197,6 @@ module.exports = ()=>{
             const login_data = req.session.logined
             console.log('로그인 되었어요 원장다시 읽기준비')   
              
-            //로그아웃
-            req.session.destroy(function(err){
-                if(err){
-                    console.log(err)
-                }else{
-                    console.log("로그아웃")
-                }})  
-            
-            console.log("로그아웃 후 다시 로그인")    
             //원장을 다시 읽어서 렌더링
             const sql = `
                 select 
@@ -228,8 +219,7 @@ module.exports = ()=>{
                         // 로그인이 성공하는 조건
                         console.log('db에 로그인한 정보 result[0]', result[0],login_data)
                         console.log('db에 로그인한 정보login_data', login_data)
-                        //session수정
-                        req.session.logined =login_data
+                        
                         console.log("refresh -->  ",result[0].charge_amount)
                         req.session.save()
                         res.render('charge', {
