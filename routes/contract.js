@@ -119,13 +119,15 @@ module.exports = ()=>{
 
     
     router.get('/charge_list', async (req, res)=>{
-        const user = req.session.logined.username
-        const kp_amount = req.session.logined.charge_amount   
-        const phone = await req.session.logined.phone
 
         if(!req.session.logined){
             res.redirect("/")
         }else{    
+            // const user = req.session.logined.username
+            // const kp_amount = req.session.logined.charge_amount   
+            // const phone = req.session.logined.phone
+
+
 
             //원장읽어오기
             const phone = req.session.logined.phone 
@@ -192,9 +194,9 @@ module.exports = ()=>{
 
             //원장을 다시 읽을 준비
             const phone=req.session.logined.phone
-            //const login_data = req.session.logined
+            const login_data = req.session.logined
             console.log('로그인 되었어요 원장다시 읽기준비')   
-
+             
             //로그아웃
             req.session.destroy(function(err){
                 if(err){
@@ -224,11 +226,12 @@ module.exports = ()=>{
                 }else{
                     if(result.length != 0){
                         // 로그인이 성공하는 조건
-                        console.log('db에 로그인한 정보가 있어요', result[0])
-                        
+                        console.log('db에 로그인한 정보 result[0]', result[0],login_data)
+                        console.log('db에 로그인한 정보login_data', login_data)
                         //session수정
-                        req.session.logined = result[0]
+                        req.session.logined =login_data
                         console.log("refresh -->  ",result[0].charge_amount)
+                        req.session.save()
                         res.render('charge', {
                             login_data: req.session.logined, 
                             username:result[0].username,
