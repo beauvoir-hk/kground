@@ -21,11 +21,9 @@
         </script>
 </head>
 
-<%if(state == 0){%>
-    <body class="bg-gradient-primary" onload="fail()" >
-    <%}else{%>
+ 
         <body class="bg-gradient-primary">      
-        <%}%>
+ 
     <div class="container">
         <div class="text-center">
             <br>
@@ -40,7 +38,7 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="p-5">
+                                <div class="p-6">
                                     <div class="text-center">
                                         <img src="/img/title_009.jpg" width="100%">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
@@ -52,42 +50,27 @@
                                         </div>
                                         <hr><br>
                                         <div class="text-primary">
-
                                             <form class="user" action="/contract/gamepay" method="post">
                                             <div align="left">
-                                                (1) 매장
-                                            <br>
-                                                <input type="text" value="<%=storename%>" name="input_storename" readonly >
+                                                    (1) 가맹점을 선택을 하세요
                                                 <br>
-                                                <input type="text" value="<%=storephone%>" name="input_storephone"  readonly>
+                                                <div class="text-center">
+                                                    <a href=" gam_1"><img src="/img/gameang-001.png" class="border border-primary" width="150" alt="창원케이골프"></a>
+                                                    <a href= "gam_2"><img src="/img/gameang-002.png"   class="border border-primary"width="150" alt="바르셀로나"></a>
+                                                    
+                                                    <br><br>
+                                                    <a href=" gam_3"><img src="/img/gameang-003.png"  class="border border-primary" width="150" alt="XPGA스크린"></a>
+                                                    <a href=" gam_4"><img src="/img/gameang-004.png"   class="border border-primary" width="150"alt="중앙자이언트"></a>
+                                                    
+                                                    <br><br>
+                                                    <a href="contract/gam_5"><img src="/img/gameang-005.png"  class="border border-primary" width="150"alt="참조은스크린"></a>
+                                                    <a href="contract/gam_6"><img src="/img/gameang-006.png"  class="border border-primary"  width="150"alt="케이그라운드"></a>
+                                                <br><br>
+                                                </div>
                                             </div>  
                                         </div>  
                                         <br>  
-                                        <div align="left">
-                                              (2) 결제금액      
-                                        </div>                    
-                                            <div class="form-group">
-                                                <input type="text" class="form-control form-control-user"
-                                                    id="_gamepay" name="_gamepayment"  placeholder="결제할 금액입력(K포인트)">
-                                                <br>
-                                                <br>
-                                            </div>
-                                        <div align="left">
-                                            (3) 결제비밀번호      
-                                        </div>  
-                                            <div class="form-group">
-                                                <input type="password" class="form-control form-control-user"
-                                                    id="_numeric6" name="_numeric6" placeholder="숫자6자리">
-                                                <br>
-                                                <br>
-                                            </div> 
-                                            <div class="text-center">    
-                                                <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
-                                                <button class="btn btn-danger" >K포인트 결제</button><br><br>
-                                            </div>
-                                        </div>
-                                            </form>
-<hr>
+                                       
                                 
                             </div>
                         </div> 

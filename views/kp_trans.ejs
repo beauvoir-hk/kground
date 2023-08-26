@@ -74,7 +74,7 @@
                                                     </div>
                                                     <!--회원인가확인-->
                                                     <div align="right">  
-                                                        <span class="small" id="check_id">전화번호 입력 후 여기를 클릭</span>
+                                                        <span class="small" id="check_id">수신자확인(클릭)</span>
                                                     </div>
                                                     <br>
 
@@ -159,9 +159,9 @@
                 $('#check_id').toggleClass('display')
                 $('#_id').attr('readonly', 'true')
             
-                alert("케이그라운드의 회원이십니다.")
+                alert("수신가능한 회원이십니다.")
             }else{
-                alert("케이그라운드의 회원이 아닙니다.")
+                alert("수신불가능한 회원이십니다.")
             }
         })
     })

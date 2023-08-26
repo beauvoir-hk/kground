@@ -56,7 +56,8 @@
                                     <input class="small" name="_phone" value="<%=phone%>" readonly>
                                          
                                 </div>
-                                ※ db저장 속도가 늦어 반영이 느릴 수 있어요. 내역을 보시면 됩니다.
+                                ※ db저장 속도가 늦어 반영이 느릴 수 있어요. 
+                                <br>내역을 보시면 됩니다.
                                 <br>
                                 
                                 <form action="/golf/ksfc1", method="post">
@@ -105,17 +106,19 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <div class="text-warning bg-dark text-uppercase mb-1">
-                                                    <br>기 참가 시스템 :<br>
-                                                    <%const sys_count = resultt.length%>
-                                                    <%for(var i=0;i<sys_count;++i){%>
-                                                        <%=resultt[i].golfsys%>
-                                                        ,
-                                                    <%}%>
-                                                    <br><br>
+                                                <div class ="text-center">
+                                                    <div class="text-warning bg-dark text-uppercase mb-1">
+                                                        <br>기존 참가 시스템 :<br>
+                                                        <%const sys_count = resultt.length%>
+                                                        <%for(var i=0;i<sys_count;++i){%>
+                                                            <%=resultt[i].golfsys%>
+                                                            ,
+                                                        <%}%>
+                                                        <br><br>
+                                                    </div>
                                                 </div>
 
-                                                참가시스템: ※ 기 참가시스템은 다시 선택하지 않도록 유의해 주십시오~<br>
+                                                참가시스템: ※ 기존 참가시스템과 중복되지 않는 시스템을 선택하도록 주의 바랍니다.<br>
                                                     <input type="radio" value="GolfZon" class="btn-check" name="input_golfsys" id="btnradio23" autocomplete="off" checked="">
                                                     <label class="btn btn-outline-primary" for="btnradio23"> GolfZon</label>
                                                     <input type="radio" value="GolfZon Park" class="btn-check" name="input_golfsys" id="btnradio24" autocomplete="off">

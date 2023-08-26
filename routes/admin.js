@@ -540,75 +540,75 @@ router.get('/admin_enterpay_list', async (req, res)=>{
                         const values = [entertime11]
 
                         connection.query(
-                            sql, 
-                            values, 
-                            function(err, result){
-                                if(err){
-                                    console.log(err)
-                                    res.send(err)
-                                }else{
-                                    console.log("시간으로 찾은 레코드 :", result)
-                                    console.log('The 2st entertime is: ', result[0].entertime)
-                                    const entertime1 = result[0].entertime
-                    
-            // ksfc에서 성별 가져오기  result2
-                                    const sql2 = `
-                                        select 
-                                        * 
-                                        from 
-                                        ksfc 
-                                        where 
-                                        phone = ?
-                                            `
-                                    const values2 = [phone]
+                        sql, 
+                        values, 
+                        function(err, result){
+                            if(err){
+                                console.log(err)
+                                res.send(err)
+                            }else{
+                                console.log("시간으로 찾은 레코드 :", result)
+                                console.log('The 2st entertime is: ', result[0].entertime)
+                                const entertime1 = result[0].entertime
+                
+        // ksfc에서 성별 가져오기  result2
+                                const sql2 = `
+                                    select 
+                                    * 
+                                    from 
+                                    ksfc 
+                                    where 
+                                    phone = ?
+                                        `
+                                const values2 = [phone]
 
-                                    connection.query(
-                                        sql2, 
-                                        values2, 
-                                        function(err, result2){
-                                            if(err){
-                                                console.log(err)
-                                                res.send(err)
-                                            }else{
-                                                    console.log("KSFC성별 추출이 하고 싶어서",result2)
-                                                    const gender=result2[0].gender
-                                                    console.log("KSFC성별 :",gender)
-                                                    //성별이 존재하면 성별과 참가시간을 추출하여 렌더링
-                                                    if(gender=="남"||gender=="여"){
+                                connection.query(
+                                sql2, 
+                                values2, 
+                                function(err, result2){
+                                    if(err){
+                                        console.log(err)
+                                        res.send(err)
+                                    }else{
+                                            console.log("KSFC성별 추출이 하고 싶어서",result2)
+                                            const gender=result2[0].gender
+                                            console.log("KSFC성별 :",gender)
+                                            //성별이 존재하면 성별과 참가시간을 추출하여 렌더링
+                                            if(gender=="남"||gender=="여"){
 
-                                                        console.log("5등 이내의 성적과 합과 스코어 등록을 할 레코드를 enterscore 포스트로 렌더링")
-    
-                                                        //만약 스코어카드가 이미 있으면 기 score내용은 수정 불가 하도록 조치
-                                                        if(result[0].scorepicture!=""){
-                                                            res.render('admin_enterscore', {
-                                                                no:no,
-                                                                resultt : result, 
-                                                                resultt2: result2,
-                                                                username:user,
-                                                                phone:phone,
-                                                                login_data : req.session.logined,
-                                                                timeresult:result[0],
-                                                                entertime : entertime1,
-                                                                state:data,
-                                                                gender:gender
-                                                            })
-                                                        }else{
-                                                            res.render('admin_enterscore', {
-                                                                no:no,
-                                                                resultt : result, 
-                                                                resultt2: result2,
-                                                                username:user,
-                                                                phone:phone,
-                                                                login_data : req.session.logined,
-                                                                timeresult:result[0],
-                                                                entertime : entertime1,
-                                                                state:data,
-                                                                gender:gender
-                                                        })}
-                                                    }
-                                                }})}})
-                                    }}
-                        )}})
+                                                console.log("5등 이내의 성적과 합과 스코어 등록을 할 레코드를 enterscore 포스트로 렌더링")
+
+                                                //만약 스코어카드가 이미 있으면 기 score내용은 수정 불가 하도록 조치
+                                                if(result[0].scorepicture!=""){
+                                                    res.render('admin_enterscore', {
+                                                        no:no,
+                                                        resultt : result, 
+                                                        resultt2: result2,
+                                                        username:user,
+                                                        phone:phone,
+                                                        login_data : req.session.logined,
+                                                        timeresult:result[0],
+                                                        entertime : entertime1,
+                                                        state:data,
+                                                        gender:gender
+                                                    })
+                                                }else{
+                                                    res.render('admin_enterscore', {
+                                                        no:no,
+                                                        resultt : result, 
+                                                        resultt2: result2,
+                                                        username:user,
+                                                        phone:phone,
+                                                        login_data : req.session.logined,
+                                                        timeresult:result[0],
+                                                        entertime : entertime1,
+                                                        state:data,
+                                                        gender:gender
+                                                })}
+                                            }
+                                        }})}})
+                            }}
+                )}})
 
 
 router.post('/admin_enterscore', upload.single('_image'),async function(req, res){
@@ -776,15 +776,17 @@ if(err){
                     if(err){
                         console.log(err)
                     }else{
-                        console.log("같은 성별, 시스템의 상위 5개 score출력을 위한 준비: ", result5.length)
+                        console.log("같은 성별, 시스템의 상위 5개 score출력을 위한 준비: ", result5)
                         let sysrank=result5.length
                         for(var i=0; i<result5.length; i++){
                             if(scores_sum < result5[i].bestscore){
+                                console.log("sysrank=", sysrank,scores_sum,result5[i].bestscore)
                                 sysrank=sysrank-1
                                 
                             }
                         }
-                        const _sysrank = sysrank.toString()
+                        console.log("loop end sysrank=", sysrank)
+                        const _sysrank = sysrank+1//.toString()
                         console.log("ksfc_update=", scores_sum, _sysrank, phone, _golfsys)
                         kpoint.ksfc_update(scores_sum, _sysrank, phone, _golfsys ) 
 

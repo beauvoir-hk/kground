@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>케이그라운드에 오신것을 환영합니다</title>
+
+    <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
+    <%- include("header.ejs") %>
+        <!-- jquery 라이브러리 로드 -->
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <script>
+        function check(login_pass){
+            const origin = $('#origin_pass').val()
+            if(login_pass == origin){
+                $('#check_pass').hide()
+                $('#_submit').attr('disabled', false)
+                $('#origin_pass').attr('readonly', true)
+            }
+        }
+    </script>
+</head>
+<!--    <body class="d-flex align-items-center py-4 bg-body-tertiary">-->
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="/index" >홈으로</a>
+        </div>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="text-center">
+                            <br>
+                            <a id="signinlink" href="/index" >홈으로</a>
+                        </div>                        
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+
+                            <div class="col-lg-6"> 
+                                <div class="p-6">
+                                        <div class="text-center">
+                                            <img src="/img/k.png" width="10%">
+                                            <h6>내 정보</h6>
+                                        </div>
+                                    <br>
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="col-xl-12 col-md-6 mb-4">
+                                            <div class="card border-left-primary shadow h-100 py-2">
+                                                <div class="card-body">
+                                                    <div class="row no-gutters align-items-center">
+                                                        <div class="col mr-2">
+                                                            <div class=" text-secondary ">
+
+                                                                <div class="text-center" >
+                                                                    <div class="text-info bg-dark">
+                                                                        <i>
+                                                                            <br>
+                                                                            ※ ①②③번 각 단계별 사항을 꼼꼼히 <br>진행바랍니다.
+                                                                            <br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                                                        </i>
+                                                                    </div>
+                                                                    <hr>
+                        
+                                                                
+                                                                    <div class="text-danger">
+                                                                        <br>② 결제비밀번호 변경
+                                                                    </div>
+                                                                     
+                                                                        보안상의 이유로 결제비밀번호 변경은 
+                                                                        <br>반드시 필요한 과정입니다.
+                                                                        <br>잊지 말고 진행 바랍니다.
+                                                                        <br>
+                                                                        <button class="btn btn-danger" 
+                                                                        onclick="location.href='/auth6'" >결제비밀번호변경
+                                                                        </button>
+                                                                    
+                                                                </div>    
+                                                                <hr>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>   
+                                        <hr>                                  
+                                        
+                                        <hr>
+                                        <br>
+                                        <hr>
+                                        <div class="text-center">    
+
+                                            <button class="btn btn-secondary" onclick="location.href='/auth2'">로그인비밀번호변경</button>
+                                        </div>  
+                                        <hr> 
+                                        <div class="text-center">    
+
+                                            <button class="btn btn-secondary" onclick="location.href='/'">로그인</button>
+                                            <br><br>
+                                        </div>  
+                                    </div>
+                                </div>   
+                             
+                            <div class="col-lg-5"><img src="/img/kk.png"  width="100%" ></div>     
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
+
+

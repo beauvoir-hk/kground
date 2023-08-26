@@ -46,21 +46,45 @@ module.exports = ()=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{
-            res.render('index', {
-                login_data : req.session.logined, 
-                balance : req.session.logined.charge_amount
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values = [phone]
+            connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                }else{
+                    req.session.logined=result[0]
+                    res.render('index', {                        
+                        login_data : req.session.logined, 
+                        balance : result[0].charge_amount
+                    })
+                }
             })
-        }
-    })
+        }})
 
     //Kpoint list 출력
     router.get('/kp_list', async (req, res)=>{
-        const user = req.session.logined.username
-        const kp_amount = req.session.logined.charge_amount   
-        const phone = req.session.logined.phone 
+       
         if(!req.session.logined){
             res.redirect("/")
         }else{    
+            const user = req.session.logined.username
+            const kp_amount = req.session.logined.charge_amount   
+            const phone = req.session.logined.phone 
+
             //kpoint 최신자료 순 정렬
             console.log("kpoint 최신자료 순 정렬 (kp_list) ")
             const sql =
@@ -87,8 +111,8 @@ module.exports = ()=>{
                     res.render('kp_list', {
                         'resultt': result,
                         'username' : user, 
-                        'amount' :  kp_amount,
-                        'phone': req.session.logined.phone
+                        'amount' : result[0].charge_amount,
+                        'phone': phone
                         })
             })
         }})
@@ -102,34 +126,61 @@ module.exports = ()=>{
         if(!req.session.logined){
             res.redirect("/")
         }else{    
-            console.log("//charge 테이블 최신자료 순으로 정렬")
-           const sql = `
+
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
                 select 
                 *
                 from 
-                charge_list
+                log_info
                 where 
                 phone = ?
-                order by chargedate DESC
-            `
-            const values = [phone]
+                
+                    `
+            const values7 = [phone]
             connection.query(
-                sql, 
-                values, 
-                function(err, result){
-                    if(err){
-                        console.log(err)
-                    }else{
-                    console.log("result=", result)
-                    console.log("result=", result.length) 
-                    console.log("kp_amount =",    kp_amount)  
-                    res.render('charge_list', {
-                        'resultt': result,
-                        'username' : user, 
-                        'amount' :  kp_amount,
-                        'phone': req.session.logined.phone
-                        })}})}
-})
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    req.session.logined=result7[0]
+                   
+                    console.log("//charge 테이블 최신자료 순으로 정렬")
+                    const sql = `
+                            select 
+                            *
+                            from 
+                            charge_list
+                            where 
+                            phone = ?
+                            order by chargedate DESC
+                        `
+                    const values = [phone]
+                    connection.query(
+                        sql, 
+                        values, 
+                        function(err, result){
+                            if(err){
+                                console.log(err)
+                            }else{
+                            console.log("result=", result)
+                            console.log("result=", result.length) 
+                            console.log("kp_amount =",    kp_amount)  
+                            res.render('charge_list', {
+                                'resultt': result,
+                                'username' : user, 
+                                'amount' : result7[0].charge_amount,
+                                'phone': req.session.logined.phone
+                                })
+                            }})
+                }})
+            }})
+
+
 
     router.get('/charge', async (req, res)=>{
         let st=1
@@ -137,17 +188,50 @@ module.exports = ()=>{
             res.redirect("/")
         }else{
             st=st+1
-            const _phone=req.session.logined.phone
-            const char=req.session.logined.charge_amount
             console.log("charge get단계")
-            res.render("charge",{
-                username:req.session.logined.username,
-                amount:char,
-                phone:_phone,
-                st:st
-            })
 
-        }})
+            //원장을 다시 읽을 준비
+            const phone=req.session.logined.phone
+            //const login_data = req.session.logined
+            console.log('로그인 되었어요 원장다시 읽기준비',login_data)   
+
+            //로그아웃
+            req.session.destroy(function(err){
+                if(err){
+                    console.log(err)
+                }else{
+                    //원장을 다시 읽어서 렌더링
+                    const sql = `
+                        select 
+                        *
+                        from 
+                        log_info
+                        where 
+                        phone = ?
+                        `
+                    const values = [phone]
+                    connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                            
+                        }else{
+                            //session수정
+                            req.session.logined= result[0]
+                            console.log("refresh -->result[0].amount")
+                            res.render('charge', {
+                                login_data: req.session.logined, 
+                                username:result[0].username,
+                                amount:result[0].amount,
+                                phone:result[0].phone,
+                                st:st
+                            })
+                        }})
+        }})}})
+
+
 
     router.post('/charge', async (req, res)=>{
         if(!req.session.logined){
@@ -158,7 +242,6 @@ module.exports = ()=>{
     }})      
 
     
-
           
     router.get('/score_list', async (req, res)=>{
         let data=0
@@ -208,8 +291,8 @@ module.exports = ()=>{
                     
                     for(var i=0; i<len; i++){
                         if(result2[i].strok!='9999'){
-                        sco_sum = sco_sum + parseInt(result2[i].strok)
-                        console.log("strok, sco_sum = ", result2[i].strok, sco_sum )
+                            sco_sum = sco_sum + parseInt(result2[i].strok)
+                            console.log("strok, sco_sum = ", result2[i].strok, sco_sum )
                         }
                     }
                     console.log("scores_sum=", sco_sum)
@@ -227,8 +310,6 @@ module.exports = ()=>{
                         })  
                     } })}})
 
-
- 
 
     
             
@@ -316,53 +397,75 @@ router.get('/enterpay', async (req, res)=>{
             'state' : data
         })
     }else{
-        //charge있나 확인
-        const charge_amount = req.session.logined.charge_amount
-        if(charge_amount<2000){
 
-            //2000원 미만이면 충전하러
-            res.render("charge",{
-                st:0,
-                username:req.session.logined.username,
-                amount:charge_amount,
-                phone:req.session.logined.phone
-            })
+         //원장읽어오기
+         const phone = req.session.logined.phone 
+         const sql7 =
+             `
+             select 
+             *
+             from 
+             log_info
+             where 
+             phone = ?
+             
+                 `
+         const values7 = [phone]
+         connection.query(
+         sql7, 
+         values7, 
+         function(err, result7){
+             if(err){
+                 console.log(err)
+             }else{
+                 req.session.logined=result7[0]
+                
+                //charge있나 확인
+                const charge_amount = result7[0].charge_amount
+                if(charge_amount<2000){
 
-        }else{
-            //2000원 이상이면 결제시작
-            const user = req.session.logined.username
-            const phone = req.session.logined.phone 
-            const balance = req.session.logined.charge_amount
-            console.log('enterpay get req.session.logined.username= ', req.session.logined.username)
-            const s = await req.body.state
+                    //2000원 미만이면 충전하러
+                    res.render("charge",{
+                        st:0,
+                        username:req.session.logined.username,
+                        amount:charge_amount,
+                        phone:req.session.logined.phone
+                    })
 
-            //결제비 리스트 출력 
-            const sql2 = `
-                select 
-                *
-                from 
-                score
-                where 
-                phone = ?
-                order by entertime ASC
-                `
-                const values2 = [phone]
-                connection.query(
-                sql2, 
-                values2, 
-                function(err, result2){
-                    if(err){
-                        console.log(err)            
-                    }else{
-                        console.log(result2.length)
-                        res.render('enterpay', {
-                            'resultt': result2,
-                            'username' : user, 
-                            'amount' : balance,
-                            'phone': phone,                
-                            'state' : 0
-                        })
-                    }})}}})
+                }else{
+                    //2000원 이상이면 결제시작
+                    const user = req.session.logined.username
+                    const phone = req.session.logined.phone 
+                    const balance = req.session.logined.charge_amount
+                    console.log('enterpay get req.session.logined.username= ', req.session.logined.username)
+                    
+                    //결제비 리스트 출력 
+                    const sql2 = `
+                        select 
+                        *
+                        from 
+                        score
+                        where 
+                        phone = ?
+                        order by entertime ASC
+                        `
+                        const values2 = [phone]
+                        connection.query(
+                        sql2, 
+                        values2, 
+                        function(err, result2){
+                            if(err){
+                                console.log(err)            
+                            }else{
+                                console.log(result2.length)
+                                res.render('enterpay', {
+                                    'resultt': result2,
+                                    'username' : user, 
+                                    'amount' : balance,
+                                    'phone': phone,                
+                                    'state' : 0
+                                })}})
+                    }}})}})
 
 //2000원 결제
 router.post('/enterpay', async (req, res)=>{
@@ -445,35 +548,376 @@ router.get('/gamepay_list', async (req, res)=>{
     if(!req.session.logined){
         res.redirect("/")
     }else{    
-        const phone = req.session.logined.phone 
-        // const add = req.session.logined.wallet
-        const user = req.session.logined.username         
-        // const token1 = req.session.logined.chagr_amount
-        const tokenamount = req.session.logined.charge_amount
-        const sql = `
+
+         //원장읽어오기
+         const phone = req.session.logined.phone 
+         const sql7 =
+             `
+             select 
+             *
+             from 
+             log_info
+             where 
+             phone = ?
+             
+                 `
+         const values7 = [phone]
+         connection.query(
+         sql7, 
+         values7, 
+         function(err, result7){
+             if(err){
+                 console.log(err)
+             }else{
+                 req.session.logined=result7[0]
+                 
+                const phone = req.session.logined.phone 
+                const user = req.session.logined.username         
+                const tokenamount = result7[0].charge_amount
+
+                //가맹점 거래내역
+                const sql = `
+                    select 
+                    *
+                    from 
+                    store_pay
+                    where 
+                    phone = ?
+                    order by transdate DESC
+                `
+                const values = [phone]
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                        }else{     
+                            res.render('gamepay_list', {
+                                'resultt': result,
+                                'username' : user, 
+                                'amount':tokenamount,
+                                'phone': req.session.logined.phone
+                    })
+            }})}})}})
+
+
+
+    router.get('/gameang', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        req.session.logined=result7[0]
+                    
+                    const balance = result7[0].charge_amount
+                    const phone = req.body.phone
+                    const s = req.body.state 
+                
+                    res.render('gameang', {
+                        amount : balance,
+                        phonenum : phone,
+                        username : req.session.logined.username,
+                        state : 0
+                    })}})
+}}) 
+
+router.get('/gam_', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
                 select 
                 *
                 from 
-                store_pay
+                log_info
                 where 
                 phone = ?
-                order by transdate DESC
-            `
-        const values = [phone]
-        connection.query(
-            sql, 
-            values, 
-            function(err, result){
+                
+                    `
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
                 if(err){
                     console.log(err)
-                }else{     
-                    res.render('gamepay_list', {
-                        'resultt': result,
-                        'username' : user, 
-                        'amount':tokenamount,
-                        'phone': req.session.logined.phone
-            })
-    }})}})
+                }else{
+                    req.session.logined=result7[0]
+                
+                const balance = result7[0].charge_amount
+                const phone = req.body.phone
+                const _storename  = "케이그라운드"
+                const _storephone  = "01037248010"
+                console.log("_storename =", _storename  )
+            
+                res.render('gamepay', {
+                    amount : balance,
+                    phonenum : phone,
+                    username :result7[0].username,
+                    storename: _storename,
+                    storephone: _storephone,
+                    state : 0
+                })}})
+    }}) 
+
+
+router.get('/gam_5', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    req.session.logined=result7[0]
+                
+                const balance = result7[0].charge_amount
+                const phone = req.body.phone
+                const _storename  = "참조은 스크린"
+                const _storephone  = "01051641020"
+                console.log("_storename =", _storename  )
+            
+                res.render('gamepay', {
+                    amount : balance,
+                    phonenum : phone,
+                    username :result7[0].username,
+                    storename: _storename,
+                    storephone: _storephone,
+                    state : 0
+                })}})
+    }}) 
+
+router.get('/gam_4', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    req.session.logined=result7[0]
+                
+                const balance = result7[0].charge_amount
+                const phone = req.body.phone
+                const _storename  = "중앙자이언트 골프존파크"
+                const _storephone  = "01085468481"
+                console.log("_storename =", _storename  )
+            
+                res.render('gamepay', {
+                    amount : balance,
+                    phonenum : phone,
+                    username :result7[0].username,
+                    storename: _storename,
+                    storephone: _storephone,
+                    state : 0
+                })}})
+    }}) 
+
+
+router.get('/gam_3', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    req.session.logined=result7[0]
+                
+                const balance = result7[0].charge_amount
+                const phone = req.body.phone
+                const _storename  = "XPGA 스크린"
+                const _storephone  = "01047379087"
+                console.log("_storename =", _storename  )
+            
+                res.render('gamepay', {
+                    amount : balance,
+                    phonenum : phone,
+                    username :result7[0].username,
+                    storename: _storename,
+                    storephone: _storephone,
+                    state : 0
+                })}})
+    }}) 
+
+
+router.get('/gam_2', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    req.session.logined=result7[0]
+                
+                const balance = result7[0].charge_amount
+                const phone = req.body.phone
+                const _storename  = "바르셀로나 스크린"
+                const _storephone  = "01049564241"
+                console.log("_storename =", _storename  )
+            
+                res.render('gamepay', {
+                    amount : balance,
+                    phonenum : phone,
+                    username :result7[0].username,
+                    storename: _storename,
+                    storephone: _storephone,
+                    state : 0
+                })}})
+    }}) 
+
+
+router.get('/gam_1', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    req.session.logined=result7[0]
+                
+                const balance = result7[0].charge_amount
+                const phone = req.body.phone
+                const _storename  = "창원케이골프클럽"
+                const _storephone  = "01056941680"
+                console.log("_storename =", _storename  )
+            
+                res.render('gamepay', {
+                    amount : balance,
+                    phonenum : phone,
+                    username :result7[0].username,
+                    storename: _storename,
+                    storephone: _storephone,
+                    state : 0
+                })}})
+    }}) 
+
 
 router.get('/gamepay', async (req, res)=>{
     if(!req.session.logined){
@@ -482,18 +926,39 @@ router.get('/gamepay', async (req, res)=>{
             'state' : data
         })
     }else{
-        
-            const balance = req.session.logined.charge_amount
-            const phone = await req.body.phone
-            const s = req.body.state 
+         //원장읽어오기
+         const phone = req.session.logined.phone 
+         const sql7 =
+             `
+             select 
+             *
+             from 
+             log_info
+             where 
+             phone = ?
+             
+                 `
+         const values7 = [phone]
+         connection.query(
+         sql7, 
+         values7, 
+         function(err, result7){
+             if(err){
+                 console.log(err)
+             }else{
+                 req.session.logined=result7[0]
+                
+                const balance = result7[0].charge_amount
+                const phone = req.body.phone
+                const s = req.body.state 
             
-            res.render('gamepay', {
-                amount : balance,
-                phonenum : phone,
-                username : req.session.logined.username,
-                state : 0
-            })
-}}) 
+                res.render('gamepay', {
+                    amount : balance,
+                    phonenum : phone,
+                    username : req.session.logined.username,
+                    state : 0
+                })}})
+    }}) 
 
 
 //가맹점 결제
@@ -505,45 +970,16 @@ router.post('/gamepay', async (req, res)=>{
             })
         }else{
             state = 1
-            var storename=""
-            const golfstore = await req.body.input_golfstore.trim()
-            switch (golfstore) {
-                    case "1":
-                        console.log("바르셀로나 스크린")
-                        storename = "바르셀로나 스크린"
-                        break
-                    case "2":
-                        console.log("중앙자이언트 골프존파크")
-                        storename = "중앙자이언트 골프존파크"
-                        break
-                    case "3":
-                        console.log("XPGA 스크린")
-                        storename = "XPGA 스크린"
-                        break
-                    case "4":
-                        console.log("참조은 스크린")
-                        storename = "참조은 스크린"
-                        break
-                    case "5":
-                        console.log("창원케이골프클럽")
-                        storename = "창원케이골프클럽"
-                        break
-                    case "6":
-                        console.log("케이그라운드")
-                        storename = "케이그라운드"
-                        break
-                    default:
-                        console.log(" 1, 2, 3, 4,5,6 중 하나가 아닙니다");
-                    }
-            const _storename  = storename
-            console.log("_storename =", _storename  )
-
+            
             //가맹점에 결제할 금액입력
+            const _storename = req.body.input_storename
+            const _storephone = req.body.input_storephone
             const pay_amount = await req.body._gamepayment.trim()
             const numeric6 = await req.body._numeric6.trim()
+            
             if(pay_amount<=0){
                 const pay_amount=0
-                console.log("gamepay_amount가 입력되지 않았어요 "  )
+                console.log("gamepay_amount가 입력되지 않았어요")
                 res.render("gamepay",{
                     state:false
                 })
@@ -551,7 +987,6 @@ router.post('/gamepay', async (req, res)=>{
             }else{
                 console.log("gamepay_amount =", pay_amount  )
             
-             
                 //기존 나의 잔액확인
                 const _charge_amount = req.session.logined.charge_amount
                 
@@ -591,9 +1026,20 @@ router.post('/gamepay', async (req, res)=>{
                                 console.log(err)
                             }else{ 
 
-                                console.log("_phone",_phone ,result8)
-                                //비밀번호 틀리면 다시결제화면으로
+                                console.log("result8 ="  ,result8)
+                                //결제 비밀번호 입력하지 않거나 "123456"이면
+                                if(numeric6 =="" || numeric6 =="123456"){
+                                    console.log("결제 비밀번호 입력하지 않거나 123456")
+                                    res.render("auth6",{
+                                        phone:_phone,
+                                        state:0//결제비밀번호를 설정 한 후 결제 안내
+                                    })
+
+                                }else{
+
+                                //비밀번호 오류여부 : 틀리면 다시결제화면으로
                                 if( numeric6 != result8[0].numeric6){
+                                    console.log("비밀번호 오류")
                                     let da = 0
                                     res.render("gamepay",{
                                         amount : _charge,
@@ -602,7 +1048,7 @@ router.post('/gamepay', async (req, res)=>{
                                     })
                                 }else{
                                     da = 1 
-                                
+                                    console.log("비밀번호 일치하여 거래진행")
                                     //비밀번호 일치하면 
                                     //1. 가맹점거래리스트에 거래내역 추가 : store_pay(나 기준 거래 내역)
                                     // const pay=parseInt(pay_amount)*-1
@@ -643,14 +1089,15 @@ router.post('/gamepay', async (req, res)=>{
                                         
                                             //5. 가맹점 log_info 금액 수정 log_info((kpoint추가))
                                             const store_phone = result[0].phone
-                                            const sql2 = `
-                                                select 
-                                                *
-                                                from 
-                                                log_info
-                                                where 
-                                                phone = ?                        
-                                            `
+                                            const sql2 = 
+                                                `
+                                                    select 
+                                                    *
+                                                    from 
+                                                    log_info
+                                                    where 
+                                                    phone = ?                        
+                                                `
                                             const values2 = [ store_phone ]
                                             connection.query(
                                                 sql2, 
@@ -659,7 +1106,7 @@ router.post('/gamepay', async (req, res)=>{
                                                     if(err){
                                                         console.log(err)
                                                     }else{ 
-                                                        //4. KP_list에 추가 +가맹점 금액추가 
+                                                        //4. KP_list에 추가 + 가맹점 금액추가 
                                                         const store_amount = parseInt(result2[0].charge_amount) + parseInt(pay_amount)
                                                         const trans_tp = _storename.toString()
                                                         console.log("가맹점거래 kpoint_list_insert =",_phone, trans_tp,  _input_dt, pay_amount, store_amount  )
@@ -667,10 +1114,13 @@ router.post('/gamepay', async (req, res)=>{
 
                                                         //5. 가맹점에 입금된 금액 추가 계산 : log_info
                                                         kpoint.log_info_amount_update2(store_phone ,pay_amount )  
+
+
+
                                                         res.redirect("gamepay_list")
                                                     }})
                                             }})
-                                        }  }})
+                                        }  }}})
                         }}}})
                             
                                 
@@ -716,20 +1166,41 @@ router.get('/kp_trans', async (req, res)=>{
             'state' : data
         })
     }else{
-        data=1
-        // const wallet = req.session.logined.wallet
-        const balance = req.session.logined.charge_amount
-        const _user= req.session.logined.username
-        const _phone= req.session.logined.phone
-        const s = req.body.state
+
         
-        res.render('kp_trans', {
-            amount : balance,
-            phonenum : _phone,
-            username : _user,
-            state : 0
-        })
-    }}) 
+        data=1
+        const _phone= req.session.logined.phone
+        const sql2 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values2 = [ _phone]
+        connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                }else{ 
+
+                    // const wallet = req.session.logined.wallet
+                    req.session.logined=result2[0]
+                    const balance =result2[0].charge_amount
+                    const _user= req.session.logined.username
+                    const s = req.body.state
+                    
+                    res.render('kp_trans', {
+                        amount : balance,
+                        phonenum : _phone,
+                        username : _user,
+                        state : 0
+                    })
+                }})}}) 
+
 
 router.post('/kp_trans', async (req, res)=>{
     if(!req.session.logined){
@@ -751,77 +1222,71 @@ router.post('/kp_trans', async (req, res)=>{
         //보내는 사람의  정보
         const _phone =  req.session.logined.phone  
         const _username = req.session.logined.username
-        const _charge_amount = req.session.logined.charge_amount
         
         //내가 나에게 보내는가?
         if(receiptphone!=_phone){
         //보내는 사람의 charge모지란지 확인
-        if(_charge_amount<pay_amount){
-
-            //거래금액 미만이면 충전하러 갈것
-            res.render("charge",{
-                st:0,
-                username:req.session.logined.username,
-                amount:_charge_amount,
-                phone:req.session.logined.phone
-            })
-
-        }else{
-
+            
             var charge_amount= 0
             var reciep_amount =0
 
             //송신자의 금액정정
-            const sql2 = `
-            select 
-            *
-            from 
-            log_info
-            where 
-            phone = ?
-            
-            `
-        const values2 = [ _phone]
-        connection.query(
+            const sql2 = 
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                `
+            const values2 = [ _phone]
+            connection.query(
             sql2, 
             values2, 
             function(err, result2){
                 if(err){
                     console.log(err)
                 }else{ 
-
                     if(result2.length!=0){
-                         //비밀번호 맞는지 확인
-                        
-                        
-                        if( numeric6 != result2[0].numeric6){
-                            let da = 0
-                            res.render("kp_trans",{
-                                username :_username,
-                                amount:_charge_amount,
-                                state : da
-                            })
-                        }else{
+                        const _charge_amount = result2[0].charge_amount//나의 원장 충전금액
+                        //충전금액이 지불항 금액보다 작으면 충전하러
+                        if(_charge_amount<pay_amount){
 
-                            //비밀번호 맞다면 거래
-                            da = 1 
-                            
-                            //1. log_info 정보 감액수정(보내는 사람 즉 나)
-                            
-                            kpoint.log_info_amount_update1(_phone,pay_amount )        
-                            
-                            
-                            //수신자의 전번
-                            const sql6 = `
-                                select 
-                                *
-                                from 
-                                log_info
-                                where 
-                                phone = ?
-                                `
-                            const values6 = [ receiptphone]
-                            connection.query(
+                            //거래금액 미만이면 충전하러 갈것
+                            res.render("charge",{
+                                st:0,
+                                username:req.session.logined.username,
+                                amount:_charge_amount,
+                                phone:req.session.logined.phone
+                            })
+            
+                        }else{
+                            //비밀번호가 틀리면 안내 후 다시 시작
+                            if( numeric6 != result2[0].numeric6){
+                                let da = 0
+                                res.render("kp_trans",{
+                                    username :_username,
+                                    amount:_charge_amount,
+                                    state : da
+                                })
+                            }else{
+
+                                //비밀번호 맞다면 거래
+                                da = 1 
+                                //1. log_info 정보 감액수정(보내는 사람 즉 나)
+                                kpoint.log_info_amount_update1(_phone,pay_amount )        
+                                //수신자의 전번
+                                const sql6 = `
+                                    select 
+                                    *
+                                    from 
+                                    log_info
+                                    where 
+                                    phone = ?
+                                    `
+                                const values6 = [ receiptphone]
+                                connection.query(
                                 sql6, 
                                 values6, 
                                 function(err, result6){
@@ -832,7 +1297,7 @@ router.post('/kp_trans', async (req, res)=>{
 
                                         //2. 수신자(친구) 금액 추가 정정 
                                         console.log("&&&&&&&&&&&&&&&&&", receiptphone)
-                                        const reciept_amount = result6[0].charge_amount
+                                        const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
                             
                                         kpoint.log_info_amount_update2( receiptphone,pay_amount)
 
@@ -850,7 +1315,7 @@ router.post('/kp_trans', async (req, res)=>{
                                         charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)//차감
                                         req.session.logined.charge_amount= charge_amount//차감계산된 금액으로 세션정보를 수정
                                         console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
-                                        console.log("친구에게 보낸내역 kp_list에 insert",receiptphone, trans_tp,  _input_dt, pay_amount ,charge_amount) 
+                                        console.log("친구에게 보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount ,charge_amount) 
                                         const _pay_amount= parseInt(pay_amount)
                                         kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, _pay_amount ,charge_amount )
 
@@ -891,53 +1356,80 @@ router.post('/kp_trans', async (req, res)=>{
                                                         'phone': req.session.logined.phone
                                             })}})
                                          }}})                    
-            }}}})}}else{
-                console.log("내가 나에게 보낼 수 없다") 
-                res.render('kp_trans', {
-                    amount :  _charge_amount,
-                    phonenum : _phone,
-                    username :  _username,
-                    state : 1
-                     
-                })
-            }
-        }}
-            )
+            }}}}})
+        
+        }else{
+        console.log("내가 나에게 보낼 수 없다") 
+        res.render('kp_trans', {
+            amount :  _charge_amount,
+            phonenum : _phone,
+            username :  _username,
+            state : 1
+                
+        })
+    }
+}})
+
+
 
 //kpoint trans list 
 router.get('/transpay_list', async (req, res)=>{
 if(!req.session.logined){
     res.redirect("/")
     }else{  
-        console.log("회원끼리 거래내역보기 성공")  
+        console.log("회원끼리 거래내역보기")  
+        
+        //원장읽어오기
         const phone = req.session.logined.phone 
-        const user = req.session.logined.username         
-        const tokenamount = req.session.logined.charge_amount
-        const sql = `
+        const sql7 =
+            `
             select 
             *
             from 
-            trans_pay
+            log_info
             where 
-            sendphone = ?
-            order by transdate DESC
+            phone = ?
+            
                 `
-        const values = [phone]
+        const values7 = [phone]
         connection.query(
-            sql, 
-            values, 
-            function(err, result){
-                if(err){
-                    console.log(err)
-                }else{     
-                    res.render('transpay_list', {
-                        'resultt': result,
-                        'username' : user, 
-                        'amount':tokenamount,
-                        'phone': req.session.logined.phone
-                    })}
-                 })
-        }})
+        sql7, 
+        values7, 
+        function(err, result7){
+            if(err){
+                console.log(err)
+            }else{
+                req.session.logined=result7[0]
+                
+
+                const user = result7[0].username         
+                const tokenamount =result7[0].charge_amount
+
+                const sql = `
+                    select 
+                    *
+                    from 
+                    trans_pay
+                    where 
+                    sendphone = ?
+                    order by transdate DESC
+                        `
+                const values = [phone]
+                connection.query(
+                    sql, 
+                    values, 
+                    function(err, result){
+                        if(err){
+                            console.log(err)
+                        }else{     
+                            res.render('transpay_list', {
+                                'resultt': result,
+                                'username' : user, 
+                                'amount':tokenamount,
+                                'phone': result7[0].phone
+                            })}
+                        })
+                }})}})
 
 
 

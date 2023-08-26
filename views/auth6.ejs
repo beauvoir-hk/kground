@@ -41,26 +41,25 @@
             })
         })
     </script>
+ 
+ 
+
 <script>
-    function fail(){//휴대폰본호가 정상아님 state==0
-        alert("휴대폰번호를 입력 해 주셔요")
+
+    function signup(){
+      location.href = '/signup'
     }
-    function timeover(){//인증번호 정상확인 state==2
-        alert("3분이 지났습니다. 다시 휴대폰번호를 입력 후 인증해 주세요^^ ")
-    }
-    function send(){ //state==1
-        alert("인증번호(숫자4자리 이하)가 발송되었습니다")
-    }
-    function wel(){//문자인중이 되어야 비민번호 변경이 가능
-        alert("문자인중 후, 비밀번호 변경이 가능합니다")
+    function fail(){
+              alert("결제비밀번호를 설정한 다음 거래할 수 있습니다")
     }
     </script>
-
-
 </head>
 
-
-    <body class="bg-gradient-secondary"  >
+<%if(state == 0){%>
+<body class="bg-gradient-primary" onload="fail()" >
+<%}else{%>
+    <body class="bg-gradient-primary">      
+    <%}%>
 
     <div class="container">
 
@@ -80,20 +79,19 @@
                                     <div class="text-center">
                                         <h6 class="h6 text-gray-900 mb-2">
                                             결제비밀번호 변경<br>
-                                            
                                         </h6>
                                         <br>
                                         <div class="text-primary">
-                                        <i class="small" >
-                                            <br>휴대폰번호로 인증 해 주세요
-                                        </i>
-                                    </div>
+                                            <i class="small" >
+                                                <br>휴대폰번호로 인증 해 주세요
+                                            </i>
+                                        </div>
                                     </div>
                                     <form class="user" action="/auth6" method="post">
                                         <div class="form-group">
                                            
-                                            <input type="text" class="form-control form-control-user" 
-                                                id="_id" name="phone"  value="<%=phone%>" readonly>
+                                                <input type="text" class="form-control form-control-user" 
+                                                    id="_id" name="phone"  value="<%=phone%>" readonly>
                                                 <br>
                                             <div class="text-center">    
                                                 <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
@@ -105,7 +103,8 @@
                                     <form class="user" action="/verify6" method="post">
                                         <br>
                                         <div class="text-danger">
-                                            <label class="small">※ 전송된 인증번호를 3분 이내에 입력하세요
+                                            <label class="small">
+                                                ※ 전송된 인증번호를 3분 이내에 입력하세요
                                             </label>
                                         </div>
 
