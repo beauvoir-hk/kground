@@ -225,8 +225,10 @@ router.post("/login", async (req, res)=>{
                     console.log(err)
                 }else{
                     
-                
-            
+                    console.log("강제로그아웃한번 진행")
+                }})
+
+            console.log("강제로그아웃 후 다시 로그인 원장부르기")
             const sql = `
                 select 
                 *
@@ -244,16 +246,16 @@ router.post("/login", async (req, res)=>{
                     console.log(err)
                     
                 }else{
-                    //session수정
-                    req.session.logined= result[0]
-                    console.log("index refresh -->result[0].amount",result[0].amount)
-                    res.render('index.ejs', {
-                        login_data: req.session.logined, 
-                        amount:result[0].amount,
-                        phone:result[0].phone
-                    })
+                    if(result.length != 0){
+                        //session수정
+                        req.session.logined= result[0]
+                        console.log("index refresh -->result[0].amount",result[0].amount)
+                        res.render('index.ejs', {
+                            login_data: req.session.logined, 
+                            amount:result[0].amount,
+                            phone:result[0].phone
+                    })}
                 }}) }})
-    }})
 
    
     // 회원 탈퇴 sql api

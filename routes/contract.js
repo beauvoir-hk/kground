@@ -193,43 +193,50 @@ module.exports = ()=>{
             //원장을 다시 읽을 준비
             const phone=req.session.logined.phone
             //const login_data = req.session.logined
-            console.log('로그인 되었어요 원장다시 읽기준비',login_data)   
+            console.log('로그인 되었어요 원장다시 읽기준비')   
 
             //로그아웃
             req.session.destroy(function(err){
                 if(err){
                     console.log(err)
                 }else{
-                    //원장을 다시 읽어서 렌더링
-                    const sql = `
-                        select 
-                        *
-                        from 
-                        log_info
-                        where 
-                        phone = ?
-                        `
-                    const values = [phone]
-                    connection.query(
-                    sql, 
-                    values, 
-                    function(err, result){
-                        if(err){
-                            console.log(err)
-                            
-                        }else{
-                            //session수정
-                            req.session.logined= result[0]
-                            console.log("refresh -->result[0].amount")
-                            res.render('charge', {
-                                login_data: req.session.logined, 
-                                username:result[0].username,
-                                amount:result[0].amount,
-                                phone:result[0].phone,
-                                st:st
-                            })
-                        }})
-        }})}})
+                    console.log("로그아웃")
+                }})  
+            
+            console.log("로그아웃 후 다시 로그인")    
+            //원장을 다시 읽어서 렌더링
+            const sql = `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                `
+            const values = [phone]
+            connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    
+                }else{
+                    if(result.length != 0){
+                        // 로그인이 성공하는 조건
+                        console.log('db에 로그인한 정보가 있어요', result[0])
+                        
+                        //session수정
+                        req.session.logined = result[0]
+                        console.log("refresh -->  ",result[0].charge_amount)
+                        res.render('charge', {
+                            login_data: req.session.logined, 
+                            username:result[0].username,
+                            amount:result[0].charge_amount,
+                            phone:result[0].phone,
+                            st:st
+                    })
+                }}})}}) 
 
 
 
