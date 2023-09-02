@@ -820,7 +820,7 @@ router.get('/gam_3', async (req, res)=>{
                 const balance = result7[0].charge_amount
                 const phone = req.body.phone
                 const _storename  = "XPGA 스크린"
-                const _storephone  = "01047379087"
+                const _storephone  = "01026425995"
                 console.log("_storename =", _storename  )
             
                 res.render('gamepay', {
@@ -912,7 +912,7 @@ router.get('/gam_1', async (req, res)=>{
                 const balance = result7[0].charge_amount
                 const phone = req.body.phone
                 const _storename  = "창원케이골프클럽"
-                const _storephone  = "01026425995"
+                const _storephone  = "01056941680"
                 console.log("_storename =", _storename  )
             
                 res.render('gamepay', {
