@@ -1222,7 +1222,9 @@ router.get('/bkecho', function(req, res){
     res.render("bkecho")
 })
 
-
+router.get('/onlyholein', function(req, res){
+    res.render("onlyholein")
+})
 
 // return이 되는 변수는 router
     return router

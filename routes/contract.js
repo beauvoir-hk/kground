@@ -171,10 +171,10 @@ module.exports = ()=>{
                             }else{
                             console.log("result=", result)
                             console.log("result=", result.length) 
-                            console.log("kp_amount =",    kp_amount)  
+                             
                             res.render('charge_list', {
                                 'resultt': result,
-                                'username' : user, 
+                                'username' :result7[0].username, 
                                 'amount' : result7[0].charge_amount,
                                 'phone': req.session.logined.phone
                                 })
@@ -507,6 +507,13 @@ router.post('/enterpay', async (req, res)=>{
                 console.log(err)            
             }else{
                 console.log("input_numeric6",input_numeric6)
+                if(result2[0].numeric6==""){
+                    res.render("auth6",{
+                        username:_username,
+                        amount : balance,
+                        phone:phone
+                    })
+                }else{
                
                 //비밀번호 맞는지 확인
                 if(input_numeric6 != result2[0].numeric6){
@@ -541,7 +548,7 @@ router.post('/enterpay', async (req, res)=>{
 
                     res.redirect("enterpay_list")        
                             
-                        }}})}})                        
+                        }}}})}})                        
 
 
 router.get('/gamepay_list', async (req, res)=>{
@@ -644,7 +651,7 @@ router.get('/gamepay_list', async (req, res)=>{
                     })}})
 }}) 
 
-router.get('/gam_', async (req, res)=>{
+router.get('/gam_6', async (req, res)=>{
     if(!req.session.logined){
         let data=0
         res.render('login', {
@@ -905,7 +912,7 @@ router.get('/gam_1', async (req, res)=>{
                 const balance = result7[0].charge_amount
                 const phone = req.body.phone
                 const _storename  = "창원케이골프클럽"
-                const _storephone  = "01056941680"
+                const _storephone  = "01026425995"
                 console.log("_storename =", _storename  )
             
                 res.render('gamepay', {
@@ -1262,112 +1269,121 @@ router.post('/kp_trans', async (req, res)=>{
                             })
             
                         }else{
-                            //비밀번호가 틀리면 안내 후 다시 시작
-                            if( numeric6 != result2[0].numeric6){
-                                let da = 0
-                                res.render("kp_trans",{
-                                    username :_username,
+                            //비밀번호 설정이 안되어 있으면
+                            if(result2[0].numeric6==""){
+                                red.render("auth6",{
+                                    username:req.session.logined.username,
                                     amount:_charge_amount,
-                                    state : da
+                                    phone:req.session.logined.phone
                                 })
                             }else{
-
-                                //비밀번호 맞다면 거래
-                                da = 1 
-                                //1. log_info 정보 감액수정(보내는 사람 즉 나)
-                                kpoint.log_info_amount_update1(_phone,pay_amount )        
-                                //수신자의 전번
-                                const sql6 = `
-                                    select 
-                                    *
-                                    from 
-                                    log_info
-                                    where 
-                                    phone = ?
-                                    `
-                                const values6 = [ receiptphone]
-                                connection.query(
-                                sql6, 
-                                values6, 
-                                function(err, result6){
-                                    if(err){
-                                        console.log(err)
-                                    }else{ 
-                                        if(result6.length!=0){
-
-                                        //2. 수신자(친구) 금액 추가 정정 
-                                        console.log("&&&&&&&&&&&&&&&&&", receiptphone)
-                                        const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
                             
-                                        kpoint.log_info_amount_update2( receiptphone,pay_amount)
-
+                                //비밀번호가 틀리면 안내 후 다시 시작
+                                if( numeric6 != result2[0].numeric6){
+                                    let da = 0
+                                    res.render("kp_trans",{
+                                        username :_username,
+                                        amount:_charge_amount,
+                                        state : da
+                                    })
+                                }else{
                                     
-                                        //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
-                                        const rec_username= result6[0].username.toString()
-                                    
-                                        console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
-                                        kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                                    //비밀번호 맞다면 거래
+                                    da = 1 
+                                    //1. log_info 정보 감액수정(보내는 사람 즉 나)
+                                    kpoint.log_info_amount_update1(_phone,pay_amount )        
+                                    //수신자의 전번
+                                    const sql6 = `
+                                        select 
+                                        *
+                                        from 
+                                        log_info
+                                        where 
+                                        phone = ?
+                                        `
+                                    const values6 = [ receiptphone]
+                                    connection.query(
+                                    sql6, 
+                                    values6, 
+                                    function(err, result6){
+                                        if(err){
+                                            console.log(err)
+                                        }else{ 
+                                            if(result6.length!=0){
 
-                                                                //친구에게 보내기 내역 기록
-                                        //4. KP_list에 추가  //보내는 사람=나
-                                        const trans_tp = _username//보내는 사람
-                                        const trans_tp1=rec_username//받는사람
-                                        charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)//차감
-                                        req.session.logined.charge_amount= charge_amount//차감계산된 금액으로 세션정보를 수정
-                                        console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
-                                        console.log("친구에게 보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount ,charge_amount) 
-                                        const _pay_amount= parseInt(pay_amount)
-                                        kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, _pay_amount ,charge_amount )
+                                            //2. 수신자(친구) 금액 추가 정정 
+                                            console.log("&&&&&&&&&&&&&&&&&", receiptphone)
+                                            const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
+                                
+                                            kpoint.log_info_amount_update2( receiptphone,pay_amount)
 
                                         
-                                        // //5. KP_list에 추가 //수신자
-                                        const reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)//수신 받은 금액 추가
-                                        console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone, reciep_amount  )
+                                            //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
+                                            const rec_username= result6[0].username.toString()
                                         
-                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                        console.log("0.01초 더한시간",new_dt) 
-                                        kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount ,reciep_amount)
+                                            console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                                            kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
 
-                                        //6.transpay_list준비 
-                                        const phone = req.session.logined.phone 
-                                        const user = req.session.logined.username         
-                                        const tokenamount = req.session.logined.charge_amount
-                                        const sql = `
-                                            select 
-                                            *
-                                            from 
-                                            trans_pay
-                                            where 
-                                            sendphone = ?
-                                            order by transdate DESC
-                                                `
-                                        const values = [phone]
-                                        connection.query(
-                                            sql, 
-                                            values, 
-                                            function(err, result){
-                                                if(err){
-                                                    console.log(err)
-                                                }else{     
-                                                    res.render('transpay_list', {
-                                                        'resultt': result,
-                                                        'username' : user, 
-                                                        'amount':tokenamount,
-                                                        'phone': req.session.logined.phone
-                                            })}})
+                                                                    //친구에게 보내기 내역 기록
+                                            //4. KP_list에 추가  //보내는 사람=나
+                                            const trans_tp = _username//보내는 사람
+                                            const trans_tp1=rec_username//받는사람
+                                            charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)//차감
+                                            req.session.logined.charge_amount= charge_amount//차감계산된 금액으로 세션정보를 수정
+                                            console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
+                                            console.log("친구에게 보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount ,charge_amount) 
+                                            const _pay_amount= parseInt(pay_amount)
+                                            kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, _pay_amount ,charge_amount )
+
+                                            
+                                            // //5. KP_list에 추가 //수신자
+                                            const reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)//수신 받은 금액 추가
+                                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone, reciep_amount  )
+                                            
+                                            const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                            console.log("0.01초 더한시간",new_dt) 
+                                            kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount ,reciep_amount)
+
+                                            //6.transpay_list준비 
+                                            const phone = req.session.logined.phone 
+                                            const user = req.session.logined.username         
+                                            const tokenamount = req.session.logined.charge_amount
+                                            const sql = `
+                                                select 
+                                                *
+                                                from 
+                                                trans_pay
+                                                where 
+                                                sendphone = ?
+                                                order by transdate DESC
+                                                    `
+                                            const values = [phone]
+                                            connection.query(
+                                                sql, 
+                                                values, 
+                                                function(err, result){
+                                                    if(err){
+                                                        console.log(err)
+                                                    }else{     
+                                                        res.render('transpay_list', {
+                                                            'resultt': result,
+                                                            'username' : user, 
+                                                            'amount':tokenamount,
+                                                            'phone': req.session.logined.phone
+                                                })}})
                                          }}})                    
-            }}}}})
+                    }}}}}})
         
-        }else{
-        console.log("내가 나에게 보낼 수 없다") 
-        res.render('kp_trans', {
-            amount :  _charge_amount,
-            phonenum : _phone,
-            username :  _username,
-            state : 1
-                
-        })
-    }
+                }else{
+                console.log("내가 나에게 보낼 수 없다") 
+                res.render('kp_trans', {
+                    amount :  _charge_amount,
+                    phonenum : _phone,
+                    username :  _username,
+                    state : 1
+                        
+                })
+                }
 }})
 
 
