@@ -116,17 +116,9 @@ router.post("/login", async (req, res)=>{
                     logphone = result[0].phone
                     logpass= result[0].pass
 
-                    // 로그인이 성공
-                    //비밀번호 1234일때 문자인증후 비밀번호 + 선수등록  필수
-                    // if(logpass == "1234"){
-                    //     res.render("my",{
-                    //         phone:logphone,
-                    //         login_data:req.session.logined,
-                    //         state:1
-                    //     })
-                    // }else{
+                   
                         //로그인 성공
-                        res.render('index',{
+                    res.render('index',{
                             login_data:req.session.logined,
                             amount:req.session.logined.charge_amount,
                         })    
@@ -1316,7 +1308,7 @@ router.post('/auth1', async  (req, res) => {
         // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>_dir=", _dir)
         const code1 = await req.body.input_auth_code.trim()
         const code = parseInt(code1)
-        const vphone =req.body.phone.trim()
+        const vphone =req.body.phone 
         console.log('req=',code)
         if(req.session.login){
             vphone = req.session.logined.phone

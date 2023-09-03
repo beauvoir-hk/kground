@@ -46,6 +46,30 @@ connection.query(
 }})}
 
 
+async function admin_trans_insert(_input_dt,_username,reciept_username, pay_amount , reciept_amount1 ,admin_amount ){
+    const sql = `
+        insert 
+        into 
+        admin_trans
+        values (?,?,?,?,?,?)
+        `
+    const values = [_input_dt,_username,reciept_username, pay_amount , reciept_amount1 ,admin_amount ]
+
+    connection.query(
+    sql,
+    values,
+    (err, result)=>{
+        if(err){   
+            console.log(err)}
+            else{
+                if (result.length == 0) {
+                    console.log("기록 하나도 없다네")
+                } else {
+                  console.log("adim trans 에 기록 정상 ")
+                }
+}})}
+
+
 //my : log_info 리스트에 갱신기록
 async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
         //user_info에 대해 갱신
@@ -702,6 +726,7 @@ async function tier_update( _phone, _gender)  {
     let wrank=0
     let champsys=""
     let sysrank=0
+    const tier=1
 
 // 나의   golfsys 필드기준 정렬, rank가 가장 낮은 레코드를 선택
     const sql=
@@ -748,20 +773,21 @@ async function tier_update( _phone, _gender)  {
                             console.log(" 성별 ksfc 테이블에서 제일 잘한 golfsys 레코드의 수",result2)
                             wrank=parseInt(result2[0].count)//레코드의 갯수
                             console.log("wrank=", wrank)
-                            const tier=1
+                            let tierr = 1
                             if(wrank>5){
                                 
                                 if(sysrank > wrank /60){
-                                    tier=1
+                                    tierr=1
                                 }else{
                                     if(sysrank > wrank/30){
-                                        tier=2
+                                        tierr=2
                                     }else{
                                         if(sysrank > wrank/5){
-                                            tier=3
+                                            tierr=3
                                         }else{
-                                            tier=4
+                                            tierr=4
                                     }}}
+                              tier = tierr
                             }else{
                                 console.log("wrank가 5보다 작아 tier에 영행을 미치지 않는다" )
                             }
@@ -792,6 +818,7 @@ async function tier_update( _phone, _gender)  {
 
 
 module.exports = {
+    admin_trans_insert,
     chargelist_insert,
     log_info_amount_update, 
     log_info_amount_update1,

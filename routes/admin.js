@@ -107,7 +107,7 @@ module.exports = ()=>{
                             // const tot_charge_charge=''
                             let tot_char = 0
                             for(var i=0;i<tot_charge_count; ++i){
-                                tot_char = tot_char+result3[i].transamount
+                                tot_char = tot_char+parseInt(result3[i].transamount)
                             }
                             const tot_charge_charge = tot_char.toString()
 
@@ -152,8 +152,665 @@ module.exports = ()=>{
                             }})
                     }})
             }})
+
+
+//회원목록출력 출력
+router.get('/admin_custom', async (req, res)=>{
+    
+    if(!req.session.logined){
+        res.redirect("/")
+    }else{    
+        const user = req.session.logined.username
+        const kp_amount = req.session.logined.charge_amount   
+        const phone = req.session.logined.phone 
+
+        //kpoint 최신자료 순 정렬
+        console.log("admin 최신자료 순 정렬 (kp_list) ")
+        const sql =
+            `
+            select 
+            *
+            from 
+            log_info
+            
+            order by logdate DESC
+                `
+         
+        connection.query(
+            sql, 
+             
+            function(err, result){
+                if(err){
+                    console.log(err)
+                }
+                console.log("sort 결과 출력가능 ")
+                console.log("result=", result.length) 
+                console.log("kp_amount =", kp_amount)  
+                res.render('admin_custom', {
+                    'resultt': result,
+                    username:user
+                    
+                    })
+        })
+    }})
+    
+    
+    //admin_chargelist
+    router.get('/admin_chargelist', async (req, res)=>{
+    
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{    
+            const user = req.session.logined.username
+            const kp_amount = req.session.logined.charge_amount   
+            const phone = req.session.logined.phone 
+    
+            //kpoint 최신자료 순 정렬
+            console.log("admin 최신자료 순 정렬 (kp_list) ")
+            const sql =
+                `
+                select 
+                *
+                from 
+                charge_list
+                
+                order by chargedate DESC
+                    `
+             
+            connection.query(
+                sql, 
+                 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }
+                    console.log("sort 결과 출력가능 ")
+                    console.log("result=", result.length) 
+                    console.log("kp_amount =", kp_amount)  
+                    res.render('admin_chargelist', {
+                        'resultt': result,
+                        username:user
+                        
+                        })
+            })
+        }})
+
+
+    //admin_kplist
+    router.get('/admin_kplist', async (req, res)=>{
+    
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{    
+            const user = req.session.logined.username
+            const kp_amount = req.session.logined.charge_amount   
+            const phone = req.session.logined.phone 
+    
+            //kpoint 최신자료 순 정렬
+            console.log("admin 최신자료 순 정렬 (kp_list) ")
+            const sql =
+                `
+                select 
+                *
+                from 
+                kp_list
+                
+                order by transtime DESC
+                    `
+             
+            connection.query(
+                sql, 
+                 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }
+                    console.log("sort 결과 출력가능 ")
+                    console.log("result=", result.length) 
+                    console.log("kp_amount =", kp_amount)  
+                    res.render('admin_kplist', {
+                        'resultt': result,
+                        username:user
+                        
+                        })
+            })
+        }})
+
+
+
+    //admin_gameanglist
+    router.get('/admin_gameanglist', async (req, res)=>{
+    
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{    
+            const user = req.session.logined.username
+            const kp_amount = req.session.logined.charge_amount   
+            const phone = req.session.logined.phone 
+    
+            //kpoint 최신자료 순 정렬
+            console.log("admin 최신자료 순 정렬 (kp_list) ")
+            const sql =
+                `
+                select 
+                *
+                from 
+                store_pay
+                
+                order by store DESC, transdate  DESC
+                    `
+             
+            connection.query(
+                sql, 
+                 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                    }
+                    console.log("sort 결과 출력가능 ")
+                    console.log("result=", result) 
+                    console.log("kp_amount =", kp_amount)  
+                    res.render('admin_gameanglist', {
+                        'resultt': result,
+                        username:user
+                        
+                        })
+            })
+        }})
         
 
+////////////관리자 차감===========================================================
+router.get('/admin_chagamok', function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+       
+                res.render("admin_chagamok",{
+                    'login_data': req.session.logined ,
+                    // resultt:result2
+                } )
+            }
+})
+
+
+router.post('/admin_chagamok', async function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+        
+        //입력 받기(전번 or 성명)
+        const user_phone = await req.body.input_phone
+        const user_name = await req.body.input_username
+        console.log("admin ", user_phone,user_name)
+        //log_info의 통계
+        const sql2 = `
+            select 
+            * 
+            from 
+            log_info 
+            where
+            username=? || phone=?
+            `
+        const values2 =[user_name, user_phone ]   
+
+        connection.query(
+            sql2, 
+            values2,
+        function(err, result2){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log("admin_'s 렌더링해주는 result2=", result2)
+                res.render("admin_chagam",{
+                    'login_data': req.session.logined ,
+                    resultt:result2,
+                    username:result2[0].username, 
+                    recieptphone:result2[0].phone,
+                    amount:result2[0].charge_amount,
+                    state:0
+                } )
+            }
+        })
+    }})            
+        
+router.get('/admin_chagam', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+
+        
+        data=1
+        //회사원장 불러오기
+        const _phone= "01080818962"
+        const sql2 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values2 = [ _phone]
+        connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                }else{ 
+
+                    // const wallet = req.session.logined.wallet
+                    // req.session.logined=result2[0]
+                    const balance =result2[0].charge_amount//회사 잔고
+                    const _user= result2[0].username//회사명
+                    
+                    res.render('admin_chagam', {
+                        amount : balance,
+                        phonenum : _phone,
+                        username : _user,
+                        state : 0
+                    })
+}})}}) 
+
+
+router.post('/admin_chagam', async (req, res)=>{
+    if(!req.session.logined){
+    let data=0
+    res.render('login', {
+        'state' : data
+        })
+    }else{
+        data=1
+        const adminphone = req.body._admin//관리자대표폰
+        const receiptphone = req.body._reciept//차감될 휴대폰
+        const pay_amount = await req.body._sendpay.trim()//차감금액
+
+        const sql6 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values6 = [ adminphone]
+        connection.query(
+        sql6, 
+        values6, 
+        function(err, result2){
+            if(err){
+                console.log(err)
+            }else{ 
+
+                console.log("trans_amount =", adminphone,receiptphone, pay_amount)
+                const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
+                
+                //보내는 관리자의  정보
+                const _phone =  req.session.logined.phone  //보내는 관리자의 폰번호
+                const _username = req.session.logined.username
+                
+                da = 1 
+                //1. 차감수정
+                kpoint.log_info_amount_update1(receiptphone, pay_amount )  
+                console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
+                //2. 금액 증액정정 (관리자대표폰)
+                kpoint.log_info_amount_update2( adminphone, pay_amount )      
+                
+                ///2. 수신자(친구) 금액 추가 정정
+                const sql6 = `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    `
+                const values6 = [ receiptphone]
+                connection.query(
+                sql6, 
+                values6, 
+                function(err, result6){
+                    if(err){
+                        console.log(err)
+                    }else{ 
+                            
+                            //3. admin 거래내역 추가 
+                            const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
+                            const reciept_username= result6[0].username.toString()
+                            const reciept_amount1=parseInt(reciept_amount)-parseInt(pay_amount)
+                            const admin_amount= parseInt(result2[0].charge_amount)+parseInt(pay_amount)
+
+                            const pay_amount2=parseInt(pay_amount)*-1//차감
+                            console.log("admin 거래정보 리스트에 추가",_input_dt,_username,reciept_username, pay_amount2 , reciept_amount1, admin_amount)
+                            kpoint.admin_trans_insert(_input_dt,_username,reciept_username, pay_amount2 , reciept_amount1 , admin_amount )
+
+                                                        
+                            //4. KP_list에 추가  //보내는 사람=나
+                            const trans_tp = "케이그라운드"//보내는 사람
+                            const trans_tp1=reciept_username//받는사람
+
+                            console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
+                            
+                            const _pay_amount= parseInt(pay_amount)*-1
+                            kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, _pay_amount ,admin_amount)
+
+                            
+                            // //5. KP_list에 추가 //수신자
+                            
+                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone,reciept_amount1  )
+                            
+                            const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                            console.log("0.01초 더한시간",new_dt) 
+                            const pay_amount1 = parseInt(pay_amount)
+                            kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount1 ,reciept_amount1)
+
+                            //6.전체거래내역list 
+                            const phone = req.session.logined.phone 
+                            const user = req.session.logined.username         
+                            const tokenamount = req.session.logined.charge_amount
+                            const sql = `
+                                select 
+                                *
+                                from 
+                                admin_trans
+                                
+                                order by admin_trans_time DESC
+                                    `
+                            const values = [phone]
+                            connection.query(
+                                sql, 
+                                values, 
+                                function(err, result){
+                                    if(err){
+                                        console.log(err)
+                                    }else{     
+                                        res.render('admintrans_list', {
+                                            'resultt': result,
+                                            'username' :trans_tp, 
+                                            'amount':admin_amount,
+                                            'phone': adminphone
+                        })}
+                    })
+                }})
+            }})                    
+        }})
+
+//관리자 차감===========================================================
+
+//admintrans list 출력
+router.get('/admintrans_list', async (req, res)=>{
+    
+    if(!req.session.logined){
+        res.redirect("/")
+    }else{    
+        const user = req.session.logined.username
+        const kp_amount = req.session.logined.charge_amount   
+        const phone = req.session.logined.phone 
+
+        //kpoint 최신자료 순 정렬
+        console.log("admin 최신자료 순 정렬 (kp_list) ")
+        const sql =
+            `
+            select 
+            *
+            from 
+            admin_trans
+            
+            order by admin_trans_time DESC
+                `
+         
+        connection.query(
+            sql, 
+             
+            function(err, result){
+                if(err){
+                    console.log(err)
+                }
+                console.log("sort 결과 출력가능 ")
+                console.log("result=", result.length) 
+                console.log("kp_amount =", kp_amount)  
+                res.render('admintrans_list', {
+                    'resultt': result,
+                    username:user
+                    
+                    })
+        })
+    }})
+
+
+//관리자 지급===========================================================
+router.get('/admin_jigubok', function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+       
+                res.render("admin_jigubok",{
+                    'login_data': req.session.logined ,
+                    // resultt:result2
+                } )
+            }
+})
+
+
+router.post('/admin_jigubok', async function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+        
+        //입력 받기(전번 or 성명)
+        const user_phone = await req.body.input_phone
+        const user_name = await req.body.input_username
+        console.log("admin_ok' ", user_phone,user_name)
+        //log_info의 통계
+        const sql2 = `
+            select 
+            * 
+            from 
+            log_info 
+            where
+            username=? || phone=?
+            `
+        const values2 =[user_name, user_phone ]   
+
+        connection.query(
+            sql2, 
+            values2,
+        function(err, result2){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log("admin_ok's 렌더링해주는 result2=", result2)
+                res.render("admin_jigub",{
+                    'login_data': req.session.logined ,
+                    resultt:result2,
+                    username:result2[0].username, 
+                    recieptphone:result2[0].phone,
+                    amount:result2[0].charge_amount,
+                    state:0
+                } )
+            }
+        })
+    }})            
+        
+router.get('/admin_jigub', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+
+        
+        data=1
+        //회사원장 불러오기
+        const _phone= "01080818962"
+        const sql2 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values2 = [ _phone]
+        connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                }else{ 
+
+                    // const wallet = req.session.logined.wallet
+                    // req.session.logined=result2[0]
+                    const balance =result2[0].charge_amount//회사 잔고
+                    const _user= result2[0].username//회사명
+                    
+                    res.render('admin_jigub', {
+                        amount : balance,
+                        phonenum : _phone,
+                        username : _user,
+                        state : 0
+                    })
+}})}}) 
+
+
+router.post('/admin_jigub', async (req, res)=>{
+    if(!req.session.logined){
+    let data=0
+    res.render('login', {
+        'state' : data
+        })
+    }else{
+        data=1
+        const adminphone = req.body._admin//관리자대표폰
+        const receiptphone = req.body._reciept//수신자폰
+        const pay_amount = await req.body._sendpay.trim()//보낼금액
+
+        const sql6 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values6 = [ adminphone]
+        connection.query(
+        sql6, 
+        values6, 
+        function(err, result2){
+            if(err){
+                console.log(err)
+            }else{ 
+
+                console.log("trans_amount =", adminphone,receiptphone, pay_amount)
+                const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
+                
+                //보내는 관리자의  정보
+                const _phone =  req.session.logined.phone  //보내는 관리자의 폰번호
+                const _username = req.session.logined.username
+                
+                da = 1 
+                //1. log_info 정보 감액수정(관리자대표폰)
+                kpoint.log_info_amount_update1(adminphone, pay_amount )  
+
+                //2. 수신자 금액 정정 
+                console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
+                kpoint.log_info_amount_update2( receiptphone, pay_amount )      
+                
+                ///2. 수신자(친구) 금액 추가 정정
+                const sql6 = `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    `
+                const values6 = [ receiptphone]
+                connection.query(
+                sql6, 
+                values6, 
+                function(err, result6){
+                    if(err){
+                        console.log(err)
+                    }else{ 
+                            
+                            //3. admin 거래내역 추가 
+                            const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
+                            const reciept_username= result6[0].username.toString()
+                            const reciept_amount1=parseInt(reciept_amount)+parseInt(pay_amount)
+                            const admin_amount= parseInt(result2[0].charge_amount)-parseInt(pay_amount)
+                            
+                            console.log("admin 거래정보 리스트에 추가",_input_dt,_username,reciept_username, pay_amount , reciept_amount1, admin_amount)
+                            kpoint.admin_trans_insert(_input_dt,_username,reciept_username, pay_amount , reciept_amount1 , admin_amount )
+
+                                                        
+                            //4. KP_list에 추가  //보내는 사람=나
+                            const trans_tp = "케이그라운드"//보내는 사람
+                            const trans_tp1=reciept_username//받는사람
+
+                            console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
+                            const _pay_amount= parseInt(pay_amount)
+                            kpoint.kpoint_list_insert(_phone, trans_tp1,  _input_dt, _pay_amount ,admin_amount)
+
+                            
+                            // //5. KP_list에 추가 //수신자
+                            
+                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone,reciept_amount1  )
+                            
+                            const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                            console.log("0.01초 더한시간",new_dt) 
+                            const pay_amount1 = parseInt(pay_amount)*-1
+                            kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount1 ,reciept_amount1)
+
+                            //6.전체거래내역list 
+                            const phone = req.session.logined.phone 
+                            const user = req.session.logined.username         
+                            const tokenamount = req.session.logined.charge_amount
+                            const sql = `
+                                select 
+                                *
+                                from 
+                                admin_trans
+                                
+                                order by admin_trans_time DESC
+                                    `
+                            const values = [phone]
+                            connection.query(
+                                sql, 
+                                values, 
+                                function(err, result){
+                                    if(err){
+                                        console.log(err)
+                                    }else{     
+                                        res.render('admintrans_list', {
+                                            'resultt': result,
+                                            'username' :trans_tp, 
+                                            'amount':admin_amount,
+                                            'phone': adminphone
+                        })}
+                    })
+                }})
+            }})                    
+        }})
+
+        
+    
 
 //db_update
 router.get('/db_update', function(req, res){
@@ -273,12 +930,60 @@ router.post('/admin_ok', async function(req, res){
                 res.render("db_update",{
                     'login_data': req.session.logined ,
                     resultt:result2,
-                    user_name:user_name, 
-                    user_phone:user_phone
+                    uuser_name:result2[0].username, 
+                    user_phone:result2[0].phone
                 } )
             }
         })
     }})
+
+
+
+    router.post('/admin_chagamok', async function(req, res){
+        if(!req.session.logined){
+            console.log('로그인정보가 없음')
+            res.redirect("/")
+        }else{
+            console.log('관리자 모드 로그인 되었어요')
+            
+            //입력 받기(전번 or 성명)
+            const user_phone = await req.body.input_phone
+            const user_name = await req.body.input_username
+            console.log("admin_ok' ", user_phone,user_name)
+            //log_info의 통계
+            const sql2 = `
+                select 
+                * 
+                from 
+                log_info 
+                where
+                username=? || phone=?
+                `
+            const values2 =[user_name, user_phone ]   
+    
+            connection.query(
+                sql2, 
+                values2,
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                    res.send(err)
+                }else{
+                    console.log("admin_ok's 렌더링해주는 result2=", result2)
+                    res.render("admin_chagam",{
+                        'login_data': req.session.logined ,
+                        resultt:result2,
+                        user_name:result2[0].username, 
+                        user_phone:result2[0].phone
+                    } )
+                }
+            })
+        }})
+//관리자차감===============================================================
+
+
+
+
 
 
 //score_update

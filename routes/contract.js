@@ -976,102 +976,113 @@ router.post('/gamepay', async (req, res)=>{
             'state' : data
             })
         }else{
-            state = 1
-            
             //가맹점에 결제할 금액입력
+            const _phone =  req.session.logined.phone
             const _storename = req.body.input_storename
             const _storephone = req.body.input_storephone
             const pay_amount = await req.body._gamepayment.trim()
             const numeric6 = await req.body._numeric6.trim()
-            
-            if(pay_amount<=0){
-                const pay_amount=0
-                console.log("gamepay_amount가 입력되지 않았어요")
-                res.render("gamepay",{
-                    state:false
-                })
-                
-            }else{
-                console.log("gamepay_amount =", pay_amount  )
-            
-                //기존 나의 잔액확인
-                const _charge_amount = req.session.logined.charge_amount
-                
-                //charge 잔액이 가맹점결제금액보다 작은지 확인
-                if(_charge_amount<pay_amount){
+            state = 1
 
-                    //2000원 미만이면 충전하러
-                    res.render("charge",{
-                        st:0,
-                        username:req.session.logined.username,
-                        amount:_charge_amount,
-                        phone:req.session.logined.phone
+            //비밀번호 맞는지 확인
+            const sql8 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?                        
+                `
+        const values8 = [_phone ]
+        connection.query(
+        sql8, 
+        values8, 
+        function(err, result8){
+            if(err){
+                console.log(err)
+            }else{ 
+            
+
+                
+                if(pay_amount<=0){
+                    //const pay_amount=0
+                    console.log("gamepay_amount가 입력되지 않았어요")
+                    res.render("gamepay",{
+                        amount:result8[0].charge_amount,
+                        phonenum : result8[0].phone,
+                        username :result8[0].username,
+                        storename: _storename,
+                        storephone: _storephone,
+                        state:false
                     })
-
+                
                 }else{
+                    console.log("gamepay_amount =", pay_amount  )
+                
                     //잔액이 부족하지 않으면
                     const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
                     const _phone =  req.session.logined.phone
                     const _username = req.session.logined.username
                     const _charge =req.session.logined.charge_amount
                     console.log("_phone",_phone)
-                    //비밀번호 맞는지 확인
-                    const sql8 = `
-                            select 
-                            *
-                            from 
-                            log_info
-                            where 
-                            phone = ?                        
-                                `
-                    const values8 = [_phone ]
-                    connection.query(
-                        sql8, 
-                        values8, 
-                        function(err, result8){
-                            if(err){
-                                console.log(err)
-                            }else{ 
+                    
+                                //기존 나의 잔액확인
+                                const _charge_amount = result8[0].charge_amount
+                                
+                                //charge 잔액이 가맹점결제금액보다 작은지 확인
+                                if(_charge_amount<pay_amount){
 
-                                console.log("result8 ="  ,result8)
-                                //결제 비밀번호 입력하지 않거나 "123456"이면
-                                if(numeric6 =="" || numeric6 =="123456"){
-                                    console.log("결제 비밀번호 입력하지 않거나 123456")
-                                    res.render("auth6",{
-                                        phone:_phone,
-                                        state:0//결제비밀번호를 설정 한 후 결제 안내
+                                    //결제금액 미만이면 충전하러
+                                    res.render("charge",{
+                                        st:0,
+                                        username:req.session.logined.username,
+                                        amount:_charge_amount,
+                                        phone:req.session.logined.phone
                                     })
+                                }else{
+                                    console.log("result8 ="  ,result8)
+                                    //결제 비밀번호 입력하지 않거나 "123456"이면
+                                    if(numeric6 =="" || numeric6 =="123456"){
+                                        console.log("결제 비밀번호 입력하지 않거나 123456")
+                                        res.render("auth6",{
+                                            phone:_phone,
+                                            state:0//결제비밀번호를 설정 한 후 결제 안내
+                                        })
 
                                 }else{
 
-                                //비밀번호 오류여부 : 틀리면 다시결제화면으로
-                                if( numeric6 != result8[0].numeric6){
-                                    console.log("비밀번호 오류")
-                                    let da = 0
-                                    res.render("gamepay",{
-                                        amount : _charge,
-                                        username :_username,
-                                        state : da
-                                    })
-                                }else{
-                                    da = 1 
-                                    console.log("비밀번호 일치하여 거래진행")
-                                    //비밀번호 일치하면 
-                                    //1. 가맹점거래리스트에 거래내역 추가 : store_pay(나 기준 거래 내역)
-                                    // const pay=parseInt(pay_amount)*-1
-                                    kpoint.store_list_insert(_input_dt, _phone, _username, _storename, pay_amount  )       
-                                    
-                                    //가맹점에 입금된 금액 추가 계산 store
-                                    const sql = `
-                                        select 
-                                        *
-                                        from 
-                                        store
-                                        where 
-                                        storename = ?                        
-                                    `
-                                    const values = [ _storename ]
-                                    connection.query(
+                                    //비밀번호 오류여부 : 틀리면 다시결제화면으로
+                                    if( numeric6 != result8[0].numeric6){
+                                        console.log("비밀번호 오류")
+                                        let da = 0
+                                        res.render("gamepay",{
+                                            amount:result8[0].charge_amount,
+                                            phonenum : result8[0].phone,
+                                            username :result8[0].username,
+                                            storename: _storename,
+                                            storephone: _storephone,
+                                            state : 0
+                                        })
+                                    }else{
+                                        da = 1 
+                                        console.log("비밀번호 일치하여 거래진행")
+                                        //비밀번호 일치하면 
+                                        
+                                        //1. 가맹점거래리스트에 거래내역 추가 : store_pay(나 기준 거래 내역)
+                                        // const pay=parseInt(pay_amount)*-1
+                                        kpoint.store_list_insert(_input_dt, _phone, _username, _storename, pay_amount  )       
+                                        
+                                        //가맹점에 입금된 금액 추가 계산 store
+                                        const sql = `
+                                            select 
+                                            *
+                                            from 
+                                            store
+                                            where 
+                                            storename = ?                        
+                                        `
+                                        const values = [ _storename ]
+                                        connection.query(
                                         sql, 
                                         values, 
                                         function(err, result){
@@ -1114,10 +1125,22 @@ router.post('/gamepay', async (req, res)=>{
                                                         console.log(err)
                                                     }else{ 
                                                         //4. KP_list에 추가 + 가맹점 금액추가 
-                                                        const store_amount = parseInt(result2[0].charge_amount) + parseInt(pay_amount)
+
+                                                        //나의 거래
+                                                        const _pay_amount = pay_amount* - 1
+                                                        const my_amount = parseInt(result8[0].charge_amount) + parseInt(_pay_amount)
                                                         const trans_tp = _storename.toString()
-                                                        console.log("가맹점거래 kpoint_list_insert =",_phone, trans_tp,  _input_dt, pay_amount, store_amount  )
+                                                        console.log("가맹점거래 kpoint_list_insert =",_phone, trans_tp,  _input_dt, pay_amount,my_amount  )
+                                                        kpoint.kpoint_list_insert(_phone, trans_tp, _input_dt, pay_amount,my_amount  )
+                                                        
+                                                        //가맹점의 거래
+                                                        const store_amount = parseInt(result2[0].charge_amount) + parseInt(pay_amount)
+                                                        const trans_tp1 =  _username
+                                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                                        console.log("0.01초 더한시간",new_dt) 
+                                                        console.log("가맹점거래 kpoint_list_insert =",store_phone, trans_tp1,  new_dt, pay_amount, store_amount  )
                                                         kpoint.kpoint_list_insert(_phone, trans_tp, _input_dt, pay_amount, ch_amount )
+
 
                                                         //5. 가맹점에 입금된 금액 추가 계산 : log_info
                                                         kpoint.log_info_amount_update2(store_phone ,pay_amount )  
@@ -1127,9 +1150,9 @@ router.post('/gamepay', async (req, res)=>{
                                                         res.redirect("gamepay_list")
                                                     }})
                                             }})
-                                        }  }}})
-                        }}}})
-                            
+                                        }  }}}}})
+                        }})
+
                                 
 
 router.get('/gamepay_list', async (req, res)=>{
@@ -1275,6 +1298,7 @@ router.post('/kp_trans', async (req, res)=>{
                                     username:req.session.logined.username,
                                     amount:_charge_amount,
                                     phone:req.session.logined.phone
+                                    
                                 })
                             }else{
                             
@@ -1342,6 +1366,7 @@ router.post('/kp_trans', async (req, res)=>{
                                             
                                             const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
                                             console.log("0.01초 더한시간",new_dt) 
+                                            const pay_amount=parseInt(pay_amount)*-1
                                             kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount ,reciep_amount)
 
                                             //6.transpay_list준비 
