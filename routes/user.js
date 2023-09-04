@@ -771,10 +771,12 @@ router.post('/change_paypass6', async function(req, res){
                     console.log("결제비밀번호 변경성공", result)
                     res.render("index",{
                         state:1,
+                        amount:req.session.logined.charge_amount,
                         login_data:req.session.logined
                 })
                 }else{
                     console.log("결제비밀번호 변경이 안되었어요????", result)
+
                 }
             }
 })})
@@ -967,8 +969,7 @@ router.get('/check_admin', function(req, res){
 
                         } else {
                             
-                            console.log("문자인증번호기록= ",result.length)
-
+                            
                             twilioClient.messages.create({
                                 body: 'GolfPlatform 케이그라운드 인증번호 :   ' + auth_code,
                                 from: process.env.kphonenumber,
@@ -1493,6 +1494,7 @@ router.post('/verify6', async (req, res) => {
                     if (code == result[0].auth_code && expireTime > 180) {
                         console.log("인증시간이 지났습니다.")
                         res.render("auth6",{
+                            phone : result[0].phone,
                             state:2
                         })
                     }else{ 
