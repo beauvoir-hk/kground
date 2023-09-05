@@ -726,7 +726,7 @@ async function tier_update( _phone, _gender)  {
     let wrank=0
     let champsys=""
     let sysrank=0
-    const tier=1
+    
 
 // 나의   golfsys 필드기준 정렬, rank가 가장 낮은 레코드를 선택
     const sql=
@@ -787,12 +787,16 @@ async function tier_update( _phone, _gender)  {
                                         }else{
                                             tierr=4
                                     }}}
-                              tier = tierr
+                                    
+                                    
                             }else{
                                 console.log("wrank가 5보다 작아 tier에 영행을 미치지 않는다" )
                             }
                        
 //tier기록
+                        let tierrString = tierr.toString()
+                        let tierString = tierrString
+                        const tier= tierString
                         const sql1=
                             `
                             update

@@ -1136,10 +1136,10 @@ router.post('/gamepay', async (req, res)=>{
                                                         //가맹점의 거래
                                                         const store_amount = parseInt(result2[0].charge_amount) + parseInt(pay_amount)
                                                         const trans_tp1 =  _username
-                                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                                        const new_dt = moment(_input_dt).add(0.1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
                                                         console.log("0.01초 더한시간",new_dt) 
                                                         console.log("가맹점거래 kpoint_list_insert =",store_phone, trans_tp1,  new_dt, pay_amount, store_amount  )
-                                                        kpoint.kpoint_list_insert(_phone, trans_tp, _input_dt, pay_amount, ch_amount )
+                                                        kpoint.kpoint_list_insert(_phone, trans_tp,new_dt , pay_amount, ch_amount )
 
 
                                                         //5. 가맹점에 입금된 금액 추가 계산 : log_info
@@ -1298,7 +1298,7 @@ router.post('/kp_trans', async (req, res)=>{
                                     username:req.session.logined.username,
                                     amount:_charge_amount,
                                     phone:req.session.logined.phone
-                                    
+
                                 })
                             }else{
                             
