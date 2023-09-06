@@ -11,6 +11,10 @@
         .display{
             display: none;
         }
+       
+        .very-small {
+            font-size: 8px;
+        }
     </style>
 
 </head>
@@ -33,7 +37,7 @@
                             <!-- 1열 -->
                             <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image"> -->
                                 <!-- <div class="col-lg-6 d-none d-lg-block bg-login-image">                         -->
-                            <div class="col-lg-6"> 
+                            <div class="col-lg-10"> 
                                 <div class="p-5">
                                     <div class="text-center">
                                         <img src="/img/k.png" width="10%">
@@ -58,7 +62,7 @@
                                         </div> 
                                     </div>
                                     <hr> 
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">    
+                                    <div class="very-small ">    
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
@@ -68,23 +72,30 @@
                                                         </div>
                                                     </td>    
                                                     <td  class="text-uppercase mb-1">
-                                                        
                                                         <%const korea = new Date(resultt[i].logdate)%>
                                                         <%const koreanTime=korea.toLocaleString('ko-KR')%>
                                                       
                                                         <%=koreanTime%>
-                                                       
-                                                       <br>
+                                                    </td>
+                                                    <td>
                                                        <%=resultt[i].phone %> 
-                                                       / 
+                                                    </td>
+                                                    <td width="70px"> 
                                                        <%=resultt[i].username %>
-                                                       /
+                                                    </td>
+                                                    <td> 
+                                                        <%=resultt[i].nickname %>
+                                                     </td>
+                                                    <td>
                                                        
                                                        <% const kp = parseInt(resultt[i].charge_amount)%>                                                       
-                                                       <%an=kp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
+                                                       <% an=kp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%=an%> 
-                                                       <br>
-                                                       <%=resultt[i].pass%>/<%= resultt[i].numeric6%>
+                                                    </td>
+                                                    <td>
+                                                       <%= resultt[i].pass%>
+                                                       /
+                                                       <%= resultt[i].numeric6%>
                                                     </td>
                                                 </tr>
                                                 

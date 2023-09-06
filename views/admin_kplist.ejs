@@ -11,7 +11,11 @@
         .display{
             display: none;
         }
-    </style>
+       
+        .very-small {
+            font-size: 8px;
+        }
+</style>
 
 </head>
 <body class="bg-gradient-primary">
@@ -58,24 +62,24 @@
                                         </div> 
                                     </div>
                                     <hr> 
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">    
+                                    <div class="very-small">    
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-   
-                                                    <td  class="text-uppercase mb-1">
-                                                        <%const korea = new Date(resultt[i].transtime)%>
-                                                        <%const koreanTime=korea.toLocaleString('ko-KR')%>
-                                                      
-                                                        <%=koreanTime%>
-                                                        <br>
-                                                        <%= resultt[i].phone %>/
+                                                    <td width="80px">
+                                                        <%=resultt[i].transtime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit"})%>
+                                                    </td>
+                                                    <td width="80px">
+                                                        <%= resultt[i].phone %>
+                                                    </td>
+                                                    <td width="50px">
                                                         <%= resultt[i].transtype %>
-                                                       
-                                                        <br>
+                                                    </td>
+                                                    <td width="30px">
                                                         <% const kpa = parseInt(resultt[i].kp_amount)%>
                                                         <%=kpa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                                        /
+                                                    </td>
+                                                    <td>
                                                         <% const kpb = parseInt(resultt[i].charge_amount)%>
                                                         <%=kpb.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                         
