@@ -1089,7 +1089,9 @@ router.post('/gamepay', async (req, res)=>{
                                             if(err){
                                                 console.log(err)
                                             }else{ 
-
+                                            
+                                            //가맹점의 폰번호
+                                            const store_phone = result[0].phone
                                             //2.가맹점 추가 금액 계산 수정 : store (kpoint추가)
                                             const _store_amount = parseInt(result[0].store_amount) + parseInt(pay_amount)
                                             // const _store_amount = store_amount.toString()
@@ -1098,15 +1100,17 @@ router.post('/gamepay', async (req, res)=>{
                                             
                                             //가맹점 store 테이블 수정
                                             kpoint.storeamount_update( _storename, _store_amount  )
-                                            
+                                             
                                             //3. 냐의 log_info 금액 수정 log_info(kpoint차감)
                                             const ch_amount = parseInt(_charge_amount) - parseInt(pay_amount)
                                             console.log("로그인포 테이블에 수정된 KPoint 갱신입력 성공",_phone, ch_amount)
                                             kpoint.log_info_amount_update1(_phone, pay_amount   )        
-                                            
+                                            //5. 가맹점에 입금된 금액 추가 계산 : log_info
+                                            kpoint.log_info_amount_update2(store_phone ,pay_amount ) 
+                                             
                                         
                                             //5. 가맹점 log_info 금액 수정 log_info((kpoint추가))
-                                            const store_phone = result[0].phone
+                                            
                                             const sql2 = 
                                                 `
                                                     select 
@@ -1139,13 +1143,8 @@ router.post('/gamepay', async (req, res)=>{
                                                         const new_dt = moment(_input_dt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
                                                         console.log(">>>>>>>>>>>>>>>>>0.01초 더한시간",new_dt) 
                                                         console.log("가맹점+가맹점거래 kpoint_list_insert =",store_phone, trans_tp1,  new_dt, pay_amount, store_amount  )
-                                                        kpoint.kpoint_list_insert(store_phone, trans_tp1, new_dt , pay_amount,  store_amount)
 
-
-                                                        //5. 가맹점에 입금된 금액 추가 계산 : log_info
-                                                        kpoint.log_info_amount_update2(store_phone ,pay_amount )  
-
-
+                                                        kpoint.kpoint_list_insert_g(store_phone, trans_tp1, new_dt , pay_amount,  store_amount)
 
                                                         res.redirect("gamepay_list")
                                                     }})

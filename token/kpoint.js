@@ -385,6 +385,33 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_a
     }})
  }
 
+//kpoint list에 충전기록
+async function kpoint_list_insert_g(_phone, trans_tp,  chargedate, price, charge_amount ){  
+     
+    console.log("회원끼리의 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,charge_amount) 
+    
+    const sql = `
+        insert 
+        into 
+        kp_list
+        values (?,?,?,?,?)
+        `
+    const values = [_phone, chargedate, trans_tp, price,charge_amount ]
+
+    connection.query(
+        sql,
+        values,
+        (err, result)=>{
+            if(err){   
+                console.log(err)}
+                else{
+                    if (result.length == 0) {
+                        console.log("kpoint list에 기록 하나도 없다네")
+                    } else {
+                      console.log("kpoint list에 기록 정상+본문으로 돌아가고싶다")
+                    }
+    }})
+ }
 
  async function kpoint_list_event_insert(_phone, trans_tp,  chargedt, price, charge_amount ){   
     const chargedate = moment(chargedt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
@@ -838,6 +865,7 @@ module.exports = {
     log_info_update,
     log_info_insert_memo,
     kpoint_list_refferal_insert,
-    log_info_refferal_update
+    log_info_refferal_update,
+    kpoint_list_insert_g
 }
 
