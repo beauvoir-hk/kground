@@ -1215,6 +1215,10 @@ router.get('/notice', function(req, res){
     res.render("notice")
 })
 
+router.get('/ksfaga', function(req, res){
+    res.render("ksfaga")
+})
+
 router.get('/regu', function(req, res){
     res.render("regu")
 })

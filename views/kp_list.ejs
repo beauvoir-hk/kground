@@ -11,6 +11,9 @@
         .display{
             display: none;
         }
+        .very-small {
+            font-size: 8px;
+        }
     </style>
 
 </head>
@@ -62,38 +65,42 @@
                                         </div> 
                                     </div>
                                     <hr> 
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">    
+                                    <div class="very-small">    
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-                                                    <td>
-                                                        <div class="text-primary text-uppercase mb-1">
+                                                    <td  width="10%">
+                                                        
                                                             <%=i+1%>:
-                                                        </div>
+                                                        
                                                     </td>    
-                                                    <td  class="text-uppercase mb-1">
+                                                    <td   width="40%">
                                                         <%const korea = new Date(resultt[i].transtime)%>
                                                         <%const koreanTime=korea.toLocaleString('ko-KR')%>
                                                       
                                                         <%=koreanTime%>
-                                                        <br>
+                                                    </td>    
+                                                    <td   width="10%">
                                                        <% const kpn = parseInt(resultt[i].kp_amount)*-1 %>
                                                        <% const kpp = parseInt(resultt[i].kp_amount) %>
                                                        <%an=kpn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%ap=kpp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
-                                                       
+                                                   
                                                        [<%= resultt[i].transtype %>]
+                                                    </td>    
+                                                    <td   width="10%"> 
                                                        <%const trtype =resultt[i].transtype.toString()%>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        
                                                         <%if(trtype=="charge"||trtype=="event"||trtype=="refferal"){ %>
                                                             <%=ap%>
                                                         <%}else{%>
                                                             <%=an%>
                                                      
                                                          <%}%>
-                                                         <br>
+                                                         </td>    
+                                                         <td width="10%">
                                                          <% const kpa = parseInt(resultt[i].charge_amount)%>
-                                                         &nbsp;&nbsp;&nbsp;&nbsp;<%=kpa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                         <%=kpa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                     </td>
                                                 </tr>
                                                 

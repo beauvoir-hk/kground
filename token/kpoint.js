@@ -150,6 +150,9 @@ async function chargelist_insert(_phone,chargedate, price){
 
 //원본 디비에 금액 추가 수정(festival, store=gamepay, transpay) 
 async function log_info_amount_update2(_phone, price ){   
+
+    console.log("원본 디비에 금액 추가 수정",_phone)
+
     const sql2 = `
         select 
         *
@@ -162,17 +165,15 @@ async function log_info_amount_update2(_phone, price ){
     connection.query(
     sql2, 
     values2, 
-    function(err, result2){
+    function(err, result3){
         if(err){
             console.error(err)
             }else{
-                //추천보너스 계산
-                // const refferalcha = parseInt(price) * 0.1 
-                // const refferalch = Math.round(refferalcha) 
-                //기존charge에 추천보너스 더하기 
-                const ch_amount=parseInt(result2[0].charge_amount) + parseInt(price)    
-                console.log(" 기존charge에 추천보너스 더하기",
-                            _phone,result2[0].charge_amount ,price, ch_amount )
+                
+                const ch_amount=parseInt(result3[0].charge_amount) + parseInt(price)    
+                console.log(" 수신자 charge에  더하기",
+                            _phone,result3[0].charge_amount ,price, ch_amount )
+
                 const sql = `
                     update
                     log_info
@@ -214,12 +215,9 @@ async function log_info_amount_update1(_phone, price ){
         if(err){
             console.error(err)
             }else{
-                //추천보너스 계산
-                // const refferalcha = parseInt(price) * 0.1 
-                // const refferalch = Math.round(refferalcha) 
-                //기존charge에 추천보너스 더하기 
+
                 const ch_amount=parseInt(result2[0].charge_amount) - parseInt(price)    
-                console.log(" 기존charge에 감액하기",
+                console.log("보내는 사람 기존charge에 감액하기",
                             _phone,result2[0].charge_amount ,price, ch_amount )
                 const sql = `
                     update

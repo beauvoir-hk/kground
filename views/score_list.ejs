@@ -11,6 +11,9 @@
         .display{
             display: none;
         }
+        .very-small {
+            font-size: 10px;
+        }
     </style>
     <script>
         function openPopUp() {
@@ -24,7 +27,7 @@
     <div class="container">
         <div class="text-center">
             <br>
-            <a id="signinlink" href="javascript:history.back()" >뒤로</a>
+            <a id="signinlink" href="javascript:history.back()" ><img src="/img/home.png"></a>
         </div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -63,46 +66,49 @@
                                                 </div>
                                             </div>
                                         </div> 
-                                        <div class="text-center">
-                                            각각 다른 CC 5곳의 최고기록에 해당하는 스코어카드는 <br>반드시 제출 바랍니다.
-                                         <table class="table">
-                                            <%for (var i = 0 ; i <resultt.length ; i++){%>
-                                                <%if(resultt[i].strok!='9999'){%>
-                                            <tr>
-                                                <td width="300px">
-                                                    <div class="text-warning bg-dark">
-                                                        나의 스크로크 순위 :<%=i+1%><br>
-                                                    </div>
-                                                    참가시간 :<%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
-                                                    <br>
-                                                    시스템 : <%=resultt[i].golfsys%><br>
-                                                </td>
+                                        <h6 class="text-center  text-primary text-uppercase mb-1 ">
+                                            각각 다른 CC 5곳의 
+                                            <br>최고기록에 해당하는 스코어카드는 
+                                            <br>반드시 제출 바랍니다.
+                                            <div class="very-small">
+                                                <table class="table">
+                                                    <%for (var i = 0 ; i <resultt.length ; i++){%>
+                                                        <%if(resultt[i].strok!='9999'){%>
+                                                    <tr>
+                                                        <td>
+                                                            
+                                                                <%=i+1%> 
+                                                            
+                                                        </td>
+                                                           
+                                                        <td>
+                                                           <%=resultt[i].entertime.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].golfsys%> 
+                                                        </td>
+                                                        <td>
+                                                           <%=resultt[i].strok%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">
 
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    스트로크 :<%=resultt[i].strok%>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                               <td >
-                                                <div class="text-danger">
-                                                    <%if(resultt[i].scorepicture!=""){%>
-                                                        <img src="/uploads/<%=resultt[i].scorepicture%>" 
-                                                        width="250px">
-                                                    <%}else{%>
-                                                        <a href="http://pf.kakao.com/_ttxaSxj/chat">
-                                                            스코어 제출하기(클릭)"
-                                                        </a>
+                                                            <%if(resultt[i].scorepicture!=""){%>
+                                                                <img src="/uploads/<%=resultt[i].scorepicture%>" 
+                                                                width="250px">
+                                                            <%}else{%>
+
+                                                                <%}%>
+                                                         </td>
+                                                    </tr>
                                                         <%}%>
-                                                </div>       
-                                                <hr>
-                                                </td>
-                                               
-                                            </tr>
-                                                <%}%>
-                                            <%}%>
-                                        </table>
+                                                    <%}%>
+                                                </table>
+                                                <a href="http://pf.kakao.com/_ttxaSxj/chat">
+                                                    스코어 제출하기(클릭)"
+                                                </a>
+                                            </div>
                                         </div>       
                                     </div>    
                                 </div>

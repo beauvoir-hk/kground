@@ -464,7 +464,7 @@ router.post('/admin_chagam', async (req, res)=>{
                 //2. 금액 증액정정 (관리자대표폰)
                 kpoint.log_info_amount_update2( adminphone, pay_amount )      
                 
-                ///2. 수신자(친구) 금액 추가 정정
+                ///2. 차감대상자 금액 추가 정정
                 const sql6 = `
                     select 
                     *
@@ -483,10 +483,11 @@ router.post('/admin_chagam', async (req, res)=>{
                     }else{ 
                             
                             //3. admin 거래내역 추가 
-                            const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
+                            const reciept_amount = result6[0].charge_amount//대상자의 원장 충전금액
+
                             const reciept_username= result6[0].username.toString()
-                            const reciept_amount1=parseInt(reciept_amount)-parseInt(pay_amount)
-                            const admin_amount= parseInt(result2[0].charge_amount)+parseInt(pay_amount)
+                            const reciept_amount1=parseInt(reciept_amount)-parseInt(pay_amount)//대상자 차감게산
+                            const admin_amount= parseInt(result2[0].charge_amount)+parseInt(pay_amount)//관리자 덧셈 계산
 
                             const pay_amount2=parseInt(pay_amount)*-1//차감
                             console.log("admin 거래정보 리스트에 추가",_input_dt,_username,reciept_username, pay_amount2 , reciept_amount1, admin_amount)

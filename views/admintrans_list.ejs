@@ -11,7 +11,11 @@
         .display{
             display: none;
         }
-    </style>
+       
+        .very-small {
+            font-size: 8px;
+        }
+</style>
 
 </head>
 <body class="bg-gradient-primary">
@@ -20,6 +24,7 @@
         <div class="text-center">
             <br>
             <a id="signinlink" href="javascript:history.back()" >뒤로</a>
+            <a id="signinlink" href="/index" ><img src="/img/home.png"></a>
         </div>
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -58,38 +63,33 @@
                                         </div> 
                                     </div>
                                     <hr> 
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">    
+                                    <div class="very-small">    
                                             <table class="table">
                                                 <%for (var i = 0 ; i <resultt.length ; i++){%>
                                                 <tr>
-                                                    <td>
-                                                        <div class="text-primary text-uppercase mb-1">
-                                                            <%=resultt.length-i%>:
-                                                        </div>
+                                                    <td width="30px">
+                                                        <%=resultt.length-i%>
                                                     </td>    
-                                                    <td  class="text-uppercase mb-1">
-                                                        거래시간:
-                                                        <%const korea = new Date(resultt[i].admin_trans_time)%>
-                                                        <%const koreanTime=korea.toLocaleString('ko-KR')%>
-                                                      
-                                                        <%=koreanTime%>
+                                                    <td width="100px"> 
+                                                        <%=resultt[i].admin_trans_time.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit"})%>                                                       
+                                                    </td>    
+                                                    <td width="100px">   
                                                        
-                                                       <br>
                                                        <%=resultt[i].exe_admin_name %> 
                                                        → 
                                                        <%=resultt[i].reciept_username %>
-                                                       <br>
-                                                       거래 KPoint :
+                                                    </td>    
+                                                    <td>
                                                        <% const kp = parseInt(resultt[i].jigub_amount)%>                                                       
                                                        <%an=kp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%=an%> 
-                                                       <br>
-                                                       받은사람: 
+                                                    </td>    
+                                                    <td> 
                                                        <% const kr = parseInt(resultt[i].reciept_amount)%>  
                                                        <%ap=kr.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> 
                                                        <%=ap%>
-                                                        //
-                                                        admin :
+                                                    </td>    
+                                                    <td>
                                                         <% const kpa = parseInt(resultt[i].admin_amount)%>
                                                         <%=kpa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                     </td>
