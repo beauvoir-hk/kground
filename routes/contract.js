@@ -1144,7 +1144,7 @@ router.post('/gamepay', async (req, res)=>{
                                                         console.log(">>>>>>>>>>>>>>>>>0.01초 더한시간",new_dt) 
                                                         console.log("가맹점+가맹점거래 kpoint_list_insert =",store_phone, trans_tp1,  new_dt, pay_amount, store_amount  )
 
-                                                        kpoint.kpoint_list_insert_g(store_phone, trans_tp1, new_dt , pay_amount,  store_amount)
+                                                        kpoint.kpoint_list_insert_g(store_phone, new_dt, trans_tp1,  pay_amount,  store_amount)
 
                                                         res.redirect("gamepay_list")
                                                     }})

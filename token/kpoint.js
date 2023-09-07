@@ -361,7 +361,7 @@ async function log_info_refferal_update(_phone,price ){
 async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_amount ){  
      
     console.log("회원끼리의 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,charge_amount) 
-    
+    console.log("chargedat=",chargedate)
     const sql = `
         insert 
         into 
@@ -386,17 +386,17 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price, charge_a
  }
 
 //kpoint list에 충전기록
-async function kpoint_list_insert_g(_phone, trans_tp,  chargedate, price, charge_amount ){  
+async function kpoint_list_insert_g(_store_phone, new_dt, trans_tp1,  pay_amount,  store_amount){  
      
-    console.log("회원끼리의 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,charge_amount) 
-    
+    console.log("가맹점거래내역kp_list에 insert",_store_phone, new_dt, trans_tp1,  pay_amount,  store_amount) 
+    console.log("new_dt=",new_dt)
     const sql = `
         insert 
         into 
         kp_list
         values (?,?,?,?,?)
         `
-    const values = [_phone, chargedate, trans_tp, price,charge_amount ]
+    const values = [_store_phone, new_dt, trans_tp1,  pay_amount,  store_amount]
 
     connection.query(
         sql,
@@ -408,7 +408,7 @@ async function kpoint_list_insert_g(_phone, trans_tp,  chargedate, price, charge
                     if (result.length == 0) {
                         console.log("kpoint list에 기록 하나도 없다네")
                     } else {
-                      console.log("kpoint list에 기록 정상+본문으로 돌아가고싶다")
+                      console.log("kpoint list에 기록 정상..........본문으로 돌아가고싶다")
                     }
     }})
  }
