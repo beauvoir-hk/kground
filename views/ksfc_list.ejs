@@ -11,6 +11,9 @@
         .display{
             display: none;
         }
+        .very-small {
+        font-size: 10px;
+        }
     </style>
  
 </head>
@@ -37,7 +40,7 @@
                                     <div class="p-5">
                                         <div class="text-center">
                                             <img src="/img/k.png" width="10%">
-                                            <h6>KSFC 선수등록 리스트</h6>
+                                            <h6>KSFC 스코어 리스트</h6>
                                         </div>
                                         <br>
                                         <!-- Earnings (Monthly) Card Example -->
@@ -63,79 +66,132 @@
                                         <hr> 
                                         <div class="container">
                                             <br>★ MY Score ★ 
-                                            
-                                            <table class="table bg-info p-2 text-dark bg-opacity-25">
-                                                
-                                                <tr>
-                                                    <th>
-                                                        번호
-                                                    </th>
-                                                    <th>
-                                                        참가시스템
-                                                    </th>
-                                                    <th>
-                                                        스코어
-                                                    </th>
-                                                    <th>
-                                                        순위
-                                                    </th>
-                                                </tr>
-                                                <%for (var i = 0; i < resultt2.length; i++){%>
-                                                <tr>
-                                                    <td>
-                                                        <%=i+1%>
-                                                    </td>
-                                                    <td>
-                                                        <%=resultt2[i].golfsys%> 
-                                                    </td>
 
-                                                    <td>
-                                                        <%=resultt2[i].bestscore%>
-                                                    </td>
-                                                    <td>
-                                                        <%=resultt2[i].sysrank%>
-                                                             
-                                                    </td>                                            
-                                                </tr>
-                                                <%}%>
-                                            </table>
+                                            <div class="very-small">
+                                                <table class="table bg-info p-2 text-dark bg-opacity-25">
+                                                    
+                                                    <tr>
+                                                        <th>
+                                                            번호
+                                                        </th>
+                                                        <th>
+                                                            참가시스템
+                                                        </th>
+                                                        <th>
+                                                            닉네임
+                                                        </th>
+                                                        <th>
+                                                            스코어
+                                                        </th>
+                                                        <th>
+                                                            순위
+                                                        </th>
+                                                    </tr>
+                                                    <%for (var i = 0; i < resultt2.length; i++){%>
+                                                    <tr>
+                                                        <td>
+                                                            <%=i+1%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt2[i].golfsys%> 
+                                                        </td>
+                                                        <td>
+                                                            
+                                                            ***
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt2[i].bestscore%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt2[i].sysrank%>
+                                                                
+                                                        </td>                                            
+                                                    </tr>
+                                                    <%}%>
+                                                </table>
+                                            </div>
 <hr>
                                             ★ 케이그라운드 전체 ★ 
-                                            <table class="table">
-                                                
-                                                <tr>
-                                                    <th>
-                                                        번호
-                                                    </th>
-                                                    <th>
-                                                        참가시스템
-                                                    </th>
-                                                    <th>
-                                                        스코어
-                                                    </th>
-                                                    <th>
-                                                        순위
-                                                    </th>
-                                                </tr>
-                                                <%for (var i = 0; i < resultt.length; i++){%>
-                                                <tr>
-                                                    <td>
-                                                        <%=i+1%>
-                                                    </td>
-                                                    <td>
-                                                        <%=resultt[i].golfsys%>
-                                                    </td>
 
-                                                    <td>
-                                                        <%=resultt[i].bestscore%>
-                                                    </td>
-                                                    <td>
-                                                        <%=resultt[i].sysrank%>
-                                                             
-                                                    </td>                                            
-                                                </tr>
-                                                <%}%>
-                                            </table>
+                                            
+                                            <div class="very-small">
+                                                <table class="table">
+                                                    
+                                                    <tr>
+
+                                                        <th>
+                                                            참가시스템
+                                                        </th>
+                                                        <th>
+                                                            닉네임
+                                                        </th>
+                                                        <th>
+                                                            스코어
+                                                        </th>
+                                                        <th>
+                                                            순위
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4"   class="text-danger">  
+                                                        [여자부문]
+                                                            <%for (var i = 0; i < resultt.length; i++){ 
+                                                                if(resultt[i].gender=="여"){%>
+                                                                    <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                                        <%if(resultt[i].bestscore != 9999 && resultt[i].bestscore<0 
+                                                                        && resultt[i].sysrank!=0 ){%>
+                                                                           
+                                                    </tr>
+                                                    <tr>
+                                                        <td>                        
+                                                            <%=resultt[i].golfsys%>
+                                                        </td>
+                                                        <td>
+                                                            <!-- <%=resultt[i].username%> -->***
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].bestscore%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].sysrank%>
+                                                        </td>                                            
+                                                                    
+                                                                    </div>
+                                                    <%}}}%>   
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                        <td colspan="4"  class="text-primary">  
+                                                        <hr>
+                                                            [남자부문]
+                                                        <%for (var i = 0; i < resultt.length; i++){ 
+                                                            if(resultt[i].gender=="남"){%>
+                                                                
+                                                                <div>
+                                                        
+                                                                    <%if(resultt[i].bestscore != 9999 && resultt[i].bestscore<0 
+                                                                    && resultt[i].sysrank!=0 ){%>
+                                                    </tr>
+                                                    <tr>    
+                                                                <td>
+                                                                    <%=resultt[i].golfsys%>
+                                                                </td>
+                                                                <td>
+                                                                    <%=resultt[i].username%>
+                                                                </td>
+                                                                <td>
+                                                                    <%=resultt[i].bestscore%>
+                                                                </td>
+                                                                <td>
+                                                                    <%=resultt[i].sysrank%>
+                                                                </td>                                            
+                                                            
+                                                        </div>
+                                                        <%}}}%>  
+                                                    </tr>    
+                                                    
+                                                </table>
+                                            </div>    
                                         </div>       
                                     </div>    
                                 </div>
