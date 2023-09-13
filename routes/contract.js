@@ -6,6 +6,9 @@ const router = express.Router()
 const moment = require('moment')
 const http = require('http');
 
+// Twilio에 연결합니다
+const twilioClient = require('twilio')(process.env.accountSid, process.env.authToken)
+
 const session = require('express-session')
 // 파일 업로드를 사용하기위한 모듈
 // const multer = require('multer')
@@ -1144,9 +1147,20 @@ router.post('/gamepay', async (req, res)=>{
                                                         console.log(">>>>>>>>>>>>>>>>>0.01초 더한시간",new_dt) 
                                                         console.log("가맹점+가맹점거래 kpoint_list_insert =",store_phone, trans_tp1,  new_dt, pay_amount, store_amount  )
 
-                                                        kpoint.kpoint_list_insert_g(store_phone, new_dt, trans_tp1,  pay_amount,  store_amount)
+                                                        kpoint.kpoint_list_insert_g(store_phone, new_dt, trans_tp1,  pay_amount)
 
                                                         res.redirect("gamepay_list")
+
+                                                         //가맹점에 안내 메세지
+                                                        const gphone = "+82"+  store_phone
+                                                        console.log("가맹점 폰 =",gphone)
+                                                        
+                                                        twilioClient.messages.create({
+                                                            body: '케이그라운드 가맹점 결제 완료[' + trans_tp +']  :  '+  pay_amount ,
+                                                            from: process.env.kphonenumber,
+                                                            to: gphone
+                                                            })
+                                                            .then(message => console.log("가맹점결제(kground)----", gphone,trans_tp,message.sid))
                                                     }})
                                             }})
                                         }  }}}}})
@@ -1376,6 +1390,17 @@ router.post('/kp_trans', async (req, res)=>{
                                         console.log("0.01초 더한시간",new_dt) 
                                         const pay_amount1=parseInt(pay_amount)*-1
                                         kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount1 ,reciep_amount)
+
+                                        //보낸사람에 안내 메세지
+                                          const gphone = "+82"+  _phone
+                                          console.log("보낸사람의  폰 =",gphone)
+                                        twilioClient.messages.create({
+                                            body: '친구에게 KPoint 완료[' + trans_tp1 +']  :  '+  pay_amount ,
+                                            from: process.env.kphonenumber,
+                                            to: gphone
+                                            })
+                                            .then(message => console.log("친구에게 보내기(kground)----", gphone,trans_tp1,message.sid))
+                                    
 
                                         //6.transpay_list준비 
                                         const phone = req.session.logined.phone 

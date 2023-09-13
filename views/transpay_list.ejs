@@ -11,6 +11,9 @@
         .display{
             display: none;
         }
+        .very-small {
+        font-size: 10px;
+        }
     </style>
  
 <!-- JS API 결제요청 호출시 설정된 파라메터 중
@@ -65,30 +68,46 @@
                                         <hr> 
                                     <div class="container">
                                         <br>
-                                        <% if(resultt.length != 0){ %>
-                                        <table class="table">
 
-                                            <%for (var i = 0; i < resultt.length; i++){%>
+                                        <div class="very-small">
+                                            <% if(resultt.length != 0){ %>
+                                            <table class="table">
                                                 <tr>
                                                     <th>
-                                                        번호<br>
-                                                        거래시간<br>
-                                                        받은사람<br>
+                                                        번호
+                                                    </th>
+                                                    <th>
+                                                        거래시간
+                                                    </th>
+                                                    <th>
+                                                        받은사람
+                                                    </th>
+                                                    <th>
                                                         보낸포인트
                                                     </th>
-                                                    <td>
-                                                        <%=i+1%><br>
-                                                        <%=resultt[i].transdate.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit",second: "2-digit"})%><br>
-                                                        <%=resultt[i].username%><br>
-                                                        <%=resultt[i].transamount%>
-                                                    </td>
                                                 </tr>
+                                                <%for (var i = 0; i < resultt.length; i++){%>
+                                                
+                                                        <td>
+                                                            <%=i+1%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].transdate.toLocaleString("ko-KR", {month: "2-digit",day: "2-digit",hour: "2-digit",minute: "2-digit"})%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].username%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].transamount%>
+                                                        </td>
+                                                    </tr>
+                                                <%}%>
+                                            </table>
                                             <%}%>
-                                        </table>
-                                        <%}%>
+                                        </div>
                                     </div>       
-                                    </div>    
-                                </div>
+                                </div>    
+                            </div>
                                 <div class="col-lg-5">
                                     <img src="/img/kk.png"  width="100%" >  
                                 </div>    

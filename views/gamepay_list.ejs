@@ -11,6 +11,9 @@
         .display{
             display: none;
         }
+        .very-small {
+        font-size: 10px;
+        }
     </style>
  
 <!-- JS API 결제요청 호출시 설정된 파라메터 중
@@ -64,32 +67,50 @@
                                         <hr> 
                                     <div class="container">
                                         <br>
-                                        <% if(resultt.length != 0){ %>
-                                        <table class="table">
 
-                                            <%for (var i = 0; i < resultt.length; i++){%>
+                                        <div class="very-small">
+                                            <% if(resultt.length != 0){ %>
+                                            <table class="table">
                                                 <tr>
                                                     <th>
-                                                        번호<br>
-                                                        결제시간<br>
-                                                        결제한 곳<br>
+                                                        번호
+                                                    </th>
+                                                    <th>
+                                                        시간
+                                                    </th>
+                                                    <th>
+                                                        가맹점
+                                                    </th>
+                                                    <th>
                                                         결제포인트
                                                     </th>
-                                                    <td>
-                                                        <%=i+1%><br>
-                                                        <%const korea = new Date(resultt[i].transdate)%>
-                                                        <%const koreanTime=korea.toLocaleString('ko-KR')%>
-                                                        <%=koreanTime%><br>
-                                                        <%=resultt[i].store%><br>
-                                                        <%=resultt[i].trans_amount%>
-                                                    </td>
                                                 </tr>
+
+                                                <%for (var i = 0; i < resultt.length; i++){%>
+
+                                                    <tr>
+                                                        <td>
+                                                            <%=i+1%>
+                                                        </td>
+                                                        <td>
+                                                            <%const korea = new Date(resultt[i].transdate)%>
+                                                            <%const koreanTime=korea.toLocaleString('ko-KR')%>
+                                                            <%=koreanTime%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].store%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt[i].trans_amount%>
+                                                        </td>
+                                                    </tr>
+                                                <%}%>
+                                            </table>
                                             <%}%>
-                                        </table>
-                                        <%}%>
+                                        </div>
                                     </div>       
-                                    </div>    
-                                </div>
+                                </div>    
+                            </div>
                                 <div class="col-lg-5">
                                     <img src="/img/kk.png"  width="100%" >  
                                 </div>    
