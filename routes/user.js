@@ -157,7 +157,7 @@ router.post("/login", async (req, res)=>{
             _birth,_jiyeok, _refferal, _numeric6 , input_dt )
 
         const tier = "1"
-        const _amount = 0
+        const _amount = "5000"
         // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
 
         const sql = `
@@ -190,7 +190,9 @@ router.post("/login", async (req, res)=>{
         const sysrank=0
         console.log("ksfc_insert :",_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
         kpoint.ksfc_insert(_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
-        res.render("my",{
+        
+       
+        res.render("/login",{
             phone:logphone,
             login_data:req.session.logined,
             state:1

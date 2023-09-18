@@ -300,8 +300,28 @@ module.exports = ()=>{
                     }
                     console.log("scores_sum=", sco_sum)
                     const scores_sum = sco_sum.toString()
-                    
+
+
+                    const sql6 = `
+                                select 
+                                *
+                                from 
+                                kp_list
+                                where 
+                                phone = ? && transtype="festival"
+                                
+                                `
+                            const values6 = [phone]
+                            connection.query(
+                            sql6, 
+                            values6, 
+                            function(err, result6){
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                                
                     res.render('score_list', {
+                        result6:result6,
                         'resultt':result2,
                         'username' : user, 
                         'phone': phone,
@@ -310,7 +330,7 @@ module.exports = ()=>{
                         'scores_sum' : scores_sum,
                         'state':data,
                         'len': len           
-                        })  
+                        })  }})  
                     } })}})
 
 
