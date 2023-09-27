@@ -212,17 +212,6 @@ router.post("/login", async (req, res)=>{
             const phone=req.session.logined.phone
             //const login_data = req.session.logined
             console.log('로그인 되었어요 원장다시 읽기준비',login_data)   
-
-            //로그아웃
-            req.session.destroy(function(err){
-                if(err){
-                    console.log(err)
-                }else{
-                    
-                    console.log("강제로그아웃한번 진행")
-                }})
-
-            console.log("강제로그아웃 후 다시 로그인 원장부르기")
             const sql = `
                 select 
                 *
@@ -1508,6 +1497,538 @@ router.post('/verify6', async (req, res) => {
                         })  }}
 }})})
 
+
+
+//db_update
+router.get('/db_update', function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+      
+
+}})
+
+
+router.post('/db_update', async function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+        //관리자
+        const memo_admin = req.session.logined.username
+
+        // 유저가 보낸 데이터를 서버에서 대소로 대입
+
+        const _nickname =   req.body.input_nickname
+        const _refferal =   req.body.input_refferal
+
+        const _amount =  parseInt(req.body.input_amount)
+        const _tier =   req.body.input_tier
+        const _memo =   req.body.input_memo
+        const _phone =   req.body.input_phone
+        const _username =  req.body.input_username
+        
+        
+        const _memotime = moment().format('YYYY-MM-DDTHH:mm:ss')
+
+        kpoint.log_info_update( _nickname,_refferal,  _amount,  _tier, _phone)
+        console.log('관리자 정보 갱신 완료 되었어요')
+
+        kpoint.log_info_insert_memo(_phone,_username, _memo, _memotime, memo_admin)
+        console.log('관리자 메모 정보 갱신 완료 되었어요')
+        const sql2 = `
+            select 
+            * 
+            from 
+            log_info 
+            where
+            username=? || phone=?
+            `
+        const values2 =[_username, _phone ]   
+
+        connection.query(
+            sql2, 
+            values2,
+        function(err, result2){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                res.render("db_update",{
+                    'login_data': req.session.logined ,
+                    resultt:result2
+                } )
+            }
+    })
+        
+    }})
+
+    router.get('/admin_ok', function(req, res){
+        if(!req.session.logined){
+            console.log('로그인정보가 없음')
+            res.redirect("/")
+        }else{
+            console.log('관리자 모드 로그인 되었어요')
+           
+                    res.render("admin_ok",{
+                        'login_data': req.session.logined 
+                         
+                    } )
+                }
+    })
+   
+    
+
+   
+router.post('/admin_ok', async function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+              
+        //입력 받기(전번 or 성명)
+        const user_phone = await req.body.input_phone
+        const user_name = await req.body.input_username
+        console.log("admin_ok' ", user_phone,user_name)
+        //log_info의 통계
+        const sql2 = `
+            select 
+            * 
+            from 
+            log_info 
+            where
+            username=? || phone=?
+            `
+        const values2 =[user_name, user_phone ]   
+
+        connection.query(
+            sql2, 
+            values2,
+        function(err, result2){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log("admin_ok's 렌더링해주는 result2=", result2)
+                res.render("db_update",{
+                    'login_data': req.session.logined ,
+                    resultt:result2,
+                    uuser_name:result2[0].username, 
+                    user_phone:result2[0].phone
+                } )
+            }
+        })
+    }})
+
+
+
+    router.post('/admin_chagamok', async function(req, res){
+        if(!req.session.logined){
+            console.log('로그인정보가 없음')
+            res.redirect("/")
+        }else{
+            console.log('관리자 모드 로그인 되었어요')
+            
+            //입력 받기(전번 or 성명)
+            const user_phone = await req.body.input_phone
+            const user_name = await req.body.input_username
+            console.log("admin_ok' ", user_phone,user_name)
+            //log_info의 통계
+            const sql2 = `
+                select 
+                * 
+                from 
+                log_info 
+                where
+                username=? || phone=?
+                `
+            const values2 =[user_name, user_phone ]   
+    
+            connection.query(
+                sql2, 
+                values2,
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                    res.send(err)
+                }else{
+                    console.log("admin_ok's 렌더링해주는 result2=", result2)
+                    res.render("admin_chagam",{
+                        'login_data': req.session.logined ,
+                        resultt:result2,
+                        user_name:result2[0].username, 
+                        user_phone:result2[0].phone
+                    } )
+                }
+            })
+        }})
+//관리자차감===============================================================
+
+
+
+
+
+//score_update
+router.get('/admin_scoreupdate', function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+      
+
+}})
+
+
+router.post('/admin_scoreupdate', async function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+        //관리자
+        const memo_admin = req.session.logined.username
+
+        // 유저가 보낸 데이터를 서버에서 대소로 대입
+
+        const _nickname =   req.body.input_nickname
+        const _refferal =   req.body.input_refferal
+
+        const _amount =  parseInt(req.body.input_amount)
+        const _tier =   req.body.input_tier
+        const _memo =   req.body.input_memo
+        const _phone =   req.body.input_phone
+        const _username =  req.body.input_username
+        
+        
+        const _memotime = moment().format('YYYY-MM-DDTHH:mm:ss')
+
+        kpoint.log_info_update( _nickname,_refferal,  _amount,  _tier, _phone)
+        console.log('관리자 정보 갱신 완료 되었어요')
+
+        kpoint.log_info_insert_memo(_phone,_username, _memo, _memotime, memo_admin)
+        console.log('관리자 메모 정보 갱신 완료 되었어요')
+        const sql2 = `
+            select 
+            * 
+            from 
+            log_info 
+            where
+            username=? || phone=?
+            `
+        const values2 =[_username, _phone ]   
+
+        connection.query(
+            sql2, 
+            values2,
+        function(err, result2){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                res.render("/admin_scoreupdate",{
+                    'login_data': req.session.logined ,
+                    resultt:result2
+                } )
+            }
+    })
+        
+    }})
+
+
+
+//관리자 스코어수정
+router.get('/admin_scoreok', function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+                res.render("admin_scoreok",{
+                    'login_data': req.session.logined ,
+                } )
+            }
+})
+
+
+
+
+router.post('/admin_scoreok', async function(req, res){
+if(!req.session.logined){
+    console.log('로그인정보가 없음')
+    res.redirect("/")
+}else{
+    console.log('관리자 모드 로그인 되었어요')
+   
+    //입력 받기(전번 or 성명)
+    const user_phone = await req.body.input_phone
+    const user_name = await req.body.input_username
+    console.log("admin_ok' ", user_phone,user_name)
+    //log_info의 통계
+    const sql2 = `
+        select 
+        * 
+        from 
+        score
+        where
+        username=? || phone=?
+        `
+    const values2 =[user_name, user_phone ]   
+
+    connection.query(
+        sql2, 
+        values2,
+    function(err, result2){
+        if(err){
+            console.log(err)
+            res.send(err)
+        }else{
+            const _user_name=result2[0].username
+            const _user_phone=result2[0].phone
+            console.log("admin_score ok's 렌더링해주는 result2=", result2)
+            res.render("admin_enterpay_list",{
+                'login_data': req.session.logined ,
+                enterpay:result2,
+                username:_user_name, 
+                phone:_user_phone
+            } )
+        }
+    })
+}})
+
+router.get('/admin_enterpay_list', async (req, res)=>{
+    if(!req.session.logined){
+        res.redirect("/")
+        let data =0
+    }else{ 
+        data=1 
+          
+        const phone = req.body._phone 
+        const user = req.body._username   
+        console.log("//////admin_enterpay_list=",phone,user )
+
+        //대회참가비 결제 리스트
+        const sql = `
+            select 
+            *
+            from 
+            score
+            where 
+            phone = ?
+            order by entertime DESC
+            `
+        const values = [phone]
+        connection.query(
+        sql, 
+        values, 
+        function(err, result){
+            if(err){
+                console.log(err)
+                
+            }else{
+               
+                //스코어가 하나도 없는 경우는
+                console.log("//대회참가비 리스트result.length",result.length)
+                if(result.length==0){
+                    const st=1
+                    //스코어가 하나도 없어서 
+                    res.render("enterpay",{
+                        state:0,
+                         
+                        phone:phone,
+                        username:user
+                        }) 
+                    }else{
+
+                 //참가시스템 검색
+                        const sql2 = `
+                            select 
+                            * 
+                            from 
+                            ksfc 
+                            where 
+                            phone = ?
+                                `
+                        const values2 = [phone]
+
+                        connection.query(
+                            sql2, 
+                            values2, 
+                            function(err, result2){
+                                if(err){
+                                    console.log(err)
+                                    res.send(err)
+                                }else{
+                                    console.log("result2",result2)
+                                    res.render('admin_enterpay_list', {
+                                        ksfcres:result2,
+                                        enterpay:result, 
+                                        username : user, 
+                                        
+                                        phone: phone,
+                                        login_data : req.session.logined,  
+                    
+                                    })}
+    })}}})}})
+
+
+//==========최다참가상
+router.get('/admin_papago', async (req, res)=>{
+        if(!req.session.logined){
+            res.redirect("/")
+            
+        }else{ 
+              
+            console.log("//////papago_list======================" )
+    
+            //원장 읽어오기
+            const sql = `
+                select 
+                *
+                from 
+                log_info
+                
+                `
+            //const values = [phone]
+            connection.query(
+            sql, 
+            //values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    
+                }else{
+
+                     //페스티벌참가횟수
+
+                    console.log("페스티벌참가횟수kp_list", result.length)
+                    
+                    for(var i=0; i<result.length; ++i){
+                    
+                        const res=result[i].phone
+                        //console.log("phone= ",i, res  )
+                        const resuser=result[i].username
+                        const resnick=result[i].nickname
+                        
+                        const sql = `
+                            select 
+                            *
+                            from 
+                            kp_list
+                            where phone=? && transtype="festival"
+                            `
+                        const values = [res]
+                        connection.query(
+                        sql, 
+                        values, 
+                        function(err, result2){
+                            if(err){
+                                console.log(err)
+                                
+                            }else{
+                            let len =result2.length
+                            const papago = len
+
+                            //console.log("papago= ",res, resuser, resnick, papago  )
+                            
+                            const sql = `
+                                select 
+                                *
+                                from 
+                                loginfo
+                                where phone=? 
+                                `
+                            const values = [res]
+                            connection.query(
+                            sql, 
+                            values, 
+                            function(err, result5){
+                                if(err){
+                                    console.log(err)
+                                    
+                                }else{
+
+                                    if(result5.length){
+
+                                         //참가횟수를 수정
+                                        const sql=
+                                            `
+                                            update
+                                            loginfo
+                                            set
+                                            papago=?
+                                            where phone = ?
+                                            `
+
+                                        const values = [ papago, res ]
+
+                                        connection.query(
+                                            sql,
+                                            values,
+                                            (err, result3)=>{
+                                                if(err){   
+                                                    console.log(err)}
+                                                    else{
+
+                                                        //console.log("papago update "  )
+                                                    }})
+                                    }else{
+
+
+                                        //참가횟수를 기록
+                                        const sql=
+                                                `
+                                                insert 
+                                                into 
+                                                loginfo 
+                                                values (  ?, ?, ?, ? )
+                                                `
+
+                                        const values = [res, resuser, resnick, papago ]
+
+                                        connection.query(
+                                            sql,
+                                            values,
+                                            (err, result3)=>{
+                                                if(err){   
+                                                    console.log(err)}
+                                                    else{
+
+                                                        console.log("papago insert= " )
+                                            }})
+                                    }
+                            }})
+                        }})
+                    }//for
+                    
+                        const sql = 
+                          `
+                            select 
+                            *
+                            from 
+                            loginfo
+                            order by papago DESC 
+                            `
+                        
+                        connection.query(
+                        sql, 
+                         
+                        function(err, result4){
+                            if(err){
+                                console.log(err)
+                                
+                            }else{
+                    
+                                console.log("result4",result4.length)
+                                res.render('admin_papagolist', {
+                                    resultt:result4,
+                                    username :  req.session.logined.username,
+                                    
+                                 })}
+                    })}})}})
 
 // return이 되는 변수는 router
     return router

@@ -29,12 +29,12 @@
                   alert("로그인이 필요합니다.")
         }
         </script>
-    </head>
-    <%if(state==0){%>
-    <body class="bg-gradient-primary" onload="fail()"  >
-        <%}else{%>
-            <body class="bg-gradient-primary" >
-                <%}%>
+</head>
+<%if(state==0){%>
+<body class="bg-gradient-primary" onload="fail()"  >
+    <%}else{%>
+        <body class="bg-gradient-primary" >
+            <%}%>
 
         <div class="container">
             <!-- Outer Row -->
@@ -75,7 +75,11 @@
                                                 <input type="submit" value="로그인" class="btn btn-danger">  
                                                 <br>                                           
                                             </div>
+
                                         </form> 
+                                        <div class="text-center">
+                                            <a id="kakao" href="/auth/kakao" class="btn">카카오톡 로그인</a>
+                                        </div>
                                             <br>
                                         <div class="text-center">    
                                             <!-- get형태로 -->

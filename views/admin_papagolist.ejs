@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
+    <style>
+        .display{
+            display: none;
+        }
+       
+        .very-small {
+            font-size: 8px;
+        }
+    </style>
+ 
+
+<script>
+    window.call = function () {
+        alert('결제가 완료되었습니다');
+        location.href= "index.ejs";
+    }
+</script>
+
+</head>
+    <body class="bg-gradient-primary">
+        <div class="container">
+            <div class="text-center">
+                <br>
+                <a id="signinlink" href="javascript:history.back()" >뒤로</a>
+                <a id="signinlink" href="/index" ><img src="/img/home.png"></a>
+            </div>
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image"><div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                                <!-- 1열 -->
+                                <div class="col-lg-6"> 
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                             
+                                        </div>
+                                        <br>
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="text-center">
+                                            <div class="col-xl-12 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    &nbsp;&nbsp;<%=username%>님
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <hr> 
+                                    <div class="small">
+                                        <br>
+                                        
+                                        <table class="table">
+                                            <tr>
+                                                <th>
+                                                    번호
+                                                </th>
+                                                <th>
+                                                    성명 
+                                                </th>
+                                                <th>
+                                                    닉네임
+                                                </th>
+                                                <th>
+                                                    참가횟수
+                                                </th>                                            
+                                            </tr>
+
+                                            <%for (var i = 0; i <20 ; i++){%>
+                                                <tr>
+                                                    <td>
+                                                        <%=i+1%>
+                                                    </td>
+                                                    <td>
+                                                        <%=resultt[i].username[0]%>
+                                                        **
+                                                    </td>
+                                                    <td>
+                                                        <%=resultt[i].nickname%>
+                                                    </td>
+                                                     <td>
+                                                        <%=resultt[i].papago%>
+                                                    </td>
+                                                </tr>
+                                            <%}%>
+                                        </table>
+                                         
+                                    </div>       
+                                    </div>    
+                                </div>
+                                <div class="col-lg-5">
+                                    <img src="/img/kk.png"  width="100%" >  
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
