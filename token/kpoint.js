@@ -377,7 +377,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price){
             console.log(err)
         }else{
             const charge_amount=parseInt(result2[0].charge_amount) + parseInt(price)
-            console.log("회원끼리의 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price, charge_amount) 
+            console.log("추가 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price, charge_amount) 
             console.log("chargedat=",chargedate)
 
 
@@ -425,7 +425,7 @@ async function kpoint_list_insert_m(_phone, trans_tp,  chargedate, price){
             console.log(err)
         }else{
             const charge_amount=parseInt(result2[0].charge_amount) - parseInt(price)
-            console.log("회원끼리의 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price, charge_amount) 
+            console.log("감액 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price, charge_amount) 
             console.log("chargedat=",chargedate)
 
 

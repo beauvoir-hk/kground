@@ -67,7 +67,7 @@
                                         <div class="container">
                                             <br>★ MY Score ★ 
 
-                                            <div class="very-small">
+                                            <div class="small">
                                                 <table class="table bg-info p-2 text-dark bg-opacity-25">
                                                     
                                                     <tr>
@@ -96,8 +96,8 @@
                                                             <%=resultt2[i].golfsys%> 
                                                         </td>
                                                         <td>
-                                                            
-                                                            ***
+                                                            <%=username[0]%>
+                                                            **
                                                         </td>
                                                         <td>
                                                             <%=resultt2[i].bestscore%>
@@ -114,7 +114,7 @@
                                             ★ 케이그라운드 전체 ★ 
 
                                             
-                                            <div class="very-small">
+                                            <div class="small">
                                                 <table class="table">
                                                     
                                                     <tr>
@@ -139,7 +139,7 @@
                                                                 if(resultt[i].gender=="여"){%>
                                                                     <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                                         <%if(resultt[i].bestscore != 9999 && resultt[i].bestscore<0 
-                                                                        && resultt[i].sysrank!=0 ){%>
+                                                                        && resultt[i].sysrank!=0  ){%>
                                                                            
                                                     </tr>
                                                     <tr>
@@ -147,7 +147,8 @@
                                                             <%=resultt[i].golfsys%>
                                                         </td>
                                                         <td>
-                                                            <!-- <%=resultt[i].username%> -->***
+                                                             <%=resultt[i].username[0]%> 
+                                                             **
                                                         </td>
                                                         <td>
                                                             <%=resultt[i].bestscore%>
@@ -177,7 +178,8 @@
                                                                     <%=resultt[i].golfsys%>
                                                                 </td>
                                                                 <td>
-                                                                     <!-- <%=resultt[i].username%> -->***
+                                                                    <%=resultt[i].username[0]%> 
+                                                                    **
                                                                 </td>
                                                                 <td>
                                                                     <%=resultt[i].bestscore%>

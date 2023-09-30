@@ -457,12 +457,7 @@ router.post('/admin_chagam', async (req, res)=>{
                 const _phone =  req.session.logined.phone  //보내는 관리자의 폰번호
                 const _username = req.session.logined.username
                 
-                da = 1 
-                //1. 차감수정
-                kpoint.log_info_amount_update1(receiptphone, pay_amount )  
-                console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
-                //2. 금액 증액정정 (관리자대표폰)
-                kpoint.log_info_amount_update2( adminphone, pay_amount )      
+                
                 
                 ///2. 차감대상자 금액 추가 정정
                 const sql6 = `
@@ -501,7 +496,7 @@ router.post('/admin_chagam', async (req, res)=>{
                             console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
                             
                             //const _pay_amount= parseInt(pay_amount)*-1
-                            kpoint.kpoint_list_insert_m(_phone, trans_tp1,  _input_dt, pay_amount)
+                            kpoint.kpoint_list_insert_m(receiptphone, trans_tp1,  _input_dt, pay_amount)
 
                             
                             // //5. KP_list에 추가 //수신자
@@ -511,7 +506,15 @@ router.post('/admin_chagam', async (req, res)=>{
                             const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
                             console.log("0.01초 더한시간",new_dt) 
                             //const pay_amount1 = parseInt(pay_amount)
-                            kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount )
+                            kpoint.kpoint_list_insert(adminphone, trans_tp,  new_dt, pay_amount )
+
+
+                            da = 1 
+                            //1. 차감수정
+                            kpoint.log_info_amount_update1(receiptphone, pay_amount )  
+                            console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
+                            //2. 금액 증액정정 (관리자대표폰)
+                            kpoint.log_info_amount_update2( adminphone, pay_amount )      
 
                             //6.전체거래내역list 
                             const phone = req.session.logined.phone 
@@ -725,13 +728,7 @@ router.post('/admin_jigub', async (req, res)=>{
                 const _phone =  req.session.logined.phone  //보내는 관리자의 폰번호
                 const _username = req.session.logined.username
                 
-                da = 1 
-                //1. log_info 정보 감액수정(관리자대표폰)
-                kpoint.log_info_amount_update1(adminphone, pay_amount )  
-
-                //2. 수신자 금액 정정 
-                console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
-                kpoint.log_info_amount_update2( receiptphone, pay_amount )      
+   
                 
                 ///2. 수신자(친구) 금액 추가 정정
                 const sql6 = `
@@ -767,7 +764,8 @@ router.post('/admin_jigub', async (req, res)=>{
 
                             console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
                             //const _pay_amount= parseInt(pay_amount)
-                            kpoint.kpoint_list_insert_m(_phone, trans_tp1,  _input_dt, pay_amount)
+
+                            kpoint.kpoint_list_insert_m(adminphone, trans_tp1,  _input_dt, pay_amount)
 
                             
                             // //5. KP_list에 추가 //수신자
@@ -778,6 +776,14 @@ router.post('/admin_jigub', async (req, res)=>{
                             console.log("0.01초 더한시간",new_dt) 
                             //const pay_amount1 = parseInt(pay_amount)*-1
                             kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
+
+                            da = 1 
+                            //1. log_info 정보 감액수정(관리자대표폰)
+                            kpoint.log_info_amount_update1(adminphone, pay_amount )  
+            
+                            //2. 수신자 금액 정정 
+                            console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
+                            kpoint.log_info_amount_update2( receiptphone, pay_amount )   
 
                             //6.전체거래내역list 
                             const phone = req.session.logined.phone 
@@ -1218,8 +1224,8 @@ router.get('/admin_papago', async (req, res)=>{
 
                      //페스티벌참가횟수
 
-                    console.log("페스티벌참가횟수kp_list", result.length)
-                    
+                    console.log("제 5회 페스티벌참가자수 :", result.length)
+                    let c=0
                     for(var i=0; i<result.length; ++i){
                     
                         const res=result[i].phone
@@ -1287,7 +1293,7 @@ router.get('/admin_papago', async (req, res)=>{
                                                     console.log(err)}
                                                     else{
 
-                                                        //console.log("papago update "  )
+                                                        ++c
                                                     }})
                                     }else{
 
@@ -1311,38 +1317,39 @@ router.get('/admin_papago', async (req, res)=>{
                                                     console.log(err)}
                                                     else{
 
-                                                        console.log("papago insert= " )
+                                                        console.log("papago insert= ",resuser )
                                             }})
                                     }
                             }})
                         }})
                     }//for
+                    console.log("갱신횟수 = ?", c)
+
+                    const sql = 
+                        `
+                        select 
+                        *
+                        from 
+                        loginfo
+                        order by papago DESC 
+                        `
                     
-                        const sql = 
-                          `
-                            select 
-                            *
-                            from 
-                            loginfo
-                            order by papago DESC 
-                            `
+                    connection.query(
+                    sql, 
                         
-                        connection.query(
-                        sql, 
-                         
-                        function(err, result4){
-                            if(err){
-                                console.log(err)
+                    function(err, result4){
+                        if(err){
+                            console.log(err)
+                            
+                        }else{
+                
+                            console.log("result4",result4.length)
+                            res.render('admin_papagolist', {
+                                resultt:result4,
+                                username :  req.session.logined.username,
                                 
-                            }else{
-                    
-                                console.log("result4",result4.length)
-                                res.render('admin_papagolist', {
-                                    resultt:result4,
-                                    username :  req.session.logined.username,
-                                    
-                                 })}
-                    })}})}})
+                                })}
+                })}})}})
 
                     
 

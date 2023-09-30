@@ -1875,160 +1875,163 @@ router.get('/admin_enterpay_list', async (req, res)=>{
     })}}})}})
 
 
+
 //==========최다참가상
-router.get('/admin_papago', async (req, res)=>{
-        if(!req.session.logined){
-            res.redirect("/")
+router.get('/papago_list', async (req, res)=>{
+    if(!req.session.logined){
+        res.redirect("/")
+        
+    }else{ 
+          
+        console.log("//////papago_list======================" )
+
+        //원장 읽어오기
+        const sql = `
+            select 
+            *
+            from 
+            log_info
             
-        }else{ 
-              
-            console.log("//////papago_list======================" )
-    
-            //원장 읽어오기
-            const sql = `
-                select 
-                *
-                from 
-                log_info
+            `
+        //const values = [phone]
+        connection.query(
+        sql, 
+        //values, 
+        function(err, result){
+            if(err){
+                console.log(err)
                 
-                `
-            //const values = [phone]
-            connection.query(
-            sql, 
-            //values, 
-            function(err, result){
-                if(err){
-                    console.log(err)
-                    
-                }else{
+            }else{
 
-                     //페스티벌참가횟수
+                 //페스티벌참가횟수
 
-                    console.log("페스티벌참가횟수kp_list", result.length)
+                console.log("제 5회 페스티벌참가자수 :", result.length)
+                let c=0
+                for(var i=0; i<result.length; ++i){
+                
+                    const res=result[i].phone
+                    //console.log("phone= ",i, res  )
+                    const resuser=result[i].username
+                    const resnick=result[i].nickname
                     
-                    for(var i=0; i<result.length; ++i){
-                    
-                        const res=result[i].phone
-                        //console.log("phone= ",i, res  )
-                        const resuser=result[i].username
-                        const resnick=result[i].nickname
+                    const sql = `
+                        select 
+                        *
+                        from 
+                        kp_list
+                        where phone=? && transtype="festival"
+                        `
+                    const values = [res]
+                    connection.query(
+                    sql, 
+                    values, 
+                    function(err, result2){
+                        if(err){
+                            console.log(err)
+                            
+                        }else{
+                        let len =result2.length
+                        const papago = len
+
+                        //console.log("papago= ",res, resuser, resnick, papago  )
                         
                         const sql = `
                             select 
                             *
                             from 
-                            kp_list
-                            where phone=? && transtype="festival"
+                            loginfo
+                            where phone=? 
                             `
                         const values = [res]
                         connection.query(
                         sql, 
                         values, 
-                        function(err, result2){
+                        function(err, result5){
                             if(err){
                                 console.log(err)
                                 
                             }else{
-                            let len =result2.length
-                            const papago = len
 
-                            //console.log("papago= ",res, resuser, resnick, papago  )
-                            
-                            const sql = `
-                                select 
-                                *
-                                from 
-                                loginfo
-                                where phone=? 
-                                `
-                            const values = [res]
-                            connection.query(
-                            sql, 
-                            values, 
-                            function(err, result5){
-                                if(err){
-                                    console.log(err)
-                                    
+                                if(result5.length){
+
+                                     //참가횟수를 수정
+                                    const sql=
+                                        `
+                                        update
+                                        loginfo
+                                        set
+                                        papago=?
+                                        where phone = ?
+                                        `
+
+                                    const values = [ papago, res ]
+
+                                    connection.query(
+                                        sql,
+                                        values,
+                                        (err, result3)=>{
+                                            if(err){   
+                                                console.log(err)}
+                                                else{
+
+                                                    ++c
+                                                }})
                                 }else{
 
-                                    if(result5.length){
 
-                                         //참가횟수를 수정
-                                        const sql=
+                                    //참가횟수를 기록
+                                    const sql=
                                             `
-                                            update
-                                            loginfo
-                                            set
-                                            papago=?
-                                            where phone = ?
+                                            insert 
+                                            into 
+                                            loginfo 
+                                            values (  ?, ?, ?, ? )
                                             `
 
-                                        const values = [ papago, res ]
+                                    const values = [res, resuser, resnick, papago ]
 
-                                        connection.query(
-                                            sql,
-                                            values,
-                                            (err, result3)=>{
-                                                if(err){   
-                                                    console.log(err)}
-                                                    else{
+                                    connection.query(
+                                        sql,
+                                        values,
+                                        (err, result3)=>{
+                                            if(err){   
+                                                console.log(err)}
+                                                else{
 
-                                                        //console.log("papago update "  )
-                                                    }})
-                                    }else{
-
-
-                                        //참가횟수를 기록
-                                        const sql=
-                                                `
-                                                insert 
-                                                into 
-                                                loginfo 
-                                                values (  ?, ?, ?, ? )
-                                                `
-
-                                        const values = [res, resuser, resnick, papago ]
-
-                                        connection.query(
-                                            sql,
-                                            values,
-                                            (err, result3)=>{
-                                                if(err){   
-                                                    console.log(err)}
-                                                    else{
-
-                                                        console.log("papago insert= " )
-                                            }})
-                                    }
-                            }})
+                                                    console.log("papago insert= ",resuser )
+                                        }})
+                                }
                         }})
-                    }//for
+                    }})
+                }//for
+                console.log("갱신횟수 = ?", c)
+
+                const sql = 
+                    `
+                    select 
+                    *
+                    from 
+                    loginfo
+                    order by papago DESC 
+                    `
+                
+                connection.query(
+                sql, 
                     
-                        const sql = 
-                          `
-                            select 
-                            *
-                            from 
-                            loginfo
-                            order by papago DESC 
-                            `
+                function(err, result4){
+                    if(err){
+                        console.log(err)
                         
-                        connection.query(
-                        sql, 
-                         
-                        function(err, result4){
-                            if(err){
-                                console.log(err)
-                                
-                            }else{
-                    
-                                console.log("result4",result4.length)
-                                res.render('admin_papagolist', {
-                                    resultt:result4,
-                                    username :  req.session.logined.username,
-                                    
-                                 })}
-                    })}})}})
+                    }else{
+            
+                        console.log("result4",result4.length)
+                        res.render('papago_list', {
+                            resultt:result4,
+                            username :  req.session.logined.username,
+                            
+                            })}
+            })}})}})
+
 
 // return이 되는 변수는 router
     return router
