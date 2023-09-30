@@ -1229,6 +1229,9 @@ router.get('/ksfaga', function(req, res){
 router.get('/regu', function(req, res){
     res.render("regu")
 })
+router.get('/trophy', function(req, res){
+    res.render("trophy")
+})
 router.get('/bkecho', function(req, res){
     res.render("bkecho")
 })
