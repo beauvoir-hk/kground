@@ -101,7 +101,7 @@ async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
 
 //충전 리스트에 기록
 async function chargelist_insert(_phone,chargedate, price){
-    const refferalcha = parseInt(price) * 0.1 
+    const refferalcha = parseInt(price) * 0.03 
     const refferalch = Math.round(refferalcha) //추천보너스
     const sql2 = `
         select 
@@ -242,7 +242,7 @@ async function log_info_amount_update1(_phone, price ){
                         })}})}
 
 
-//원본 디비에 충전금액 수정 
+//원본 디비에 충전금액 수정 //event도 추가
 async function log_info_amount_update(_phone, price ){   
     const sql2 = `
         select 
@@ -260,11 +260,11 @@ async function log_info_amount_update(_phone, price ){
         if(err){
             console.error(err)
             }else{
-                //추천보너스 계산
-                const refferalcha = parseInt(price) * 0.1 
-                const refferalch = Math.round(refferalcha) 
+                //이벤트보너스 계산
+                const eventcha = parseInt(price) * 0.03 
+                const eventch = Math.round(eventcha) 
                 //기존charge+ 충전금액 + 추천보너스 
-                const ch_amount=parseInt(result2[0].charge_amount) + parseInt(price) +parseInt(refferalch)    
+                const ch_amount=parseInt(result2[0].charge_amount) + parseInt(price) +parseInt(eventch)    
                 console.log(" 기존charge에 추천보너스 더하기",
                             _phone,result2[0].charge_amount ,price, ch_amount )
                             
@@ -285,7 +285,7 @@ async function log_info_amount_update(_phone, price ){
                         if(err){
                             console.error(err)
                             }else{
-                                console.log("charge 수정 성공",result )
+                                console.log("chargedml event추가 수정 성공",result )
                              
                             }
                         })}})}
@@ -329,10 +329,10 @@ async function log_info_refferal_update(_phone,price ){
                     if(err){
                         console.log(err)
                     }else{
-                    const phone= result3[0].phone
-                    const chargeamount=ParseInt(result3[0].charge_amount)+parseInt(price)
+                    const refferphone= result3[0].phone
+                    const chargeamount=parseInt(result3[0].charge_amount)+parseInt(price * 0.03)
 
-                    console.log("추천인의 phone",phone, price,chargeamount )    
+                    console.log("추천인의 phone === ",refferphone, price,chargeamount )    
 
                     const sql2 = `
                         update
@@ -342,7 +342,7 @@ async function log_info_refferal_update(_phone,price ){
                         where
                         phone = ?
                         `
-                    const values2 = [chargeamount, phone]
+                    const values2 = [chargeamount, refferphone]
                                     
                     connection.query(
                         sql2, 
@@ -351,7 +351,7 @@ async function log_info_refferal_update(_phone,price ){
                             if(err){
                                 console.error(err)
                                 }else{
-                                    console.log("charge 수정 성공")
+                                    console.log("refferal charge 수정 성공")
                                    
                                 }})
                         }})
@@ -517,7 +517,7 @@ async function kpoint_list_insert_g(_store_phone, new_dt, trans_tp1,  pay_amount
                 if(err){
                     console.log(err)
                 }else{
-                    const eventcha = parseInt(price) * 0.1 
+                    const eventcha = parseInt(price) * 0.03
                     const eventch = Math.round(eventcha) 
                     const ch_amount=parseInt(result2[0].charge_amount) + parseInt(eventch) 
                      
@@ -594,10 +594,10 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price  )
                                 const phone= result3[0].phone
                                 console.log("reffer's phone=", phone,result3[0].charge_amount )
                                 //추천보너스 계산
-                                const eventcha = parseInt(price) * 0.1 
+                                const eventcha = parseInt(price) * 0.03
                                 const eventch = Math.round(eventcha) 
                                 //추천인의 충전금액+추천보너스
-                                const chargeamount = parseInt(result3[0].charge_amount) + parseInt(eventch)
+                                const chargeamount = parseInt(result3[0].charge_amount) +  parseInt(price) + parseInt(eventch)
 
                                 console.log("추천인의 phone",phone, chargedate, trans_tp, eventch,chargeamount )
 
@@ -607,7 +607,7 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price  )
                                     kp_list
                                     values (?,?,?,?,?)
                                     `
-                                const values = [phone, chargedate, trans_tp,eventch,chargeamount  ]
+                                const values = [phone, chargedate, trans_tp, eventch, chargeamount  ]
 
                                 connection.query(
                                 sql,
@@ -941,6 +941,9 @@ module.exports = {
     log_info_amount_update, 
     log_info_amount_update1,
     log_info_amount_update2,
+    log_info_refferal_update,
+    kpoint_list_refferal_insert,
+    kpoint_list_insert_g,
     kpoint_list_insert, 
     kpoint_list_insert_m,
     kpoint_list_event_insert,
@@ -953,9 +956,7 @@ module.exports = {
     tier_update,
     ksfc_insert,
     log_info_update,
-    log_info_insert_memo,
-    kpoint_list_refferal_insert,
-    log_info_refferal_update,
-    kpoint_list_insert_g
+    log_info_insert_memo
+
 }
 

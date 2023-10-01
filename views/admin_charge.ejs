@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>관리자 KPoint 충전</title>
+    <%- include('header.ejs') %>
+    <script>
+
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("받을 사람이나 비밀번호를 정확히 입력해 주세요,, 다시 입력 바랍니다")
+        }
+        </script>
+            <style>
+                .display{
+                    display: none;
+                }
+            </style>
+</head>
+
+<%if(state == 1){%>
+    <body class="bg-gradient-primary" onload="fail()" >
+    <%}else{%>
+        <body class="bg-gradient-primary">      
+        <%}%>
+    <div class="container">
+        <div class="text-center">
+            <br>
+            <a id="signinlink" href="javascript:history.back()" >뒤로</a>
+        </div>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+
+                             <!-- 1열 -->
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img src="/img/005.jpg" width="100%">
+                                          KPoint 관리자 충전
+
+                                        <hr>
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            &nbsp;&nbsp;<%=username%>님이 보유한
+                                        </div>
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                            K포인트 : <%=aa%>
+                                        </div>
+                                        <hr><br>
+                                        <div class="text-primary">
+                                            <form class="user" action="/admin/admin_charge" method="post">
+                                                <div align="left">
+                                                    
+                                                    (1) KPoint 관리자 휴대폰번호
+                                                <br>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" name="_admin" id="_id" value="01080818962" 
+                                                        class="form-control form-control-user" readonly >
+                                                    <br>
+
+                                                </div>
+                                            
+                                                <br> 
+                                                <div align="left">
+                                                    
+                                                    (2) KPoint 수신 휴대폰번호
+                                                <br>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" name="_reciept" id="_id" value="<%=recieptphone%>" 
+                                                        class="form-control form-control-user" readonly >
+
+                                                    <br>
+
+                                                </div>
+                                            
+                                                <br>
+                                                
+                                                    <div align="left">
+                                                        (3) 충전해 줄 KPoint      
+                            
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-user"
+                                                                id="trans_kp_amount" name="_sendpay"  placeholder="K포인트(숫자만)">
+                                                            <br>
+
+                                                        </div>
+                                                    </div> 
+                                                
+                                                    <br>
+
+
+                                                    <div class="text-center">    
+                                                        <!-- <button class="btn btn-primary" onclick="location.href='/auth'">문자인증</button> -->
+                                                        <button class="btn btn-danger" >K포인트 관리자 충전실행</button><br><br>
+                                                    </div>
+                                                
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                            <!-- 2열 -->
+                            <div class="col-lg-6">
+                                <div class="col-lg-5">
+                                    <div class="text-center">
+                                        <img src="/img/k.png"  width="50%" >
+                                    </div>      
+                                </div>
+                            </div>
+                            <!--row-->
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>        
+    <!-- Outer Row -->
+<script>
+    $('#check_id').click(function(){
+        const input_id = $('#_id').val()
+        let data = 0
+        // ajax을 이용하여 서버와 비동기 통신
+        // 해당하는 id가 데이터베이스에 존재하는가?
+        $.ajax(
+            {
+                url : '/check_id1',   //비동기 통신을 할 주소값
+                method : 'get', 
+                datatype : 'json', 
+                data : {
+                    _id : input_id,
+                    state : data
+                }
+            }
+        )
+        .done(function(result){
+            // result : 비동기 통신이 완료한 뒤 서버가 유저에게 보내는 데이터
+            // /check_id에서 id를 체크한 뒤 사용 가능한 아이디면 True
+            // 사용이 불가능한 id라면 false 
+            // true이면 비밀번호, 비밀번호 확인, 이름을 입력할 수 있는 공간을 보여준다.
+            // span 태그를 숨기고 id를 입력하는 부분을 수정 불가능하게 한다. 
+            if(result){
+                // display 라는 class가 display none이기 때문에 
+                // 해당하는 class를 가지고 있지 않다면 화면에 표시
+                $('#info').toggleClass('display')
+                $('#check_id').toggleClass('display')
+                $('#_id').attr('readonly', 'true')
+            
+                alert("수신가능한 회원이십니다.")
+            }else{
+                alert("수신불가능한 회원이십니다.")
+            }
+        })
+    })
+</script>
+     
+</body>
+</html>

@@ -184,7 +184,7 @@ router.post("/login", async (req, res)=>{
 
 
         //KSFC에 추가
-        const game_number = 5
+        const game_number = 6
         const golf_sys="GolfZon"
         const bestscore=9999
         const sysrank=0
@@ -391,7 +391,7 @@ router.post("/login", async (req, res)=>{
                                                 if(result2.length<1 || st!=1){
                                                     console.log("result2.length<1 || st!=1 :",result2.length<1 || st!=1 )
                                                     //등록된 ksfc가 없다 insert
-                                                    const game_number = 5
+                                                    const game_number = 6
                                                     const bestscore=9999
                                                     const sysrank=0
                                                     const new_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
@@ -580,7 +580,7 @@ router.post("/login", async (req, res)=>{
                                                 if(result2.length<1 || st!=1){
                                                     console.log("result2.length<1 || st!=1 :",result2.length<1 || st!=1 )
                                                     //등록된 ksfc가 없다 insert
-                                                    const game_number = 5
+                                                    const game_number = 6
                                                     const bestscore=9999
                                                     const sysrank=0
                                                     const new_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
@@ -2031,6 +2031,11 @@ router.get('/papago_list', async (req, res)=>{
                             
                             })}
             })}})}})
+
+router.get('/trophy', function(req, res){
+    console.log("상금관련 페이지 보여주기")
+    res.render("trophy")
+})
 
 
 // return이 되는 변수는 router

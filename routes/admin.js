@@ -154,6 +154,8 @@ module.exports = ()=>{
             }})
 
 
+
+
 //회원목록출력 출력
 router.get('/admin_custom', async (req, res)=>{
     
@@ -490,7 +492,7 @@ router.post('/admin_chagam', async (req, res)=>{
 
                                                         
                             //4. KP_list에 추가  //보내는 사람=나
-                            const trans_tp = "케이그라운드"//보내는 사람
+                            const trans_tp = "관리자차감"//보내는 사람
                             const trans_tp1=reciept_username//받는사람
 
                             console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
@@ -588,6 +590,245 @@ router.get('/admintrans_list', async (req, res)=>{
                     })
         })
     }})
+
+//관리자 충전===========================================================
+router.get('/admin_chargeok', function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+       
+                res.render("admin_chargeok",{
+                    'login_data': req.session.logined ,
+                    // resultt:result2
+                } )
+            }
+})
+
+
+router.post('/admin_chargeok', async function(req, res){
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+        
+        //입력 받기(전번 or 성명)
+        const user_phone = await req.body.input_phone
+        const user_name = await req.body.input_username
+        console.log("admin_ok' ", user_phone,user_name)
+        //log_info의 통계
+        const sql2 = `
+            select 
+            * 
+            from 
+            log_info 
+            where
+            username=? || phone=?
+            `
+        const values2 =[user_name, user_phone ]   
+
+        connection.query(
+            sql2, 
+            values2,
+        function(err, result2){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log("admin_ok's 렌더링해주는 result2=", result2)
+                res.render("admin_charge",{
+                    'login_data': req.session.logined ,
+                    resultt:result2,
+                    username:result2[0].username, 
+                    recieptphone:result2[0].phone,
+                    amount:result2[0].charge_amount,
+                    state:0
+                } )
+            }
+        })
+    }})            
+        
+router.get('/admin_charge', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+
+        data=1
+        //회사원장 불러오기
+        const _phone= "01080818962"
+        const sql2 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values2 = [ _phone]
+        connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                }else{ 
+
+                    // const wallet = req.session.logined.wallet
+                    // req.session.logined=result2[0]
+                    const balance =result2[0].charge_amount//회사 잔고
+                    const _user= result2[0].username//회사명
+                    
+                    res.render('admin_charge', {
+                        resultt:result2,
+                        username:result2[0].username, 
+                        recieptphone:result2[0].phone,
+                        amount:result2[0].charge_amount,
+                        state:0
+                    })
+}})}}) 
+
+
+router.post('/admin_charge', async (req, res)=>{
+    if(!req.session.logined){
+    let data=0
+    res.render('login', {
+        'state' : data
+        })
+    }else{
+        data=1
+        const adminphone = req.body._admin//관리자대표폰
+        const receiptphone = req.body._reciept//수신자폰
+        const pay_amount = await req.body._sendpay.trim()//보낼금액
+
+        const sql6 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values6 = [ adminphone]
+        connection.query(
+        sql6, 
+        values6, 
+        function(err, result2){
+            if(err){
+                console.log(err)
+            }else{ 
+
+                console.log("trans_amount =", adminphone,receiptphone, pay_amount)
+                const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
+                
+                //보내는 관리자의  정보
+                const _phone =  req.session.logined.phone  //보내는 관리자의 폰번호
+                const _username = req.session.logined.username
+                
+   
+                
+                ///2. 수신자(친구) 금액 충전 정정
+                const sql6 = `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    `
+                const values6 = [ receiptphone]
+                connection.query(
+                sql6, 
+                values6, 
+                function(err, result6){
+                    if(err){
+                        console.log(err)
+                    }else{ 
+                            
+                            //3. admin 거래내역 추가 
+                            const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
+                            const reciept_username= result6[0].username.toString()
+                            const reciept_amount1=parseInt(reciept_amount)+parseInt(pay_amount)
+                            const admin_amount= parseInt(result2[0].charge_amount)-parseInt(pay_amount)
+                            
+                            console.log("admin 거래정보 리스트에 추가(충전)",_input_dt,_username,reciept_username, pay_amount , reciept_amount1, admin_amount)
+                            kpoint.admin_trans_insert(_input_dt,_username,reciept_username, pay_amount , reciept_amount1 , admin_amount )
+
+                                                        
+                            //4. KP_list에 추가  //보내는 사람=나
+                            const trans_tp = "관리자충전"//보내는 사람
+                            const trans_tp1=reciept_username//받는사람
+
+                            console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
+                            //const _pay_amount= parseInt(pay_amount)
+
+                            kpoint.kpoint_list_insert_m(adminphone, trans_tp1,  _input_dt, pay_amount)
+
+                            
+                            // //5. KP_list에 추가 //수신자
+                            
+                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone,reciept_amount1  )
+                            
+                            const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                            console.log("0.01초 더한시간",new_dt) 
+                            //const pay_amount1 = parseInt(pay_amount)*-1
+                            kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
+
+                            const trans_tp2="event"
+                            kpoint.kpoint_list_event_insert(receiptphone, trans_tp2,  new_dt, pay_amount )
+                            
+                            const trans_tp3="refferal"
+                            kpoint.kpoint_list_refferal_insert(receiptphone, trans_tp3, new_dt, pay_amount )
+    
+
+                            da = 1 
+                            //1. log_info 정보 감액수정(관리자대표폰)
+                            kpoint.log_info_amount_update1(adminphone, pay_amount )  
+            
+                            //2. 수신자 금액 정정 (충전)
+                            console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
+                            kpoint.log_info_amount_update( receiptphone, pay_amount )   //event
+                            kpoint.log_info_refferal_update(receiptphone, pay_amount)//refferal
+
+
+                            //6.전체거래내역list 
+                            const phone = req.session.logined.phone 
+                            const user = req.session.logined.username         
+                            const tokenamount = req.session.logined.charge_amount
+                            const sql = `
+                                select 
+                                *
+                                from 
+                                admin_trans
+                                
+                                order by admin_trans_time DESC
+                                    `
+                            const values = [phone]
+                            connection.query(
+                                sql, 
+                                values, 
+                                function(err, result){
+                                    if(err){
+                                        console.log(err)
+                                    }else{     
+                                        res.render('admintrans_list', {
+                                            'resultt': result,
+                                            'username' :trans_tp, 
+                                            'amount':admin_amount,
+                                            'phone': adminphone,
+                                            state:0
+                                        
+                        })}
+                    })
+                }})
+            }})                    
+        }})
+
+
 
 
 //관리자 지급===========================================================
@@ -759,7 +1000,7 @@ router.post('/admin_jigub', async (req, res)=>{
 
                                                         
                             //4. KP_list에 추가  //보내는 사람=나
-                            const trans_tp = "케이그라운드"//보내는 사람
+                            const trans_tp = "관리자지급"//보내는 사람
                             const trans_tp1=reciept_username//받는사람
 
                             console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 

@@ -1223,15 +1223,20 @@ router.get('/notice', function(req, res){
 })
 
 router.get('/ksfaga', function(req, res){
+    console.log("ksfaga 페이지 보이기")
     res.render("ksfaga")
 })
 
 router.get('/regu', function(req, res){
+    console.log("대회규정 보여주기")
     res.render("regu")
 })
+
 router.get('/trophy', function(req, res){
+    console.log("상금관련 페이지 보여주기")
     res.render("trophy")
 })
+
 router.get('/bkecho', function(req, res){
     res.render("bkecho")
 })
