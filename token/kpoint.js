@@ -519,8 +519,9 @@ async function kpoint_list_insert_g(_store_phone, new_dt, trans_tp1,  pay_amount
                 }else{
                     const eventcha = parseInt(price) * 0.03
                     const eventch = Math.round(eventcha) 
-                    const ch_amount=parseInt(result2[0].charge_amount) + parseInt(eventch) 
-                     
+                    console.log("eventcha , eventch ==   ", eventch , eventcha) 
+
+                    const ch_amount=parseInt(result2[0].charge_amount) + parseInt(price) + parseInt(eventch) 
                     console.log("충전 이벤트,, kp_list에 insert", _phone, trans_tp,  chargedate, eventch , ch_amount) 
                     
                     const sql = `
@@ -597,7 +598,7 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price  )
                                 const eventcha = parseInt(price) * 0.03
                                 const eventch = Math.round(eventcha) 
                                 //추천인의 충전금액+추천보너스
-                                const chargeamount = parseInt(result3[0].charge_amount) +  parseInt(price) + parseInt(eventch)
+                                const chargeamount = parseInt(result3[0].charge_amount) +  parseInt(eventch)
 
                                 console.log("추천인의 phone",phone, chargedate, trans_tp, eventch,chargeamount )
 

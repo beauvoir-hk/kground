@@ -791,7 +791,7 @@ router.post('/admin_charge', async (req, res)=>{
             
                             //2. 수신자 금액 정정 (충전)
                             console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
-                            kpoint.log_info_amount_update( receiptphone, pay_amount )   //event
+                            kpoint.log_info_amount_update( receiptphone, pay_amount )   //charge+event
                             kpoint.log_info_refferal_update(receiptphone, pay_amount)//refferal
 
 

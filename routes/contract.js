@@ -223,7 +223,7 @@ module.exports = ()=>{
                         console.log('db에 로그인한 정보 result[0]', result[0],login_data)
                         console.log('db에 로그인한 정보login_data', login_data)
                         
-                        console.log("refresh -->  ",result[0].charge_amount)
+                        console.log("charge refresh -->  ",result[0].charge_amount)
                         req.session.save()
                         res.render('charge', {
                             login_data: req.session.logined, 
