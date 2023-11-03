@@ -45,7 +45,15 @@
                                     </div><br>
                                     <div class="form-group">
                                         성명 : <input type="text" name="input_username"  value="<%=resultt[0].username%>" readonly    >
-                                    </div><br><hr><br>
+                                    </div><br>
+                                    <div class="form-group">
+                                        로그인비밀번호 : <input type="text" name="input_pass"  value="<%=resultt[0].pass%>" >
+                                    </div><br>
+                                    <div class="form-group">
+                                        결제비밀번호 : <input type="text" name="input_numeric6"  value="<%=resultt[0].numeric6%>" >
+                                    </div><br>
+                                    <hr><br>
+
 
                                     <div class="form-group">
                                         닉네임 : 
@@ -61,12 +69,14 @@
                                         <%aa=chargeamount.toString() %>
                                         <input type="text" name="input_amount"  value="<%=aa%>"  >
                                     </div><br>
-                                    <div class="form-group">
+
+                                    <!-- <div class="form-group">
                                         tier(티어) :  
                                         <% const tr = resultt[0].tier%>
                                         <%aa=tr.toString() %>
                                          <input type="text" name="input_tier" value="<%=aa%>"    >
-                                    </div><br>
+                                    </div> -->
+                                    <br>
                                     <div class="form-group">
                                        메모(필수) : <input type="text" name="input_memo" class="form-control" >
                                     </div><br>

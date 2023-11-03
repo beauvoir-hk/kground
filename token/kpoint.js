@@ -71,20 +71,23 @@ async function admin_trans_insert(_input_dt,_username,reciept_username, pay_amou
 
 
 //my : log_info 리스트에 갱신기록
-async function log_info_update(_nickname,_refferal,  _amount,  _tier,_phone ){
+async function log_info_update(pass, numeric6, _nickname,_refferal,  _amount,  _phone ){
         //user_info에 대해 갱신
         const sql3 = `
             update
             log_info
             set
-            refferal=?,
+            pass=?,
+            numeric6=?,
+            
             nickname=?,
-            charge_amount = ?,
-            tier=?
+            refferal=?,
+            charge_amount = ?
+             
             where
             phone = ?
             `
-        const values3 =[_refferal,_nickname,  _amount,  _tier, _phone ]    
+        const values3 =[pass, numeric6, _nickname, _refferal,  _amount,   _phone ]    
         connection.query(
             sql3, 
             values3,

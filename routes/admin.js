@@ -299,7 +299,7 @@ router.get('/admin_custom', async (req, res)=>{
                 from 
                 store_pay
                 
-                order by store DESC, transdate  DESC
+                order by store ASC, transdate  DESC
                     `
              
             connection.query(
@@ -1095,7 +1095,7 @@ router.post('/db_update', async function(req, res){
         
         const _memotime = moment().format('YYYY-MM-DDTHH:mm:ss')
 
-        kpoint.log_info_update( _nickname,_refferal,  _amount,  _tier, _phone)
+        kpoint.log_info_update( _pass,_numeric6, _nickname,_refferal,  _amount, _phone)
         console.log('관리자 정보 갱신 완료 되었어요')
 
         kpoint.log_info_insert_memo(_phone,_username, _memo, _memotime, memo_admin)

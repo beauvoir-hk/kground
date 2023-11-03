@@ -347,13 +347,13 @@ router.post('/ksfc1', async  function(req, res){
             const _phone = req.session.logined.phone 
             const _amount= req.session.logined.charge_amount
 
-            // ksfc전체를 시스템.스코어 순 전체
+            // score전체 호출--> bestscore 계산
             const sql = `
                 select 
                 *
                 from 
-                ksfc
-                order by golfsys, bestscore ASC
+                score5
+                order by golfsys, phone ASC
                 `
             //const values = [_phone]
             connection.query(
@@ -364,58 +364,181 @@ router.post('/ksfc1', async  function(req, res){
                     console.log(err)
                     state=false
                 }else{
+                    //스코어 등록 건수 만큼 반복
+                    let hap = 0
+                    let k=1
+                    hap=hap+parseInt(result[0].strok)
+
+                    //반복
+                    for(var i =0; i<result.length-1;++i ){
+                        if(result[i].phone==result[i+1].phone && result[i].golfsys==result[i+1].golfsys){
+                            if(k<=5){
+                                hap=hap+parseInt(result[i+1].strok)
+                                ++k
+                            }
+
+                        }else{
+                            console.log("update ksfc bestscore=",result[i].golfsys, result[i].phone, hap ) 
+                            
+                             // ksfc에 해당 레코드가 있으면 갱신 아니면 insert
+                            const sql = `
+                                select 
+                                *
+                                from 
+                                ksfc5
+                                where 
+                                golfsys=? && phone=?
+                                `
+                            const values = [ result[i].golfsys, result[i].phone ]
+                            connection.query(
+                            sql, 
+                            values, 
+                            function(err, result2){
+                            if(err){
+                                console.log(err)
+                                state=false
+                            }else{
+                                //레코드가 존재 update
+                                console.log(result2)
+                                if(result2.length!=0){
+                                    const sql=
+                                        `
+                                        update
+                                        ksfc5
+                                        set
+                                        bestscore=?
+                                        where
+                                        phone = ? && golfsys=?
+                                        `
+                                    const values = [hap,result[i].phone, result[i].golfsys]
+                                    connection.query(
+                                    sql,
+                                    values,
+                                    (err, result3)=>{
+                                        if(err){   
+                                            console.log(err)
+                                        }else{
+                                            
+                                            console.log("rank 갱신완료", result3)
+                                }})
+
+
+                                }else{//레코드가 없으면 insert
+
+                                    const sql4 = 
+                                        `
+                                        select 
+                                        *
+                                        from 
+                                        user_info
+                                        where 
+                                        phone=?
+                                        `
+                                    const values4 = [ result[i].phone ]
+                                    connection.query(
+                                    sql4, 
+                                    values4, 
+                                    function(err, result4){
+                                    if(err){
+                                        console.log(err)
+                                        state=false
+                                    }else{
+                                        _phone = result[i].phone
+                                        _username =  result[i].username
+                                        _gamenumber = 5
+                                        _gender=result4[0].gender
+                                        _jiyeok=result4[0].jiyeok
+                                        _birth=result4[0].birth
+                                        _golfsys=result[i].golfsys
+                                        _bestscore=hap
+                                        _sysrank=0
+                                        _registtime= moment().format('YYYY-MM-DDTHH:mm:ss')
+                                        ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
+                                        
+                                    }})     
+
+                                }}})
+
+                            hap=0
+                            k=0
+                        }
+                    }//for
+                }})
+
+                // ksfc 석차 구하기
+                const sql5 = `
+                    select 
+                    *
+                    from 
+                    ksfc5
+                    order by gender, golfsys, bestscore ASC
+                    `
+                //const values5 = [_phone]
+                connection.query(
+                sql5, 
+                //values5, 
+                function(err, result5){
+                if(err){
+                    console.log(err)
+                    state=false
+                }else{
                     state=true
-                    let len = result.length//전체건수
+                    let len = result5.length//전체건수
                     console.log("len ksfc 총건수result =",len ) 
 
-                    //phone번호로 로그인된 세션의 score만  
-                    //나의 스코어순서로
-                    const sql2 = `
-                        select 
-                        *
-                        from 
-                        ksfc
-                        where phone=?
-                        ORDER BY bestscore ASC
-                        `
-                    const values2 = [_phone]
-                    connection.query(
-                    sql2, 
-                    values2, 
-                    function(err, result2){
-                        if(err){
-                            console.log(err)
-                        }else{
+                    for(var i=0; i<len ; ++i){
+                       
+                        //phone번호로 로그인된 세션의 score만  
+                        //나의 스코어순서로cd
+                        const sql6 = `
+                            select 
+                            *
+                            from 
+                            ksfc5
+                            where gender=? && golfsys=?
+                            ORDER BY bestscore ASC
+                            `
+                        const values6 = [result5[i].gender, result5[i].golfsys ]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
                                     
-                            let lensys=result2.length //나의건수
-                            console.log("my ksfc 총건수 result2 =",lensys ) 
-                            
-                            for(j=0;j<lensys;j++){ //나의건수
+                                let lensys=result6.length // 해당 성별, 시스템별 
+                                console.log("lensys=",result6.length)
+                                console.log("[result5[i].gender, result5[i].golfsys =",result5[i].gender, result5[i].golfsys)
+                               
+                                //console.log("result6[j].bestscore , result5[i].bestscore =",result6[j].bestscore , result5[i].bestscore ) 
+                                
+                                for(var j=0;j<lensys;j++){  
+                                    console.log("i,j=",i,j)
 
-                                for(i=0;i<len;i++){//전체건수
-                                    if(result2[j].bestscore == result[i].bestscore){
-                                        rank[j]=i+1
-                                        console.log("석차 =",result2[j].bestscore , result[i].bestscore, rank[j] ) 
-                                       
+                                   if(result6[j].bestscore == result5[i].bestscore){
+                                      rank[i]=j+1
+                                      console.log("석차 =",result6[j].bestscore , result5[i].bestscore, rank[i] ) 
+                                        
+                                        }
                                     }
-                                }//i
 
                                 console.log("update ksfc rank[j]=",j,rank[j],_phone,result2[j].golfsys )  
-                                const sql=
+                                const sql7=
                                     `
                                     update
-                                    ksfc
+                                    ksfc5
                                     set
                                     sysrank=?
                                     where
                                     phone = ? && golfsys=?
                                     `
-                                const values = [rank[j],_phone,result[j].golfsys]
+                                const values7 = [rank[i], result5[i].phone ,result5[i].golfsys]
                                 
                                 connection.query(
-                                sql,
-                                values,
-                                (err, result3)=>{
+                                sql7,
+                                values7,
+                                (err, result7)=>{
                                     if(err){   
                                         console.log(err)
                                     }else{
@@ -423,19 +546,36 @@ router.post('/ksfc1', async  function(req, res){
                                         console.log("rank 갱신완료")
                                         }
                                 })
-                            }//j
-                                            
+                            }})
+                        }
+
+                        //나의 스코어순서로cd
+                        const sql8 = `
+                            select 
+                            *
+                            from 
+                            ksfc5
+                            where phone=?                           `                
+                        const values8 = [_phone ]
+                        connection.query(
+                        sql8, 
+                        values8, 
+                        function(err, result8){
+                            if(err){
+                                console.log(err)
+                            }else{
+
                                 res.render('ksfc_list', {
-                                    'resultt': result,  //전체 bestscore순
-                                    'resultt2': result2,//나의
+                                    'resultt': result5,  //전체 bestscore순
+                                    'resultt2': result8,//나의
                                     'username' : _user, 
                                     'phone': _phone,
                                     amount:_amount,
                                     'len': len,
                                     'state':state
-                                    })  
-    
-                            }})}})}})
+                                })  
+
+}})}})}})
                         
 
 

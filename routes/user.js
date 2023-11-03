@@ -402,7 +402,7 @@ router.post("/login", async (req, res)=>{
                                                     res.redirect("index")
                                                 }else{ 
 
-                                                    //ksfc가 이미 존재하면 수정
+                                                    // ksfc가 이미 존재하면 수정
                                                     let bestscore=9999
                                                     let sysrank=0
                                                     //중복시스템일 때는 수정
@@ -591,7 +591,7 @@ router.post("/login", async (req, res)=>{
                                                     res.redirect("index")
                                                 }else{ 
 
-                                                    //ksfc가 이미 존재하면 수정
+                                                    // ksfc가 이미 존재하면 수정
                                                     let bestscore=9999
                                                     let sysrank=0
                                                     //중복시스템일 때는 수정
@@ -1890,7 +1890,7 @@ router.get('/papago_list', async (req, res)=>{
             select 
             *
             from 
-            log_info
+            log_info5
             
             `
         //const values = [phone]
@@ -1918,7 +1918,7 @@ router.get('/papago_list', async (req, res)=>{
                         select 
                         *
                         from 
-                        kp_list
+                        kp_list5
                         where phone=? && transtype="festival"
                         `
                     const values = [res]
@@ -1939,7 +1939,7 @@ router.get('/papago_list', async (req, res)=>{
                             select 
                             *
                             from 
-                            loginfo
+                            loginfo5
                             where phone=? 
                             `
                         const values = [res]
@@ -1958,7 +1958,7 @@ router.get('/papago_list', async (req, res)=>{
                                     const sql=
                                         `
                                         update
-                                        loginfo
+                                        loginfo5
                                         set
                                         papago=?
                                         where phone = ?
@@ -1984,7 +1984,7 @@ router.get('/papago_list', async (req, res)=>{
                                             `
                                             insert 
                                             into 
-                                            loginfo 
+                                            loginfo5 
                                             values (  ?, ?, ?, ? )
                                             `
 
@@ -2011,7 +2011,7 @@ router.get('/papago_list', async (req, res)=>{
                     select 
                     *
                     from 
-                    loginfo
+                    loginfo5
                     order by papago DESC 
                     `
                 
