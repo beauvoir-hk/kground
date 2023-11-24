@@ -186,11 +186,37 @@ router.post("/login", async (req, res)=>{
                                 console.log("ksfc_insert :",_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
                                 kpoint.ksfc_insert(_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
                                 
-                            
-                                res.render("/",{
-                                    phone:_phone,
-                                    login_data:req.session.logined,
-                                    state:1
+
+                               const gphone = "+82"+ _phone
+                                console.log("회원가입 폰 =",gphone)
+                                
+                                twilioClient.messages.create({
+                                    body: '케이그라운드와 함께 해주셔서 감사합니다. 회원가입이 완료되었습니다 ID =   ' + _phone ,
+                                    from: process.env.kphonenumber,
+                                    to: gphone
+                                    })
+                                    .then(message => console.log("회원가입 ok(kground)----", gphone,message.sid))
+
+                                //본사에메세지
+                                const ggphone = "+8201025961010" 
+                                console.log(" 본사 폰  =",ggphone)
+                                // 문자인증 코드를 생성합니다.
+                                // 랜덤으로 4자리 인증 코드를 만든다.
+                                
+                                console.log("process.env.kphonenumber=",process.env.kphonenumber)
+                        
+                                twilioClient.messages.create({
+                                    body: '케이그라운드 회원가입완료:   ' + _phone ,
+                                    from: process.env.kphonenumber,
+                                    to: ggphone
+                                    })
+                                    .then(message => console.log("회원가입 ment ok(----",ggphone, message.sid))    
+                                
+                                
+                                    res.render("login",{
+                                        phone:_phone,
+                                        login_data:req.session.logined,
+                                        state:1
                                 
                                 })
                             }

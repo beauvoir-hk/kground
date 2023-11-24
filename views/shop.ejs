@@ -13,11 +13,12 @@
 <body class="bg-gradient-primary">      
  
     <div class="container">
-        <div class="text-center">
-            <br>
-            <!-- 쇼핑몰 사이트 -->
-            <a class="small" href="/index"><img src="/img/home.png"></a>
+        <br>
+        <div align="center">
+            
+            <a  href="/index"><img src="/img/home.png"></a>
         </div>
+        <br>
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
@@ -28,16 +29,17 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="p-6">
-                                    <div class="text-center">
+                                    <div align="center">
                                         <img src="/img/005.jpg" width="300px">
                                         <br><br>
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            &nbsp;&nbsp;<%=username%>님
-                                        </div>
-                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                            K포인트 : <%=aa%>
-                                        </div>
+                                    </div>
+                                    <div align="center">
+                                        <%=username%>님
+                                    </div>
+                                    <div align="center">
+                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                        K포인트 : <%=aa%>
+                                    </div>
                                         <hr>
                                         <br>
                                         <img src="/giga/gigagolf.jpg" width="300px">
@@ -351,9 +353,8 @@
                                         </div>
                                     </div>  
                                 </div>  
-                            </div>
-                        </div> 
-                    </div>
+                        </div>
+                        
                             
                             <!-- 2열 -->
                             <div class="col-lg-6">

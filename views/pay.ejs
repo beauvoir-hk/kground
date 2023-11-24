@@ -67,9 +67,9 @@
                                                     <td>   
                                                         
                                                             <br>
-                                                            상품명 :<input name="input_filename" value="<%=filename%>" >
+                                                            상품명 :<%=filename%>
                                                             <br>
-                                                            price :<input name="input_price" value="<%=price%>">원
+                                                            price :<%=price%>원
                                                             
                                                     </td>
                                                 </tr>
@@ -80,7 +80,26 @@
                                                 <table>
                                                     <tr>       
                                                         <td colspan="2" align="left" class="text-primary">        
-                                                            <b> (1)Kpoint+신용간단결제</b><br>
+                                                            <b> (1) Kpoint+신용간단결제</b>
+                                                            <br><br>
+                                                            <div align="center">
+                                                                ※ 아래 결제버튼을 순서대로 눌러서 결제 하세요
+                                                            </div>
+                                                            <br>
+                                                        </td>
+                                                    </tr>
+                                                   
+                                                    <tr>
+                                                        <td>        
+                                                            &nbsp;&nbsp;
+                                                        </td>
+                                                        <td  class="text-center text-danger">
+                                                            KPoint결제: 
+                                                        
+                                                            <%kp = price - card%>
+                                                            <input name="input_kp" value='<%=kp%>'>
+                                                            <a href="/contract/kp_trans_kpoint/?kpoint=<%=kp%>&name=<%=filename%>">결제</a>
+                                                            
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -92,24 +111,11 @@
                                                             <br>
                                                             신용간단결제: <input name="input_card" value="<%=card%>">
                                                             <a href="/contract/card_pay/?card=<%=card%>&name=<%=productname%>">결제</a>
-                                                            <br>
+                                                            <br><br><br>
                                                         </form>
 
                                                         </td>
                                                         
-                                                    </tr>
-                                                    <tr>
-                                                        <td>        
-                                                            &nbsp;&nbsp;
-                                                        </td>
-                                                        <td  class="text-center text-danger">
-                                                            KPoint결제: 
-                                                        
-                                                            <%kp = price - card%>
-                                                            <input name="input_kp" value='<%=kp%>'>
-                                                            <a href="/contract/kp_trans_kpoint/?kpoint=<%=kp%>">결제</a>
-                                                            <br><br>
-                                                        </td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -130,7 +136,7 @@
                                                             <td align="left">
                                                                 <%kp=price-card%>
                                                                 <input name="input_kp" value='<%=kp%>'>
-                                                                <a href="/contract/kp_trans_kpoint/?kpoint=<%=kp%>">결제</a>
+                                                                <a href="/contract/kp_trans_kpoint/?kpoint=<%=kp%>&name=<%=filename%>">결제</a>
                                                             </td>
                                                         </tr>
                                                         <td align="center" colspan="2">
@@ -152,7 +158,7 @@
                                                                             
                                                                         <b>  (3) 신용간단결제</b>
                                                                         <br> <input name="input_card" value="<%=price%>">원 
-                                                                        <a href="/contract/card_pay/?card=<%=price%>">결제</a>
+                                                                        <a href="/contract/card_pay/?card=<%=price%>&name=<%=productname%>">결제</a>
                                                                         <br><br>
                                                                     </td>
                                                                 </tr>

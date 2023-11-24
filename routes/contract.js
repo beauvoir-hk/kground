@@ -212,7 +212,7 @@ module.exports = ()=>{
                 from 
                 giga
                 where 
-                name = ?
+                filename = ?
                 `
             const values = [name]
             connection.query(
@@ -289,7 +289,7 @@ module.exports = ()=>{
                         from 
                         giga
                         where 
-                        name = ?
+                        filename = ?
                         
                             `
                     const values6 = [name]
@@ -318,22 +318,22 @@ module.exports = ()=>{
                                 }
                             }
                                                        
-                            const input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
-                            const sql7 =
-                                `
-                                insert 
-                                into 
-                                giga_pay
-                                values (?,?,?,?,?,?,?,?)
-                                `
-                            const values7 = [input_dt,filename,price,card,kpoint,bank,input_post,input_paymethod]
-                            connection.query(
-                            sql7, 
-                            values7, 
-                            function(err, result7){
-                                if(err){
-                                    console.log(err)
-                                }else{
+                            // const input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
+                            // const sql7 =
+                            //     `
+                            //     insert 
+                            //     into 
+                            //     giga_pay
+                            //     values (?,?,?,?,?,?,?,?)
+                            //     `
+                            // const values7 = [input_dt,filename,price,card,kpoint,bank,input_post,input_paymethod]
+                            // connection.query(
+                            // sql7, 
+                            // values7, 
+                            // function(err, result7){
+                            //     if(err){
+                            //         console.log(err)
+                            //     }else{
 
                                     res.render('pay', {
 
@@ -351,94 +351,9 @@ module.exports = ()=>{
                                         amount:amount
                                     
                             })}})
-    }})}})}})
+    }})}})
 
-    //     console.log(" 유저가 결재한 금액   price=", price)   
-         
-    //     if(req.method == 'POST'){
-    //         if(req.body.pay_state.trim()!=4){
-    //             switch (req.body.pay_state.trim()){
-    //                 case 1:
-    //                     console.log("요청만 되었고 완료가 안됨 ")
-    //                     break
-    //                 case 8:
-    //                 case 16:
-    //                 case 32:
-    //                     console.log("요청취소 ")
-    //                     break
-    //                 case 9:
-    //                 case 64:
-    //                     console.log("승인취소 ")
-    //                 default:
-    //                     break
-    //                 }
-    //             }else{
 
-    //                 console.log("승인 완료 ")
-    //                 // if(!req.session.logined){
-    //                     // console.log("login again",__dirname)
-    //                     console.log("back path",__dirname)
-    //                     // res.redirect("..")
-
-    //                 // }else{
-    //                     // const phone =  req.session.logined.phone
-                        
-    //                     //결제자에게 안내 메세지
-    //                     const gphone = "+82"+ phone
-    //                     console.log("충전한 사람 폰 =",gphone)
-                        
-    //                     twilioClient.messages.create({
-    //                         body: '케이그라운드와 함께 해주셔서 감사합니다. 쇼핑몰 결제완료:    ' +  price ,
-    //                         from: process.env.kphonenumber,
-    //                         to: gphone
-    //                         })
-    //                         .then(message => console.log("charge ment ok(kground)----", gphone,message.sid))
-
-                        
-
-    //                     //본사에 충전메세지
-    //                     const ggphone = "+8201025961010" 
-    //                     console.log(" 본사 폰  =",ggphone)
-    //                     // 문자인증 코드를 생성합니다.
-    //                     // 랜덤으로 4자리 인증 코드를 만든다.
-                        
-    //                     console.log("process.env.kphonenumber=",process.env.kphonenumber)
-                
-    //                     twilioClient.messages.create({
-    //                         body: phone +'케이그라운드 쇼핑몰 결제완료(페이앱):   ' +  price ,
-    //                         from: process.env.kphonenumber,
-    //                         to: ggphone
-    //                         })
-    //                         .then(message => console.log("charge ment ok(----",ggphone, message.sid))
-                            
-                                               
-    //                     const chargedate = moment().format('YYYY-MM-DDTHH:mm:ss')
-    //                     console.log("charge date :",chargedate )
-
-    //                     //충전 리스트에 추가기록
-    //                     kpoint.chargelist_insert(phone,chargedate, price)
-
-    //                     //kpoint 전체거래내역에 추가
-    //                     const trans_tp="charge"
-    //                     kpoint.kpoint_list_insert(phone, trans_tp,  chargedate, price )
-
-    //                     const trans_tp1="shopping"
-    //                     kpoint.kpoint_list_event_insert(phone, trans_tp1,  chargedate,  price )
-                        
-    //                     // const trans_tp2="refferal"
-    //                     // kpoint.kpoint_list_refferal_insert(phone, trans_tp2, chargedate, price )
-
-                        
-    //                     //원장기록 update
-    //                     kpoint.log_info_amount_update(phone,price )//event
-    //                     // kpoint.log_info_refferal_update(phone,price )//refferal
-                        
-    //                     console.log("현재 경로",__dirname)
-    //                     res.redirect("..") 
-    //                 }     
-
-    //     }}
-    // )
 
 
 
@@ -1542,6 +1457,7 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
     }else{
 
         const kpoint = req.query.kpoint
+        const name = req.query.name
         data=1
         const _phone= req.session.logined.phone
         const sql2 = `
@@ -1569,6 +1485,7 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
                     
                     res.render('kp_trans_kpoint', {
                         kpoint:kpoint,
+                        name:name,
                         amount : balance,
                         phonenum : _phone,
                         username : username,
@@ -1585,6 +1502,7 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
         })
     }else{
         data=1
+        const name= req.body.name
         const receiptphone =await req.body._reciept.trim()//수신자폰
         const pay_amount = await req.body._sendpay.trim()//보낼금액
         const numeric6 = await req.body._numeric6.trim()
@@ -1749,29 +1667,47 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
                                         const phone = req.session.logined.phone 
                                         const user = req.session.logined.username         
                                         const tokenamount = req.session.logined.charge_amount
-                                        const sql = `
+                                        const sql6 =
+                                            `
                                             select 
                                             *
                                             from 
-                                            trans_pay
+                                            giga_pay
                                             where 
-                                            sendphone = ?
-                                            order by transdate DESC
+                                            filename = ?
+                                            
                                                 `
-                                        const values = [phone]
+                                        const values6 = [name]
                                         connection.query(
-                                        sql, 
-                                        values, 
-                                        function(err, result){
+                                        sql6, 
+                                        values6, 
+                                        function(err, result6){
                                             if(err){
                                                 console.log(err)
-                                            }else{     
-                                                res.render('transpay_list', {
-                                                    'resultt': result,
-                                                    'username' : user, 
-                                                    'amount':tokenamount,
-                                                    'phone': req.session.logined.phone
-                                            })}})
+                                            }else{
+                                                const price=result6[0].hap
+                                                const kpoint =result6[0].kpoint
+                                                const card = result6[0].card
+                                                const _product_name =name
+                                                const filename= result6[0].filename
+                                                const paymethod= result6[0].paymethod
+                                                const juso=req.body.input_post//주문한 사람의 주소
+
+                                                //주문시간
+                                                //주문한사람정보
+                                                res.render('pay', {
+                                                    amount : tokenamount ,
+                                                    phone : phone,
+                                                    card : card,
+                                                    filename:filename,
+                                                    paymethod:paymethod,
+                                                    username :user,
+                                                    productname: _product_name,
+                                                    price:price,
+                                                    kpoint:kpoint,
+                                                    post:juso
+                                                 
+                                        })}})
                                          }}})                    
                     }}}}}})
         
