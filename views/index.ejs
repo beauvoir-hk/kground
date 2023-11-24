@@ -48,63 +48,32 @@
                                 
                                 <!-- Earnings (Monthly) Card Example -->
                                 <div class="text-center">
-                                    <div class="col-xl-12 col-md-6 mb-4">
+                                    <div class="col-xl-10 col-md-6 mb-2">
                                         
-                                        <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card border-left-primary shadow h-100 py-1">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                   
                                                     <div class="col mr-2">
                                                         <table>
                                                             <tr>
-                                                                <td width="200">
-                                                                    <div class="text  font-weight-bold mb-1 text-primary">
-                                                                        &nbsp;&nbsp;&nbsp;&nbsp
-                                                                        <span class="small" id="check_admin">
-                                                                            <%=login_data['username']%>님
+                                                                <td align="center" width="300px">
+                                                                    <div class="text-primary" align="center">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <span  id="check_admin">
+                                                                            <%=login_data['username']%>님<br><br>
                                                                         </span>
                                                                         <div class="display" id="info"> 
                                                                             <input id="_id" value="<%=login_data['phone']%>" ><br>
                                                                             <a href="/admin/admin_index">관리자모드로</a>
                                                                         </div>
                                                                     </div>
-                                                                </td>
-                                                                <td rowspan="2" width="100">
-                                                                    <div class="small text-primary">
-                                                                        <div align="right">
-                                                                            <%if(login_data['tier'] == 1){ %>
-                                                                                <img src="img/tier_004.png" width="70px">
-                                                                            <%}%>
-                                                                            <%if(login_data['tier'] == 2){ %>
-                                                                                <img src="img/tier_003.png" width="70px">
-                                                                            <%}%>                     
-                                                                            <%if(login_data['tier'] == 3){ %>
-                                                                                <img src="img/tier_002.png" width="70px">
-                                                                            <%}%>                                                                             
-                                                                            <%if(login_data['tier'] == 4){ %>
-                                                                                <img src="img/tier_001.png" width="70px"  >
-                                                                            <%}%>                                                                                                                              
-                                                                            <br>
-                                                                            <%if(login_data['tier'] == 1){ %>
-                                                                                버디
-                                                                            <%}%>
-                                                                            <%if(login_data['tier'] == 2){ %>
-                                                                                이글
-                                                                            <%}%>                     
-                                                                            <%if(login_data['tier'] == 3){ %>
-                                                                                알바트로스
-                                                                            <%}%>                                                                             
-                                                                            <%if(login_data['tier'] == 4){ %>
-                                                                                콘도르
-                                                                            <%}%> 
-                                                                            
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
+                                                                </td>                                                               
                                                             </tr>
+
                                                             <tr>
-                                                                <td>
-                                                                    <div class="small text-secondary ">
+                                                                <td align="center">
+                                                                    <div class="text-center  small " align="center">
                                                                             <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                                     K포인트 : <%=aa%>
                                                                                     <!-- <br><br><a href="/index">refresh</a> -->
