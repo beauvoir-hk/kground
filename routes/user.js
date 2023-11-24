@@ -178,26 +178,23 @@ router.post("/login", async (req, res)=>{
                         console.log(err)}
                         else{
                                 console.log("회원가입")
-                            res.render("login")
+                                //KSFC에 추가
+                                const game_number = 6
+                                const golf_sys="GolfZon"
+                                const bestscore=9999
+                                const sysrank=0
+                                console.log("ksfc_insert :",_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
+                                kpoint.ksfc_insert(_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
+                                
+                            
+                                res.render("/",{
+                                    phone:_phone,
+                                    login_data:req.session.logined,
+                                    state:1
+                                
+                                })
                             }
-                })
-
-
-        //KSFC에 추가
-        const game_number = 6
-        const golf_sys="GolfZon"
-        const bestscore=9999
-        const sysrank=0
-        console.log("ksfc_insert :",_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
-        kpoint.ksfc_insert(_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
-        
-       
-        res.render("/login",{
-            phone:logphone,
-            login_data:req.session.logined,
-            state:1
-        })
-    })    
+                        })})    
             
             
 
@@ -835,6 +832,44 @@ router.get('/check_id', function(req, res){
                     }
                 )}
     })
+
+
+
+router.get('/check_numeric6', function(req, res){
+        const input_numeric6 = req.query._numeric6
+        const input_id = req.query._id
+        const state =req.query.state
+        console.log("state =",state )
+        const sql = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+                `
+            const values = [input_id]
+            connection.query(
+        
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                }else{
+                    //전번으로 select한 db의 데이터가 있으면 result!=0
+                    if(result.length != 0){
+                        if(result[0].numeric6==input_numeric6){
+                        res.send(false)
+                        // res.render("verify",{
+                        //     'phone' : input_id
+                        }else{
+                            res.send(true)
+                            }
+                    }
+                }}
+            )})
+                    
 
 router.get('/check_admin', function(req, res){
     const input_id = req.query._id

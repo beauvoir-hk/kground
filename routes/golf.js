@@ -1385,6 +1385,10 @@ router.get('/onlyholein', function(req, res){
     res.render("onlyholein")
 })
 
+router.get('/holeinlist', function(req, res){
+    res.render("holeinlist")
+})
+
 // return이 되는 변수는 router
     return router
 }

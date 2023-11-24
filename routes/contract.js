@@ -41,7 +41,7 @@ const connection = mysql.createConnection({
 
 //js 파일 로드 
 const kpoint = require("../token/kpoint")
-const error = require("../token/error");
+
 
 module.exports = ()=>{
 
@@ -184,6 +184,263 @@ module.exports = ()=>{
                             }})
                 }})
             }})
+
+    router.get('/card_pay', async (req, res)=>{
+        let st=1
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{
+             // 유저가 결재한 금액과 폰번호
+            const price = req.query.card
+            const phone = req.session.logined.phone
+            const name=req.query.name
+            st=st+1
+            console.log("card 결제단계")
+
+            //원장을 다시 읽을 준비
+             
+            console.log('cardpay==============',price )   
+            console.log('phone ==============',phone )   
+            console.log('product name ==============',name )  
+            const login_data = req.session.logined
+            
+                
+            //원장을 다시 읽어서 렌더링
+            const sql = `
+                select 
+                *
+                from 
+                giga
+                where 
+                name = ?
+                `
+            const values = [name]
+            connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    
+                }else{
+                    if(result.length != 0){
+                        // 로그인이 성공하는 조건
+                        // console.log('db에 로그인한 정보 result[0]', result[0],login_data)
+                        // console.log('db에 로그인한 정보login_data', login_data)
+                        
+                        // console.log("charge refresh -->  ",result[0].charge_amount)
+
+                        req.session.save()
+                        res.render('card_pay', {
+                            filename:result[0].filename,
+                            name:result[0].name,
+                            cardpay:price,
+                            login_data: req.session.logined, 
+                            username:req.session.logined.username,
+                            amount:req.session.logined.charge_amount,
+                            phone:phone,
+                            st:st
+                    })
+    }}})}}) 
+
+   
+    router.post('/card_pay', async function(req, res){
+     
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+            const input_post =  req.body.input_post 
+            const input_paymethod =   req.body.input_paymethod 
+            const input_username  =  req.body.input_username
+            const phone  =  req.session.logined.phone
+            const input_card =req.body.input_card
+            const sql5 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values5 = [phone]
+            connection.query(
+            sql5, 
+            values5, 
+            function(err, result5){
+                if(err){
+                    console.log(err)
+                }else{
+
+                    const amount=result5[0].charge_amount
+ 
+                    
+                    const name  =  req.query.name
+                    
+
+                    const sql6 =
+                        `
+                        select 
+                        *
+                        from 
+                        giga
+                        where 
+                        name = ?
+                        
+                            `
+                    const values6 = [name]
+                    connection.query(
+                    sql6, 
+                    values6, 
+                    function(err, result6){
+                        if(err){
+                            console.log(err)
+                        }else{
+                            const price=result6[0].hap
+                            const kpoint =result6[0].kpoint
+                            const card = result6[0].card
+                            const filename = result6[0].filename
+                            const filename_detail = result6[0].filename_detail
+                            var bank=0 
+                            if(input_paymethod=="KPoint포함(무통장입금)"){
+                                
+                                bank = parseInt(price) - parseInt(kpoint) 
+                            }else{
+                                if(input_paymethod=="무통장입금"){
+                                    bank = price
+                                    
+                                }else{
+                                    bank=0
+                                }
+                            }
+                                                       
+                            const input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
+                            const sql7 =
+                                `
+                                insert 
+                                into 
+                                giga_pay
+                                values (?,?,?,?,?,?,?,?)
+                                `
+                            const values7 = [input_dt,filename,price,card,kpoint,bank,input_post,input_paymethod]
+                            connection.query(
+                            sql7, 
+                            values7, 
+                            function(err, result7){
+                                if(err){
+                                    console.log(err)
+                                }else{
+
+                                    res.render('pay', {
+
+                                        post:input_post,
+                                        paymethod:input_paymethod,
+                                        phone: phone,
+                                        card:card,
+                                        bank:bank ,
+                                        filename:filename,
+                                        filename_detail:filename_detail,
+                                        username :input_username,
+                                        productname: name,
+                                        price:price,
+                                        kpoint:kpoint,
+                                        amount:amount
+                                    
+                            })}})
+    }})}})}})
+
+    //     console.log(" 유저가 결재한 금액   price=", price)   
+         
+    //     if(req.method == 'POST'){
+    //         if(req.body.pay_state.trim()!=4){
+    //             switch (req.body.pay_state.trim()){
+    //                 case 1:
+    //                     console.log("요청만 되었고 완료가 안됨 ")
+    //                     break
+    //                 case 8:
+    //                 case 16:
+    //                 case 32:
+    //                     console.log("요청취소 ")
+    //                     break
+    //                 case 9:
+    //                 case 64:
+    //                     console.log("승인취소 ")
+    //                 default:
+    //                     break
+    //                 }
+    //             }else{
+
+    //                 console.log("승인 완료 ")
+    //                 // if(!req.session.logined){
+    //                     // console.log("login again",__dirname)
+    //                     console.log("back path",__dirname)
+    //                     // res.redirect("..")
+
+    //                 // }else{
+    //                     // const phone =  req.session.logined.phone
+                        
+    //                     //결제자에게 안내 메세지
+    //                     const gphone = "+82"+ phone
+    //                     console.log("충전한 사람 폰 =",gphone)
+                        
+    //                     twilioClient.messages.create({
+    //                         body: '케이그라운드와 함께 해주셔서 감사합니다. 쇼핑몰 결제완료:    ' +  price ,
+    //                         from: process.env.kphonenumber,
+    //                         to: gphone
+    //                         })
+    //                         .then(message => console.log("charge ment ok(kground)----", gphone,message.sid))
+
+                        
+
+    //                     //본사에 충전메세지
+    //                     const ggphone = "+8201025961010" 
+    //                     console.log(" 본사 폰  =",ggphone)
+    //                     // 문자인증 코드를 생성합니다.
+    //                     // 랜덤으로 4자리 인증 코드를 만든다.
+                        
+    //                     console.log("process.env.kphonenumber=",process.env.kphonenumber)
+                
+    //                     twilioClient.messages.create({
+    //                         body: phone +'케이그라운드 쇼핑몰 결제완료(페이앱):   ' +  price ,
+    //                         from: process.env.kphonenumber,
+    //                         to: ggphone
+    //                         })
+    //                         .then(message => console.log("charge ment ok(----",ggphone, message.sid))
+                            
+                                               
+    //                     const chargedate = moment().format('YYYY-MM-DDTHH:mm:ss')
+    //                     console.log("charge date :",chargedate )
+
+    //                     //충전 리스트에 추가기록
+    //                     kpoint.chargelist_insert(phone,chargedate, price)
+
+    //                     //kpoint 전체거래내역에 추가
+    //                     const trans_tp="charge"
+    //                     kpoint.kpoint_list_insert(phone, trans_tp,  chargedate, price )
+
+    //                     const trans_tp1="shopping"
+    //                     kpoint.kpoint_list_event_insert(phone, trans_tp1,  chargedate,  price )
+                        
+    //                     // const trans_tp2="refferal"
+    //                     // kpoint.kpoint_list_refferal_insert(phone, trans_tp2, chargedate, price )
+
+                        
+    //                     //원장기록 update
+    //                     kpoint.log_info_amount_update(phone,price )//event
+    //                     // kpoint.log_info_refferal_update(phone,price )//refferal
+                        
+    //                     console.log("현재 경로",__dirname)
+    //                     res.redirect("..") 
+    //                 }     
+
+    //     }}
+    // )
+
+
 
 
 
@@ -501,7 +758,7 @@ router.post('/enterpay', async (req, res)=>{
         let da =1          
         const input_numeric6 = await req.body._numeric6.trim()
         const _golfsys = ""
-        console.log("numeric6 =",input_numeric6)
+        console.log("input numeric6 =",input_numeric6)
         const _strok = 9999
         const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
         const phone =  req.session.logined.phone
@@ -529,7 +786,7 @@ router.post('/enterpay', async (req, res)=>{
             if(err){
                 console.log(err)            
             }else{
-                console.log("input_numeric6",input_numeric6)
+                console.log("numeric6=",result2[0].numeric6)
                 if(result2[0].numeric6==""){
                     res.render("auth6",{
                         username:_username,
@@ -542,6 +799,8 @@ router.post('/enterpay', async (req, res)=>{
                 if(input_numeric6 != result2[0].numeric6){
                     da=0
                     res.render("enterpay",{
+                        
+                        'phone': phone,                
                         amount : balance,
                         username :_username,
                         state : da
@@ -1177,12 +1436,10 @@ router.post('/gamepay', async (req, res)=>{
                                             const ch_amount = parseInt(_charge_amount) - parseInt(pay_amount)
                                             console.log("로그인포 테이블에 수정된 KPoint 갱신입력 성공",_phone, ch_amount)
                                             
-                                            
-                                            kpoint.log_info_amount_update1(_phone, pay_amount   )      
+                                             //5. 가맹점에 입금된 금액 추가 계산 : log_info
+                                             kpoint.log_info_amount_update2(store_phone ,pay_amount ) 
+                                            kpoint.log_info_amount_update(_phone, pay_amount   )      
 
-                                            //5. 가맹점에 입금된 금액 추가 계산 : log_info
-                                            kpoint.log_info_amount_update2(store_phone ,pay_amount ) 
-                                             
                                         
                                             //5. 가맹점 log_info 금액 수정 log_info((kpoint추가))
                                             
@@ -1273,6 +1530,264 @@ if(!req.session.logined){
                         'phone': req.session.logined.phone
             })}})
         }})
+
+ 
+
+router.get('/kp_trans_kpoint', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+
+        const kpoint = req.query.kpoint
+        data=1
+        const _phone= req.session.logined.phone
+        const sql2 = `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            `
+        const values2 = [ _phone]
+        connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+                if(err){
+                    console.log(err)
+                }else{ 
+
+                    // const wallet = req.session.logined.wallet
+                    req.session.logined=result2[0]
+                    const balance =result2[0].charge_amount
+                    const username= req.session.logined.username
+                    const s = req.body.state
+                    
+                    res.render('kp_trans_kpoint', {
+                        kpoint:kpoint,
+                        amount : balance,
+                        phonenum : _phone,
+                        username : username,
+                        state : 0
+                    })
+ }})}}) 
+        
+        
+ router.post('/kp_trans_kpoint', async (req, res)=>{
+    if(!req.session.logined){
+    let data=0
+    res.render('login', {
+        'state' : data
+        })
+    }else{
+        data=1
+        const receiptphone =await req.body._reciept.trim()//수신자폰
+        const pay_amount = await req.body._sendpay.trim()//보낼금액
+        const numeric6 = await req.body._numeric6.trim()
+        console.log("쇼핑몰 거래 amount =",pay_amount)
+        
+        const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
+        console.log("_input_dt =",_input_dt)
+
+        //보내는 사람의  정보
+        const _phone =  req.session.logined.phone  
+        const _username = req.session.logined.username
+        
+        //내가 나에게 보내는가?
+        if(receiptphone!=_phone){
+            console.log("receiptphone =",receiptphone)
+            
+            var charge_amount= 0
+        
+            //송신자의 금액정정
+            const sql2 = 
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                `
+            const values2 = [ _phone]
+            connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+            if(err){
+                console.log(err)
+            }else{ 
+                if(result2.length!=0){
+
+                    //1. 송신자 금액정정
+                    const _charge_amount = result2[0].charge_amount//나의 원장 충전금액
+                    console.log( "_charge_amount =",result2[0].charge_amount)
+                    
+                    //조건 1. 충전금액이 지불항 금액보다 작으면 다시 충전하러
+                    if(_charge_amount<pay_amount){
+
+                        //거래금액 미만이면 충전하러 갈것
+                        res.render("charge",{
+                            st:0,
+                            username:req.session.logined.username,
+                            amount:_charge_amount,
+                            phone:req.session.logined.phone
+                        })
+        
+                    }else{
+                        //조건2. 비밀번호 설정이 안되어 있으면 다시 설정하러
+                        if(result2[0].numeric6==""){
+                            red.render("auth6",{
+                                username:req.session.logined.username,
+                                amount:_charge_amount,
+                                phone:req.session.logined.phone
+
+                            })
+                        }else{
+                        
+                            //조건3.비밀번호가 틀리면 안내 후 다시 시작
+                            if( numeric6 != result2[0].numeric6){
+                                let da = 0
+                                res.render("kp_trans",{
+                                    username :_username,
+                                    amount:_charge_amount,
+                                    state : da
+                                })
+                            }else{
+                                
+                                //비밀번호 맞다면 거래
+                                da = 1 
+
+                                //1. log_info 정보 감액수정(보내는 사람 즉 나)
+                                console.log("log_info_amount_update1", _phone, pay_amount )
+                                kpoint.log_info_amount_update1(_phone,pay_amount )
+
+                                // 1. 수신자 log_info 수정
+                                console.log("log_info_amount_update2", receiptphone, pay_amount )
+                                kpoint.log_info_amount_update2( receiptphone, pay_amount)
+    
+                                //수신자의 전번
+                                const sql6 = `
+                                    select 
+                                    *
+                                    from 
+                                    log_info
+                                    where 
+                                    phone = ?
+                                    `
+                                const values6 = [ receiptphone]
+                                connection.query(
+                                sql6, 
+                                values6, 
+                                function(err, result6){
+                                if(err){
+                                    console.log(err)
+                                }else{ 
+                                    if(result6.length!=0){
+
+                                    //2. 수신자(친구) 금액 추가 정정 
+                                    console.log("//수신자의 전번", receiptphone)
+                                    
+                                    const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
+                        
+                                    
+                                    
+                                        //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
+                                        const rec_username= result6[0].username.toString()
+                                    
+                                        console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                                        kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
+
+                                        //친구에게 보내기 내역 기록
+                                        //4. KP_list에 추가  //보내는 사람=나
+                                        const trans_tp = _username//보내는 사람
+                                        const trans_tp1=rec_username//받는사람
+                                        charge_amount = parseInt(_charge_amount) - parseInt(pay_amount)//차감----------------------------------마이너스
+                                        req.session.logined.charge_amount= charge_amount//차감계산된 금액으로 세션정보를 수정
+                                        console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
+                                        console.log("친구에게 보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount ,charge_amount) 
+                                        const _pay_amount= parseInt(pay_amount)
+                                        const new_dt1 = moment(_input_dt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                        kpoint.kpoint_list_insert_m(_phone, trans_tp1,  new_dt1, pay_amount)
+
+                                        
+                                        // //5. KP_list에 추가 //수신자
+                                        const reciep_amount = parseInt(reciept_amount) + parseInt(pay_amount)//수신 받은 금액 추가++++++++++++++++++++++++++++++++++++++plus
+                                        console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone, reciep_amount  )
+                                        
+                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                        console.log("0.01초 더한시간",new_dt) 
+                                        const pay_amount1=parseInt(pay_amount)*-1
+                                        kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
+
+                                        //보낸사람에 안내 메세지
+                                        const gphone = "+82"+  _phone        
+                                        const ggphone = "+82"+  "01025961010"
+                                    
+                                          console.log("보낸사람의  폰 =",gphone)
+
+                                        twilioClient.messages.create({
+                                            body:  '[' + trans_tp +']님께서 [' + trans_tp1 +']에게 쇼핑몰 KPoint 결제 완료  :  '+  pay_amount ,
+                                            from: process.env.kphonenumber,
+                                            to: gphone
+                                            })
+                                            .then(message => console.log("쇼핑몰 결제(kground)----", gphone,trans_tp1,message.sid))
+                                    
+                                        twilioClient.messages.create({
+                                            body:trans_tp +'님께서 케이그라운드 쇼핑몰 Kpoint 결제 완료):   ' +   pay_amount ,
+                                            from: process.env.kphonenumber,
+                                            to:  ggphone
+                                            })
+                                            .then(message => console.log("쇼핑몰 결제(kground)---- ok(----", ggphone, message.sid))
+
+
+                                        //6.transpay_list준비 
+                                        const phone = req.session.logined.phone 
+                                        const user = req.session.logined.username         
+                                        const tokenamount = req.session.logined.charge_amount
+                                        const sql = `
+                                            select 
+                                            *
+                                            from 
+                                            trans_pay
+                                            where 
+                                            sendphone = ?
+                                            order by transdate DESC
+                                                `
+                                        const values = [phone]
+                                        connection.query(
+                                        sql, 
+                                        values, 
+                                        function(err, result){
+                                            if(err){
+                                                console.log(err)
+                                            }else{     
+                                                res.render('transpay_list', {
+                                                    'resultt': result,
+                                                    'username' : user, 
+                                                    'amount':tokenamount,
+                                                    'phone': req.session.logined.phone
+                                            })}})
+                                         }}})                    
+                    }}}}}})
+        
+                }else{
+                console.log("내가 나에게 보낼 수 없다") 
+                res.render('kp_trans', {
+                    amount :  _charge_amount,
+                    phonenum : _phone,
+                    username :  _username,
+                    state : 1
+                        
+                })
+                }
+}})
+
+
 
 router.get('/kp_trans', async (req, res)=>{
     if(!req.session.logined){
@@ -1451,7 +1966,8 @@ router.post('/kp_trans', async (req, res)=>{
                                         console.log("log_info테이블에 수정된 KPoint 갱신입력 성공",_phone, charge_amount  )
                                         console.log("친구에게 보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount ,charge_amount) 
                                         const _pay_amount= parseInt(pay_amount)
-                                        kpoint.kpoint_list_insert_m(_phone, trans_tp1,  _input_dt, pay_amount)
+                                        const new_dt1 = moment(_input_dt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                        kpoint.kpoint_list_insert_m(_phone, trans_tp1,  new_dt1, pay_amount)
 
                                         
                                         // //5. KP_list에 추가 //수신자
@@ -1467,7 +1983,7 @@ router.post('/kp_trans', async (req, res)=>{
                                           const gphone = "+82"+  _phone
                                           console.log("보낸사람의  폰 =",gphone)
                                         twilioClient.messages.create({
-                                            body: '친구에게 KPoint 완료[' + trans_tp1 +']  :  '+  pay_amount ,
+                                            body:  '[' + trans_tp +']님께서 [' + trans_tp1 +']에게 KPoint 보내기 완료  :  '+  pay_amount ,
                                             from: process.env.kphonenumber,
                                             to: gphone
                                             })

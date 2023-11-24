@@ -1082,7 +1082,8 @@ router.post('/db_update', async function(req, res){
         const memo_admin = req.session.logined.username
 
         // 유저가 보낸 데이터를 서버에서 대소로 대입
-
+        const _pass =   req.body.input_pass
+        const _numeric6 =   req.body.input_nemeric6
         const _nickname =   req.body.input_nickname
         const _refferal =   req.body.input_refferal
 
@@ -1095,7 +1096,7 @@ router.post('/db_update', async function(req, res){
         
         const _memotime = moment().format('YYYY-MM-DDTHH:mm:ss')
 
-        kpoint.log_info_update( _pass,_numeric6, _nickname,_refferal,  _amount, _phone)
+        kpoint.log_info_update( _pass, _numeric6, _nickname,_refferal,  _amount, _phone)
         console.log('관리자 정보 갱신 완료 되었어요')
 
         kpoint.log_info_insert_memo(_phone,_username, _memo, _memotime, memo_admin)
@@ -1118,7 +1119,7 @@ router.post('/db_update', async function(req, res){
                 console.log(err)
                 res.send(err)
             }else{
-                res.render("db_update",{
+                res.render("../admin/admin_index",{
                     'login_data': req.session.logined ,
                     resultt:result2
                 } )
@@ -1254,7 +1255,8 @@ router.post('/admin_scoreupdate', async function(req, res){
         const memo_admin = req.session.logined.username
 
         // 유저가 보낸 데이터를 서버에서 대소로 대입
-
+        const _pass =   req.body.input_pass
+        const _numeric6 =   req.body.input_nemeric6
         const _nickname =   req.body.input_nickname
         const _refferal =   req.body.input_refferal
 
@@ -1267,7 +1269,7 @@ router.post('/admin_scoreupdate', async function(req, res){
         
         const _memotime = moment().format('YYYY-MM-DDTHH:mm:ss')
 
-        kpoint.log_info_update( _nickname,_refferal,  _amount,  _tier, _phone)
+        kpoint.log_info_update(  _pass , _numeric6, _nickname,_refferal,  _amount,  _tier, _phone)
         console.log('관리자 정보 갱신 완료 되었어요')
 
         kpoint.log_info_insert_memo(_phone,_username, _memo, _memotime, memo_admin)

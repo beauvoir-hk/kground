@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <%- include('header.ejs') %>
+    <style>
+        .display{
+            display: none;
+        }
+    </style>
+  
+<!-- JS API 결제요청 호출시 설정된 파라메터 중
+상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
+<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
+<script>
+    
+    PayApp.setDefault('userid',     'qop1513');
+    PayApp.setDefault('shopname',   '케이그라운드');
+    function payappPay(){
+        PayApp.setParam('goodname', '케이그라운드쇼핑몰 신용간단결제');
+        PayApp.setParam('price', $('#price').val());
+        PayApp.setParam('recvphone', $('#phone').val());
+        PayApp.setParam('returnurl', 'https://kground.co.kr/contract/card_pay/?price='+$('#price').val()+"&name="+ $('#name').val());
+        PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
+        PayApp.setParam('smsuse', 'n');
+        PayApp.setParam('redirectpay', '1');
+        PayApp.setParam('skip_cstpage', 'y');
+        PayApp.call();
+    }
+</script>
+<script>
+    window.call = function () {
+        alert('결제가 완료되었습니다');
+        location.href= "index";
+    }
+
+</script>
+
+<script>
+
+    function popup(){
+        myPopup=window.open("/error_login", "kground", "width=500, height=300");
+    }
+    function close(){
+        window.close(myPopup) 
+    }
+    function fail(){
+              alert("KPoint를 중전해 주십시오")
+    }
+    </script>
+</head>
+<%if(st==0){%>
+<body class="bg-gradient-primary" onload="fail()"  >
+    <%}else{%>
+        <body class="bg-gradient-primary" >
+            <%}%>
+
+    <body class="bg-gradient-primary">
+
+        <div class="container">
+            <div class="text-center">
+                <br>
+                <a id="signinlink" href="/index" ><img src="/img/home.png"></a>
+    
+            </div>
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+                <div class="col-xl-10 col-lg-12 col-md-9">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <!--<div class="col-lg-5 d-none d-lg-block bg-login-image">
+                                    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                            
+                                <div class="col-lg-6"> 
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <img src="/img/005.jpg" width="100%">
+                                            신용간단결제 
+                                        </div>
+                                        <br>
+                                        <!-- Earnings (Monthly) Card Example -->
+                                        <div class="text-center">
+                                            <div class="col-xl-12 col-md-6 mb-4">
+                                                <div class="card border-left-primary shadow h-100 py-2">
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters align-items-center">
+                                                            <div class="col mr-2">
+                                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                 
+                                                                    &nbsp;&nbsp;<%=username%>님
+                                                                </div>
+                                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                                    <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                    K포인트 : <%=aa%>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <form role="form" action="" method="post" >
+                                        <fieldset> 
+                                            <br>
+                                            <input class="form-control" type="text" id="name" name="name"  
+                                                value="<%=name%>" readonly >
+                                            <br><br>
+                                            <input class="form-control" type="text" id="phone" name="phone"  
+                                                value="<%=phone%>" readonly >
+                                            <br><br>
+                                         
+                                            <label class="control-label">신용카드 간단결제 금액</label>
+                                            <br>
+                                            <input type="text" class="form-control form-control-user" id="price"
+                                                    name='price' value="<%=cardpay%>" >
+                                                    <br>
+
+                                                    <!-- <label class="control-label">신용카드 간단결제 금액</label>        
+                                            <input class="form-control" type="password" id="numeric6" name="input_numeric6" placeholder="결제비밀번호를 입력하세요" > -->
+
+                                    </div>
+                                        <div class="text-center">
+                                            <input type="submit"  class="btn btn-danger" value="결제하기"  onclick="payappPay()">   
+                                            <br>
+                                            <div class="very-small">
+                                                → 카드, 페이 등 간편결제가 진행이 됩니다
+                                            </div>
+                                       </div>
+                                        </fieldset>
+                                        </form>
+                                    <hr>         
+                                    </div>    
+                                </div>
+                                <div class="col-lg-5">
+                                    <img src="/img/kk.png"  width="100%" >  
+                                
+                                    
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

@@ -71,7 +71,7 @@ async function admin_trans_insert(_input_dt,_username,reciept_username, pay_amou
 
 
 //my : log_info 리스트에 갱신기록
-async function log_info_update(pass, numeric6, _nickname,_refferal,  _amount,  _phone ){
+async function log_info_update( _pass, _numeric6, _nickname,_refferal,  _amount,  _phone ){
         //user_info에 대해 갱신
         const sql3 = `
             update
@@ -87,7 +87,7 @@ async function log_info_update(pass, numeric6, _nickname,_refferal,  _amount,  _
             where
             phone = ?
             `
-        const values3 =[pass, numeric6, _nickname, _refferal,  _amount,   _phone ]    
+        const values3 =[_pass, _numeric6, _nickname, _refferal,  _amount,   _phone ]    
         connection.query(
             sql3, 
             values3,
@@ -242,7 +242,7 @@ async function log_info_amount_update1(_phone, price ){
                                 console.log("log_info 감액 수정 성공")
                              
                             }
-                        })}})}
+})}})}
 
 
 //원본 디비에 충전금액 수정 //event도 추가

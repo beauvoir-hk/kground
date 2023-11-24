@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>KPoint 결제</title>
+    <%- include('header.ejs') %>
+    <script>
+
+        function signup(){
+          location.href = '/signup'
+        }
+        function fail(){
+                  alert("금액과 결제비밀번호(숫자6자리)를 정확히 입력 해 주세요")
+        }
+        </script>
+</head>
+
+
+<body class="bg-gradient-primary"  >
+   
+    <div class="container">
+        <div class="text-center">
+            <br>
+            <a class="small" href="/index"><img src="/img/home.png"></a>
+        </div>
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <img src="/giga/gigagolf.jpg" width="100%">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            &nbsp;&nbsp;<%=username%>님
+                                        </div>
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                            K포인트 : <%=aa%>
+                                        </div>
+                                        <hr><br>
+                                        
+                                            <table class="table">
+                                                <tr>
+                                                    <td>
+                                                        
+                                                        <%=filename%>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%">
+                                                        <img src="../giga/<%=filename%>" width="300">
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>   
+                                                        
+                                                            <br>
+                                                            상품명 :<input name="input_filename" value="<%=filename%>" >
+                                                            <br>
+                                                            price :<input name="input_price" value="<%=price%>">원
+                                                            
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                       
+                                            
+                                            <% if(paymethod=="KPoint포함(신용간단결제)"){%>
+                                                <table>
+                                                    <tr>       
+                                                        <td colspan="2" align="left" class="text-primary">        
+                                                            <b> (1)Kpoint+신용간단결제</b><br>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>        
+                                                            &nbsp;&nbsp;
+                                                        </td>
+                                                       
+                                                        <td  class="text-center text-danger" >
+                                                            <br>
+                                                            신용간단결제: <input name="input_card" value="<%=card%>">
+                                                            <a href="/contract/card_pay/?card=<%=card%>&name=<%=productname%>">결제</a>
+                                                            <br>
+                                                        </form>
+
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td>        
+                                                            &nbsp;&nbsp;
+                                                        </td>
+                                                        <td  class="text-center text-danger">
+                                                            KPoint결제: 
+                                                        
+                                                            <%kp = price - card%>
+                                                            <input name="input_kp" value='<%=kp%>'>
+                                                            <a href="/contract/kp_trans_kpoint/?kpoint=<%=kp%>">결제</a>
+                                                            <br><br>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <%}else{ %>
+                                            <%if(paymethod=="KPoint포함(무통장입금)"){%>
+                                                <table>
+                                                    <tr>  
+                                                        <td colspan="2" align="left">
+                                                                
+                                                            <b> (2) Kpoint+무통장 </b><br>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <tr>
+                                                            <td align="right">
+                                                                KPoint결제: 
+                                                            </td>
+                                                            <td align="left">
+                                                                <%kp=price-card%>
+                                                                <input name="input_kp" value='<%=kp%>'>
+                                                                <a href="/contract/kp_trans_kpoint/?kpoint=<%=kp%>">결제</a>
+                                                            </td>
+                                                        </tr>
+                                                        <td align="center" colspan="2">
+                                                            무통장입금: <%card.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원 <br>
+                                                            농협(비케이종합마케팅협동조합)
+                                                            <br>
+                                                            3010319217141 
+                                                            <br>
+                                                             <br>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                    <%}else{ %>
+                                                        <%if(paymethod=="신용간단결제"){%>
+                                                            <table>
+
+                                                                <tr>  
+                                                                    <td colspan="2" align="left">
+                                                                            
+                                                                        <b>  (3) 신용간단결제</b>
+                                                                        <br> <input name="input_card" value="<%=price%>">원 
+                                                                        <a href="/contract/card_pay/?card=<%=price%>">결제</a>
+                                                                        <br><br>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                    
+                                                        <%}else{ %>
+                                                            
+                                                                <table>
+                                                                    <tr>   
+                                                                        <td colspan="2" align="left">
+                                                                            <b> (4) 무통장입금</b>: <%=price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원
+                                                                            <div class="text-center">    
+                                                                                농협(비케이종합마케팅협동조합)
+                                                                                    <br>
+                                                                                    3010319217141 <br><br>
+                                                                                
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            <%}}}%>
+
+
+                                           
+                                                <div class="text-center" >
+                                                    <table class="p-3 mb-2 bg-primary text-white text-center" width="100%">
+                                                        <tr>
+                                                            <td>
+                                                                &nbsp;&nbsp;
+                                                            </td>
+                                                            <td colspan="2"class="text-center">
+                                                                <br>
+                                                                [주문] 
+                                                                <br>
+                                                                <div class="form-group" align="left">
+                                                                    * 주문내용 <br>
+                                                                    <input type="text" name="input_product_name" class="form-control" value="<%=productname%>" width="90%" readonly > 
+                                                                    <br>
+                                                                    <input type="text" name="input_username" class="form-control" value="<%=username%>" width="90%" readonly > 
+                                                                    <br>
+                                                                    <input type="text" name="input_phone" class="form-control" value="<%=phone%>" width="90%" readonly > 
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;&nbsp;
+                                                            </td>                                                            
+                                                        </tr>
+                                                        
+                                                        <tr>
+
+                                                            <td>
+                                                                &nbsp;&nbsp;
+                                                            </td>        
+                                                            <td colspan="2" align="left">  
+                                                                <br>      
+                                                                주소 :     
+                                                                <input type="text" name="input_post" class="form-control" width="90%" value="<%=post%>"  > 
+                                                                <br> 
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            
+
+
+                                                <table>
+                                                    <tr>
+                                                        <td colspan="2" align="left"> 
+                                                            <div class="text-center" >   
+                                                                <h5>   
+                                                                 결제 완료 즉시 <br>
+                                                                 <br>
+                                                                 관리자가 주문 확인을 합니다. 
+                                                                 <br>
+                                                                 확인이 완료 되면 <br>
+                                                                 <div class="text-danger">주문확인서</div>를 보내드립니다.  
+                                                                </h5>
+                                                            </div>
+                                                            <div align="center" >
+                                                                <hr>
+                                                                <b>케이그라운드와 함께 해주셔서 감사드립니다.</b>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>     
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       
+
+                            <!-- 2열 -->
+                            <div class="col-lg-6">
+                                <div class="col-lg-5">
+                                    <img src="/img/kk.png"  width="100%" >
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>        
+    </div>
+                
+
+</body>
+</html>
