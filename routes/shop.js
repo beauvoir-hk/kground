@@ -115,6 +115,11 @@ router.get('/giga_1', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -126,7 +131,13 @@ router.get('/giga_1', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                              
                     })}})
     }})}})
@@ -189,6 +200,11 @@ router.get('/giga_2', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -200,7 +216,13 @@ router.get('/giga_2', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -261,6 +283,11 @@ router.get('/giga_3', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -272,7 +299,13 @@ router.get('/giga_3', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -333,6 +366,11 @@ router.get('/giga_4', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -344,7 +382,13 @@ router.get('/giga_4', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -406,6 +450,11 @@ router.get('/giga_5', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -417,7 +466,13 @@ router.get('/giga_5', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -478,6 +533,11 @@ router.get('/giga_6', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -489,7 +549,13 @@ router.get('/giga_6', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -550,6 +616,11 @@ router.get('/giga_7', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -561,7 +632,13 @@ router.get('/giga_7', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 router.get('/giga_8', async (req, res)=>{
@@ -621,6 +698,11 @@ router.get('/giga_8', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -632,7 +714,13 @@ router.get('/giga_8', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -694,6 +782,11 @@ router.get('/giga_9', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -705,7 +798,13 @@ router.get('/giga_9', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -766,6 +865,11 @@ router.get('/giga_10', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -777,7 +881,13 @@ router.get('/giga_10', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -838,6 +948,11 @@ router.get('/giga_11', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -849,7 +964,13 @@ router.get('/giga_11', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -910,6 +1031,11 @@ router.get('/giga_2', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -921,7 +1047,13 @@ router.get('/giga_2', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 router.get('/giga_12', async (req, res)=>{
@@ -981,6 +1113,11 @@ router.get('/giga_12', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -992,7 +1129,13 @@ router.get('/giga_12', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -1053,6 +1196,11 @@ router.get('/giga_12', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -1064,7 +1212,13 @@ router.get('/giga_12', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -1125,6 +1279,11 @@ router.get('/giga_13', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -1136,7 +1295,13 @@ router.get('/giga_13', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -1197,6 +1362,11 @@ router.get('/giga_14', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -1208,7 +1378,13 @@ router.get('/giga_14', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -1270,6 +1446,11 @@ router.get('/giga_15', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -1281,7 +1462,13 @@ router.get('/giga_15', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
                                  
 })}})}})}})
 
@@ -1326,8 +1513,7 @@ router.get('/giga_16', async (req, res)=>{
                         giga
                         where 
                         name = ?
-                        
-                            `
+                         `
                     const values6 = [_product_name]
                     connection.query(
                     sql6, 
@@ -1342,6 +1528,11 @@ router.get('/giga_16', async (req, res)=>{
                             const filename=result6[0].filename
                             const filename_detail=result6[0].filename_detail
                             const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
                             //주문시간
                             //주문한사람정보
                             res.render('shopdetail', {
@@ -1353,7 +1544,14 @@ router.get('/giga_16', async (req, res)=>{
                                 username :result7[0].username,
                                 productname: _product_name,
                                 price:price,
-                                kpoint:kpoint
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                juso:juso
+
                                  
 })}})}})}})
 

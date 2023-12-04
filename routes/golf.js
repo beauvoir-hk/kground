@@ -1362,6 +1362,10 @@ router.get('/notice', function(req, res){
     res.render("notice")
 })
 
+router.get('/notice_refferal', function(req, res){
+    res.render("notice_refferal")
+})
+
 router.get('/ksfaga', function(req, res){
     console.log("ksfaga 페이지 보이기")
     res.render("ksfaga")
