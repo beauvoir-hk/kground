@@ -70,6 +70,8 @@
                                                             상품명 :<%=filename%>
                                                             <br>
                                                             price :<%=price%>원
+                                                            <br>
+                                                            갯수 :<%=quantity%>개
                                                             
                                                     </td>
                                                 </tr>
@@ -96,9 +98,9 @@
                                                         <td  class="text-center text-danger">
                                                             KPoint결제: 
                                                         
-                                                            <%kp = price - card%>
-                                                            <input name="input_kp" value='<%=kp%>'>
-                                                            <a href="/contract/kp_trans_kpoint/?kpoint=<%=kp%>&name=<%=filename%>">결제</a>
+                                                             
+                                                            <input name="input_kp" value='<%=kpoint%>'>
+                                                            <a href="/contract/kp_trans_kpoint/?kpoint=<%=kpoint%>&name=<%=filename%>">결제</a>
                                                             
                                                         </td>
                                                     </tr>
