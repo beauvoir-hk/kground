@@ -63,9 +63,9 @@
                                         </div>
                                         <hr>
                                         <div class="text-center">
-                                            <img src="/gloves/gloves_12_10000_여한손.jpg" width="100px">
-                                            <img src="/gloves/gloves_11_10000_남한손.jpg" width="100px">
-                                            <img src="/gloves/gloves_4_10000_남.jpg" width="100px">
+                                            <img src="/gloves/gloves_12_10000_여한손.jpg" width="80px">
+                                            <img src="/gloves/gloves_11_10000_남한손.jpg" width="80px">
+                                            <img src="/gloves/gloves_4_10000_남.jpg" width="80px">
                                             <h3 align="center">골프장갑</h3>
                                         </div>
                                         <br>
@@ -75,7 +75,7 @@
                                                 <table class="table">
                                                     <tr>
                                                         <td width="50%" >
-                                                            <img src="../gloves/<%=filename%>" width="180" border="2px">
+                                                            <img src="../../gloves/<%=filename%>" width="180" border="2px">
 
                                                         </td>
                                                         <td>   
@@ -160,9 +160,9 @@
                                                 </table>
 
 
-                                            <form class="user" action="/shop/pay" method="post">
+                                            <form class="user" action="/shop/gloves_pay" method="post">
                                                 <div class="text-center" >
-                                                    <table class="p-3 mb-2 bg-primary text-white text-center" width="100%">
+                                                    <table class="bg-primary text-white text-center" width="100%">
                                                         <tr>
                                                             <td>
                                                                 &nbsp;&nbsp;
@@ -170,7 +170,7 @@
                                                             <td class="text-center">
                                                                 <br>
                                                                 [주문] 
-                                                                <br>
+                                                                <br><br>
                                                                 <div class="form-group" align="left">
                                                                     * 주문내용 <br>
                                                                     <input type="text" name="input_product_name" class="form-control" value="<%=productname%>"  readonly > 
@@ -193,8 +193,12 @@
                                                                 <div class="form-group bg-warning text-dark" align="left">      
                                                                     * 주문수량   
                                                                 </div>
-                                                                <input type="text" name="input_quantity" class="form-control"    
-                                                                 value="1" placeholder="주문 수량을 입력해 주세요"  > 
+                                                                <select class="form-select" name="input_quantity" id="input_option">
+                                                                    <option value="2">2</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="6">6</option>
+                                                                    
+                                                                </select>
                                                                 <br>
                                                             </td>
                                                             <td>
@@ -300,14 +304,14 @@
                                             </form>
 
 
-                                                <table>
+                                                <table class="tale">
                                                     <tr>
-                                                        <td colspan="2"  > 
+                                                        <td> 
                                                             <div class="text-start" >      
                                                                  상세정보     
                                                             </div>
                                                             <div class="text-center" >
-                                                                <img src="../giga/<%=filename_detail%>" width="300">
+                                                                <img src="../../gloves/<%=filename_detail%>" width="360">
                                                             </div>
                                                         </td>
                                                     </tr>

@@ -91,7 +91,7 @@ router.get('/gloves', function(req, res){
 })}})
 
 
-router.get('/gloves_1', async (req, res)=>{
+router.get('/glovesdetail', async (req, res)=>{
     if(!req.session.logined){
         let data=0
         res.render('login', {
@@ -118,9 +118,10 @@ router.get('/gloves_1', async (req, res)=>{
                     console.log(err)
                 }else{
                     const balance = result7[0].charge_amount    
-                    const _product_name  = "gloves_001"
-                    
-                    console.log("_product_name  =", _product_name   )
+
+
+                    const product_name  = req.query.name
+                    console.log("product_name  =", product_name   )
 
                     const sql6 =
                         `
@@ -132,7 +133,7 @@ router.get('/gloves_1', async (req, res)=>{
                         name = ?
                         
                             `
-                    const values6 = [_product_name]
+                    const values6 = [product_name]
                     connection.query(
                     sql6, 
                     values6, 
@@ -162,7 +163,7 @@ router.get('/gloves_1', async (req, res)=>{
                                 filename:filename,
                                 filename_detail:filename_detail,
                                 username :result7[0].username,
-                                productname: _product_name,
+                                productname: product_name,
                                 price:price,
                                 kpoint:kpoint,
                                 option1:option1,
@@ -1795,7 +1796,192 @@ router.get('/giga_16', async (req, res)=>{
 })}})}})}})
 
 
-    router.get('/pay', async (req, res)=>{
+
+router.get('/pay', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+               
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    const balance = result7[0].charge_amount    
+                    const filename= req.body.input_filename
+                    
+                    console.log("filename  =", filename   )
+
+                    const sql6 =
+                        `
+                        select 
+                        *
+                        from 
+                        giga
+                        where 
+                        filename = ?
+                        
+                            `
+                    const values6 = [filename]
+                    connection.query(
+                    sql6, 
+                    values6, 
+                    function(err, result6){
+                        if(err){
+                            console.log(err)
+                        }else{
+                            const price=result6[0].hap
+                            const kpoint =result6[0].kpoint
+                            const card = result6[0].card
+                             
+                            const juso=req.body.input_post//주문한 사람의 주소
+                            //주문시간
+                            //주문한사람정보
+                            res.render('pay', {
+                                amount : balance ,
+                                phone : phone,
+                                card : card,
+                                filename:filename,
+                                filename_detail:filename_detail,
+                                username :result7[0].username,
+                                productname: _product_name,
+                                price:price,
+                                kpoint:kpoint
+                             
+                    })}})
+    }})}})
+
+
+router.post('/gloves_pay', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+        const input_post = await req.body.input_post.trim()
+        const input_paymethod =  await  req.body.input_paymethod.trim()
+        const input_username  =  req.body.input_username
+        const phone  =  req.body.input_phone
+        const input_card =req.body.input_card
+        const sql5 =
+            `
+            select 
+            *
+            from 
+            log_info
+            where 
+            phone = ?
+            
+                `
+        const values5 = [phone]
+        connection.query(
+        sql5, 
+        values5, 
+        function(err, result5){
+            if(err){
+                console.log(err)
+            }else{
+
+                const amount=result5[0].charge_amount
+
+                
+                const input_product_name  =  req.body.input_product_name
+                
+
+                const sql6 =
+                    `
+                    select 
+                    *
+                    from 
+                    gloves
+                    where 
+                    name = ?
+                    
+                        `
+                const values6 = [input_product_name]
+                connection.query(
+                sql6, 
+                values6, 
+                function(err, result6){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const price=result6[0].hap
+                        const kpoint =result6[0].kpoint
+                        const card = result6[0].card
+                        const filename = result6[0].filename
+                        const filename_detail = result6[0].filename_detail
+                        var bank=0 
+                        if(input_paymethod=="KPoint포함(무통장입금)"){
+                            
+                            bank = parseInt(price) - parseInt(kpoint) 
+                        }else{
+                            if(input_paymethod=="무통장입금"){
+                                bank = price
+                                
+                            }else{
+                                bank=0
+                            }
+                        }
+                        const input_quantity=req.body.input_quantity
+                        const selectoption = req.body.input_option
+                        const memo =  req.body.input_memo                        
+                        const input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
+                        const sql7 =
+                            `
+                            insert 
+                            into 
+                            gloves_pay
+                            values (?,?,?,?,?,?,?,?,?,?,?)
+                            `
+                        const values7 = [input_dt,filename,price,card,kpoint,bank,input_post,input_paymethod,input_quantity,selectoption, memo]
+                        connection.query(
+                        sql7, 
+                        values7, 
+                        function(err, result7){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                
+                                res.render('gloves_pay', {
+                                    quantity:input_quantity,
+                                    post:input_post,
+                                    paymethod:input_paymethod,
+                                    phone: phone,
+                                    card1:card,
+                                    card:card*input_quantity,
+                                    bank:bank*input_quantity ,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :input_username,
+                                    productname: input_product_name,
+                                    price:price,
+                                    kpoint:kpoint*input_quantity,
+                                    amount:amount
+                                
+                        })}})
+}})}})}})
+
+    router.get('/gloves_pay', async (req, res)=>{
         if(!req.session.logined){
             let data=0
             res.render('login', {
@@ -1833,7 +2019,7 @@ router.get('/giga_16', async (req, res)=>{
                             select 
                             *
                             from 
-                            giga
+                            gloves
                             where 
                             filename = ?
                             
@@ -1853,7 +2039,7 @@ router.get('/giga_16', async (req, res)=>{
                                 const juso=req.body.input_post//주문한 사람의 주소
                                 //주문시간
                                 //주문한사람정보
-                                res.render('pay', {
+                                res.render('gloves_pay', {
                                     amount : balance ,
                                     phone : phone,
                                     card : card,
@@ -1866,6 +2052,9 @@ router.get('/giga_16', async (req, res)=>{
                                  
                         })}})
         }})}})
+
+
+
 
 
     router.post('/pay', async (req, res)=>{
