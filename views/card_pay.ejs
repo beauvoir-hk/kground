@@ -24,7 +24,7 @@
         PayApp.setParam('goodname', '케이그라운드쇼핑몰 신용간단결제');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
-        PayApp.setParam('returnurl', 'https://kground.co.kr/contract/card_pay/?price='+$('#price').val()+"&name="+ $('#name').val());
+        PayApp.setParam('returnurl', 'https://kground.co.kr/contract/cardpay/?price='+$('#price').val()+"&name="+ $('#name').val());
         PayApp.setParam('openpaytype', 'card,phone,kakaopay,naverpay,smilepay');
         PayApp.setParam('smsuse', 'n');
         PayApp.setParam('redirectpay', '1');
@@ -118,7 +118,7 @@
                                             <label class="control-label">신용카드 간단결제 금액</label>
                                             <br>
                                             <input type="text" class="form-control form-control-user" id="price"
-                                                    name='price' value="<%=cardpay%>" >
+                                                    name='price' value="<%=card%>" >
                                                     <br>
 
                                                     <!-- <label class="control-label">신용카드 간단결제 금액</label>        

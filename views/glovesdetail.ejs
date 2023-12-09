@@ -129,7 +129,8 @@
                                                             </td>
                                                         </tr>
                                                         <td align="center" colspan="2">
-                                                            무통장입금: <%=card.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원 <br>
+                                                            <%bank=price-kp%>
+                                                            무통장입금: <%=bank.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원 <br>
                                                             농협(비케이종합마케팅협동조합)
                                                             <br>
                                                             3010319217141 
@@ -191,7 +192,7 @@
                                                             <td  class="text-center">
                                                                 <br>
                                                                 <div class="form-group bg-warning text-dark" align="left">      
-                                                                    * 주문수량   
+                                                                    * 주문수량(최소2개)   
                                                                 </div>
                                                                 <select class="form-select" name="input_quantity" id="input_option">
                                                                     <option value="2">2</option>
@@ -269,7 +270,6 @@
                                                             </td>                                                            
                                                         </tr>
                                                         <tr>
-
                                                             <td>
                                                                 &nbsp;&nbsp;
                                                             </td>        

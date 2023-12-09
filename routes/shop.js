@@ -1797,7 +1797,7 @@ router.get('/giga_16', async (req, res)=>{
 
 
 
-router.get('/pay', async (req, res)=>{
+router.get('/gloves_pay', async (req, res)=>{
     if(!req.session.logined){
         let data=0
         res.render('login', {
@@ -1835,7 +1835,7 @@ router.get('/pay', async (req, res)=>{
                         select 
                         *
                         from 
-                        giga
+                        gloves
                         where 
                         filename = ?
                         
@@ -1853,9 +1853,8 @@ router.get('/pay', async (req, res)=>{
                             const card = result6[0].card
                              
                             const juso=req.body.input_post//주문한 사람의 주소
-                            //주문시간
-                            //주문한사람정보
-                            res.render('pay', {
+
+                            res.render('gloves_pay', {
                                 amount : balance ,
                                 phone : phone,
                                 card : card,
@@ -1981,7 +1980,10 @@ router.post('/gloves_pay', async (req, res)=>{
                         })}})
 }})}})}})
 
-    router.get('/gloves_pay', async (req, res)=>{
+
+
+//=======================================================
+    router.get('/pay', async (req, res)=>{
         if(!req.session.logined){
             let data=0
             res.render('login', {
@@ -2019,7 +2021,7 @@ router.post('/gloves_pay', async (req, res)=>{
                             select 
                             *
                             from 
-                            gloves
+                            giga
                             where 
                             filename = ?
                             
@@ -2037,9 +2039,8 @@ router.post('/gloves_pay', async (req, res)=>{
                                 const card = result6[0].card
                                  
                                 const juso=req.body.input_post//주문한 사람의 주소
-                                //주문시간
-                                //주문한사람정보
-                                res.render('gloves_pay', {
+                                
+                                res.render('pay', {
                                     amount : balance ,
                                     phone : phone,
                                     card : card,
@@ -2052,10 +2053,6 @@ router.post('/gloves_pay', async (req, res)=>{
                                  
                         })}})
         }})}})
-
-
-
-
 
     router.post('/pay', async (req, res)=>{
         if(!req.session.logined){
