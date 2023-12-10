@@ -774,7 +774,7 @@ async function trans_list_insert(_input_dt, _phone, _username, receiptphone, pay
                     if (result.length == 0) {
                         console.log("KPoint 거래내역 기록 하나도 없다네")
                     } else {
-                      console.log("KPoint 거래내역 기록= ",result.length)
+                      console.log("KPoint 거래내역 기록= ",result)
                     }
     }}) 
 } 

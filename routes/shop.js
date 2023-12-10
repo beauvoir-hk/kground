@@ -179,93 +179,93 @@ router.get('/glovesdetail', async (req, res)=>{
     }})}})
 
 
-    router.get('/gigadetail', async (req, res)=>{
-        if(!req.session.logined){
-            let data=0
-            res.render('login', {
-                'state' : data
-            })
-        }else{
-                //원장읽어오기
-                const phone = req.session.logined.phone 
-                const sql7 =
+router.get('/gigadetail', async (req, res)=>{
+    if(!req.session.logined){
+        let data=0
+        res.render('login', {
+            'state' : data
+        })
+    }else{
+            //원장읽어오기
+            const phone = req.session.logined.phone 
+            const sql7 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
                     `
-                    select 
-                    *
-                    from 
-                    log_info
-                    where 
-                    phone = ?
+            const values7 = [phone]
+            connection.query(
+            sql7, 
+            values7, 
+            function(err, result7){
+                if(err){
+                    console.log(err)
+                }else{
+                    const balance = result7[0].charge_amount    
+
+
+                    const product_name  = req.query.name
+                    console.log("product_name  =", product_name   )
+
+                    const sql6 =
                         `
-                const values7 = [phone]
-                connection.query(
-                sql7, 
-                values7, 
-                function(err, result7){
-                    if(err){
-                        console.log(err)
-                    }else{
-                        const balance = result7[0].charge_amount    
-    
-    
-                        const product_name  = req.query.name
-                        console.log("product_name  =", product_name   )
-    
-                        const sql6 =
+                        select 
+                        *
+                        from 
+                        giga
+                        where 
+                        name = ?
+                        
                             `
-                            select 
-                            *
-                            from 
-                            giga
-                            where 
-                            name = ?
-                            
-                                `
-                        const values6 = [product_name]
-                        connection.query(
-                        sql6, 
-                        values6, 
-                        function(err, result6){
-                            if(err){
-                                console.log(err)
-                            }else{
-                                const price=result6[0].hap
-                                const kpoint =result6[0].kpoint
-                                const card = result6[0].card
-                                const filename=result6[0].filename
-                                const filename_detail=result6[0].filename_detail
-                                console.log(err)
-                                const juso=req.body.input_post//주문한 사람의 주소
-                                const option1 =result6[0].option1
-                                const option2 =result6[0].option2
-                                const option3 =result6[0].option3
-                                const option4 =result6[0].option4
-                                const option5 =result6[0].option5
-                                const option6 =result6[0].option6
-                                const etcoption =result6[0].etcoption
-                                //주문시간
-                                //주문한사람정보
-                                res.render('shopdetail', {
-                                    amount : balance ,
-                                    phone : phone,
-                                    card:card,
-                                    filename:filename,
-                                    filename_detail:filename_detail,
-                                    username :result7[0].username,
-                                    productname: product_name,
-                                    price:price,
-                                    kpoint:kpoint,
-                                    option1:option1,
-                                    option2:option2,
-                                    option3:option3,
-                                    option4:option4,
-                                    option5:option5,
-                                    option6:option6,
-                                    etcoption:etcoption,
-                                    juso:juso
-                                 
-                        })}})
-        }})}})
+                    const values6 = [product_name]
+                    connection.query(
+                    sql6, 
+                    values6, 
+                    function(err, result6){
+                        if(err){
+                            console.log(err)
+                        }else{
+                            const price=result6[0].hap
+                            const kpoint =result6[0].kpoint
+                            const card = result6[0].card
+                            const filename=result6[0].filename
+                            const filename_detail=result6[0].filename_detail
+                            console.log(err)
+                            const juso=req.body.input_post//주문한 사람의 주소
+                            const option1 =result6[0].option1
+                            const option2 =result6[0].option2
+                            const option3 =result6[0].option3
+                            const option4 =result6[0].option4
+                            const option5 =result6[0].option5
+                            const option6 =result6[0].option6
+                            const etcoption =result6[0].etcoption
+                            //주문시간
+                            //주문한사람정보
+                            res.render('shopdetail', {
+                                amount : balance ,
+                                phone : phone,
+                                card:card,
+                                filename:filename,
+                                filename_detail:filename_detail,
+                                username :result7[0].username,
+                                productname: product_name,
+                                price:price,
+                                kpoint:kpoint,
+                                option1:option1,
+                                option2:option2,
+                                option3:option3,
+                                option4:option4,
+                                option5:option5,
+                                option6:option6,
+                                etcoption:etcoption,
+                                juso:juso
+                                
+                    })}})
+    }})}})
 
 
 
