@@ -185,6 +185,160 @@ module.exports = ()=>{
                 }})
             }})
 
+
+
+ //골프장갑 카드결제==========================================   
+    router.get('/card_pay_gloves', async (req, res)=>{
+        let st=1
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{
+                // 유저가 결재한 금액과 폰번호
+            const card = req.query.card
+            const phone = req.session.logined.phone
+            const name=req.query.name
+            st=st+1
+            console.log("card 결제단계===>", card)
+
+            //원장을 다시 읽을 준비
+                
+            console.log('cardpay==============',card )   
+            console.log('phone ==============',phone )   
+            console.log('product name ==============',name )  
+            const login_data = req.session.logined
+            
+                
+            //원장을 다시 읽어서 렌더링
+            const sql = `
+                select 
+                *
+                from 
+                gloves
+                where 
+                name = ?
+                `
+            const values = [name]
+            connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    
+                }else{
+                    if(result.length != 0){
+                        
+
+                        req.session.save()
+                        res.render('card_pay_gloves', {
+                            filename:result[0].filename,
+                            name:result[0].name,
+                            cardpay:card,
+                            login_data: req.session.logined, 
+                            username:req.session.logined.username,
+                            amount:req.session.logined.charge_amount,
+                            phone:phone,
+                            card:card,
+                            st:st
+                    })
+    }}})}}) 
+
+
+
+    router.post('/card_pay_gloves', async function(req, res){
+        
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+            const input_post =  req.body.input_post 
+            const input_paymethod =   req.body.input_paymethod 
+            const input_username  =  req.body.input_username
+            const phone  =  req.session.logined.phone
+            const card =req.body.price
+            console.log("신용카드 결제대금 =", card)
+            const sql5 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values5 = [phone]
+            connection.query(
+            sql5, 
+            values5, 
+            function(err, result5){
+                if(err){
+                    console.log(err)
+                }else{
+
+                    const amount=result5[0].charge_amount
+    
+                    
+                    const name  =  req.query.name
+                    
+
+                    const sql6 =
+                        `
+                        select 
+                        *
+                        from 
+                        gloves
+                        where 
+                        name = ?
+                        
+                            `
+                    const values6 = [name]
+                    connection.query(
+                    sql6, 
+                    values6, 
+                    function(err, result6){
+                        if(err){
+                            console.log(err)
+                        }else{
+                            const price=result6[0].hap
+                            const kpoint =result6[0].kpoint
+                            // const card = result6[0].card
+                            const filename = result6[0].filename
+                            const filename_detail = result6[0].filename_detail
+                            var bank=0 
+                            if(input_paymethod=="KPoint포함(무통장입금)"){
+                                
+                                bank = parseInt(price) - parseInt(kpoint) 
+                            }else{
+                                if(input_paymethod=="무통장입금"){
+                                    bank = price
+                                    
+                                }else{
+                                    bank=0
+                                }
+                            }
+                            
+                            res.render('card_pay_gloves', {
+
+                                post:input_post,
+                                paymethod:input_paymethod,
+                                phone: phone,
+                                card:card,
+                                bank:bank ,
+                                filename:filename,
+                                filename_detail:filename_detail,
+                                username :input_username,
+                                productname: name,
+                                price:price,
+                                kpoint:kpoint,
+                                amount:amount
+                            
+                    })}})
+    }})}})
+
+//기기ㅏ골프 카드결제
     router.get('/card_pay', async (req, res)=>{
         let st=1
         if(!req.session.logined){
@@ -212,7 +366,7 @@ module.exports = ()=>{
                 from 
                 giga
                 where 
-                filename = ?
+                name = ?
                 `
             const values = [name]
             connection.query(
@@ -224,17 +378,13 @@ module.exports = ()=>{
                     
                 }else{
                     if(result.length != 0){
-                        // 로그인이 성공하는 조건
-                        // console.log('db에 로그인한 정보 result[0]', result[0],login_data)
-                        // console.log('db에 로그인한 정보login_data', login_data)
                         
-                        // console.log("charge refresh -->  ",result[0].charge_amount)
 
                         req.session.save()
                         res.render('card_pay', {
                             filename:result[0].filename,
                             name:result[0].name,
-                            cardpay:price,
+                            card:price,
                             login_data: req.session.logined, 
                             username:req.session.logined.username,
                             amount:req.session.logined.charge_amount,
@@ -254,9 +404,11 @@ module.exports = ()=>{
         }else{
             const input_post =  req.body.input_post 
             const input_paymethod =   req.body.input_paymethod 
+            console.log("input_paymethod = ", input_paymethod )
             const input_username  =  req.body.input_username
             const phone  =  req.session.logined.phone
-            const input_card =req.body.input_card
+            const input_card =req.body.price
+            console.log("input_card = ", input_card  )
             const sql5 =
                 `
                 select 
@@ -280,7 +432,7 @@ module.exports = ()=>{
  
                     
                     const name  =  req.query.name
-                    
+                     
 
                     const sql6 =
                         `
@@ -289,7 +441,7 @@ module.exports = ()=>{
                         from 
                         giga
                         where 
-                        filename = ?
+                        name = ?
                         
                             `
                     const values6 = [name]
@@ -302,7 +454,7 @@ module.exports = ()=>{
                         }else{
                             const price=result6[0].hap
                             const kpoint =result6[0].kpoint
-                            const card = result6[0].card
+                            // const card = result6[0].card
                             const filename = result6[0].filename
                             const filename_detail = result6[0].filename_detail
                             var bank=0 
@@ -318,12 +470,12 @@ module.exports = ()=>{
                                 }
                             }
                             
-                            res.render('gloves', {
+                            res.render('card_pay', {
 
                                 post:input_post,
                                 paymethod:input_paymethod,
                                 phone: phone,
-                                card:card,
+                                card:input_card,
                                 bank:bank ,
                                 filename:filename,
                                 filename_detail:filename_detail,
@@ -366,12 +518,12 @@ module.exports = ()=>{
 
                     console.log("승인 완료 ")
 
-                        //충전자에게 안내 메세지
+                        //쇼핑한 사람에게 안내 메세지
                         const gphone = "+82"+ phone
                         console.log("결제한사람 폰 =",gphone)
                         
                         twilioClient.messages.create({
-                            body: '케이그라운드와 함께 해주셔서 감사합니다. 충전완료:    ' +  price ,
+                            body: '케이그라운드와 함께 해주셔서 감사합니다.쇼핑몰 결제완료:    ' +  price ,
                             from: process.env.kphonenumber,
                             to: gphone
                             })
@@ -396,7 +548,10 @@ module.exports = ()=>{
                             
                         
                         console.log("현재 경로",__dirname)
-                        res.redirect("..") 
+                        res.render('index',{
+                            login_data:req.session.logined,
+                            amount:req.session.logined.charge_amount,
+                        })     
                     }     
 
         }}
@@ -1563,7 +1718,8 @@ router.get('/kp_trans_gloves', async (req, res)=>{
                             paymethod:paymethod,
                             price:price,
                             post:juso,
-                            quantity:req.body.input_quantity
+                            quantity:req.body.input_quantity,
+                            st:1
                         })
     }})}}) }})
         
@@ -1582,6 +1738,7 @@ router.get('/kp_trans_gloves', async (req, res)=>{
         const pay_amount = await req.body._sendpay//보낼금액
         const numeric6 = await req.body._numeric6.trim()
         console.log("쇼핑몰 거래 amount =",pay_amount)
+        const card=req.body.card
         
         const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
         console.log("_input_dt =",_input_dt)
@@ -1742,6 +1899,7 @@ router.get('/kp_trans_gloves', async (req, res)=>{
                                         const phone = req.session.logined.phone 
                                         const user = req.session.logined.username         
                                         const tokenamount = req.session.logined.charge_amount
+                                        console.log("tokenamount =",tokenamount )
                                         const sql6 =
                                             `
                                             select 
@@ -1762,28 +1920,37 @@ router.get('/kp_trans_gloves', async (req, res)=>{
                                             }else{
                                                 const price=result6[0].hap
                                                 const kpoint =result6[0].kpoint
-                                                const card = result6[0].card
+                                                // const card = result6[0].card
                                                 const _product_name =name
                                                 const filename= result6[0].filename
                                                 const paymethod= result6[0].paymethod
+                                                console.log("paymethod= ",paymethod )
                                                 const juso=req.body.input_post//주문한 사람의 주소
 
-                                                //주문시간
-                                                //주문한사람정보
-                                                res.render('card_pay', {
-                                                    name:name,
-                                                    amount : tokenamount ,
-                                                    phone : phone,
-                                                    card : card,
-                                                    filename:filename,
-                                                    paymethod:paymethod,
-                                                    username :user,
-                                                    productname: _product_name,
-                                                    price:price,
-                                                    kpoint:kpoint,
-                                                    post:juso,
-                                                    st:1
-                                        })}})
+                                                if(paymethod=="KPoint포함(신용간단결제)"){
+                                                    res.render('card_pay', {
+
+                                                        name:name,
+                                                        amount : tokenamount ,
+                                                        phone : phone,
+                                                        card : card,
+                                                        filename:filename,
+                                                        paymethod:paymethod,
+                                                        username :user,
+                                                        productname: _product_name,
+                                                        price:price,
+                                                        kpoint:kpoint,
+                                                        post:juso,
+                                                        st:1
+                                                })
+                                                }else{
+                                                    res.render('index',{
+                                                        login_data:req.session.logined,
+                                                        amount:tokenamount                                                     })     
+                                                }
+                                                
+                            
+}})
                                             }}})                    
                     }}}}}})
         
@@ -1820,7 +1987,8 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
     }else{
 
         const kpoint = req.query.kpoint
-        const name = req.query.name
+        const filename = req.query.name
+        const card=req.query.card
         data=1
         const _phone= req.session.logined.phone
         const sql2 = `
@@ -1840,21 +2008,52 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
                     console.log(err)
                 }else{ 
 
-                    // const wallet = req.session.logined.wallet
-                    req.session.logined=result2[0]
-                    const balance =result2[0].charge_amount
-                    const username= req.session.logined.username
-                    const s = req.body.state
+                     // const wallet = req.session.logined.wallet
+                     req.session.logined=result2[0]
+                     const balance =result2[0].charge_amount
+                     const username= req.session.logined.username
+                     const s = req.body.state
+                     const sql6 =
+                         `
+                         select 
+                         *
+                         from 
+                         giga
+                         where 
+                         filename = ?
+                         
+                             `
+                     const values6 = [filename]
+                     connection.query(
+                     sql6, 
+                     values6, 
+                     function(err, result6){
+                         if(err){
+                             console.log(err)
+                         }else{
+                             const price=result6[0].pay
+                              
+                             const filename= result6[0].filename
+                             const paymethod= result6[0].paymethod
+                             const juso=req.body.input_post
+                         res.render('kp_trans_kpoint', {
+                             name:result6[0].name,
+                             kpoint:kpoint,
+                             filename:filename,
+                             amount : balance,
+                             phonenum : result2[0].phone,
+                             username : username,
+                             state : 0,
+                             phone : result2[0].phone,
+                             card : card,
+                             paymethod:paymethod,
+                             price:price,
+                             post:juso,
+                             quantity:req.body.input_quantity,
+                             st:1
+                         })
+     }})}}) }})
                     
-                    res.render('kp_trans_kpoint', {
-                        kpoint:kpoint,
-                        name:name,
-                        amount : balance,
-                        phonenum : _phone,
-                        username : username,
-                        state : 0
-                    })
- }})}}) 
         
         
  router.post('/kp_trans_kpoint', async (req, res)=>{
@@ -1866,10 +2065,12 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
     }else{
         data=1
         const name= req.body.name
-        const receiptphone =await req.body._reciept.trim()//수신자폰
-        const pay_amount = await req.body._sendpay.trim()//보낼금액
+        const receiptphone =await req.body._reciept//수신자폰
+        const pay_amount = await req.body._sendpay//보낼금액
         const numeric6 = await req.body._numeric6.trim()
         console.log("쇼핑몰 거래 amount =",pay_amount)
+        const card=req.body.card
+        
         
         const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
         console.log("_input_dt =",_input_dt)
@@ -2030,6 +2231,9 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
                                         const phone = req.session.logined.phone 
                                         const user = req.session.logined.username         
                                         const tokenamount = req.session.logined.charge_amount
+
+                                        console.log(" tokenamount =  ", tokenamount )
+                                        
                                         const sql6 =
                                             `
                                             select 
@@ -2048,28 +2252,40 @@ router.get('/kp_trans_kpoint', async (req, res)=>{
                                             if(err){
                                                 console.log(err)
                                             }else{
-                                                const price=result6[0].hap
+                                                const price=result6[0].pay
                                                 const kpoint =result6[0].kpoint
-                                                const card = result6[0].card
+                                                // const card = result6[0].card
                                                 const _product_name =name
                                                 const filename= result6[0].filename
                                                 const paymethod= result6[0].paymethod
-                                                const juso=req.body.input_post//주문한 사람의 주소
+                                                const juso=req.body.input_post 
+                                                console.log(" paymethod= ",paymethod)
+                                                
+                                                if(paymethod=="KPoint포함(신용간단결제)"){
+                                                    res.render('card_pay', {
 
-                                                res.render('pay', {
-                                                    amount : tokenamount ,
-                                                    phone : phone,
-                                                    card : card,
-                                                    filename:filename,
-                                                    paymethod:paymethod,
-                                                    username :user,
-                                                    productname: _product_name,
-                                                    price:price,
-                                                    kpoint:kpoint,
-                                                    post:juso
-                                                 
-                                        })}})
-                                         }}})                    
+                                                        name:name,
+                                                        amount : tokenamount ,
+                                                        phone : phone,
+                                                        card : card,
+                                                        filename:filename,
+                                                        paymethod:paymethod,
+                                                        username :user,
+                                                        productname: _product_name,
+                                                        price:price,
+                                                        kpoint:kpoint,
+                                                        post:juso,
+                                                        st:1
+                                                })
+                                                }else{
+                                                    res.render('index',{
+                                                        login_data:req.session.logined,
+                                                        amount:tokenamount                                                     })     
+                                                }
+                                                
+                            
+                                            }})
+                                            }}})                    
                     }}}}}})
         
                 }else{
