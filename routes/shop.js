@@ -264,10 +264,1536 @@ router.get('/glovesdetail', async (req, res)=>{
                     })}})
     }})}})
 
+    router.get('/giga_1', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                        `
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_001"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                 
+                        })}})
+        }})}})
+    router.get('/giga_2', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_002"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
 
 
-
-
+    router.get('/giga_3', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_003"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_4', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_004"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_5', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_005"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_6', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_006"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_7', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_007"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_8', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_008"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_9', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_009"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_10', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_010"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_11', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_011"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_2', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_002"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_12', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_012"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_12', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_012"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_13', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_013"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_14', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_014"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_15', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_015"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                            
+                                `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
+    router.get('/giga_16', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                    
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const balance = result7[0].charge_amount    
+                        const _product_name  = "giga_016"
+                        
+                        console.log("_product_name  =", _product_name   )
+                        const sql6 =
+                            `
+                            select 
+                            *
+                            from 
+                            giga
+                            where 
+                            name = ?
+                             `
+                        const values6 = [_product_name]
+                        connection.query(
+                        sql6, 
+                        values6, 
+                        function(err, result6){
+                            if(err){
+                                console.log(err)
+                            }else{
+                                const price=result6[0].hap
+                                const kpoint =result6[0].kpoint
+                                const card = result6[0].card
+                                const filename=result6[0].filename
+                                const filename_detail=result6[0].filename_detail
+                                const juso=req.body.input_post//주문한 사람의 주소
+                                const option1 =result6[0].option1
+                                const option2 =result6[0].option2
+                                const option3 =result6[0].option3
+                                const option4 =result6[0].option4
+                                const option5 =result6[0].option5
+                                const option6 =result6[0].option6
+                                const etcoption =result6[0].etcoption
+                                //주문시간
+                                //주문한사람정보
+                                res.render('shopdetail', {
+                                    amount : balance ,
+                                    phone : phone,
+                                    card:card,
+                                    filename:filename,
+                                    filename_detail:filename_detail,
+                                    username :result7[0].username,
+                                    productname: _product_name,
+                                    price:price,
+                                    kpoint:kpoint,
+                                    option1:option1,
+                                    option2:option2,
+                                    option3:option3,
+                                    option4:option4,
+                                    option5:option5,
+                                    option6:option6,
+                                    etcoption:etcoption,
+                                    juso:juso
+                                     
+    })}})}})}})
 
 
 //===================================================================================================
