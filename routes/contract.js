@@ -1997,7 +1997,7 @@ router.get('/gigadetail', async (req, res)=>{
                     const balance = result7[0].charge_amount    
 
 
-                    const product_name  = req.query.productname
+                    const product_name  = req.query.name
                     console.log("product_name  =", product_name   )
 
                     const sql6 =
