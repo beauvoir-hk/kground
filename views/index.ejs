@@ -18,8 +18,48 @@
 	<script type="text/javascript" src="/js/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="/js/rolling.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
+    <!-- Demo styles -->
+    <style>
+      html,
+      body {
+        position: relative;
+        height: 100%;
+      }
+  
+      body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+      }
+  
+      .swiper {
+        width: 300px;
+        height: 12%;
+      }
+  
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+  
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
 
-<style>
     .display{
         display: none;
     }
@@ -94,23 +134,22 @@
                                 </div>
                             </div>
                             <!-- 메인이미지 -->
-                            <div class="rolling_wrap">
-
-                                    <a href="golf/notice" class="content"><img src="/img/스포츠대상.png"/></a>
-                                    <a href="golf/notice_refferal" class="content"><img src="/img/회원가입프로모션.png"/></a>
-                                    <a href="golf/regu" class="content"><img src="/img/6_포스터.png"/></a> 
-                                    <a href="golf/holeinlist" class="content"><img src="/img/6_19th_holein.png"/></a>
-                                    <a href="golf/holeinlist" class="content"><img src="/img/6_18th_holein.png"/></a>                                   
-                                    <!-- <a href="golf/holeinlist" class="content"><img src="/img/6_14th_holein.png"/></a> -->
-                                    <!-- <a href="golf/holeinlist" class="content"><img src="/img/6_15th_holein.png"/></a> -->
-
+                             <!-- Swiper -->
+                            <div class="swiper mySwiper">
+                                <div class="swiper-wrapper">
+                                <div class="swiper-slide"><a href="golf/notice" class="content"><img src="/img/스포츠대상.png"/></a></div>
+                                <div class="swiper-slide"><a href="golf/notice_refferal" class="content"><img src="/img/회원가입프로모션.png"/></a></div>
+                                <div class="swiper-slide"><a href="golf/regu" class="content"><img src="/img/6_포스터.png"/></a></div>
+                                <!-- <div class="swiper-slide">Slide 4</div>
+                                <div class="swiper-slide">Slide 5</div>
+                                <div class="swiper-slide">Slide 6</div>
+                                <div class="swiper-slide">Slide 7</div>
+                                <div class="swiper-slide">Slide 8</div>
+                                <div class="swiper-slide">Slide 9</div> -->
+                                </div>
+                                <div class="swiper-button-next"></div>
+                                <div class="swiper-button-prev"></div>
                             </div>
-                            <div class="buttons_wrap text-center">
-                                <a href="javascript:void(0);" onclick="stopAction()" class="button">[STOP]</a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="javascript:void(0);" onclick="startAction()" class="button">[MOVE]</a>
-                            </div>
-
                             <div class="text-center">
                                 <!-- <img src="/img/6_13th_holein.png" width="300px" ><br><br> -->
 
@@ -167,17 +206,52 @@
                                 <a href="/shop/shop"><img src="/img/80_021.png" width="80px" alt="쇼핑몰"></a>
                                 &nbsp;&nbsp;
                                 <a href="golf/holeinlist"><img src="/img/80_022.png" alt="명예의 전당" width="75px" height="80px"></a>
-                                &nbsp;&nbsp;
-                                <a href="http://pf.kakao.com/_ttxaSxj/chat"><img src="/img/80_019.png" alt="고객센터" width="80px" height="80px"></a>
-                                <br><br>
-                                 
-                                <!-- <a href="my_3"><img src="/img/80_i03.jpg" width="80px" alt="나의정보입력"> -->
-                                &nbsp;&nbsp;
-                                <!-- <a href="/shop/shop"><img src="/img/80_021.png" width="80px" alt="쇼핑몰"></a> -->
-                                &nbsp;&nbsp;
-                                <a href="/logout"><img src="/img/80_017.jpg" width="80px" alt="로그아웃"></a>
+                                <!-- &nbsp;&nbsp;
+                                <a href="http://pf.kakao.com/_ttxaSxj/chat"><img src="/img/80_019.png" alt="고객센터" width="80px" height="80px"></a> -->
                                 <br><br>
 
+
+
+                                <!-- 롤링 -->
+                            <div class="rolling_wrap">
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_24th_holein.png"/></a>
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_23th_holein.png"/></a> 
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_22th_holein.png"/></a>
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_21th_holein.png"/></a> 
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_20th_holein.png"/></a>
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_19th_holein.png"/></a>   
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_18th_holein.png"/></a>
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_17th_holein.png"/></a>                                   
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_16th_holein.png"/></a> 
+                                <a href="golf/holeinlist" class="content"><img src="/img/6_15th_holein.png"/></a>
+                            </div>
+                            <div class="buttons_wrap text-center">
+                                <a href="javascript:void(0);" onclick="stopAction()" class="button">[STOP]</a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="javascript:void(0);" onclick="startAction()" class="button">[MOVE]</a>
+                            </div>
+                                                             
+                                <!-- <a href="my_3"><img src="/img/80_i03.jpg" width="80px" alt="나의정보입력"> -->
+                                    <!-- &nbsp;&nbsp; -->
+                                    <a href="http://pf.kakao.com/_ttxaSxj/chat"><img src="/img/80_019.png" alt="고객센터" width="80px" height="80px"></a>
+                                    &nbsp;&nbsp;
+                                    <a href="/logout"><img src="/img/80_017.jpg" width="80px" alt="로그아웃"></a>
+                                    <br><br>
+
+
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+  </script>
                                                             
                             </div>
                         </div>  
