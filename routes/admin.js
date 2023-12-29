@@ -94,7 +94,7 @@ module.exports = ()=>{
                         where
                         transtype=?
                         `
-                        const values3=[transtype]
+                    const values3=[transtype]
                     connection.query(
                         sql3, 
                         values3,
@@ -111,47 +111,116 @@ module.exports = ()=>{
                             }
                             const tot_charge_charge = tot_char.toString()
 
-                            //KPoint 의 출금 통계
-                            const transtype1="festival"
-                            const transtype2="store"
-                            const sql4 = `
+                            const transtype="festival"
+                            const sql5 = `
                                 select 
                                 * 
                                 from 
                                 kp_list
                                 where
-                                transtype=? || transtype = ?
+                                transtype = ? and  month(transtime) = 10
+                               
                                 `
-                                const values4=[transtype1,transtype2]
+                            const values5=[transtype]
                             connection.query(
-                                sql4, 
-                                values4,
-                            function(err, result4){
+                                sql5, 
+                                values5,
+                            function(err, result5){
                                 if(err){
                                     console.log(err)
                                     res.send(err)
                                 }else{
-                                    const tot_deposit_count = result4.length
-                                    // const tot_deposit=''
-                                    let tot_char = 0
-                                    for(var i=0;i<tot_deposit_count; ++i){
-                                        tot_char = tot_char+result4[i].kp_amount
-                                    }
-                                    const tot_deposit = tot_char.toString()
+                                    const count = result5.length
+                                    
+                                    const tot_10_count =count
 
-                                    res.render('admin_index.ejs', {
-                                        'login_data': req.session.logined ,
-                                        total_count:tot_count,
-                                        total_charge:tot_charge,
-                                        total_charge_count:tot_charge_count,
-                                        total_charge_charge:tot_charge_charge,
-                                        tot_deposit_count:tot_deposit_count,
-                                        total_deposit:tot_deposit
-                                    })
-                                }})
-                            }})
-                    }})
-            }})
+                                    const sql6 = `
+                                    select 
+                                    * 
+                                    from 
+                                    kp_list
+                                    where
+                                    transtype = ? and  month(transtime) = 11
+                                   
+                                    `
+                                const values6=[transtype]
+                                connection.query(
+                                    sql6, 
+                                    values6,
+                                function(err, result6){
+                                    if(err){
+                                        console.log(err)
+                                        res.send(err)
+                                    }else{
+                                        const count = result6.length
+                                        
+                                        const tot_11_count =count   
+                                        
+                                        const sql7 = `
+                                        select 
+                                        * 
+                                        from 
+                                        kp_list
+                                        where
+                                        transtype = ? and  month(transtime) = 12
+                                       
+                                        `
+                                    const values7=[transtype]
+                                    connection.query(
+                                        sql7, 
+                                        values7,
+                                    function(err, result7){
+                                        if(err){
+                                            console.log(err)
+                                            res.send(err)
+                                        }else{
+                                            const count = result7.length
+                                            
+                                            const tot_12_count =count
+                                    //KPoint 의 출금 통계
+                                    const transtype1="festival"
+                                    const transtype2="store"
+                                    const sql4 = `
+                                        select 
+                                        *
+                                        from 
+                                        kp_list
+                                        where
+                                        transtype=? || transtype = ?
+                                        `
+                                        const values4=[transtype1,transtype2]
+                                        connection.query(
+                                            sql4, 
+                                            values4,
+                                        function(err, result4){
+                                            if(err){
+                                                console.log(err)
+                                                res.send(err)
+                                            }else{
+                                                const tot_deposit_count = result4.length
+                                                // const tot_deposit=''
+                                                let tot_char = 0
+                                                for(var i=0;i<tot_deposit_count; ++i){
+                                                    tot_char = tot_char + result4[i].kp_amount
+                                                }
+                                                const tot_deposit = tot_char.toString()
+
+                                                res.render('admin_index.ejs', {
+                                                    'login_data': req.session.logined ,
+                                                    total_count:tot_count,
+                                                    tot_c:count,
+                                                    tot_10_count:tot_10_count,
+                                                    tot_11_count:tot_11_count,
+                                                    tot_12_count:tot_12_count,
+                                                    total_charge:tot_charge,
+                                                    total_charge_count:tot_charge_count,
+                                                    total_charge_charge:tot_charge_charge,
+                                                    tot_deposit_count:tot_deposit_count,
+                                                    total_deposit:tot_deposit
+                                            })
+                                }})}})}})}})}})}
+                            })}
+                    })            
 
 
 

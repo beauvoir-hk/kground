@@ -65,7 +65,16 @@
                                                                         <div class="text-xs font-weight-bold mb-1 text-secondary text-uppercase">
                                                                         since 2023.7.1(5회대회부터)
                                                                         <br><br>
-                                                                        회원수 : <%= total_count%>명
+                                                                        23년 10월 참여자수 : <%= tot_10_count%>명<br>
+                                                                        23년 11월 참여자수 : <%= tot_11_count%>명<br>
+                                                                        23년 12월 참여자수 : <%= tot_12_count%>명<br>
+                                                                        6회대회 총 참여자수 : <%= tot_10_count+tot_11_count+tot_12_count%>명<br>
+                                                                        6회대회 월평균 : <%= (tot_10_count+tot_11_count+tot_12_count)/3%>명,
+                                                                        <%= (tot_10_count+tot_11_count+tot_12_count)/3*2000%>원
+                                                                        <br>
+                                                                        <br>
+
+                                                                        전체회원수 : <%= total_count%>명
                                                                         <br>
                                                                         KPoint 총잔액 :  
                                                                                 <%aa=total_charge.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
