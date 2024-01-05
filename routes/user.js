@@ -672,7 +672,7 @@ router.post('/change_pass', async function(req, res){
                 res.send(err)
             }else{
 
-                console.log('loginfo sql',input_new_pass, input_new_pass6,  phone)
+                console.log('papagot sql',input_new_pass, input_new_pass6,  phone)
                 console.log("로그인비밀번호 변경성공", result)
                 res.render("login")
                 }})
@@ -704,7 +704,7 @@ router.post('/change_pass1', async function(req, res){
                 console.log(err)
                 res.send(err)
             }else{
-                console.log('loginfo sql',input_new_pass, phone)
+                console.log('papagot sql',input_new_pass, phone)
                 console.log("로그인비밀번호 변경성공", result)
 
                 res.render("login")
@@ -742,7 +742,7 @@ router.post('/change_pass1', async function(req, res){
                 res.send(err)
             }else{                
                 if(result.affectedRows!=0){
-                    console.log('loginfo sql',input_new_pass, phone)
+                    console.log('papagot sql',input_new_pass, phone)
                     console.log("로그인비밀번호 변경성공", result)
                     //로그인비밀번호변경 성공시 다시 로그인으로
                     res.render("login",{  
@@ -781,7 +781,7 @@ router.post('/change_paypass6', async function(req, res){
                 res.send(err)
             }else{
                 if(result.length!=0){
-                    console.log('loginfo sql',input_new_pass6, phone)
+                    console.log('papagot sql',input_new_pass6, phone)
                     console.log("결제비밀번호 변경성공", result)
                     res.render("index",{
                         state:1,
@@ -1951,7 +1951,7 @@ router.get('/papago_list', async (req, res)=>{
             select 
             *
             from 
-            log_info5
+            log_info
             
             `
         //const values = [phone]
@@ -1979,7 +1979,7 @@ router.get('/papago_list', async (req, res)=>{
                         select 
                         *
                         from 
-                        kp_list5
+                        kp_list
                         where phone=? && transtype="festival"
                         `
                     const values = [res]
@@ -2000,7 +2000,7 @@ router.get('/papago_list', async (req, res)=>{
                             select 
                             *
                             from 
-                            loginfo5
+                            papagot
                             where phone=? 
                             `
                         const values = [res]
@@ -2019,7 +2019,7 @@ router.get('/papago_list', async (req, res)=>{
                                     const sql=
                                         `
                                         update
-                                        loginfo5
+                                        papagot
                                         set
                                         papago=?
                                         where phone = ?
@@ -2045,7 +2045,7 @@ router.get('/papago_list', async (req, res)=>{
                                             `
                                             insert 
                                             into 
-                                            loginfo5 
+                                            papagot 
                                             values (  ?, ?, ?, ? )
                                             `
 
@@ -2072,7 +2072,7 @@ router.get('/papago_list', async (req, res)=>{
                     select 
                     *
                     from 
-                    loginfo5
+                    papagot
                     order by papago DESC 
                     `
                 

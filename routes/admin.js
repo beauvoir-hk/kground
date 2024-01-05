@@ -1588,13 +1588,11 @@ router.get('/admin_papago', async (req, res)=>{
                             let len =result2.length
                             const papago = len
 
-                            //console.log("papago= ",res, resuser, resnick, papago  )
-                            
                             const sql = `
                                 select 
                                 *
                                 from 
-                                loginfo
+                                papagot
                                 where phone=? 
                                 `
                             const values = [res]
@@ -1613,7 +1611,7 @@ router.get('/admin_papago', async (req, res)=>{
                                         const sql=
                                             `
                                             update
-                                            loginfo
+                                            papagot
                                             set
                                             papago=?
                                             where phone = ?
@@ -1639,7 +1637,7 @@ router.get('/admin_papago', async (req, res)=>{
                                                 `
                                                 insert 
                                                 into 
-                                                loginfo 
+                                                papagot
                                                 values (  ?, ?, ?, ? )
                                                 `
 
@@ -1653,7 +1651,7 @@ router.get('/admin_papago', async (req, res)=>{
                                                     console.log(err)}
                                                     else{
 
-                                                        console.log("papago insert= ",resuser )
+                                                        console.log("papagot insert= ",resuser )
                                             }})
                                     }
                             }})
@@ -1666,19 +1664,16 @@ router.get('/admin_papago', async (req, res)=>{
                         select 
                         *
                         from 
-                        loginfo
+                        papagot
                         order by papago DESC 
                         `
-                    
                     connection.query(
                     sql, 
                         
                     function(err, result4){
                         if(err){
                             console.log(err)
-                            
                         }else{
-                
                             console.log("result4",result4.length)
                             res.render('admin_papagolist', {
                                 resultt:result4,
