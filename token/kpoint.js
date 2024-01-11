@@ -175,8 +175,7 @@ async function log_info_amount_update2(_phone, price ){
             }else{
                 
                 const ch_amount=parseInt(result3[0].charge_amount) + parseInt(price)    
-                console.log(" 수신자 charge에  더하기",
-                            _phone,result3[0].charge_amount ,price, ch_amount )
+                console.log(" 수신자 charge에  더하기", _phone,result3[0].charge_amount ,price, ch_amount )
 
                 const sql = `
                     update
@@ -430,7 +429,7 @@ async function kpoint_list_insert_m(_phone, trans_tp,  chargedate, price){
         }else{
             const myprice = price* -1
             
-            console.log("감액 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,  result2[0].charge_amount ) 
+            console.log("감액 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,  result2[0].charge_amount+myprice ) 
             console.log("chargedat=",chargedate)
 
 
@@ -440,7 +439,7 @@ async function kpoint_list_insert_m(_phone, trans_tp,  chargedate, price){
                 kp_list
                 values (?,?,?,?,?)
                 `
-            const values = [_phone, chargedate, trans_tp, myprice, result2[0].charge_amount ]
+            const values = [_phone, chargedate, trans_tp, myprice, result2[0].charge_amount+myprice ]
 
             connection.query(
                 sql,

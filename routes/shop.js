@@ -1728,8 +1728,7 @@ router.get('/glovesdetail', async (req, res)=>{
                     where 
                     phone = ?
                     
-                        `
-                    
+                    `
                 const values7 = [phone]
                 connection.query(
                 sql7, 

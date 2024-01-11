@@ -525,7 +525,7 @@ router.post('/admin_chagam', async (req, res)=>{
     }else{
         data=1
         const adminphone = req.body._admin//관리자대표폰
-        const receiptphone = req.body._reciept//차감될 휴대폰
+        const chagamphone = req.body._reciept//차감될 휴대폰receiptphone
         const pay_amount = await req.body._sendpay.trim()//차감금액
 
         const sql6 = `
@@ -540,19 +540,17 @@ router.post('/admin_chagam', async (req, res)=>{
         connection.query(
         sql6, 
         values6, 
-        function(err, result2){
+        function(err, result2){//관리자 원본정보--------- 2
             if(err){
                 console.log(err)
             }else{ 
 
-                console.log("trans_amount =", adminphone,receiptphone, pay_amount)
+                console.log("trans_amount =", adminphone,chagamphone, pay_amount)
                 const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
                 
                 //보내는 관리자의  정보
                 const _phone =  req.session.logined.phone  //보내는 관리자의 폰번호
                 const _username = req.session.logined.username
-                
-                
                 
                 ///2. 차감대상자 금액 추가 정정
                 const sql6 = `
@@ -563,53 +561,49 @@ router.post('/admin_chagam', async (req, res)=>{
                     where 
                     phone = ?
                     `
-                const values6 = [ receiptphone]
+                const values6 = [ chagamphone]
                 connection.query(
                 sql6, 
                 values6, 
-                function(err, result6){
+                function(err, result6){//차감대상자----------- 6
                     if(err){
                         console.log(err)
                     }else{ 
                             
                             //3. admin 거래내역 추가 
-                            const reciept_amount = result6[0].charge_amount//대상자의 원장 충전금액
+                            const chagam_amount = result6[0].charge_amount//차감 대상자의 원장 충전금액
+                            const chagam_username= result6[0].username.toString()
 
-                            const reciept_username= result6[0].username.toString()
-                            const reciept_amount1=parseInt(reciept_amount)-parseInt(pay_amount)//대상자 차감게산
+                            const chagam_amount1=parseInt(chagam_amount)-parseInt(pay_amount)//차감대상자 차감게산
                             const admin_amount= parseInt(result2[0].charge_amount)+parseInt(pay_amount)//관리자 덧셈 계산
+                            const pay_amount2 =parseInt(pay_amount)*-1//차감표시
 
-                            const pay_amount2=parseInt(pay_amount)*-1//차감
-                            console.log("admin 거래정보 리스트에 추가",_input_dt,_username,reciept_username, pay_amount2 , reciept_amount1, admin_amount)
-                            kpoint.admin_trans_insert(_input_dt,_username,reciept_username, pay_amount2 , reciept_amount1 , admin_amount )
+                            console.log("admin 거래정보 리스트에 추가",_input_dt,_username,chagam_username, pay_amount2 , chagam_amount1, admin_amount)
+                            kpoint.admin_trans_insert(_input_dt,_username,chagam_username, pay_amount2 , chagam_amount1 , admin_amount )
 
                                                         
                             //4. KP_list에 추가  //보내는 사람=나
                             const trans_tp = "관리자차감"//보내는 사람
-                            const trans_tp1=reciept_username//받는사람
+                            const trans_tp1=chagam_username//차감자
 
                             console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
                             
-                            //const _pay_amount= parseInt(pay_amount)*-1
-                            kpoint.kpoint_list_insert_m(receiptphone, trans_tp1,  _input_dt, pay_amount)
+                            kpoint.kpoint_list_insert_m(chagamphone, trans_tp1,  _input_dt, pay_amount)
 
-                            
                             // //5. KP_list에 추가 //수신자
-                            
-                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone,reciept_amount1  )
-                            
+                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",chagamphone,reciept_amount1  )
                             const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
                             console.log("0.01초 더한시간",new_dt) 
-                            //const pay_amount1 = parseInt(pay_amount)
+                           
                             kpoint.kpoint_list_insert(adminphone, trans_tp,  new_dt, pay_amount )
 
 
                             da = 1 
                             //1. 차감수정
-                            kpoint.log_info_amount_update1(receiptphone, pay_amount )  
-                            console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
+                            kpoint.log_info_amount_update1(chagamphone, pay_amount )  //차감
+                            
                             //2. 금액 증액정정 (관리자대표폰)
-                            kpoint.log_info_amount_update2( adminphone, pay_amount )      
+                            kpoint.log_info_amount_update2( adminphone, pay_amount )  //추가    
 
                             //6.전체거래내역list 
                             const phone = req.session.logined.phone 
