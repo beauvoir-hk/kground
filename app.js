@@ -1,9 +1,10 @@
 // express 로드
 const express = require('express')
-var req = require('request') 
+const router = express.Router()
 const app = express()
 const port = 3000
 const https = require('https');
+var req = require('request') 
 const res = require('express').response
 const fs = require('fs');
 const web3 = require("web3");
@@ -18,7 +19,7 @@ app.use(express.static('public'))
 
 //데이터를 post형식으로 받을때 json의 형태로 변환 
 app.use(express.urlencoded({extended:false}))
-const router = express.Router()
+
 
 // 환경변수설정 dotenv 
 require('dotenv').config()
@@ -37,7 +38,7 @@ app.use(
             resave : false, 
             saveUninitialized : false, 
             cookie : {
-                maxAge : 60000000000000// 1000당 1초(즉 1분)
+                maxAge : Infinity// 1000당 1초(즉 1분)
             }
         }
     )
@@ -45,6 +46,33 @@ app.use(
 // Twilio에 연결합니다
 const twilioClient = require('twilio')(process.env.accountSid, process.env.authToken)
 const kpoint = require("./token/kpoint")
+const pageRouter=require("./routes/page")
+ 
+ 
+// const passport = require('passport');
+// const passportConfig = require('./passport')
+// const authRouter = require('./routes/auth') // 인증 라우터
+
+// passportConfig() // 패스포트 설정
+
+// app.use(cookieParser(process.env.COOKIE_SECRET));
+// app.use(
+//    session({
+//       resave: false,
+//       saveUninitialized: false,
+//       secret: process.env.COOKIE_SECRET,
+//       cookie: {
+//          httpOnly: true,
+//          secure: false,
+//       },
+//    }),
+// )
+// //! express-session에 의존하므로 뒤에 위치해야 함
+// app.use(passport.initialize()); // 요청 객체에 passport 설정을 심음
+// app.use(passport.session()); // req.session 객체에 passport정보를 추가 저장
+// passport.session()이 실행되면, 세션쿠키 정보를 바탕으로 해서 passport/index.js의 deserializeUser()가 실행하게 한다.
+
+
 // api들을 생성
 // localhost:3000/ 요청시 
 app.get('/', async function(req, res){
@@ -77,7 +105,7 @@ app.get('/', async function(req, res){
 }})
 
 
-    app.get("/index", function(req, res){
+app.get("/index", function(req, res){
         // session 존재 유무에 따른 조건식 생성
         if(!req.session.login){
             res.redirect("/")
@@ -90,7 +118,7 @@ app.get('/', async function(req, res){
         }
     })
 
-    app.get("/auth", function(req, res){
+app.get("/auth", function(req, res){
         console.log("app의 get실행 로그인")
         // session 존재 유무에 따른 조건식 생성
         // console.log("app의 get실행")
@@ -133,7 +161,7 @@ app.post('/payment', async function(req, res){
                     console.log("승인 완료 ")
                     // if(!req.session.logined){
                         // console.log("login again",__dirname)
-                        console.log("현재 path",__dirname)
+                        console.log("back path",__dirname)
                         // res.redirect("..")
 
                     // }else{
@@ -161,7 +189,7 @@ app.post('/payment', async function(req, res){
                         console.log("process.env.kphonenumber=",process.env.kphonenumber)
                 
                         twilioClient.messages.create({
-                            body: '케이그라운드 충전완료(페이앱):   ' +  price ,
+                            body: phone +'케이그라운드 충전완료(페이앱):   ' +  price ,
                             from: process.env.kphonenumber,
                             to: ggphone
                             })
@@ -171,13 +199,8 @@ app.post('/payment', async function(req, res){
                         const chargedate = moment().format('YYYY-MM-DDTHH:mm:ss')
                         console.log("charge date :",chargedate )
 
-                        
                         //충전 리스트에 추가기록
                         kpoint.chargelist_insert(phone,chargedate, price)
-                                               
-                        //원장기록 update
-                        kpoint.log_info_amount_update(phone,price )
-                       
 
                         //kpoint 전체거래내역에 추가
                         const trans_tp="charge"
@@ -188,6 +211,12 @@ app.post('/payment', async function(req, res){
                         
                         const trans_tp2="refferal"
                         kpoint.kpoint_list_refferal_insert(phone, trans_tp2, chargedate, price )
+
+                        
+                        //원장기록 update
+                        kpoint.log_info_amount_update(phone,price )//event
+                        kpoint.log_info_refferal_update(phone,price )//refferal
+                        
                         console.log("현재 경로",__dirname)
                         res.redirect("..") 
                     }     
@@ -210,6 +239,8 @@ app.post('/payment', async function(req, res){
     const admin = require('./routes/admin.js')()
     app.use("/admin", admin)
 
+    const routesshop = require('./routes/shop.js')()
+    app.use("/shop", routesshop)
 
     // 서버 시작 
     app.listen(port, () => {

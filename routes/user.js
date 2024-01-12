@@ -45,32 +45,32 @@ const error = require("../token/error")
 const twilioClient = require('twilio')(process.env.accountSid, process.env.authToken)
 
 module.exports = ()=>{
+
+    // localhost:3000/ [get] api 생성
+    router.get('/', function(req, res){
+        if(!req.session.logined){
+            res.render('index.ejs')
+        }else{
+            res.redirect('/contract')
+        }
+    })
+
+
+
     //해당 파일에서 기본 url : localhost:3000/ 
 
-    router.get("/", (req, res)=>{
-        if(!req.session.logined){
-            console.log("처음인가??")
-            // res.redirect('/')
-            res.redirect('/')
-        }else{
-            res.redirect('/index')
-        }
+    // router.get("/", (req, res)=>{
+    //     if(!req.session.logined){
+    //         console.log("처음인가??")
+    //         // res.redirect('/')
+    //         res.redirect('/')
+    //     }else{
+    //         res.redirect('/index')
+    //     }
     
-    })
+    // })
 
-    //공지
-    router.get("/notice", async (req, res)=>{
-        if(!req.session.logined){
-            console.log("?????")
-            res.redirect('/')
-             
-        }else{
-            res.redirect('/notice')
-        }
-    
-    })
-                 
-    
+  
 
 //localhost:3000/ login [post] 형식으로 요청 시
 router.post("/login", async (req, res)=>{
@@ -90,10 +90,8 @@ router.post("/login", async (req, res)=>{
         log_info 
         where 
         phone = ? 
-        and 
-        pass = ?
         `
-    const values = [_phone, _pass]
+    const values = [_phone]
     connection.query(
         sql,
         values,
@@ -131,6 +129,19 @@ router.post("/login", async (req, res)=>{
                 }
             }})
             } )
+
+
+    //공지
+    router.get("/notice", async (req, res)=>{
+        if(!req.session.logined){
+            console.log("?????")
+            res.redirect('/')
+             
+        }else{
+            res.redirect('/notice')
+        }
+    
+    })
 
 
     // 회원 가입 (localhost:3000/user/ signup주소로 요청시)

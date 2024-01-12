@@ -583,7 +583,7 @@ router.post('/admin_chagam', async (req, res)=>{
 
                                                         
                             //4. KP_list에 추가  //보내는 사람=나
-                            const trans_tp = "관리자차감"//보내는 사람
+                            const trans_tp_admin_m = "관리자차감"//보내는 사람
                             const trans_tp1=chagam_username//차감자
 
                             console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
@@ -595,7 +595,7 @@ router.post('/admin_chagam', async (req, res)=>{
                             const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
                             console.log("0.01초 더한시간",new_dt) 
                            
-                            kpoint.kpoint_list_insert(adminphone, trans_tp,  new_dt, pay_amount )
+                            kpoint.kpoint_list_insert(adminphone, trans_tp_admin_m,  new_dt, pay_amount )
 
 
                             da = 1 
@@ -627,7 +627,7 @@ router.post('/admin_chagam', async (req, res)=>{
                                     }else{     
                                         res.render('admintrans_list', {
                                             'resultt': result,
-                                            'username' :trans_tp, 
+                                            'username' : trans_tp_admin_m, 
                                             'amount':admin_amount,
                                             'phone': adminphone
                         })}

@@ -151,7 +151,7 @@ async function chargelist_insert(_phone,chargedate, price){
    }})
 }
 
-//원본 디비에 가맹점거는 2 
+//원본 디비에 가맹점거는 2 증액
 //금액 추가 수정(festival, store=gamepay, transpay) 
 async function log_info_amount_update2(_phone, price ){   
 
