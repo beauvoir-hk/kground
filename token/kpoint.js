@@ -379,10 +379,12 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price){
         if(err){
             console.log(err)
         }else{
-            //const charge_amount=parseInt(result2[0].charge_amount) + parseInt(price)
-            console.log("추가 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,  result2[0].charge_amount) 
-            console.log("chargedat=",chargedate)
 
+            const amount=parseInt(result2[0].charge_amount)+parseInt(price)
+            //const charge_amount=parseInt(result2[0].charge_amount) + parseInt(price)
+            console.log("추가 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,  amount) 
+            console.log("chargedat=",chargedate)
+            
 
             const sql = `
                 insert 
@@ -390,7 +392,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price){
                 kp_list
                 values (?,?,?,?,?)
                 `
-            const values = [_phone, chargedate, trans_tp, price,  result2[0].charge_amount+price]
+            const values = [_phone, chargedate, trans_tp, price,  amount]
 
             connection.query(
                 sql,
@@ -428,8 +430,8 @@ async function kpoint_list_insert_m(_phone, trans_tp,  chargedate, price){
             console.log(err)
         }else{
             const myprice = price* -1
-            
-            console.log("감액 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,  result2[0].charge_amount+myprice ) 
+            const amount=parseInt(result2[0].charge_amount)+parseInt(myprice)
+            console.log("감액 거래내역을 kp_list에 insert",_phone, trans_tp,  chargedate, price,  amount ) 
             console.log("chargedat=",chargedate)
 
 
@@ -439,7 +441,7 @@ async function kpoint_list_insert_m(_phone, trans_tp,  chargedate, price){
                 kp_list
                 values (?,?,?,?,?)
                 `
-            const values = [_phone, chargedate, trans_tp, myprice, result2[0].charge_amount+myprice ]
+            const values = [_phone, chargedate, trans_tp, myprice, amount ]
 
             connection.query(
                 sql,
@@ -475,7 +477,8 @@ async function kpoint_list_insert_g(_store_phone, new_dt, trans_tp1,  pay_amount
             console.log(err)
         }else{
                  
-            console.log("가맹점거래내역kp_list에 insert",_store_phone, new_dt, trans_tp1,  pay_amount , result2[0].charge_amount ) 
+            const amount = parseInt(result2[0].charge_amount) +parseInt(pay_amount)
+            console.log("가맹점거래내역kp_list에 insert",_store_phone, new_dt, trans_tp1,  pay_amount , amount ) 
             console.log("new_dt=",new_dt)
             const sql = `
                 insert 
@@ -483,7 +486,7 @@ async function kpoint_list_insert_g(_store_phone, new_dt, trans_tp1,  pay_amount
                 kp_list
                 values (?,?,?,?,?)
                 `
-            const values = [_store_phone, new_dt, trans_tp1,  pay_amount,   result2[0].charge_amount]
+            const values = [_store_phone, new_dt, trans_tp1,  pay_amount,  amount]
 
             connection.query(
                 sql,
