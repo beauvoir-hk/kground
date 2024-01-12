@@ -390,7 +390,7 @@ async function kpoint_list_insert(_phone, trans_tp,  chargedate, price){
                 kp_list
                 values (?,?,?,?,?)
                 `
-            const values = [_phone, chargedate, trans_tp, price,  result2[0].charge_amount]
+            const values = [_phone, chargedate, trans_tp, price,  result2[0].charge_amount+price]
 
             connection.query(
                 sql,

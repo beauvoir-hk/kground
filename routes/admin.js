@@ -579,7 +579,7 @@ router.post('/admin_chagam', async (req, res)=>{
                             const pay_amount2 =parseInt(pay_amount)*-1//차감표시
 
                             console.log("admin 거래정보 리스트에 추가",_input_dt,_username,chagam_username, pay_amount2 , chagam_amount1, admin_amount)
-                            kpoint.admin_trans_insert(_input_dt,_username,chagam_username, pay_amount2 , chagam_amount1 , admin_amount )
+                            kpoint.admin_trans_insert(_input_dt ,chagam_username,_username,pay_amount2, admin_amount, chagam_amount1  )
 
                                                         
                             //4. KP_list에 추가  //보내는 사람=나
@@ -591,7 +591,7 @@ router.post('/admin_chagam', async (req, res)=>{
                             kpoint.kpoint_list_insert_m(chagamphone, trans_tp1,  _input_dt, pay_amount)
 
                             // //5. KP_list에 추가 //수신자
-                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",chagamphone,reciept_amount1  )
+                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",chagamphone,chagam_amount1  )
                             const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
                             console.log("0.01초 더한시간",new_dt) 
                            
@@ -1091,7 +1091,7 @@ router.post('/admin_jigub', async (req, res)=>{
                             const trans_tp1=reciept_username//받는사람
 
                             console.log("보낸내역 kp_list에 insert",_phone, trans_tp1, _input_dt, pay_amount , admin_amount) 
-                            //const _pay_amount= parseInt(pay_amount)
+                            // const _pay_amount= parseInt(pay_amount)*-1
 
                             kpoint.kpoint_list_insert_m(adminphone, trans_tp1,  _input_dt, pay_amount)
 
