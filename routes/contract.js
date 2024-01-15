@@ -1697,12 +1697,15 @@ if(!req.session.logined){
     }else{
         data=1
         const name= req.body.name
+        console.log("name =",name)
+        const card=req.body.card
+        const kpoint=req.body.kpoint
         const receiptphone =await req.body._reciept//수신자폰
-        const pay_card = await req.body.card
+        //onst pay_card = await req.body.card
         const pay_amount = await req.body._sendpay//보낼금액
         const numeric6 = await req.body._numeric6.trim()
         console.log("쇼핑몰 거래 amount =",pay_amount)
-        const card=req.body.card
+        
         
         const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
         console.log("_input_dt =",_input_dt)
@@ -1712,7 +1715,17 @@ if(!req.session.logined){
         const _username = req.session.logined.username
         
         //내가 나에게 보내는가?
-        if(receiptphone!=_phone){
+        if(receiptphone==_phone){
+      
+            console.log("내가 나에게 보낼 수 없다") 
+            res.render('kp_trans_gloves', {
+                amount :  charge_amount,
+                phonenum : _phone,
+                username :  _username,
+                state : 1
+                    
+            })
+        }else{
             console.log("receiptphone =",receiptphone)
             
             var charge_amount= 0
@@ -1801,31 +1814,31 @@ if(!req.session.logined){
                                     
                                     const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
                                     
-                                        //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
-                                        const rec_username= result6[0].username.toString()
-                                    
-                                        console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
-                                        kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                                    //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
+                                    const rec_username= result6[0].username.toString()
+                                
+                                    console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                                    kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
 
-                                        //친구에게 보내기 내역 기록
-                                        //4. KP_list에 추가  //보내는 사람=나
-                                        const trans_tp = _username//보내는 사람
-                                        const trans_tp1=rec_username//받는사람
+                                    //친구에게 보내기 내역 기록
+                                    //4. KP_list에 추가  //보내는 사람=나
+                                    const trans_tp = _username//보내는 사람
+                                    const trans_tp1=rec_username//받는사람
 
-                                        const new_dt1 = moment(_input_dt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                        kpoint.kpoint_list_insert_m(_phone, trans_tp1,  new_dt1, pay_amount)
+                                    const new_dt1 = moment(_input_dt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                    kpoint.kpoint_list_insert_m(_phone, trans_tp1,  new_dt1, pay_amount)
 
-                                        // //5. KP_list에 추가 //수신자
-                                        const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                        kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
+                                    // //5. KP_list에 추가 //수신자
+                                    const new_dt = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                    kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
 
-                                         //1. log_info 정보 감액수정(보내는 사람 즉 나)
-                                console.log("log_info_amount_update1", _phone, pay_amount )
-                                kpoint.log_info_amount_update1(_phone,pay_amount )
+                                            //1. log_info 정보 감액수정(보내는 사람 즉 나)
+                                    console.log("log_info_amount_update1", _phone, pay_amount )
+                                    kpoint.log_info_amount_update1(_phone,pay_amount )
 
-                                // 1. 수신자 log_info 수정
-                                console.log("log_info_amount_update2", receiptphone, pay_amount )
-                                kpoint.log_info_amount_update2( receiptphone, pay_amount)
+                                    // 1. 수신자 log_info 수정
+                                    console.log("log_info_amount_update2", receiptphone, pay_amount )
+                                    kpoint.log_info_amount_update2( receiptphone, pay_amount)
 
 
                                         //보낸사람에 안내 메세지
@@ -1861,7 +1874,7 @@ if(!req.session.logined){
                                             from 
                                             gloves
                                             where 
-                                            name = ?
+                                            filename = ?
                                             
                                                 `
                                         const values6 = [name]
@@ -1874,7 +1887,7 @@ if(!req.session.logined){
                                             }else{
                                                 const price=result6[0].hap
                                                 const kpoint =result6[0].kpoint
-                                                // const card = result6[0].card
+                                                const card = result6[0].card
                                                 const _product_name =name
                                                 const filename= result6[0].filename
                                                 const paymethod= result6[0].paymethod
@@ -1905,18 +1918,8 @@ if(!req.session.logined){
                                                 
                             
     }})
-                                            }}})                    
-                    }}}}}})
-        
-                }else{
-                console.log("내가 나에게 보낼 수 없다") 
-                res.render('kp_trans_gloves', {
-                    amount :  charge_amount,
-                    phonenum : _phone,
-                    username :  _username,
-                    state : 1
-                        
-                })
+         }}})                    
+         }}}}}})
                 }
     }})
         
@@ -2210,107 +2213,107 @@ if(!req.session.logined){
                                     
                                     const reciept_amount = result6[0].charge_amount//수신자의 원장 충전금액
                         
-                                        //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
-                                        const rec_username= result6[0].username.toString()
+                                    //3. 친구끼리 거래하기거래리스트에 거래내역 추가 
+                                    const rec_username= result6[0].username.toString()
+                                
+                                    console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                                    kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
+
+                                    //친구에게 보내기 내역 기록
+                                    //4. KP_list에 추가  //보내는 사람=나
+                                    const trans_tp = _username//보내는 사람
+                                    const trans_tp1=rec_username//받는사람
                                     
-                                        console.log("친구끼리의 거래정보 리스트에 추가",_input_dt, _phone, rec_username, receiptphone, pay_amount )
-                                        kpoint.trans_list_insert(_input_dt, _phone, rec_username, receiptphone, pay_amount )
+                                    const new_dt1 = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                    kpoint.kpoint_list_insert_m(_phone, trans_tp1,  new_dt1, pay_amount)
 
-                                        //친구에게 보내기 내역 기록
-                                        //4. KP_list에 추가  //보내는 사람=나
-                                        const trans_tp = _username//보내는 사람
-                                        const trans_tp1=rec_username//받는사람
-                                        
-                                        const new_dt1 = moment(_input_dt).add(1, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                        kpoint.kpoint_list_insert_m(_phone, trans_tp1,  new_dt1, pay_amount)
-
-                                        const new_dt = moment(_input_dt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
-                                        kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
+                                    const new_dt = moment(_input_dt).add(2, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                                    kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
 
                                                                         //1. log_info 정보 감액수정(보내는 사람 즉 나)
-                                console.log("log_info_amount_update1", _phone, pay_amount )
-                                kpoint.log_info_amount_update1(_phone,pay_amount )
+                                    console.log("log_info_amount_update1", _phone, pay_amount )
+                                    kpoint.log_info_amount_update1(_phone,pay_amount )
 
-                                // 1. 수신자 log_info 수정
-                                console.log("log_info_amount_update2", receiptphone, pay_amount )
-                                kpoint.log_info_amount_update2( receiptphone, pay_amount)
+                                    // 1. 수신자 log_info 수정
+                                    console.log("log_info_amount_update2", receiptphone, pay_amount )
+                                    kpoint.log_info_amount_update2( receiptphone, pay_amount)
 
-                                        //보낸사람에 안내 메세지
-                                        const gphone = "+82"+  _phone        
-                                        const ggphone = "+82"+  "01025961010"
+                                    //보낸사람에 안내 메세지
+                                    const gphone = "+82"+  _phone        
+                                    const ggphone = "+82"+  "01025961010"
+                                
+                                        console.log("보낸사람의  폰 =",gphone)
+
+                                    twilioClient.messages.create({
+                                        body:  '[' + trans_tp +']님께서 [' + trans_tp1 +']에게 쇼핑몰 KPoint 결제 완료  :  '+  pay_amount ,
+                                        from: process.env.kphonenumber,
+                                        to: gphone
+                                        })
+                                        .then(message => console.log("쇼핑몰 결제(kground)----", gphone,trans_tp1,message.sid))
+                                
+                                    twilioClient.messages.create({
+                                        body:trans_tp +'님께서 케이그라운드 쇼핑몰 Kpoint 결제 완료):   ' +   pay_amount ,
+                                        from: process.env.kphonenumber,
+                                        to:  ggphone
+                                        })
+                                        .then(message => console.log("쇼핑몰 결제(kground)---- ok(----", ggphone, message.sid))
+
+
+                                    //6.transpay_list준비 
+                                    const phone = req.session.logined.phone 
+                                    const user = req.session.logined.username         
+                                    const tokenamount = req.session.logined.charge_amount
+
+                                    console.log(" tokenamount =  ", tokenamount )
                                     
-                                          console.log("보낸사람의  폰 =",gphone)
-
-                                        twilioClient.messages.create({
-                                            body:  '[' + trans_tp +']님께서 [' + trans_tp1 +']에게 쇼핑몰 KPoint 결제 완료  :  '+  pay_amount ,
-                                            from: process.env.kphonenumber,
-                                            to: gphone
-                                            })
-                                            .then(message => console.log("쇼핑몰 결제(kground)----", gphone,trans_tp1,message.sid))
-                                    
-                                        twilioClient.messages.create({
-                                            body:trans_tp +'님께서 케이그라운드 쇼핑몰 Kpoint 결제 완료):   ' +   pay_amount ,
-                                            from: process.env.kphonenumber,
-                                            to:  ggphone
-                                            })
-                                            .then(message => console.log("쇼핑몰 결제(kground)---- ok(----", ggphone, message.sid))
-
-
-                                        //6.transpay_list준비 
-                                        const phone = req.session.logined.phone 
-                                        const user = req.session.logined.username         
-                                        const tokenamount = req.session.logined.charge_amount
-
-                                        console.log(" tokenamount =  ", tokenamount )
+                                    const sql6 =
+                                        `
+                                        select 
+                                        *
+                                        from 
+                                        giga_pay
+                                        where 
+                                        filename = ?
                                         
-                                        const sql6 =
                                             `
-                                            select 
-                                            *
-                                            from 
-                                            giga_pay
-                                            where 
-                                            filename = ?
+                                    const values6 = [name]
+                                    connection.query(
+                                    sql6, 
+                                    values6, 
+                                    function(err, result6){
+                                        if(err){
+                                            console.log(err)
+                                        }else{
+                                            const price=result6[0].pay
+                                            const kpoint =result6[0].kpoint
+                                            // const card = result6[0].card
+                                            const _product_name =name
+                                            const filename= result6[0].filename
+                                            const paymethod= result6[0].paymethod
+                                            const juso=req.body.input_post 
+                                            console.log(" paymethod= ",paymethod)
                                             
-                                                `
-                                        const values6 = [name]
-                                        connection.query(
-                                        sql6, 
-                                        values6, 
-                                        function(err, result6){
-                                            if(err){
-                                                console.log(err)
-                                            }else{
-                                                const price=result6[0].pay
-                                                const kpoint =result6[0].kpoint
-                                                // const card = result6[0].card
-                                                const _product_name =name
-                                                const filename= result6[0].filename
-                                                const paymethod= result6[0].paymethod
-                                                const juso=req.body.input_post 
-                                                console.log(" paymethod= ",paymethod)
-                                                
-                                                if(paymethod=="KPoint포함(신용간단결제)"){
-                                                    res.render('card_pay', {
+                                            if(paymethod=="KPoint포함(신용간단결제)"){
+                                                res.render('card_pay', {
 
-                                                        name:name,
-                                                        amount : tokenamount ,
-                                                        phone : phone,
-                                                        card : card,
-                                                        filename:filename,
-                                                        paymethod:paymethod,
-                                                        username :user,
-                                                        productname: _product_name,
-                                                        price:price,
-                                                        kpoint:kpoint,
-                                                        post:juso,
-                                                        st:1
-                                                })
-                                                }else{
-                                                    res.render('index',{
-                                                        login_data:req.session.logined,
-                                                        amount:tokenamount                                                     })     
-                                                }
+                                                    name:name,
+                                                    amount : tokenamount ,
+                                                    phone : phone,
+                                                    card : card,
+                                                    filename:filename,
+                                                    paymethod:paymethod,
+                                                    username :user,
+                                                    productname: _product_name,
+                                                    price:price,
+                                                    kpoint:kpoint,
+                                                    post:juso,
+                                                    st:1
+                                            })
+                                            }else{
+                                                res.render('index',{
+                                                    login_data:req.session.logined,
+                                                    amount:tokenamount                                                     })     
+                                            }
                                                 
                             
                                             }})
