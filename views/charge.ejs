@@ -21,7 +21,7 @@
     PayApp.setDefault('userid',     'qop1513');
     PayApp.setDefault('shopname',   '케이그라운드');
     function payappPay(){
-        PayApp.setParam('goodname', 'K포인트 충전');
+        PayApp.setParam('goodname', '참가권 구매');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
         PayApp.setParam('returnurl', 'https://kground.co.kr/payment/?price='+$('#price').val()+"&phone="+ $('#phone').val());
@@ -49,7 +49,7 @@
         window.close(myPopup) 
     }
     function fail(){
-              alert("KPoint를 중전해 주십시오")
+              alert("페스티벌 참가권을 구매해 주세요")
     }
     </script>
 </head>
@@ -107,18 +107,18 @@
                                             </div>
                                         </div> 
 
-                                  <!--      <form role="form" action="charge" method="post" >
+                                        <form role="form" action="charge" method="post" >
                                         <fieldset> 
                                         <div class="h6 mb-0 font-weight-bold text-gray-800">
                                             <br><br>
-                                            <label class="control-label">충전금액선택</label>
+                                            <label class="control-label">참가권 구매</label>
                                             <br>
                                             <select class="form-select" name="price" id="price">
-                                                <option value=100000>100,000원 : 100,000K포인트</option>
-                                                <option value=20000>20,000원 : 20,000K포인트</option>
-                                                <option value=50000>50,000원 : 50,000K포인트</option>
-                                                <option value=200000>200,000원 : 200,000K포인트</option>
-                                                <option value=300000>300,000원 : 300,000K포인트</option>
+                                                <option value=2000>1개 : 2,000원</option>
+                                                <option value=10000>5개 : 10,000원</option>
+                                                <option value=20000>10개 : 20,000원</option>
+                                                 
+                                               
                                             </select>
                                             <br>
                                             <input class="form-control" type="text" id="phone" name="phone" 
@@ -130,18 +130,18 @@
                                         <br>
                                         <div class="text-primary" align="center">
                                             <i class="fas fa-calendar fa-2x text-gray-300">
-                                                ※ 충전금액 선택 후 충전(필독)<br>
+                                                ※ 구매권 구매갯수 선택(필독)<br>
                                                  
                                             </i>
                                         </div>
                                         <div class="text-center">
-                                            <input type="submit"  class="btn btn-danger" value="충전하기"  onclick="payappPay()">   
+                                            <input type="submit"  class="btn btn-danger" value="구매하기" > <!--onclick="payappPay()"-->   
                                             <br>
                                             <div class="very-small">
                                                 → 카드, 페이 등 간편결제가 진행이 됩니다
                                             </div>
                                             <hr>
-                                        -->
+                                       
                                             <div class="text-danger text-center" >
                                                 ※ PG 사 이동으로 인해 당분간 
                                                 <br>무통장 입금만 아용하실 수 있습니다

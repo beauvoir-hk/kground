@@ -21,7 +21,7 @@
     PayApp.setDefault('userid',     'qop1513');
     PayApp.setDefault('shopname',   '케이그라운드');
         function payappPay(wallet){
-        PayApp.setParam('goodname', 'K포인트 충전');
+        PayApp.setParam('goodname', '참가권 구매');
         PayApp.setParam('price', $('#price').val());
         PayApp.setParam('recvphone', $('#phone').val());
         PayApp.setParam('returnurl', 'http://localhost:3000/payment?price='+$('#price').val()+"&wallet="+wallet);
@@ -93,10 +93,10 @@
                                                     번호
                                                 </th>
                                                 <th>
-                                                    충전날짜
+                                                    날짜시간
                                                 </th>
                                                 <th>
-                                                    충전금액
+                                                    KPoint
                                                 </th>                                            
                                             </tr>
 
