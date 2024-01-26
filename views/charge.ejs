@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://sandbox.cookiepayments.com/js/cookiepayments-1.1.3.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
     <%- include('header.ejs') %>
     <style>
         .display{
@@ -15,10 +17,38 @@
   
 <!-- JS API 결제요청 호출시 설정된 파라메터 중
 상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
-<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
+<!-- <script src="//lite.payapp.kr/public/api/payapp-lite.js"></script> -->
 <script>
+    cookiepayments.init({
+    api_id : 'hfa455h8q4e', //쿠키페이 결제 연동 id
+});
+
+function pay() {
+    cookiepayments.payrequest({
+        ORDERNO: $("#ORDERNO").val(), //주문번호 (필수)
+        PRODUCTNAME: $("#PRODUCTNAME").val(), //상품명 (필수)
+        AMOUNT: $("#AMOUNT").val(), //결제 금액 (필수)
+        BUYERNAME: $("#BUYERNAME").val(), //고객명 (필수)
+        BUYEREMAIL: $("#BUYEREMAIL").val(), //고객 e-mail (필수)
+        PAYMETHOD: $("#PAYMETHOD").val(), //결제 수단 (선택)
+        PRODUCTCODE: $("#PRODUCTCODE").val(), //상품 코드 (선택)
+        BUYERID: $("#BUYERID").val(), //고객 아이디 (선택)
+        BUYERADDRESS: $("#BUYERADDRESS").val(), //고객 주소 (선택)
+        BUYERPHONE : $("#BUYERPHONE").val(), //고객 휴대폰번호 (선택, 웰컴페이는 필수)
+        RETURNURL: $("#RETURNURL").val(), //결제 완료 후 리다이렉트 url (필수)
+        ETC1 : $("#ETC1").val(), //사용자 추가필드1 (선택)
+        ETC2 : $("#ETC2").val(), //사용자 추가필드2 (선택)
+        ETC3 : $("#ETC3").val(), //사용자 추가필드3 (선택)
+        ETC4 : $("#ETC4").val(), //사용자 추가필드4 (선택)
+        ETC5 : $("#ETC5").val(), //사용자 추가필드5 (선택)
+    });
+}
+
+</script>
+
+<!-- <script>
     
-    PayApp.setDefault('userid',     'qop1513');
+    PayApp.setDefault('userid',     'hfa455h8q4e');
     PayApp.setDefault('shopname',   '케이그라운드');
     function payappPay(){
         PayApp.setParam('goodname', '참가권 구매');
@@ -31,7 +61,7 @@
         PayApp.setParam('skip_cstpage', 'y');
         PayApp.call();
     }
-</script>
+</script> -->
 <script>
     window.call = function () {
         alert('결제가 완료되었습니다');
@@ -122,46 +152,50 @@
                                         <hr>
                                         <hr>
                                         <form role="form" action="charge" method="post" >
-                                        <fieldset> 
-                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                            <br><br>
-                                            <label class="control-label">참가권 구매</label>
-                                            <br>
-                                            <select class="form-select" name="price" id="price">
-                                                <option value=2000>1개 : 2,000원</option>
-                                                <option value=10000>5개 : 10,000원</option>
-                                                <option value=20000>10개 : 20,000원</option>
-                                                 
-                                               
-                                            </select>
-                                            <br>
-                                            <input class="form-control" type="text" id="phone" name="phone" 
-                                            value="<%=phone%>" readonly >
-                                            
-                                        </div>
-                                        <br>
-                                        <hr>
-                                        <br>
-                                        <div class="text-primary" align="center">
-                                            <i class="fas fa-calendar fa-2x text-gray-300">
-                                                ※ 구매권 구매갯수 선택(필독)<br>
-                                                 
-                                            </i>
-                                        </div>
-                                        <div class="text-center">
-                                            <input type="submit"  class="btn btn-danger" value="구매하기" > <!--onclick="payappPay()"-->   
-                                            <br>
-                                            <div class="very-small">
-                                                → 카드, 페이 등 간편결제가 진행이 됩니다
-                                            </div>
-                                            <hr>
-                                       
-                                            
+                                            <fieldset> 
+                                                <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                                    <br><br>
+                                                    <label class="control-label">참가권 구매</label>
+                                                    <br>
+                                                    <input class="form-control" type="text" id="RETURNURL" name="RETURNURL" 
+                                                    value="https://kground.co.kr/payment/?price='+$('#AMOUNT').val()+"&phone="+ $('#BUYERPHONE').val()" readonly >
+                                                    <input class="form-control" type="text" id="PRODUCTNAME" name="PRODUCTNAME" 
+                                                    value="페스티벌 참가권 구매" readonly >
+                                                    <input class="form-control"type="text" name="PAYMETHOD" id="PAYMETHOD" placeholder="결제수단" 
+                                                    value="CARD, KAKAOPAY, NAVERPAY, BANK, VACCT, MOBILE"><br>    
+                                                    <div class="text-primary" align="center">
+                                                        <i class="fas fa-calendar fa-2x text-gray-300">
+                                                            ※ 구매권 구매갯수 선택(필독)<br>
+                                                            
+                                                        </i>
+                                                    </div>
+                                                    <select class="form-select" name="AMOUNT" id="AMOUNT">
+                                                        <option value=2000>1개 : 2,000원</option>
+                                                        <option value=10000>5개 : 10,000원</option>
+                                                        <option value=20000>10개 : 20,000원</option>
+                                                    </select>
+                                                    <br>
+                                                    <input class="form-control" type="text" id="BUYERPHONE" name="BUYERPHONE" 
+                                                    value="<%=phone%>" readonly >
+                                                    
+                                                </div>
+                                                <br>
                                                 
+                                                <br>
+                                                
+                                                <div class="text-danger text-center">
+                                                    <input type="submit"  class="btn btn-danger" value="구매하기(테스트용)" onclick="pay()">   
+                                                    <br>
+                                                    <div class="very-small">
+                                                        → 카드, 페이 등 간편결제가 진행이 됩니다
+                                                    </div>
+                                                    <br><br>
+                                                    <hr>
+                                                    
+                                                    </div>
+                                                    
                                             </div>
-                                            
-                                       </div>
-                                        </fieldset>
+                                            </fieldset>
                                         </form>
                                     <hr>         
                                     </div>    

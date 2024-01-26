@@ -50,6 +50,7 @@
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
+                                                            <form action="/admin/admin_enterscore" method="post" enctype="multipart/form-data">
                                                             <input name="_username" value="<%=username%>"><br>
                                                             <input name="_phone" value="<%=phone%>"><br>
                                                             <%if(gender=="여"){%>
@@ -73,7 +74,7 @@
                                         <div class="fs-6">    
                                         <br>
                                         
-                                            <form action="/admin/admin_enterscore" method="post" enctype="multipart/form-data">
+                                           
                                                 <div class="text-warning bg-dark">
                                                 기 참가 시스템 :
                                                     <%const sys_count = resultt2.length%>
@@ -87,7 +88,7 @@
                                                         <td>
                                                             번   호:<input type="text" name="_n" class="form-control" value="<%=no%>" readonly> <br>
                                                             참가시간:<input type="text" name="_time" class="form-control" 
-                                                            value="<%=resultt[0].entertime%>" readonly>
+                                                            value="<%=resultt[no].entertime%>" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr>

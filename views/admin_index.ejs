@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="google-site-verification" content="wp7f1PPIXyMTDfnzLCLTmXdBRmevIWKALlCAhvfZW-k" />
+    <link rel="stylesheet" type="text/css" href="/css/rolling.css">
+    <link rel="stylesheet" type="text/css" href="/css/sb_admin-2.css">
+    <link rel="stylesheet" type="text/css" href="/css/sb_admin-2.min.css">
     <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
@@ -57,22 +61,16 @@
                                                         <table width="280" >
                                                             <tr>
                                                                 <td  >
-                                                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                                    <!-- <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                                         관리자 : <%=login_data['username']%>님
                                                                     </div>
-                                                                    <hr>
+                                                                    <hr> -->
                                                                     <div class="text-start">
                                                                         <div class="text-xs font-weight-bold mb-1 text-secondary text-uppercase">
                                                                         since 2023.7.1(5회대회부터)
-                                                                        <br><br>
-                                                                        23년 10월 참여자수 : <%= tot_10_count%>명<br>
-                                                                        23년 11월 참여자수 : <%= tot_11_count%>명<br>
-                                                                        23년 12월 참여자수 : <%= tot_12_count%>명<br>
+                                                                        
+                                                                        <hr>
                                                                         24년 1월 참여자수 : <%= tot_24_1_count%>명<br>
-                                                                        6회대회 총 참여자수 : <%= tot_10_count+tot_11_count+tot_12_count%>명<br>
-                                                                        6회대회 월평균 : <%= (tot_10_count+tot_11_count+tot_12_count)/3%>명,
-                                                                        <%= (tot_10_count+tot_11_count+tot_12_count)/3*2000%>원
-                                                                        <br>
                                                                         <br>
 
                                                                         전체회원수 : <%= total_count%>명
@@ -89,41 +87,45 @@
                                                                                 <%aa=total_deposit.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                                 <%=aa%>
                                                                         <br><br> -->
-                                                                     
-                                                                        <a class="btn btn-warning  " href="/admin/admin_jigubok">관리자지급</a>
-                                                                        
-                                                                        <a class="btn btn-warning  " href="/admin/admin_chagamok">관리자차감</a>
-                                                                        <br><br> 
-                                                                        <a class="btn btn-warning  " href="/admin/admin_chargeok">관리자충전</a>
-                                                                        
-                                                                        <a class="btn btn-warning "  href="/admin/admintrans_list">관리자거래내역</a>
+                                                                        <div class="text-center text-small">
+                                                                            <a class="btn btn-warning  " href="/admin/admin_jigubok">관리자지급</a>
+                                                                            
+                                                                            <a class="btn btn-warning  " href="/admin/admin_chagamok">관리자차감</a>
+                                                                            <br><br> 
+                                                                            <a class="btn btn-warning  " href="/admin/admin_chargeok">관리자충전</a>
+                                                                            
+                                                                            <a class="btn btn-warning "  href="/admin/admintrans_list">관리자거래내역</a>
 
-                                                                        <br><br>
-                                                                        
-                                                                        <a   href="/admin/admin_custom" class="btn btn-info rounded-pill px-3" >회원목록</a>
-
-                                                                        <br><br> 
-
-                                                                        <a href="/admin/admin_chargelist" class="btn btn-info rounded-pill px-3" >자동충전내역</a>   
-                                                                        
-                                                                        <br><br>
-
-                                                                        <a href="/admin/admin_kplist" class="btn btn-info rounded-pill px-3" >전체거래내역</a>
-                                                                                                       
-                                                                        <br><br>
-                                                                        
-                                                                        <a   href="/admin/admin_gameanglist" class="btn btn-info rounded-pill px-3" >가맹점결제내역  </a>   
-                                                                        <a   href="/admin/admin_papago" class="btn btn-info rounded-pill px-3" >최다참가상  </a>                                                                         
+                                                                            <br><br>
+                                                                            
+                                                                            <a href="/admin/admin_custom" class="btn btn-info rounded-pill px-3" >회원목록</a>
+                                                                            <a href="/admin/admin_chargelist" class="btn btn-info rounded-pill px-3" >자동충전내역</a>   
+                                                                            <br><br> 
+                                                                            <a href="/admin/admin_kplist" class="btn btn-info rounded-pill px-3" >전체거래내역</a>
+                                                                            <a href="/admin/admin_scoreok" class="btn btn-info rounded-pill px-3" >스코어등록</a>
                                                                                                         
+                                                                            <br><br>
+                                                                            
+                                                                            <a   href="/admin/admin_gameanglist" class="btn btn-info rounded-pill px-3" >가맹점결제내역  </a>   
+                                                                            <a   href="/admin/admin_papago" class="btn btn-info rounded-pill px-3" >최다참가상  </a>                                                                         
+                                                                                                            
+                                                                            <br><br>
+                                            
+                                                                            <a   href="/admin/admin_ok" class="btn btn-success" > DB수정 </a> 
+                                                                            
+                                                                            <a   href="/admin/admin_scoreok" class="btn btn-success"> score수정 </a>
+                                                                            <br><br>
+                                                                            <a href="golf/notice"><img src="/img/80_015.png" alt="공지사항"></a>
+                                                                        
+                                                                            <a href="golf/regu"><img src="/img/80_018.png"  alt="대회규정"></a> 
+                                                                        </div>
                                                                         <br><br>
-                                        
-                                                                        <a   href="/admin/admin_ok" class="btn btn-success" > DB수정 </a> 
-                                                                         
-                                                                        <a   href="/admin/admin_scoreok" class="btn btn-success"> score수정 </a>
-                                                                        <br><br>
-                                                                        <a href="golf/notice"><img src="/img/80_015.png" alt="공지사항"></a>
-                                                                       
-                                                                        <a href="golf/regu"><img src="/img/80_018.png"  alt="대회규정"></a> 
+                                                                        23년 10월 참여자수 : <%= tot_10_count%>명<br>
+                                                                        23년 11월 참여자수 : <%= tot_11_count%>명<br>
+                                                                        23년 12월 참여자수 : <%= tot_12_count%>명<br>
+                                                                        6회대회 총 참여자수 : <%= tot_10_count+tot_11_count+tot_12_count%>명<br>
+                                                                        6회대회 월평균 : <%= (tot_10_count+tot_11_count+tot_12_count)/3%>명,
+                                                                        <%= (tot_10_count+tot_11_count+tot_12_count)/3*2000%>원
                                                                     </div>
                                                                      
                                                                 </td>

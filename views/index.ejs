@@ -15,59 +15,53 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
 	<script type="text/javascript" src="/js/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="/js/rolling.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  
-    <!-- Demo styles -->
     <style>
-      html,
-      body {
-        position: relative;
-        height: 100%;
-      }
+        html,
+        body {
+          position: relative;
+          height: 80%;
+        }
+    
+        body {
+          background: #eee;
+          font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+          font-size: 14px;
+          color: #000;
+          margin: 0;
+          padding: 0;
+        }
+    
+        .swiper {
+          width: 90%;
+          
+        }
+    
+        .swiper-slide {
+          text-align: center;
+          font-size: 18px;
+          background: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+    
+        .swiper-slide img {
+          display: block;
+          width: 100%;
+          height: 90%;
+          object-fit: cover;
+        }
+      </style>
   
-      body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color: #000;
-        margin: 0;
-        padding: 0;
-      }
-  
-      .swiper {
-        width: 300px;
-        height: 12%;
-      }
-  
-      .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-  
-      .swiper-slide img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
 
-    .display{
-        display: none;
-    }
-   
-    .very-small {
-        font-size: 11px;
-    }
-</style>
     <title>케이그라운드와 함께 해주셔서 감사합니다~</title>
 
     <!-- 외부의 있는 ejs 파일을 해당하는 곳에 포함한다.-->
@@ -88,63 +82,72 @@
                         <div class="col-lg-6"> 
                             <div class="p-6">
                                 <div class="text-center">
-                                     
-                                    <img src="/img/kkk.jpg" width="100%">
+                                    
+                                    <img src="/img/kkk.jpg" width="90%">
                                     
                                 </div>
                                 
                                 <!-- Earnings (Monthly) Card Example -->
                                 <div class="text-center">
                                     <div class="col-xl-10 col-md-12 mb-1">
-                                        <div class="card border-left-primary shadow h-100 py-1">
+                                        <div class="card border-left-danger shadow h-100 py-1">
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <table>
+                                                        <!-- <table>
                                                             <tr>
-                                                                <td align="center" width="300px">
-                                                                    <div class="text-primary" align="center">
+                                                                <td align="center" width="300px"> -->
+                                                                    <div class="text-primary text-small" align="center">
                                                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <span  id="check_admin">
-                                                                            <%=login_data['username']%>님<br><br>
+                                                                            <%=login_data['username']%>님 /
+                                                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                            K포인트 : <%=aa%>
                                                                         </span>
                                                                         <div class="display" id="info"> 
                                                                             <input id="_id" value="<%=login_data['phone']%>" ><br>
                                                                             <a href="/admin/admin_index">관리자모드로</a>
                                                                         </div>
                                                                     </div>
-                                                                </td>                                                               
+                                                                <!-- </td>                                                               
                                                             </tr>
 
                                                             <tr>
-                                                                <td align="center">
-                                                                    <div class="text-center" align="center">
+                                                                <td align="center"> -->
+                                                                    <!-- <div class="text-center" align="center">
                                                                             <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                                     K포인트 : <%=aa%>
-                                                                                    <!-- <br><br><a href="/index">refresh</a> -->
-                                                                    </div>
-                                                                </td>
+                                                                                    <br><br><a href="/index">refresh</a> 
+                                                                    </div> -->
+                                                                <!-- </td>
                                                             </tr>
-                                                        </table>
+                                                        </table> -->
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            
                             <!-- 메인이미지 -->
                              <!-- Swiper -->
                             <div class="swiper mySwiper">
                                 <div class="swiper-wrapper">
+                                    
+                                    <div class="swiper-slide"><a href="golf/trophy" class="content"><img src="/img/6_시상식.png" ></a></div>
                                     <div class="swiper-slide"><a href="golf/regu" class="content"><img src="/img/7_poster.png"/></a></div>
-                                    <div class="swiper-slide"><a href="golf/trophy" class="content"><img src="/img/6_시상식.png"/></a></div>
                                     <div class="swiper-slide"><a href="golf/notice" class="content"><img src="/img/스포츠대상.png"/></a></div>
                                     <div class="swiper-slide"><a href="golf/notice_refferal" class="content"><img src="/img/회원가입프로모션.png"/></a></div>
                                 </div>
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
+
                             </div>
+                            
+
+                            <!-- <div class="buttons_wrap text-center">
+                                <a href="javascript:void(0);" onclick="stopAction()" class="button">[STOP]</a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="javascript:void(0);" onclick="startAction()" class="button">[MOVE]</a>
+                            </div> -->
                             <br>
                             <div class="text-center">
                                 <!-- <img src="/img/6_13th_holein.png" width="300px" ><br><br> -->
@@ -156,8 +159,7 @@
                                 &nbsp;&nbsp;
                                 <a href="my_2"><img src="/img/80_i02.jpg"  width="80px" alt="결제비밀번호변경"></a>
                                 <br><br>
-
-
+                           
                                 <a href="/contract/charge"><img src="/img/80_001.jpg" width="80px"  alt="페스티벌 참가권 구매"></a>
                                 &nbsp;&nbsp;
                                 <a href="https://bkscreenshop.cafe24.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/120/"><img src="/img/80_019.jpg" width="80px" alt="페스티벌 상금"> </a>
@@ -214,28 +216,32 @@
                                 <br><br>
 
 
-                                <!-- 롤링 -->
-                            <div class="rolling_wrap">
-                                <a href="golf/holeinlist" class="content"><img src="/img/7_8th_holein.png"/></a>
-                                <a href="golf/holeinlist" class="content"><img src="/img/7_7th_holein.png"/></a>
-                                <a href="golf/holeinlist" class="content"><img src="/img/7_6th_holein.png"/></a>
-                                <a href="golf/holeinlist" class="content"><img src="/img/7_5th_holein.png"/></a>
-                                <a href="golf/holeinlist" class="content"><img src="/img/7_4th_holein.png"/></a>
-                                <a href="golf/holeinlist" class="content"><img src="/img/7_3th_holein.png"/></a> 
-                                                                
-                            </div>
-                            <div class="buttons_wrap text-center">
-                                <a href="javascript:void(0);" onclick="stopAction()" class="button">[STOP]</a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="javascript:void(0);" onclick="startAction()" class="button">[MOVE]</a>
-                            </div>
-                            
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+ <!-- 롤링 -->
+ <div class="rolling_wrap">
+    <a href="golf/holeinlist" class="content"><img src="/img/7_8th_holein.png"/></a>
+    <a href="golf/holeinlist" class="content"><img src="/img/7_7th_holein.png"/></a>
+    <a href="golf/holeinlist" class="content"><img src="/img/7_6th_holein.png"/></a>
+    <a href="golf/holeinlist" class="content"><img src="/img/7_5th_holein.png"/></a>
+    <a href="golf/holeinlist" class="content"><img src="/img/7_4th_holein.png"/></a>
+    <a href="golf/holeinlist" class="content"><img src="/img/7_3th_holein.png"/></a> 
+                                    
+</div>
+
+
 
   <!-- Initialize Swiper -->
   <script>
     var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",

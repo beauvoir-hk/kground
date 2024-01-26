@@ -63,48 +63,36 @@
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
                                                             <div class=" text-secondary ">
-
-                                                                <div class="text-center" >
-                                                                    <div class="text-center" >
-                                                                        <img src="/img/ment_2.jpg" width="300px">
-                                                                        <div>
-                                                                                <hr>
-                                                                </div>
-                                                                <hr>
                                                                 <div class="text-center" >
                                                                     <div class="text-danger"> 
-                                                                        <br> ③ 회원정보변경<br>
+                                                                        <br> 회원정보변경<br>
                                                                     </div>
                                                                 </div>
                                                                 <form action="/my", method="post">
-                                                                    <ul>
-                                                                        <li>
+                                                                    
+                                                                    <br>
                                                                             전화번호 : <%=login_data['phone']%> 
                                                                         <br>
-                                                                        </li>
-                                                                        <li>
+                                                                        
                                                                             성명 : <%=login_data['username']%>
-                                                                        </li>
-                                                                        <li>
+                                                                            <br>
                                                                             닉네임 : <%=login_data['nickname']%><br>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="input_nickname" class="form-control" 
                                                                                 value="<%=login_data['nickname']%>" placeholder="* 닉네임"   >
                                                                             </div> 
-                                                                        </li>
-                                                                        <li>
+                                                                            <br>
                                                                             성별 : <%=login_data['gender']%>(* 남/여 중 입력)<br> 
                                                                             <input type="text" name="input_gender" class="form-control" 
                                                                              value="<%=login_data['gender']%>"   >
-                                                                        </li>
-                                                                        <li>
+                                                                             <br>
                                                                             생년월일 : <%=login_data['birth']%> (* 생년월일(8자리))<br> 
                                                                             <div class="form-group">
                                                                                 <input type="text" name="input_birth" class="form-control"  
                                                                                 value="<%=login_data['birth']%>"   >
                                                                             </div>
-                                                                        </li>
-                                                                        <li>
+                                                                            <br>
+                                                                           <!--
                                                                             *참가지역 :<%=login_data['jiyeok']%><br> 
                                                                             <div class="text-danger">(수정시 필수선택)</div>
                                                                             <select class="form-select" name="input_jiyeok" id="input_jiyeok">
@@ -127,8 +115,7 @@
                                                                                 <option value="글로벌팀">글로벌팀</option>
                                                                                 <option value="연예인팀" >연예인팀</option>
                                                                             </select><br>
-                                                                        </li>
-                                                                        <li>
+                                                                            <br>
                                                                              *참가시스템: <%=login_data['golfsys']%><br> 
                                                                              <div class="text-danger">(수정시 필수선택)</div>
                                                                              <select class="form-select" name="input_golfsys"  >
@@ -142,23 +129,23 @@
                                                                                 <option value="MS Golf">MS Golf</option>
                                                                             </select><br>
 
-                                                                        </li>
-                                                                        <li>
+                                                                            <br>
+
+                                                                            -->
                                                                             추천인(선택) : <%=login_data['refferal']%><br> 
                                                                             <div class="form-group">
                                                                                 <input type="text" name="input_refferal" class="form-control"  
                                                                                 value="<%=login_data['refferal']%>"    >
                                                                             </div>
-                                                                        </li>
-                                                                        <li>
+                                                                            <br>
                                                                             
                                                                             <%amount =login_data['charge_amount']%>
                                                                             <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                                                         K포인트 : <%=aa%>
-                                                                        </li>
+                                                                        <br>
 
-                                                                    </ul>
-                                                                    <div class="text-center" >
+                                                                    
+                                                                    <div class="text-center text-primary" >
                                                                         
                                                                         <br>  모든 항목을 공백없이 모두 입력 후 
                                                                         <br>  하단의 버튼을 클릭해 주세요.
@@ -185,7 +172,7 @@
 
                                             <button class="btn btn-secondary" onclick="location.href='/auth2'">로그인비밀번호변경</button>
                                         </div>  
-                                        <hr>
+                                        
                                         <div class="text-center">    
 
                                             <button class="btn btn-secondary" onclick="location.href='/auth6'">결제비밀번호변경</button>
@@ -194,6 +181,11 @@
                                         <div class="text-center">    
 
                                             <button class="btn btn-secondary" onclick="location.href='/'">로그인</button>
+                                            <br><br>
+                                        </div>   
+                                        <div class="text-center">    
+
+                                            <button class="btn btn-secondary" onclick="location.href='/drop2'">회원탈퇴</button>
                                             <br><br>
                                         </div>   
                                     </div>
