@@ -59,6 +59,10 @@
           height: 90%;
           object-fit: cover;
         }
+
+        .display {
+            display: none;
+        }
       </style>
   
 
@@ -94,34 +98,18 @@
                                             <div class="card-body">
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col mr-2">
-                                                        <!-- <table>
-                                                            <tr>
-                                                                <td align="center" width="300px"> -->
-                                                                    <div class="text-primary text-small" align="center">
-                                                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <span  id="check_admin">
-                                                                            <%=login_data['username']%>님 /
-                                                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                                                            K포인트 : <%=aa%>
-                                                                        </span>
-                                                                        <div class="display" id="info"> 
-                                                                            <input id="_id" value="<%=login_data['phone']%>" ><br>
-                                                                            <a href="/admin/admin_index">관리자모드로</a>
-                                                                        </div>
-                                                                    </div>
-                                                                <!-- </td>                                                               
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td align="center"> -->
-                                                                    <!-- <div class="text-center" align="center">
-                                                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                                                                    K포인트 : <%=aa%>
-                                                                                    <br><br><a href="/index">refresh</a> 
-                                                                    </div> -->
-                                                                <!-- </td>
-                                                            </tr>
-                                                        </table> -->
+                                                        <div class="text-primary text-small" align="center">
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <span  id="check_admin">
+                                                                <%=login_data['username']%>님 /
+                                                                <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                                                K포인트 : <%=aa%>
+                                                            </span>
+                                                            <div class="display" id="info"> 
+                                                                <input id="_id" value="<%=login_data['phone']%>" ><br>
+                                                                <a href="/admin/admin_index">관리자모드로</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,25 +217,7 @@
 
 
 
-  <!-- Initialize Swiper -->
-  <script>
-    var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
-  </script>
+
                                                             
                             </div>
                         </div>  
@@ -268,6 +238,8 @@
     </div> 
     </div>  
     <script>
+
+
         $('#check_admin').click(function(){
             const input_id = $('#_id').val()
             // alert("input_id=",input_id)
@@ -294,5 +266,24 @@
             })
         })
         </script> 
+          <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+  </script>
 </body>
 </html>
