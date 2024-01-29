@@ -108,7 +108,7 @@ module.exports = ()=>{
                 function(err, result){
                     if(err){
                         console.log(err)
-                    }
+                    }else{
                     console.log("sort 결과 출력가능 ")
                     console.log("result=", result.length) 
                     console.log("kp_amount =",    kp_amount)  
@@ -117,7 +117,7 @@ module.exports = ()=>{
                         'username' : user, 
                         'amount' : result[0].charge_amount,
                         'phone': phone
-                        })
+                        })}
             })
         }})
 

@@ -1438,7 +1438,7 @@ if(!req.session.logined){
         }else{
             const _user_name=result2[0].username
             const _user_phone=result2[0].phone
-            console.log("admin_score ok's 렌더링해주는 result2=", result2)
+            console.log("admin_score ok's 렌더링해주는 result2=", result2.length)
             res.render("admin_enterpay_list",{
                 'login_data': req.session.logined ,
                 enterpay:result2,
@@ -1448,6 +1448,8 @@ if(!req.session.logined){
         }
     })
 }})
+
+
 
 router.get('/admin_enterpay_list', async (req, res)=>{
     if(!req.session.logined){
@@ -1810,8 +1812,10 @@ router.post('/admin_enterscore', upload.single('_image'),async function(req, res
     }else{
         let gender=""
         const n = req.body._n   
+        console.log("-------------n=?",n)
         const sysrank=0
-        const phone = req.session.logined.phone 
+        const phone = req.body._phone 
+        console.log("-------------phone=?",phone)
         const user = req.session.logined.username
         const _golfsys = await req.body.input_golfsys
         console.log("-------------input_golfsys?",_golfsys)
@@ -2036,7 +2040,7 @@ router.get('/admin_enterscore_1',async function(req, res){
         const phone = req.query.phone 
         const user = req.query.user
          const no = req.query.no
-        console.log("req.body.no",no)        
+        console.log("```````````````````````````````req.body.no",no)        
         console.log("//리스트 중 몇번째?를 선택했는지 전달받은 매개변수", no,phone,user)
        
         
@@ -2061,11 +2065,12 @@ router.get('/admin_enterscore_1',async function(req, res){
             }else{
                 console.log("//대회참가비 리스트result.length",result9.length )
             
-                
+                const n= result9.length
+                const nn=parseInt(n)-parseInt(no)-1
             //2. score테이블 리스트 중 클릭을 한 리스트의 값 즉 시간 result
-                const entertime11 = result9[no].entertime
+                const entertime11 = result9[nn].entertime
                 console.log("내가 선택한 시간은 entertime :  ",entertime11)
-                console.log("내가 선택한 시간의 stroke :  ",result9[no].strok)
+                console.log("내가 선택한 시간의 stroke :  ",result9[nn].strok)
 
                 console.log("선택한 시간 레코드를 추출" )
                 //
@@ -2123,6 +2128,7 @@ router.get('/admin_enterscore_1',async function(req, res){
                                                     if(result[0].scorepicture!=""){
                                                         res.render('admin_enterscore_1', {
                                                             no:no,
+                                                            nn:nn,
                                                             resultt : result, 
                                                             resultt2: result2,
                                                             username:user,
@@ -2136,6 +2142,7 @@ router.get('/admin_enterscore_1',async function(req, res){
                                                     }else{
                                                         res.render('admin_enterscore_1', {
                                                             no:no,
+                                                            nn:nn,
                                                             resultt : result, 
                                                             resultt2: result2,
                                                             username:user,
@@ -2158,9 +2165,12 @@ router.post('/admin_enterscore_1', upload.single('_image'),async function(req, r
         res.redirect("/")
     }else{
         let gender=""
-        const n = req.body._n   
+        const no = req.body._n   
+        console.log("-------------n?",no)
+        console.log("-------------n?", req.body._time   )
         const sysrank=0
-        const phone = req.session.logined.phone 
+        const phone =req.body._phone 
+        console.log("-------------phone?",phone)
         const user = req.session.logined.username
         const _golfsys = await req.body.input_golfsys
         console.log("-------------input_golfsys?",_golfsys)
@@ -2172,6 +2182,7 @@ router.post('/admin_enterscore_1', upload.single('_image'),async function(req, r
         const tokenamount = parseInt(_tokenamount)+parseInt(-2000)  
 
 //스코어카드 파일 기록
+
         const _scorepicture = req.file.filename
         console.log('_scorepicture=',_scorepicture);
 
@@ -2219,9 +2230,14 @@ router.post('/admin_enterscore_1', upload.single('_image'),async function(req, r
                 console.log(err)
             }else{
                 console.log("result2   미리보기=",result2.length )
-
+                const n= result2.length
+                const nn=parseInt(n)-parseInt(no)-1
+            //2. score테이블 리스트 중 클릭을 한 리스트의 값 즉 시간 result
+                const entertime = result2[nn].entertime
+                console.log("내가 선택한 시간은 entertime :  ",entertime)
+                
 //리스트에서 선택 한 것과 똑 같은 위치의 결제시간획득해서 score에 갱신등록
-                const entertime =result2[n].entertime
+               
 
                 console.log("entertime과 갱신내용 미리보기=", entertime, stroke,_scorepicture )
                 // const _scorepicture=""

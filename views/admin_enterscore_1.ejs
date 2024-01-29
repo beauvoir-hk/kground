@@ -50,7 +50,7 @@
                                                 <div class="card-body">
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col mr-2">
-                                                            <form action="/admin/admin_enterscore" method="post" enctype="multipart/form-data">
+                                                            <form action="/admin/admin_enterscore_1" method="post" enctype="multipart/form-data">
                                                             <input name="_username" value="<%=username%>"><br>
                                                             <input name="_phone" value="<%=phone%>"><br>
                                                             <%if(gender=="여"){%>
@@ -69,31 +69,30 @@
                                     </div> 
                                     <!-- 제거 -->
 
-                                    <hr> 
                                     <div class="container">
                                         <div class="fs-6">    
-                                        <br>
-                                        
-                                           
-                                                <div class="text-warning bg-dark">
-                                                기 참가 시스템 :
-                                                    <%const sys_count = resultt2.length%>
-                                                    <%for(var i=0;i<sys_count;++i){%>
-                                                        <%=resultt2[i].golfsys%>
-                                                        ,
-                                                    <%}%>
-                                                </div>
+                                               
                                                 <table class="table">
                                                     <tr>
                                                         <td>
-                                                            번   호:<input type="text" name="_n" class="form-control" value="<%=no%>" readonly> <br>
-                                                            참가시간:<input type="text" name="_time" class="form-control" 
-                                                            value="<%=resultt[no].entertime%>" readonly>
+                                                            번   호:<br>
+                                                            <input type="text" name="_n" class="form-control" value="<%=no%>" readonly> 
+                                                      
+                                                            <input type="text" name="_time" class="form-control" 
+                                                            value="<%=entertime%>" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            참가시스템:<%=resultt[0].golfsys%><br>
+                                                            <div class="text-warning bg-dark">
+                                                                기 참가 시스템 :
+                                                                    <%const sys_count = resultt2.length%>
+                                                                    <%for(var i=0;i<sys_count;++i){%>
+                                                                        <%=resultt2[i].golfsys%>
+                                                                        ,
+                                                                    <%}%>
+                                                                </div>
+                                                           
                                                             <select class="form-select" name="input_golfsys" id="golfsys">
                                                                 <option value="GolfZon">GolfZon</option>
                                                                 <option value="K Golf Club">K Golf Club</option>
@@ -113,28 +112,35 @@
                                                             <div class="input-group mb-3">
                                                                 <input type="text" name="input_strok" class="form-control" value="<%=resultt[0].strok%>" >
                                                             </div>
-                                                            <br>
+                                                            <!-- <br>
                                                             <br>※ 홀의 기준 타수(par)에서 자신의 타수를 뺀 값의 합을 입력해 주세요
                                                             <br>ex) 18홀 72타 기준 75 : 3
-                                                            <br>ex) 18홀 72타 기준 65 : -7
+                                                            <br>ex) 18홀 72타 기준 65 : -7 -->
                                                         </td>
                                                     </tr>
 
                                                 </table>
                                             
-                                            <div class="text-center">  
-                                                본인의 성별, 참가시스템, 스코어를 <br>반드시 한번더 확인 하신 후 [스코어등록]을 하세요<br>
-                                                <button class="btn btn-danger" type="submit" value="strok 등록" >스코어등록</button>
-                                            </div>
-                                            <br>
-                                            <hr>
-                                            </form>
+                                           
+                                            
                                             <div class="text-center">  
                                                             
-                                                스코어카드:<span class="input-group-text" >캡쳐파일은 아래의 고객센터에 제출하세요  </span><br>
+                                                스코어카드:
+                                                <!-- <span class="input-group-text" >캡쳐파일은 아래의 고객센터에 제출하세요  </span><br> -->
                                                 
-                                                <!-- <input type="file" name="_image" class="form-control" 
-                                                placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1"> -->
+                                                <input type="file" name="_image" class="form-control" 
+                                                placeholder="사진을 등록하세요" aria-label="food_code" aria-describedby="basic-addon1">
+
+                                                <hr>
+
+                                                <div class="text-center">  
+                                                    <!-- 본인의 성별, 참가시스템, 스코어를 <br>반드시 한번더 확인 하신 후 [스코어등록]을 하세요<br> -->
+                                                    <button class="btn btn-danger" type="submit" value="strok 등록" >스코어등록</button>
+                                                </div>
+                                                <br>
+
+
+                                            </form>
                                                                                       
                                                 <a href="http://pf.kakao.com/_ttxaSxj/chat">[고객센터]</a>
                                             </div>

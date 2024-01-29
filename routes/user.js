@@ -286,7 +286,54 @@ router.post("/login", async (req, res)=>{
             })
         }
     })
+    router.post('/drop2', function(req, res){
 
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{
+            var state=1
+            const input_pass = req.body._pass
+            console.log(input_pass)
+
+            const phone=req.body.input_phone
+            console.log(phone)
+
+            const va="탈퇴"
+
+            if(input_pass==req.session.logined.numeric6){
+                
+                const sql = 
+                `
+                update 
+                log_info
+                set username=?,
+                pass=?
+                where 
+                phone = ?
+                `
+                const values = [phone, va,va]
+                connection.query(
+                sql, 
+                values, 
+                function(err, result){
+                    if(err){
+                        console.log(err)
+                        
+                    }else{
+                        console.log("회원탈퇴완료")
+                        res.render('drop.ejs',{
+                            login_data : req.session.logined
+                            
+                        })}
+                    })
+            }else{
+                    //비밀번호 불일치
+                    res.render('drop2.ejs',{
+                        login_data : req.session.logined
+                        
+                    })}
+            }})
+        
 
     router.get('/check_pass', function(req, res){
         // 유저가 보낸 데이터를 변수에 대입
@@ -534,8 +581,6 @@ router.post("/login", async (req, res)=>{
                 if(err){   
                     console.log(err)}
                     else{
-
-
                     //수정입력
                     const _nickname =   req.body.input_nickname.trim()
                     const _gender =   req.body.input_gender
@@ -543,13 +588,6 @@ router.post("/login", async (req, res)=>{
                     const _jiyeok =   req.body.input_jiyeok
                     const _refferal =   req.body.input_refferal.trim()
                     const golf_sys = req.body.input_golfsys
-                    // const date = moment()
-                    // const input_dt= date.format('YYYY-MM-DD HH:mm:ss')
-                        
-                    console.log( _nickname,_gender, _birth,_jiyeok, _refferal  )
-
-                    // 유저가 보내온 데이터를 가지고 sql user_info table에 데이터를 삽입
-
                     const sql = `
                         update
                         log_info
@@ -933,9 +971,10 @@ router.get('/check_admin', function(req, res){
                     //전번으로 select한 db의 데이터가 있으면 result!=0
                     if(result.length == 0){
                         res.send(false)
-                        
+                        console.log("res.send(false)",false )
                         }else{
                             res.send(true)
+                            console.log("res.send(true)",true)
                             }
                 }
             }

@@ -112,7 +112,7 @@
                                             </div>
 <hr>
 
-                                            ★ (5회) 케이그라운드 전체 ★ 
+                                            ★ (7회) 케이그라운드 전체 ★ 
 
                                             
                                             <div class="small">
@@ -133,7 +133,7 @@
                                                             순위
                                                         </th>
                                                     </tr>
-                                                    <tr>
+                                                    <!-- <tr>
                                                         <td colspan="4"   class="text-danger">  
                                                         [여자부문]
                                                             <%for (var i = 0; i < resultt.length; i++){ 
@@ -160,19 +160,19 @@
                                                                     
                                                                     
                                                     <%}}}%>   
-                                                    </tr>
+                                                    </tr> -->
                                                      
                                                     <tr>
                                                         <td colspan="4"  class="text-primary">  
-                                                        <hr>
-                                                            [남자부문]
+                                                         
+                                                             
                                                         <%for (var i = 0; i < resultt.length; i++){ 
-                                                            if(resultt[i].gender=="남"){%>
+                                                            if(resultt[i].gender=="남"||resultt[i].gender=="여"){%>
                                                                 
                                                                 <div>
                                                         
                                                                     <%if(resultt[i].bestscore != 9999 && resultt[i].bestscore<0 
-                                                                    && result[i].sysrank!=0 ){%>
+                                                                    && resultt[i].sysrank!=0 ){%>
                                                     </tr>
                                                     <tr>    
                                                                 <td>

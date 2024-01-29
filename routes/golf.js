@@ -340,6 +340,7 @@ router.post('/ksfc1', async  function(req, res){
     router.get('/ksfc_list', async (req, res)=>{
         let rank=[]
         let golfs=["GolfZon","GolfZon Park", "Kakao Friends","UDR Golf","K Golf","GNC Golf","SG Golf" ,"MS Golf"]
+
         if(!req.session.logined){
             res.redirect("/")
         }else{    
@@ -352,7 +353,7 @@ router.post('/ksfc1', async  function(req, res){
                 select 
                 *
                 from 
-                score5
+                score
                 order by golfsys, phone ASC
                 `
             //const values = [_phone]
@@ -367,25 +368,30 @@ router.post('/ksfc1', async  function(req, res){
                     //스코어 등록 건수 만큼 반복
                     let hap = 0
                     let k=1
+                    
                     hap=hap+parseInt(result[0].strok)
-
+                    console.log("result.legth=",result.length)
                     //반복
+                    
                     for(var i =0; i<result.length-1;++i ){
-                        if(result[i].phone==result[i+1].phone && result[i].golfsys==result[i+1].golfsys){
-                            if(k<=5){
-                                hap=hap+parseInt(result[i+1].strok)
-                                ++k
-                            }
-
+                        if(result[0].strok == 9999){
+                            break;
                         }else{
-                            console.log("update ksfc bestscore=",result[i].golfsys, result[i].phone, hap ) 
+                            if(result[i].phone==result[i+1].phone && result[i].golfsys==result[i+1].golfsys){
+                                if(k<=5){
+                                    hap=hap+parseInt(result[i+1].strok)
+                                    ++k
+                                }
+
+                            }else{
+                            //console.log("update ksfc bestscore=",result[i].golfsys, result[i].phone, hap ) 
                             
                              // ksfc에 해당 레코드가 있으면 갱신 아니면 insert
                             const sql = `
                                 select 
                                 *
                                 from 
-                                ksfc5
+                                ksfc
                                 where 
                                 golfsys=? && phone=?
                                 `
@@ -399,12 +405,12 @@ router.post('/ksfc1', async  function(req, res){
                                 state=false
                             }else{
                                 //레코드가 존재 update
-                                console.log(result2)
+                                //console.log(result2) 너무길어서 지움
                                 if(result2.length!=0){
                                     const sql=
                                         `
                                         update
-                                        ksfc5
+                                        ksfc
                                         set
                                         bestscore=?
                                         where
@@ -461,6 +467,7 @@ router.post('/ksfc1', async  function(req, res){
 
                             hap=0
                             k=0
+                            }
                         }
                     }//for
                 }})
@@ -470,7 +477,7 @@ router.post('/ksfc1', async  function(req, res){
                     select 
                     *
                     from 
-                    ksfc5
+                    ksfc
                     order by gender, golfsys, bestscore ASC
                     `
                 //const values5 = [_phone]
@@ -486,75 +493,81 @@ router.post('/ksfc1', async  function(req, res){
                     let len = result5.length//전체건수
                     console.log("len ksfc 총건수result =",len ) 
 
-                    for(var i=0; i<len ; ++i){
-                       
-                        //phone번호로 로그인된 세션의 score만  
-                        //나의 스코어순서로cd
-                        const sql6 = `
-                            select 
-                            *
-                            from 
-                            ksfc5
-                            where gender=? && golfsys=?
-                            ORDER BY bestscore ASC
-                            `
-                        const values6 = [result5[i].gender, result5[i].golfsys ]
-                        connection.query(
-                        sql6, 
-                        values6, 
-                        function(err, result6){
-                            if(err){
-                                console.log(err)
-                            }else{
+                //     for(var h=0; h<len ; h++){//전체건수
+                //         const ggender = result5[h].gender
+                //         const ggolfsys= result5[h].golfsys
+                //         const ibest=result5[h].bestscore
+                //         console.log("h =",h ) 
+                        
+                //         //나의 스코어순서로cd
+                //         const sql6 = `
+                //             select 
+                //             *
+                //             from 
+                //             ksfc
+                //             where gender=? && golfsys=?
+                //             ORDER BY bestscore ASC
+                //             `
+                //         const values6 = [ggender,ggolfsys ]
+                //         connection.query(
+                //         sql6, 
+                //         values6, 
+                //         function(err, result6){
+                //             if(err){
+                //                 console.log(err)
+                //             }else{
+                //                 console.log("result5[i].gender, result5[i].golfsys=",ggender,ggolfsys )
+                //                 let lensys=result6.length // 해당 성별, 시스템별 
+                //                 console.log("lensys=",result6.length)
+
+                                
+                //                 //j반복
+                //                 for(var j=0;j<lensys;j++){  //성별 시스템별
+                //                     const jbest = result6[j].bestscore
+                //                     console.log("h,j=",h,j)
+
+                //                    if(jbest == ibest){
+                //                       rank[h]=j+1
+                //                       console.log("석차 =",jbest , ibest, rank[h],ggender,ggolfsys ) 
+                                        
+                //                     }else{
+
+                //                     }
                                     
-                                let lensys=result6.length // 해당 성별, 시스템별 
-                                console.log("lensys=",result6.length)
-                                console.log("[result5[i].gender, result5[i].golfsys =",result5[i].gender, result5[i].golfsys)
-                               
-                                //console.log("result6[j].bestscore , result5[i].bestscore =",result6[j].bestscore , result5[i].bestscore ) 
-                                
-                                for(var j=0;j<lensys;j++){  
-                                    console.log("i,j=",i,j)
-
-                                   if(result6[j].bestscore == result5[i].bestscore){
-                                      rank[i]=j+1
-                                      console.log("석차 =",result6[j].bestscore , result5[i].bestscore, rank[i] ) 
-                                        
-                                        }
-                                    }
-
-                                console.log("update ksfc rank[j]=",j,rank[j],_phone,result2[j].golfsys )  
-                                const sql7=
-                                    `
-                                    update
-                                    ksfc5
-                                    set
-                                    sysrank=?
-                                    where
-                                    phone = ? && golfsys=?
-                                    `
-                                const values7 = [rank[i], result5[i].phone ,result5[i].golfsys]
-                                
-                                connection.query(
-                                sql7,
-                                values7,
-                                (err, result7)=>{
-                                    if(err){   
-                                        console.log(err)
-                                    }else{
-                                        
-                                        console.log("rank 갱신완료")
-                                        }
-                                })
-                            }})
-                        }
+                                    
+                //                 } //j for
+                //                     const sql7=
+                //                         `
+                //                         update
+                //                         ksfc
+                //                         set
+                //                         sysrank=?
+                //                         where
+                //                         phone = ? && golfsys=?
+                //                         `
+                //                     const values7 = [rank[h], result5[h].phone ,result5[h].golfsys]
+                                    
+                //                     connection.query(
+                //                     sql7,
+                //                     values7,
+                //                     (err, result7)=>{
+                //                         if(err){   
+                //                             console.log(err)
+                //                         }else{
+                                            
+                //                             console.log("rank 갱신완료")
+                //                             }
+                //                     })
+                           
+                         
+                //         }//i for
 
                         //나의 스코어순서로cd
                         const sql8 = `
                             select 
                             *
                             from 
-                            ksfc5
+                            ksfc
                             where phone=?                           `                
                         const values8 = [_phone ]
                         connection.query(
@@ -575,7 +588,7 @@ router.post('/ksfc1', async  function(req, res){
                                     'state':state
                                 })  
 
-}})}})}})
+}}) }})}})
                         
 
 
@@ -592,7 +605,7 @@ router.get('/ksfc_list1', async (req, res)=>{
         const _gamenumber = await req.body.input_gamenumber 
         const _gender =await  req.body.input_gender 
         const _jiyeok =await  req.body.input_jiyeok 
-        const _birth = await req.body.input_birth.trim()
+        const _birth = await req.body.input_birth
         const _golfsys = await req.body.input_golfsys 
 
          // ksfc전체를 1등부터 순서대로 불러온다
@@ -666,7 +679,7 @@ router.get('/ksfc_list1', async (req, res)=>{
                                             phone:phone,
                                             username:_username,
                                             amount:req.session.logined.charge_amount,
-                                            'resultt': result,  //전체 bestscore순
+                                            resultt: result,  //전체 bestscore순
                                             resultt2:result2//나의
                                         })                          
                                     }else{
