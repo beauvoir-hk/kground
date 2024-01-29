@@ -348,129 +348,129 @@ router.post('/ksfc1', async  function(req, res){
             const _phone = req.session.logined.phone 
             const _amount= req.session.logined.charge_amount
 
-            // score전체 호출--> bestscore 계산
-            const sql = `
-                select 
-                *
-                from 
-                score
-                order by golfsys, phone ASC
-                `
-            //const values = [_phone]
-            connection.query(
-            sql, 
-            //values, 
-            function(err, result){
-                if(err){
-                    console.log(err)
-                    state=false
-                }else{
-                    //스코어 등록 건수 만큼 반복
-                    let hap = 0
-                    let k=1
+            // // score전체 호출--> bestscore 계산
+            // const sql = `
+            //     select 
+            //     *
+            //     from 
+            //     score
+            //     order by golfsys, phone ASC
+            //     `
+            // //const values = [_phone]
+            // connection.query(
+            // sql, 
+            // //values, 
+            // function(err, result){
+            //     if(err){
+            //         console.log(err)
+            //         state=false
+            //     }else{
+            //         //스코어 등록 건수 만큼 반복
+            //         let hap = 0
+            //         let k=1
                     
-                    hap=hap+parseInt(result[0].strok)
-                    console.log("result.legth=",result.length)
-                    //반복
+            //         hap=hap+parseInt(result[0].strok)
+            //         console.log("result.legth=",result.length)
+            //         //반복
                     
-                    for(var i =0; i<result.length-1;++i ){
-                        if(result[0].strok == 9999){
-                            break;
-                        }else{
-                            if(result[i].phone==result[i+1].phone && result[i].golfsys==result[i+1].golfsys){
-                                if(k<=5){
-                                    hap=hap+parseInt(result[i+1].strok)
-                                    ++k
-                                }
+            //         for(var i =0; i<result.length-1;++i ){
+            //             if(result[0].strok == 9999){
+            //                 break;
+            //             }else{
+            //                 if(result[i].phone==result[i+1].phone && result[i].golfsys==result[i+1].golfsys){
+            //                     if(k<=5){
+            //                         hap=hap+parseInt(result[i+1].strok)
+            //                         ++k
+            //                     }
 
-                            }else{
-                            //console.log("update ksfc bestscore=",result[i].golfsys, result[i].phone, hap ) 
+            //                 }else{
+            //                 //console.log("update ksfc bestscore=",result[i].golfsys, result[i].phone, hap ) 
                             
-                             // ksfc에 해당 레코드가 있으면 갱신 아니면 insert
-                            const sql = `
-                                select 
-                                *
-                                from 
-                                ksfc
-                                where 
-                                golfsys=? && phone=?
-                                `
-                            const values = [ result[i].golfsys, result[i].phone ]
-                            connection.query(
-                            sql, 
-                            values, 
-                            function(err, result2){
-                            if(err){
-                                console.log(err)
-                                state=false
-                            }else{
-                                //레코드가 존재 update
-                                //console.log(result2) 너무길어서 지움
-                                if(result2.length!=0){
-                                    const sql=
-                                        `
-                                        update
-                                        ksfc
-                                        set
-                                        bestscore=?
-                                        where
-                                        phone = ? && golfsys=?
-                                        `
-                                    const values = [hap,result[i].phone, result[i].golfsys]
-                                    connection.query(
-                                    sql,
-                                    values,
-                                    (err, result3)=>{
-                                        if(err){   
-                                            console.log(err)
-                                        }else{
+            //                  // ksfc에 해당 레코드가 있으면 갱신 아니면 insert
+            //                 const sql = `
+            //                     select 
+            //                     *
+            //                     from 
+            //                     ksfc
+            //                     where 
+            //                     golfsys=? && phone=?
+            //                     `
+            //                 const values = [ result[i].golfsys, result[i].phone ]
+            //                 connection.query(
+            //                 sql, 
+            //                 values, 
+            //                 function(err, result2){
+            //                 if(err){
+            //                     console.log(err)
+            //                     state=false
+            //                 }else{
+            //                     //레코드가 존재 update
+            //                     //console.log(result2) 너무길어서 지움
+            //                     if(result2.length!=0){
+            //                         const sql=
+            //                             `
+            //                             update
+            //                             ksfc
+            //                             set
+            //                             bestscore=?
+            //                             where
+            //                             phone = ? && golfsys=?
+            //                             `
+            //                         const values = [hap,result[i].phone, result[i].golfsys]
+            //                         connection.query(
+            //                         sql,
+            //                         values,
+            //                         (err, result3)=>{
+            //                             if(err){   
+            //                                 console.log(err)
+            //                             }else{
                                             
-                                            console.log("rank 갱신완료", result3)
-                                }})
+            //                                 console.log("rank 갱신완료", result3)
+            //                     }})
 
 
-                                }else{//레코드가 없으면 insert
+            //                     }else{//레코드가 없으면 insert
 
-                                    const sql4 = 
-                                        `
-                                        select 
-                                        *
-                                        from 
-                                        user_info
-                                        where 
-                                        phone=?
-                                        `
-                                    const values4 = [ result[i].phone ]
-                                    connection.query(
-                                    sql4, 
-                                    values4, 
-                                    function(err, result4){
-                                    if(err){
-                                        console.log(err)
-                                        state=false
-                                    }else{
-                                        _phone = result[i].phone
-                                        _username =  result[i].username
-                                        _gamenumber = 5
-                                        _gender=result4[0].gender
-                                        _jiyeok=result4[0].jiyeok
-                                        _birth=result4[0].birth
-                                        _golfsys=result[i].golfsys
-                                        _bestscore=hap
-                                        _sysrank=0
-                                        _registtime= moment().format('YYYY-MM-DDTHH:mm:ss')
-                                        ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
+            //                         const sql4 = 
+            //                             `
+            //                             select 
+            //                             *
+            //                             from 
+            //                             user_info
+            //                             where 
+            //                             phone=?
+            //                             `
+            //                         const values4 = [ result[i].phone ]
+            //                         connection.query(
+            //                         sql4, 
+            //                         values4, 
+            //                         function(err, result4){
+            //                         if(err){
+            //                             console.log(err)
+            //                             state=false
+            //                         }else{
+            //                             _phone = result[i].phone
+            //                             _username =  result[i].username
+            //                             _gamenumber = 5
+            //                             _gender=result4[0].gender
+            //                             _jiyeok=result4[0].jiyeok
+            //                             _birth=result4[0].birth
+            //                             _golfsys=result[i].golfsys
+            //                             _bestscore=hap
+            //                             _sysrank=0
+            //                             _registtime= moment().format('YYYY-MM-DDTHH:mm:ss')
+            //                             ksfc_insert(_phone, _username, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore,_sysrank, _registtime)
                                         
-                                    }})     
+            //                         }})     
 
-                                }}})
+            //                     }}})
 
-                            hap=0
-                            k=0
-                            }
-                        }
-                    }//for
-                }})
+            //                 hap=0
+            //                 k=0
+            //                 }
+            //             }
+            //         }//for
+            //     }})
 
                 // ksfc 석차 구하기
                 const sql5 = `
