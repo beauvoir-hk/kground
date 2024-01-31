@@ -78,6 +78,47 @@
                                                             참가시스템
                                                         </th>
                                                         <th>
+                                                            날짜시간
+                                                        </th>
+                                                        <th>
+                                                            스코어
+                                                        </th>
+                                                        <!-- <th>
+                                                            순위
+                                                        </th> -->
+                                                    </tr>
+                                                    <%for (var i = 0; i <5; i++){%>
+                                                    <tr>
+                                                        <td>
+                                                            <%=i+1%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt2[i].golfsys%> 
+                                                        </td>
+                                                        <td>
+                                                            <%const korea = new Date(resultt2[i].entertime)%>
+                                                            <%const koreanTime=korea.toLocaleString('ko-KR')%>
+                                                          
+                                                            <%=koreanTime%>
+                                                        </td>
+                                                        <td>
+                                                            <%=resultt2[i].strok%>
+                                                        </td>
+                                                        <!-- <td>
+                                                            <%=resultt2[i].sysrank%>
+                                                                
+                                                        </td>                                             -->
+                                                    </tr>
+                                                    <%}%>
+
+                                                    <tr>
+                                                        <th>
+                                                            번호
+                                                        </th>
+                                                        <th>
+                                                            참가시스템
+                                                        </th>
+                                                        <th>
                                                             닉네임
                                                         </th>
                                                         <th>
@@ -87,27 +128,27 @@
                                                             순위
                                                         </th>
                                                     </tr>
-                                                    <%for (var i = 0; i < resultt2.length; i++){%>
+                                                     
                                                     <tr>
                                                         <td>
-                                                            <%=i+1%>
+                                                            1
                                                         </td>
                                                         <td>
-                                                            <%=resultt2[i].golfsys%> 
+                                                            <%=result[0].golfsys%> 
                                                         </td>
                                                         <td>
-                                                            <%=username[0]%>
-                                                            **
+                                                            <%=username%>
+                                                            
                                                         </td>
                                                         <td>
-                                                            <%=resultt2[i].bestscore%>
+                                                            <%=result[0].bestscore%>
                                                         </td>
                                                         <td>
-                                                            <%=resultt2[i].sysrank%>
+                                                            <%=result[0].sysrank%>
                                                                 
                                                         </td>                                            
                                                     </tr>
-                                                    <%}%>
+                                                     
                                                 </table>
                                             </div>
 <hr>

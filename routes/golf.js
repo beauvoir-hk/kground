@@ -561,14 +561,30 @@ router.post('/ksfc1', async  function(req, res){
                            
                          
                 //         }//i for
-
+            const sql = `
+                select
+                *
+                from
+                ksfc
+                where 
+                phone = ?
+                `
+            const values = [_phone]
+            connection.query(
+                sql, 
+                values,  
+                function(err, result2){
+                    if(err){
+                        console.log(err)
+                    }else{
                         //나의 스코어순서로cd
                         const sql8 = `
                             select 
                             *
                             from 
-                            ksfc
-                            where phone=?                           `                
+                            score
+                            where phone=?   
+                            order by  strok  ASC                      `                
                         const values8 = [_phone ]
                         connection.query(
                         sql8, 
@@ -581,6 +597,7 @@ router.post('/ksfc1', async  function(req, res){
                                 res.render('ksfc_list', {
                                     'resultt': result5,  //전체 bestscore순
                                     'resultt2': result8,//나의
+                                    result:result2,
                                     'username' : _user, 
                                     'phone': _phone,
                                     amount:_amount,
@@ -588,7 +605,7 @@ router.post('/ksfc1', async  function(req, res){
                                     'state':state
                                 })  
 
-}}) }})}})
+}})}}) }})}})
                         
 
 
