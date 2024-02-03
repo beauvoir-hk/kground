@@ -2123,7 +2123,7 @@ router.post('/gloves_pay', async (req, res)=>{
  
                     
                     const input_product_name  =  req.body.input_product_name
-                    
+                    const memo =  result5[0].username
 
                     const sql6 =
                         `
@@ -2160,18 +2160,20 @@ router.post('/gloves_pay', async (req, res)=>{
                                     bank=0
                                 }
                             }
+
                             const input_quantity=req.body.input_quantity
                             const selectoption = req.body.input_option
-                            const memo =  req.body.input_memo                        
+                            //const memo =  req.body.input_memo
+                            
                             const input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
                             const sql7 =
                                 `
                                 insert 
                                 into 
                                 giga_pay
-                                values (?,?,?,?,?,?,?,?,?,?,?)
+                                values (?,?,?,?,?,?,?,?,?,?,?,?)
                                 `
-                            const values7 = [input_dt,filename,price,card,kpoint,bank,input_post,input_paymethod,input_quantity,selectoption, memo]
+                            const values7 = [input_dt,phone, filename,price,card,kpoint,bank,input_post,input_paymethod,input_quantity,selectoption, memo]
                             connection.query(
                             sql7, 
                             values7, 
@@ -2181,6 +2183,7 @@ router.post('/gloves_pay', async (req, res)=>{
                                 }else{
                                     
                                     res.render('pay', {
+                                        input_dt:input_dt,
                                         quantity:input_quantity,
                                         post:input_post,
                                         paymethod:input_paymethod,
@@ -2198,6 +2201,137 @@ router.post('/gloves_pay', async (req, res)=>{
                                     
                             })}})
     }})}})}})
+
+
+    //주문서 확인하기
+    router.get('/giga_payok', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql5 =
+                `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                
+                    `
+            const values5 = [phone]
+            connection.query(
+            sql5, 
+            values5, 
+            function(err, result5){
+                if(err){
+                    console.log(err)
+                }else{
+
+                    const amount=result5[0].charge_amount
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    giga_pay
+                    where 
+                    phone = ?
+                    ORDER BY paydatetime desc
+                    
+                        `
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result6){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const price=result6[0].pay
+                        const kpoint =result6[0].kpoint
+                        const card = result6[0].card
+                        const filename = result6[0].filename
+                        const filename_detail = result6[0].filename_detail
+                        const quantity = result6[0].quantity
+                        const post = result6[0].post
+                        const paymethod=result6[0].paymethod
+                        const product_name = result6[0].product_name
+                        var bank=0 
+                        if(paymethod=="KPoint포함(무통장입금)"){
+                            
+                            bank = parseInt(price) - parseInt(kpoint) 
+                        }else{
+                            if(paymethod=="무통장입금"){
+                                bank = price
+                                
+                            }else{
+                                bank=0
+                            }
+                        }
+
+                            const input_quantity=req.body.input_quantity
+                            const selectoption = req.body.input_option
+                            //const memo =  req.body.input_memo
+                            const memo =  result5[0].username
+                        const username=result6[0].memo        
+                        res.render('payok', {
+                            result:result6,
+                            quantity:quantity,
+                            post:post,
+                            paymethod:paymethod,
+                            phone: phone,
+                            card1:card,
+                            card:card*input_quantity,
+                            bank:bank*input_quantity ,
+                            filename:filename,
+                            filename_detail:filename_detail,
+                            username :username,
+                            selectoption:selectoption,
+                            productname: product_name,
+                            price:price,
+                            kpoint:kpoint*input_quantity,
+                            amount:amount                              
+                        })}})}})
+        }})
+
+router.get('/glovespay_list', async (req, res)=>{
+            if(!req.session.logined){
+                let data=0
+                res.render('login', {
+                    'state' : data
+                })
+            }else{
+                    //원장읽어오기
+                    const phone = req.session.logined.phone 
+                    const sql7 =
+                        `
+                        select 
+                        *
+                        from 
+                        gloves_pay
+                        where 
+                        memo = ?
+                        
+                            `
+                    const values7 = [phone]
+                    connection.query(
+                    sql7, 
+                    values7, 
+                    function(err, result7){
+                        if(err){
+                            console.log(err)
+                        }else{
+                                    
+                            res.render('payok', {
+                                result:result7
+                                     
+                            })}})
+            }})
 
 router.get('/onlyholein', function(req, res){
     res.render("onlyholein")

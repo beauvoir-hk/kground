@@ -179,14 +179,14 @@ module.exports = ()=>{
                                             const tot_12_count =count
 
                                             const sql8 = `
-                                            select 
-                                            * 
-                                            from 
-                                            kp_list
-                                            where
-                                            transtype = ? and  month(transtime) = 1
-                                           
-                                            `
+                                                select 
+                                                * 
+                                                from 
+                                                kp_list
+                                                where
+                                                transtype = ? and  month(transtime) = 1
+                                            
+                                                `
                                         const values8=[transtype]
                                         connection.query(
                                             sql8, 
@@ -199,6 +199,28 @@ module.exports = ()=>{
                                                 const count = result8.length
                                                 
                                                 const tot_24_1_count =count
+                                                const sql9 = `
+                                                select 
+                                                * 
+                                                from 
+                                                kp_list
+                                                where
+                                                transtype = ? and  month(transtime) = 2
+                                            
+                                                `
+                                        const values9=[transtype]
+                                        connection.query(
+                                            sql9, 
+                                            values9,
+                                        function(err, result9){
+                                            if(err){
+                                                console.log(err)
+                                                res.send(err)
+                                            }else{
+                                                const count = result9.length
+                                                
+                                                const tot_24_2_count =count
+
 
                                     //KPoint 의 출금 통계
                                     const transtype1="festival"
@@ -236,13 +258,14 @@ module.exports = ()=>{
                                                     tot_11_count:tot_11_count,
                                                     tot_12_count:tot_12_count,
                                                     tot_24_1_count:tot_24_1_count,
+                                                    tot_24_2_count:tot_24_2_count,
                                                     total_charge:tot_charge,
                                                     total_charge_count:tot_charge_count,
                                                     total_charge_charge:tot_charge_charge,
                                                     tot_deposit_count:tot_deposit_count,
                                                     total_deposit:tot_deposit
                                             })
-                                }})}})}})}})}})}})}
+                                }})}})}})}})}})}})}})}
                             })}
                     })            
 
