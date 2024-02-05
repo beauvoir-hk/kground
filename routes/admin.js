@@ -1168,7 +1168,101 @@ router.post('/admin_jigub', async (req, res)=>{
         }})
 
         
-    
+// 행운상추첨 포인트 지급
+router.get('/admin_lucky', async (req, res)=>{
+    if(!req.session.logined){
+        res.redirect("/")
+    }else{    
+        const pay_amount = 200000//보낼금액
+        //log_info의 통계
+        const sql2 = `
+            select 
+            * 
+            from 
+            luckytest
+           
+            `
+        // const values2 =[user_name, user_phone ]   
+
+        connection.query(
+            sql2, 
+            // values2,
+        function(err, result2){
+            if(err){
+                console.log(err)
+                res.send(err)
+            }else{
+                console.log("행운권 당첨자  =", result2.length)
+                const adminphone="01025961010"
+                
+
+                //반복
+                for(let i=0; i<result2.length; i++){                     
+                    console.log("i  =",i )  
+                    const receiptphone = result2[i].phone
+                    const sql6 = `
+                        select 
+                        *
+                        from 
+                        log_info
+                        where 
+                        phone = ?
+                        `
+                    const values6 = [ receiptphone]
+                    connection.query(
+                    sql6, 
+                    values6, 
+                    function(err, result6){
+                        if(err){
+                            console.log(err)
+                        }else{ 
+                              
+                            console.log("result6[0].phone =", result6[0].phone)
+                            const amount = result6[0].charge_amount
+                            console.log("amount = ", result6[0].charge_amount)
+                            const reciept_username=result6[0].username                             
+                            //4. KP_list에 추가  //보내는 사람=나
+                            const trans_tp = "행운상지급"//보내는 사람
+                            const trans_tp1=reciept_username//받는사람
+                            const _input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')//거래시간
+                            const new_dt = moment(_input_dt).add(i, 'seconds').format('YYYY-MM-DDTHH:mm:ss')
+                            console.log("0.01초 더한시간",new_dt) 
+
+                            console.log("보낸내역 kp_list에 insert", adminphone, trans_tp1, new_dt, pay_amount , amount) 
+                            // const _pay_amount= parseInt(pay_amount)*-1
+
+                            //kpoint.kpoint_list_insert_m(adminphone, trans_tp1,  new_dt, pay_amount)
+
+                            
+                            // //5. KP_list에 추가 //수신자
+                            const reciept_amount1= parseInt(amount) + 200000
+                            console.log("수신받은 금액 추가계산한 것 원장 갱신입력",receiptphone,reciept_amount1  )
+                            
+                            
+                            kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
+
+                            da = 1 
+                            //1. log_info 정보 감액수정(관리자대표폰)
+                            // kpoint.log_info_amount_update1(adminphone, pay_amount )  
+            
+                            //2. 수신자 금액 정정 
+                            console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
+                            kpoint.log_info_amount_update2( receiptphone, pay_amount )   
+                        }})
+
+                }
+
+                res.render("admin_luckyjigub",{
+                    'login_data': req.session.logined ,
+                    resultt:result2,
+
+                    state:0
+                } )
+            }
+        })
+    }})            
+
+
 
 //db_update
 router.get('/db_update', function(req, res){

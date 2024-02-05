@@ -28,13 +28,14 @@ const upload = multer({
 // mysql의 정보를 등록
 const mysql = require('mysql2')
 
-// mysql server 정보를 입력
+// wait_timeout 및 interactive_timeout 설정
 const connection = mysql.createConnection({
     host : process.env.host, 
     port : process.env.port, 
     user : process.env.user, 
     password : process.env.password,
-    database : process.env.database
+    database : process.env.database,
+    
 })
 
 //js 파일 로드 

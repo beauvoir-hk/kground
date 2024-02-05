@@ -577,7 +577,7 @@ async function kpoint_list_refferal_insert(_phone, trans_tp,  chargedt, price  )
                     const reffer= result2[0].refferal
                     console.log("reffer=", reffer)
                     //추천인이 있는지 확인
-                    if(reffer==""){
+                    if(reffer.toString()==""){
                         console.log("추천인 없음")
                     }else{
                         //추천인이 있으면 추천인 전번구하기
