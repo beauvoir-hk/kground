@@ -155,13 +155,37 @@ router.post("/login", async (req, res)=>{
         // 유저가 보낸 데이터를 서버에서 대소로 대입
         const _phone = await req.body.input_phone.trim()
         const _pass = await req.body.input_pass.trim()
+        if(_pass==null){
+            _pass="" 
+        }
         const _username =await  req.body.input_username.trim()
+        if( _username==null){
+            _username="성명입력안됨" 
+        }
         const _nickname =await  req.body.input_nickname.trim()
+        if( _nickname==null){
+            _nickname="없음" 
+        }
         const _gender = await req.body.input_gender.trim()
+        if( _gender==null){
+            _gender="남" 
+        }
         const _birth =await req.body.input_birth.trim()
+        if( _birth==null){
+            _birth="19990909" 
+        }
         const _jiyeok =await  req.body.input_jiyeok.trim()
+        if( _jiyeok ==null){
+            _jiyeok ="경상남도" 
+        }
         const _refferal = await req.body.input_refferal.trim()
+        if( _refferal==null){
+            _refferal="없음" 
+        }
         const _numeric6= await req.body.input_numeric6.trim()
+        if( _numeric6==null){
+            _numeric6="" 
+        }
         // const date = moment()
         // const input_dt= date.format('YYYY-MM-DD HH:mm:ss')
         const input_dt = moment().format('YYYY-MM-DDTHH:mm:ss')
@@ -199,15 +223,15 @@ router.post("/login", async (req, res)=>{
                                 kpoint.ksfc_insert(_phone, _username,game_number,_gender, _jiyeok, _birth, golf_sys,bestscore, sysrank,input_dt)
                                 
 
-                            //    const gphone = "+82"+ _phone
-                            //     console.log("회원가입 폰 =",gphone)
+                               const gphone = "+82"+ _phone
+                                console.log("회원가입 폰 =",gphone)
                                 
-                            //     twilioClient.messages.create({
-                            //         body: '케이그라운드와 함께 해주셔서 감사합니다. 회원가입이 완료되었습니다 ID =   ' + _phone ,
-                            //         from: process.env.kphonenumber,
-                            //         to: gphone
-                            //         })
-                            //         .then(message => console.log("회원가입 ok(kground)----", gphone,message.sid))
+                                twilioClient.messages.create({
+                                    body: '케이그라운드와 함께 해주셔서 감사합니다. 회원가입이 완료되었습니다 ID =   ' + _phone ,
+                                    from: process.env.kphonenumber,
+                                    to: gphone
+                                    })
+                                    .then(message => console.log("회원가입 ok(kground)----", gphone,message.sid))
 
                                 //본사에메세지
                                 const ggphone = "+8201025961010" 
@@ -217,20 +241,20 @@ router.post("/login", async (req, res)=>{
                                 
                                 console.log("process.env.kphonenumber=",process.env.kphonenumber)
                         
-                                // twilioClient.messages.create({
-                                //     body: '케이그라운드 회원가입완료:   ' + _phone ,
-                                //     from: process.env.kphonenumber,
-                                //     to: ggphone
-                                //     })
-                                //     .then(message => console.log("회원가입 ment ok(----",ggphone, message.sid))    
+                                twilioClient.messages.create({
+                                    body: '케이그라운드 회원가입완료:   ' + _phone ,
+                                    from: process.env.kphonenumber,
+                                    to: ggphone
+                                    })
+                                    .then(message => console.log("회원가입 ment ok(----",ggphone, message.sid))    
                                 
                                 
-                                //     res.render("login",{
-                                //         phone:_phone,
-                                //         login_data:req.session.logined,
-                                //         state:1
+                                    res.render("login",{
+                                        phone:_phone,
+                                        login_data:req.session.logined,
+                                        state:1
                                 
-                                // })
+                                })
                             }
                         })})    
             
