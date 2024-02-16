@@ -1392,6 +1392,10 @@ router.get('/notice', function(req, res){
     res.render("notice")
 })
 
+router.get('/sggolf', function(req, res){
+    res.render("sg_golf")
+})
+
 router.get('/notice_refferal', function(req, res){
     res.render("notice_refferal")
 })

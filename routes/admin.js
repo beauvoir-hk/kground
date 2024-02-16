@@ -1182,11 +1182,9 @@ router.get('/admin_lucky', async (req, res)=>{
             luckytest
            
             `
-        // const values2 =[user_name, user_phone ]   
-
         connection.query(
             sql2, 
-            // values2,
+             
         function(err, result2){
             if(err){
                 console.log(err)
@@ -1194,12 +1192,19 @@ router.get('/admin_lucky', async (req, res)=>{
             }else{
                 console.log("행운권 당첨자  =", result2.length)
                 const adminphone="01025961010"
-                
+                connection.beginTransaction(function (err) {
+                    if (err) {
+                      console.log(err);
+                      return;
+                    }
 
                 //반복
                 for(let i=0; i<result2.length; i++){                     
                     console.log("i  =",i )  
                     const receiptphone = result2[i].phone
+                    console.log("receiptphone = ", result2[i].phone)
+
+
                     const sql6 = `
                         select 
                         *
@@ -1216,6 +1221,10 @@ router.get('/admin_lucky', async (req, res)=>{
                         if(err){
                             console.log(err)
                         }else{ 
+                            if(result6.lenth==0){
+                                console.log("조건에 맞는 사람이 없음")
+                                return;
+                            }else{
                               
                             console.log("result6[0].phone =", result6[0].phone)
                             const amount = result6[0].charge_amount
@@ -1241,16 +1250,26 @@ router.get('/admin_lucky', async (req, res)=>{
                             
                             kpoint.kpoint_list_insert(receiptphone, trans_tp,  new_dt, pay_amount)
 
-                            da = 1 
+                             
                             //1. log_info 정보 감액수정(관리자대표폰)
                             // kpoint.log_info_amount_update1(adminphone, pay_amount )  
             
                             //2. 수신자 금액 정정 
                             console.log("&&&&&&&&&&&&&&&&&", receiptphone,  pay_amount )
-                            kpoint.log_info_amount_update2( receiptphone, pay_amount )   
-                        }})
+                            kpoint.log_info_amount_update2( receiptphone, pay_amount )  
+
+                        }}});
 
                 }
+                connection.commit(function (err) {
+                    if (err) {
+                      console.log(err);
+                      return;
+                    }
+                
+                    console.log("트랜잭션 성공!");
+                  });
+                });
 
                 res.render("admin_luckyjigub",{
                     'login_data': req.session.logined ,
