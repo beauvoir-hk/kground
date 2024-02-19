@@ -11,7 +11,54 @@
     <title>케이그라운드 페스티벌 참가 K포인트 결제 확인</title>
     <%- include('header.ejs') %>
 
-    <script>
+    <style>
+        .box01{
+        text-align: center;
+        }
+        .box01 input{
+        border:none;
+        font-size:15px;
+        outline:none;
+        text-align:center;
+        }
+        .box01 button{
+        border:none;
+        width:60px;
+        max-width:100px;
+        vertical-align:bottom;
+        }
+        .box01 button img{
+        width:100%;
+        }
+        input[type=button11]{
+            background-color: #ED4C00;
+            color:white;
+            width: 165px;
+            height:23px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 6px;
+            border: 0;
+            outline: 0;
+            }
+            input[type=button22]{
+             
+            color:rgb(0,0,0);
+            width: 165px;
+            height:23px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 6px;
+            border: 0;
+            outline: 0;
+            }
+    </style>
+    <script> 
+        function copy_to_clipboard() { 
+            var copyText = document.getElementById("myInput"); 
+            copyText.select(); 
+            document.execCommand("Copy"); 
+            } 
         function signup(){
           location.href = '/signup'
         }
@@ -21,7 +68,7 @@
    </script>
 
 <%if(state==0){%>
-<body class="bg-gradient-primary" onload="fail()" >
+<body class="bg-gradient-primary" >
     <%}else{%>
         <body class="bg-gradient-primary" >
             <%}%>
@@ -45,7 +92,7 @@
                                         <img src="/img/title_008.jpg" width="100%">
 
                                         <div class="text-primary">
-                                            <img src="/img/title_002.png" width="100%">
+                                            <!-- <img src="/img/title_002.png" width="100%"> -->
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 &nbsp;&nbsp;<%=username%>님
                                             </div>
@@ -53,22 +100,59 @@
                                                 <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
                                                 K포인트 : <%=aa%>
                                             </div>
-                                            <hr>
+                                        </div>
+                                        <hr>
+                                        <div class="form-group bg-warning text-dark" align="center"> 
+                                            <b>[1] Kpoint 결제(2,000 KPoint)</b> 
+                                        </div>
+                                        <br>
+                                       
                                         <form class="user" action="/contract/enterpay" method="post">
-                                            <div class="form-group">
+                                            <div class="form-group" align="center">
                                                 <input type="text" class="form-control form-control-user"
                                                     id="_id" name="_id" value="<%=phone%>" readonly>
-                                                    <br>
+                                                    <br>결제 비밀 번호(숫자6자리)
                                                 <input type="password" class="form-control form-control-user"
                                                     id="_numeric6" name="_numeric6"
                                                     placeholder="결제 비밀 번호(숫자6자리)">
                                                     <br>
                                                 <div class="text-center">    
                                                     <!-- <button class="btn btn-primary" 문자인증</button> -->
-                                                    <button class="btn btn-danger" id="check_nemeric6">페스티벌 참가(2,000 K포인트)</button>
+                                                    <button class="btn btn-primary" id="check_nemeric6">페스티벌 참가(2,000 K포인트)</button>
                                                 </div>
                                             </div>
                                         </form>
+                                        <br><br>
+                                        <div class="form-group bg-warning text-dark" align="center">                                              
+                                              <b>[2] 무통장입금(2,000원)</b> 
+                                        </div>
+
+                                        <br>
+                                        <div class="text-primary text-center" >
+                                            결제계좌 →  
+                                            <br>국민은행(비케이종합마케팅협동조합)
+                                            <br>
+                                            
+                                            <!-- <FORM METHOD=POST ACTION=""> -->
+                                                <p class="box01"> 
+                                                <input type="button11" id="myInput"   value='65143704003551'> 
+                                                
+                                                    <button onclick="copy_to_clipboard()">
+                                                        <img src="https://blog.kakaocdn.net/dn/N1wUc/btqIl7XZtKM/b44qX9Six1vczz2ISWj4LK/img.png" width="100%" alt="복사하기">
+                                                    </button>
+                                                </p>
+                                            <!-- </FORM> -->
+                                        </div><br> <br>                                       
+                                        <div class="form-group bg-warning text-dark" align="center">                                              
+                                            궁금하신 것은 여기로 문의하세요! → 
+                                        </div>
+                                       
+                                               
+                                                <a href="http://pf.kakao.com/_ttxaSxj/chat"><img src="/img/80_019.png" alt="고객센터" width="80px" height="80px"></a>
+                                            <br><br>
+                                            
+
+ 
                                     </div> 
                                 </div>
                                 <hr>
