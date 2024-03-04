@@ -279,7 +279,7 @@ module.exports = ()=>{
                                                     tot_12_count:tot_12_count,
                                                     tot_24_1_count:tot_24_1_count,
                                                     tot_24_2_count:tot_24_2_count,
-                                                    tot_24_2_count:tot_24_3_count,
+                                                    tot_24_3_count:tot_24_3_count,
                                                     total_charge:tot_charge,
                                                     total_charge_count:tot_charge_count,
                                                     total_charge_charge:tot_charge_charge,
