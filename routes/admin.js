@@ -231,8 +231,8 @@ module.exports = ()=>{
                                                 `
                                         const valuesa=[transtype]
                                         connection.query(
-                                            sql9, 
-                                            values9,
+                                            sqla, 
+                                            valuesa,
                                         function(err, resulta){
                                             if(err){
                                                 console.log(err)
@@ -279,6 +279,7 @@ module.exports = ()=>{
                                                     tot_12_count:tot_12_count,
                                                     tot_24_1_count:tot_24_1_count,
                                                     tot_24_2_count:tot_24_2_count,
+                                                    tot_24_2_count:tot_24_3_count,
                                                     total_charge:tot_charge,
                                                     total_charge_count:tot_charge_count,
                                                     total_charge_charge:tot_charge_charge,
