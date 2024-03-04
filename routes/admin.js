@@ -197,8 +197,8 @@ module.exports = ()=>{
                                                 res.send(err)
                                             }else{
                                                 const count = result8.length
-                                                
                                                 const tot_24_1_count =count
+
                                                 const sql9 = `
                                                 select 
                                                 * 
@@ -218,9 +218,29 @@ module.exports = ()=>{
                                                 res.send(err)
                                             }else{
                                                 const count = result9.length
-                                                
                                                 const tot_24_2_count =count
 
+                                                const sqla = `
+                                                select 
+                                                * 
+                                                from 
+                                                kp_list
+                                                where
+                                                transtype = ? and  month(transtime) = 3
+                                            
+                                                `
+                                        const valuesa=[transtype]
+                                        connection.query(
+                                            sql9, 
+                                            values9,
+                                        function(err, resulta){
+                                            if(err){
+                                                console.log(err)
+                                                res.send(err)
+                                            }else{
+                                                const count = resulta.length
+                                                
+                                                const tot_24_3_count =count         
 
                                     //KPoint 의 출금 통계
                                     const transtype1="festival"
@@ -265,7 +285,7 @@ module.exports = ()=>{
                                                     tot_deposit_count:tot_deposit_count,
                                                     total_deposit:tot_deposit
                                             })
-                                }})}})}})}})}})}})}})}
+                                }})}})}})}})}})}})}})}})}
                             })}
                     })            
 
