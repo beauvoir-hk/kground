@@ -15,7 +15,7 @@
   
 <!-- JS API 결제요청 호출시 설정된 파라메터 중
 상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
-<script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
+<!-- <script src="//lite.payapp.kr/public/api/payapp-lite.js"></script>
 <script>
     
     PayApp.setDefault('userid',     'qop1513');
@@ -31,6 +31,37 @@
         PayApp.setParam('skip_cstpage', 'y');
         PayApp.call();
     }
+</script> -->
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://sandbox.cookiepayments.com/js/cookiepayments-1.1.3.js"></script>
+ 
+<script>
+    cookiepayments.init({
+    api_id : 'sandbox_BOWgagMzEd', //쿠키페이 결제 연동 id
+});
+
+function pay() {
+    cookiepayments.payrequest({
+        ORDERNO: $("#ORDERNO").val(), //주문번호 (필수)
+        PRODUCTNAME: $("#PRODUCTNAME").val(), //상품명 (필수)
+        AMOUNT: $("#AMOUNT").val(), //결제 금액 (필수)
+        BUYERNAME: $("#BUYERNAME").val(), //고객명 (필수)
+        BUYEREMAIL: $("#BUYEREMAIL").val(), //고객 e-mail (필수)
+        PAYMETHOD: $("#PAYMETHOD").val(), //결제 수단 (선택)
+        PRODUCTCODE: $("#PRODUCTCODE").val(), //상품 코드 (선택)
+        BUYERID: $("#BUYERID").val(), //고객 아이디 (선택)
+        BUYERADDRESS: $("#BUYERADDRESS").val(), //고객 주소 (선택)
+        BUYERPHONE : $("#BUYERPHONE").val(), //고객 휴대폰번호 (선택, 웰컴페이는 필수)
+        RETURNURL: $("#RETURNURL").val(), //결제 완료 후 리다이렉트 url (필수)
+        ETC1 : $("#ETC1").val(), //사용자 추가필드1 (선택)
+        ETC2 : $("#ETC2").val(), //사용자 추가필드2 (선택)
+        ETC3 : $("#ETC3").val(), //사용자 추가필드3 (선택)
+        ETC4 : $("#ETC4").val(), //사용자 추가필드4 (선택)
+        ETC5 : $("#ETC5").val(), //사용자 추가필드5 (선택)
+    });
+}
+
 </script>
 <script>
     window.call = function () {
@@ -106,34 +137,42 @@
                                         </div> 
 
                                         <form role="form" action="" method="post" >
-                                        <fieldset> 
-                                            <br>
-                                            <input class="form-control" type="text" id="name" name="name"  
-                                                value="<%=name%>" readonly >
-                                            <br><br>
-                                            <input class="form-control" type="text" id="phone" name="phone"  
-                                                value="<%=phone%>" readonly >
-                                            <br><br>
-                                         
-                                            <label class="control-label">신용카드 간단결제 금액</label>
-                                            <br>
-                                            <input type="text" class="form-control form-control-user" id="price"
-                                                    name='price' value="<%=card%>" >
-                                                    <br>
+                                            <fieldset> 
+                                                <br>
+                                                <input class="form-control" type="text" id="ORDERNO" name="oderno"  
+                                                    value="<%=oderno%>" readonly >
+                                                <br>
+                                                <input class="form-control" type="text" id="PRODUCTNAME" name="filename"  
+                                                    value="<%=filename%>" readonly >
+                                                <br>
+                                                <input class="form-control" type="text" id="BUYEREMAIL" name="email"  
+                                                    value="<%=email%>" readonly >
+                                                <br>
+                                                <input class="form-control" type="text" id="BUYERNAME" name="name"  
+                                                    value="<%=name%>" readonly >
+                                                <br>
+                                                <input class="form-control" type="text" id="BUYERPHONE" name="phone"  
+                                                    value="<%=phone%>" readonly >
+                                                <br><br>
+                                            
+                                                <label class="control-label">신용카드 간단결제 금액</label>
+                                                <br>
+                                                <input type="text" class="form-control form-control-user" id="AMOUNT"
+                                                        name='price' value="<%=card%>" >
+                                                        <br>
 
-                                                    <!-- <label class="control-label">신용카드 간단결제 금액</label>        
-                                            <input class="form-control" type="password" id="numeric6" name="input_numeric6" placeholder="결제비밀번호를 입력하세요" > -->
+                                                        <!-- <label class="control-label">신용카드 간단결제 금액</label>        
+                                                <input class="form-control" type="password" id="numeric6" name="input_numeric6" placeholder="결제비밀번호를 입력하세요" > -->
 
-                                    </div>
-                                        <div class="text-center">
-                                            <input type="submit"  class="btn btn-danger" value="결제하기"  onclick="payappPay()">   
-                                            <br>
-                                            <div class="very-small">
-                                                → 카드, 페이 등 간편결제가 진행이 됩니다
+                                            <div class="text-center">
+                                                <input type="submit"  class="btn btn-danger" value="결제하기"  onclick="pay()">   
+                                                <br>
+                                                <div class="very-small">
+                                                    → 카드, 페이 등 간편결제가 진행이 됩니다
+                                                </div>
                                             </div>
-                                       </div>
-                                        </fieldset>
-                                        </form>
+                                            </fieldset>
+                                            </form>
                                     <hr>         
                                     </div>    
                                 </div>

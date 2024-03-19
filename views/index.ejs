@@ -75,81 +75,176 @@
     
 <body class="bg-gradient-primary">
     <div class="container">
+
     <!-- Outer Row -->
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
-                    <div class="row">
-                        <!-- 1열 -->
-                        <div class="col-lg-6"> 
-                            <div class="p-6">
-                                <div class="text-center">
+
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <!-- 1열 -->
+                <div class="col-lg-6"> 
+                    <div class="p-6">
+                        <div class="text-center">
                                     
-                                    <img src="/img/kkkk.jpg" width="90%">
+                            <img src="/img/kkkk.jpg" width="90%">
                                     
-                                </div>
-                                
-                                <!-- Earnings (Monthly) Card Example -->
-                                <div class="text-center">
-                                    <div class="col-xl-10 col-md-12 mb-1">
-                                        <div class="card border-left-primary shadow h-100 py-1">
-                                            <div class="card-body">
-                                                <div class="row no-gutters align-items-center">
-                                                    <div class="col mr-2">
-                                                        <div class="text-primary text-small" align="center">
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <span  id="check_admin">
-                                                                <%=login_data['username']%>님 /
-                                                                <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                                                K포인트 : <%=aa%>
-                                                            </span>
-                                                            <div class="display" id="info"> 
-                                                                <input id="_id" value="<%=login_data['phone']%>" ><br>
-                                                                <a href="/admin/admin_index">관리자모드로</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                        </div>
+
+        <!-- 메인이미지 -->
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide"><a href="/golf/sggolf" class="content">
+                    <img src="/img/sg골프1920x2810.jpg" style="border: 5px solid black;">
+                </a></div>
+                <!-- <div class="swiper-slide"><a href="https://bkscreenshop.cafe24.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/129/" class="content">
+                    <img src="/img/6_시상식결과.png" style="border: 5px solid black;">
+                </a></div> -->
+                <div class="swiper-slide"><a href="golf/regu" class="content" >
+                    <img src="/img/7_poster.png" style="border: 5px solid black;">
+                </a></div>
+                <div class="swiper-slide"><a href="golf/notice" class="content">
+                    <img src="/img/스포츠대상.png" style="border: 5px solid black;">
+                </a></div>
+                <div class="swiper-slide"><a href="golf/notice_refferal" class="content">
+                    <img src="/img/회원가입프로모션.png" style="border: 5px solid black;">
+                </a></div>
+            </div>
+
+        </div>
+        <div class="text-center">
+            <br>
+            <a href="/golf/ksfc_list" class="content">
+                <img src="/img/7_스코어.png" width="90%" style="border: 5px solid black;">
+            </a>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <!-- <div class="text-center">
+            <div class="col-xl-10 col-md-12 mb-1">
+                <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">                                                        
+                                <div class="text-primary text-small" align="center">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span  id="check_admin">
+                                        <%=login_data['username']%>님 /
+                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                        K포인트 : <%=aa%>
+                                    </span>
+                                    <div class="display" id="info"> 
+                                        <input id="_id" value="<%=login_data['phone']%>" ><br>
+                                        <a href="/admin/admin_index">관리자모드로</a>
                                     </div>
                                 </div>
-                            
-                            <!-- 메인이미지 -->
-                             <!-- Swiper -->
-                            <div class="swiper mySwiper">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><a href="/golf/ksfc_list" class="content">
-                                        <img src="/img/7_스코어.png" style="border: 5px solid black;">
-                                    </a></div>
-                                    <div class="swiper-slide"><a href="/golf/sggolf" class="content">
-                                        <img src="/img/sg골프1920x2810.jpg" style="border: 5px solid black;">
-                                    </a></div>
-                                    <!-- <div class="swiper-slide"><a href="https://bkscreenshop.cafe24.com/article/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/1/129/" class="content">
-                                        <img src="/img/6_시상식결과.png" style="border: 5px solid black;">
-                                    </a></div> -->
-                                    <div class="swiper-slide"><a href="golf/regu" class="content" >
-                                        <img src="/img/7_poster.png" style="border: 5px solid black;">
-                                    </a></div>
-                                    <div class="swiper-slide"><a href="golf/notice" class="content">
-                                        <img src="/img/스포츠대상.png" style="border: 5px solid black;">
-                                    </a></div>
-                                    <div class="swiper-slide"><a href="golf/notice_refferal" class="content">
-                                        <img src="/img/회원가입프로모션.png" style="border: 5px solid black;">
-                                    </a></div>
-                                </div>
-
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
                             
+        <div id="wrapper">
+            <div class="container">
+                                                                
+            <style>
+                #pay_recent_wrap { border-collapse: collapse; margin: 0 auto 30px;  }
+                #pay_recent_wrap td { padding: 0 10px;font-size: 13px; }
+                #pay_recent_wrap .list { height: 0; overflow-y: hidden;display: inline-block; } 
+                #pay_recent_wrap .list table { border-collapse: collapse;margin: 0 auto; font-size: 13px;line-height: 150%; }
+                #pay_recent_wrap .list table td { padding: 0 10px; }
+            </style>
+                    
+            <table id="pay_recent_wrap" >
+                <tr>
+                    <td class="text-primary text-small text-center"><br><a href="golf/holeinlist" class="content">●● 케이그라운드 골프페스티벌 7회 홀인원 현황 ●● </a>
+                        <br>----------------------------------------------------</td>
+                </tr>
+                <tr>
+                    <td class="list">
+                        <table border="1px">
+                            <tr>
+                                <td style='text-align: left;'>[28]2024-02-24</td>
+                                <td class='emphasis'  style='text-align:  right;'>자은PGA딱지</td>
+                                <td style='text-align: right;'>카카오/2</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>[27]2024-03-16</td>
+                                <td class='emphasis'  style='text-align:  right;'>전라이더</td>
+                                <td style='text-align: right;'>골프존/2</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>[26]2024-02-17</td>
+                                <td class='emphasis'  style='text-align:  right;'>럭!키!걸!</td>
+                                <td style='text-align: right;'>골프존/3</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>[25]2024-03-6</td>
+                                <td class='emphasis'  style='text-align: right;'>웅이주매</td>
+                                <td style='text-align: right;'>골프존/3</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>[24]2024-03-5</td>
+                                <td class='emphasis'  style='text-align:  right;'>따박따박</td>
+                                <td style='text-align: right;'>골프존/1</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>[23]2024-03-4</td>
+                                <td class='emphasis'  style='text-align:  right;'>Majesty</td>
+                                <td style='text-align: right;'>카카오/1</td>
+                            </tr>
+                                    
+                        </table>
+                    </td>
+                
+                </tr>
+            </table>
+                
+            <script>
+                $(function() {
+        
+                    var ea = 2;
+                    var mt = 0;
+                    var time = { pause : 2000, motion : 500 };
+        
+                    var interv = null;
+                    var $pr = $( "#pay_recent_wrap .list" );
+                    var $prt = $pr.find( "table" );
+                    var h = $prt.find("tr").height();
+        
+                    $pr.append($prt.clone());
+                    $pr.height(h*ea);
+                    function auto_start() {
+                        interv = setInterval(function() {
+                            mt -= h*ea;
+                            $prt.animate({
+                                marginTop: mt,
+                            }, time.motion, function() {
+                                var n = $pr.offset().top - ( $prt.offset().top + $prt.height() );
+                                if( n >= 0 ) {
+                                    mt = 0;
+                                    $prt.css({marginTop: mt})
+                                }
+                            });
+                        }, time.pause);
+                    }
+                    function auto_stop() {
+                        clearInterval(interv);
+                    }
+        
+                    $pr.on('mouseenter', auto_stop).on('mouseleave', auto_start);
+                    auto_start();
+                });
+            </script>
 
-                            <!-- <div class="buttons_wrap text-center">
-                                <a href="javascript:void(0);" onclick="stopAction()" class="button">[STOP]</a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="javascript:void(0);" onclick="startAction()" class="button">[MOVE]</a>
-                            </div> -->
-                            <br>
+        </div>
+    </div>
+
+                            
                             <div class="text-center">
                                 <!-- <img src="/img/6_13th_holein.png" width="300px" ><br><br> -->
 
@@ -222,21 +317,19 @@
                                 <br><br>
 
 
- <!-- 롤링 -->
- <div class="rolling_wrap">
-    <a href="golf/holeinlist" class="content"><img src="/img/7_26th_holein.png" style="border: 2px solid black;"></a> 
-    <a href="golf/holeinlist" class="content"><img src="/img/7_25th_holein.png" style="border: 2px solid black;"></a>
-    <a href="golf/holeinlist" class="content"><img src="/img/7_24th_holein.png" style="border: 2px solid black;"></a>
-    <a href="golf/holeinlist" class="content"><img src="/img/7_23th_holein.png" style="border: 2px solid black;"></a>
-    <a href="golf/holeinlist" class="content"><img src="/img/7_22th_holein.png" style="border: 2px solid black;"></a>
+                                <!-- 롤링 -->
+                                <div class="rolling_wrap">
+                                    <a href="golf/holeinlist" class="content"><img src="/img/7_27th_holein.png" style="border: 2px solid black;"></a>
+                                    <a href="golf/holeinlist" class="content"><img src="/img/7_26th_holein.png" style="border: 2px solid black;"></a> 
+                                    <a href="golf/holeinlist" class="content"><img src="/img/7_25th_holein.png" style="border: 2px solid black;"></a>
+                                    <a href="golf/holeinlist" class="content"><img src="/img/7_24th_holein.png" style="border: 2px solid black;"></a>
+                                    <a href="golf/holeinlist" class="content"><img src="/img/7_23th_holein.png" style="border: 2px solid black;"></a>
 
+                                </div>
 
-     
-</div>
-
-                            </div>
-                        </div>  
-</div>
+                                                            </div>
+                                                        </div>  
+                                </div>
 
                         
                         

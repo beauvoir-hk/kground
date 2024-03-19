@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://sandbox.cookiepayments.com/js/cookiepayments-1.1.3.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   
 
     <%- include('header.ejs') %>
     <style>
@@ -14,10 +12,10 @@
             display: none;
         }
     </style>
-  
-<!-- JS API 결제요청 호출시 설정된 파라메터 중
-상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
-<!-- <script src="//lite.payapp.kr/public/api/payapp-lite.js"></script> -->
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://sandbox.cookiepayments.com/js/cookiepayments-1.1.3.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
     cookiepayments.init({
     api_id : 'hfa455h8q4e', //쿠키페이 결제 연동 id
@@ -45,7 +43,10 @@ function pay() {
 }
 
 </script>
-
+  
+<!-- JS API 결제요청 호출시 설정된 파라메터 중
+상품명, 결제금액, 휴대폰번호에 대한 값이 없거나 올바르지 않을 경우, 이용자에게 입력받는 화면이 호출이 됩니다. -->
+<!-- <script src="//lite.payapp.kr/public/api/payapp-lite.js"></script> -->
 <!-- <script>
     
     PayApp.setDefault('userid',     'hfa455h8q4e');
