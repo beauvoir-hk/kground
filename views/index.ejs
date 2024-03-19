@@ -122,40 +122,16 @@
                 <img src="/img/7_스코어.png" width="90%" style="border: 5px solid rgb(20, 13, 232);">
             </a>
         </div>
-        <!-- Earnings (Monthly) Card Example -->
-        <!-- <div class="text-center">
-            <div class="col-xl-10 col-md-12 mb-1">
-                <div class="card border-left-primary shadow h-100 py-1">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">                                                        
-                                <div class="text-primary text-small" align="center">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span  id="check_admin">
-                                        <%=login_data['username']%>님 /
-                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                        K포인트 : <%=aa%>
-                                    </span>
-                                    <div class="display" id="info"> 
-                                        <input id="_id" value="<%=login_data['phone']%>" ><br>
-                                        <a href="/admin/admin_index">관리자모드로</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+       
                             
         <div id="wrapper">
             <div class="container">
                                                                 
             <style>
                 #pay_recent_wrap { border-collapse: collapse; margin: 0 auto 30px;  }
-                #pay_recent_wrap td { padding: 0 10px;font-size: 13px; }
+                #pay_recent_wrap td { padding: 0 10px;font-size: 11px; }
                 #pay_recent_wrap .list { height: 0; overflow-y: hidden;display: inline-block; } 
-                #pay_recent_wrap .list table { border-collapse: collapse;margin: 0 auto; font-size: 13px;line-height: 150%; }
+                #pay_recent_wrap .list table { border-collapse: collapse;margin: 0 auto; font-size: 11px;line-height: 150%; }
                 #pay_recent_wrap .list table td { padding: 0 10px; }
             </style>
                     
@@ -342,16 +318,40 @@
                                 <a href="/logout"><img src="/img/80_017.jpg" width="80px" alt="로그아웃"></a>
                                 <br><br>
 
-
+ <!-- Earnings (Monthly) Card Example -->
+        <div class="text-center">
+            <div class="col-xl-10 col-md-12 mb-1">
+                <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">                                                        
+                                <div class="text-primary text-small" align="center">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span  id="check_admin">
+                                        <%=login_data['username']%>님 /
+                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                        K포인트 : <%=aa%>
+                                    </span>
+                                    <div class="display" id="info"> 
+                                        <input id="_id" value="<%=login_data['phone']%>" ><br>
+                                        <a href="/admin/admin_index">관리자모드로</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
                                 <!-- 롤링 -->
-                                <div class="rolling_wrap">
+                                <!-- <div class="rolling_wrap">
                                     <a href="golf/holeinlist" class="content"><img src="/img/7_27th_holein.png" style="border: 2px solid black;"></a>
                                     <a href="golf/holeinlist" class="content"><img src="/img/7_26th_holein.png" style="border: 2px solid black;"></a> 
                                     <a href="golf/holeinlist" class="content"><img src="/img/7_25th_holein.png" style="border: 2px solid black;"></a>
                                     <a href="golf/holeinlist" class="content"><img src="/img/7_24th_holein.png" style="border: 2px solid black;"></a>
                                     <a href="golf/holeinlist" class="content"><img src="/img/7_23th_holein.png" style="border: 2px solid black;"></a>
 
-                                </div>
+                                </div> -->
 
                                                             </div>
                                                         </div>  
