@@ -1481,7 +1481,51 @@ router.get('/gam_2', async (req, res)=>{
                 })}})
     }}) 
 
-
+    router.get('/kpoint', async (req, res)=>{
+        if(!req.session.logined){
+            let data=0
+            res.render('login', {
+                'state' : data
+            })
+        }else{
+                //원장읽어오기
+                const phone = req.session.logined.phone 
+                const sql7 =
+                    `
+                    select 
+                    *
+                    from 
+                    log_info
+                    where 
+                    phone = ?
+                    
+                        `
+                const values7 = [phone]
+                connection.query(
+                sql7, 
+                values7, 
+                function(err, result7){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        req.session.logined=result7[0]
+                    
+                    const balance = result7[0].charge_amount
+                    const phone = req.body.phone
+                    const _storename  = "케이그라운드"
+                    const _storephone  = "0101037248010"
+                    console.log("_storename =", _storename  )
+                
+                    res.render('kpoint', {
+                        amount : balance,
+                        phonenum : phone,
+                        username :result7[0].username,
+                        storename: _storename,
+                        storephone: _storephone,
+                        state : 0
+                    })}})
+        }}) 
+        
 router.get('/gam_1', async (req, res)=>{
     if(!req.session.logined){
         let data=0
