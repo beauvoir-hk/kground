@@ -198,6 +198,11 @@ module.exports = ()=>{
             const card = req.query.card
             const phone = req.session.logined.phone
             const name=req.query.name
+            const auth_code = Math.floor(Math.random() * 10)
+            const _memotime = moment().format('YYMMDDTHHmmss')
+            const orderno = auth_code&_memotime
+
+            console.log("auth_code&_memotime =",orderno)
             st=st+1
             console.log("card 결제단계===>", card)
 
@@ -232,6 +237,7 @@ module.exports = ()=>{
 
                         req.session.save()
                         res.render('card_pay_gloves', {
+                            orderno:orderno,
                             filename:result[0].filename,
                             name:result[0].name,
                             cardpay:card,
@@ -320,15 +326,29 @@ module.exports = ()=>{
                                     bank=0
                                 }
                             }
+                             
+                            const card = result6[0].card
+                             
+                            const paymethod= result6[0].paymethod
+                            const juso=req.body.input_post
+                            const email ="kground@kakao.com"
                             
                             res.render('card_pay_gloves', {
-
-                                post:input_post,
-                                paymethod:input_paymethod,
-                                phone: phone,
-                                card:card,
-                                bank:bank ,
+                                name:result6[0].name,
+                                email:email,
                                 filename:filename,
+                                amount : balance,
+                                phonenum : result6[0].phone,
+                                username : username,
+                                phone : result6[0].phone,
+                                card : card,
+                                paymethod:paymethod,
+                                price:price,
+                                post:juso,
+                                quantity:req.body.input_quantity,
+                                st:1,
+                                post:input_post,
+                                phone: phone,
                                 filename_detail:filename_detail,
                                 username :input_username,
                                 productname: name,
@@ -339,7 +359,7 @@ module.exports = ()=>{
                     })}})
     }})}})
 
-//기기ㅏ골프 카드결제
+//기가골프 카드결제
     router.get('/card_pay', async (req, res)=>{
         let st=1
         if(!req.session.logined){
@@ -358,7 +378,7 @@ module.exports = ()=>{
             console.log('phone ==============',phone )   
             console.log('product name ==============',name )  
             const login_data = req.session.logined
-            
+            console.log('login_data ==============',login_data)  
                 
             //원장을 다시 읽어서 렌더링
             const sql = `
@@ -379,7 +399,7 @@ module.exports = ()=>{
                     
                 }else{
                     if(result.length != 0){
-                        
+                        console.log('giga  name = ?',result )   
 
                         req.session.save()
                         res.render('card_pay', {
@@ -430,10 +450,7 @@ module.exports = ()=>{
                 }else{
 
                     const amount=result5[0].charge_amount
- 
-                    
                     const name  =  req.query.name
-                     
 
                     const sql6 =
                         `
@@ -455,7 +472,7 @@ module.exports = ()=>{
                         }else{
                             const price=result6[0].hap
                             const kpoint =result6[0].kpoint
-                            // const card = result6[0].card
+                            const card = result6[0].card
                             const filename = result6[0].filename
                             const filename_detail = result6[0].filename_detail
                             var bank=0 
@@ -559,7 +576,151 @@ module.exports = ()=>{
     )
 
 
+    router.get('/nobank', async (req, res)=>{
+        let st=1
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{
+            st=st+1
+             
 
+            //원장을 다시 읽을 준비
+            const phone=req.session.logined.phone
+            const login_data = req.session.logined
+            console.log('로그인 되었어요 원장다시 읽기준비')   
+             
+            //원장을 다시 읽어서 렌더링
+            const sql = `
+                select 
+                *
+                from 
+                log_info
+                where 
+                phone = ?
+                `
+            const values = [phone]
+            connection.query(
+            sql, 
+            values, 
+            function(err, result){
+                if(err){
+                    console.log(err)
+                    
+                }else{
+                    if(result.length != 0){
+                        // 로그인이 성공하는 조건
+                        console.log('db에 로그인한 정보 result[0]', result[0],login_data)
+                        console.log('db에 로그인한 정보login_data', login_data)
+                        
+                        console.log("charge refresh -->  ",result[0].charge_amount)
+                        req.session.save()
+                        res.render('nobank', {
+                            login_data: req.session.logined, 
+                            username:result[0].username,
+                            amount:result[0].charge_amount,
+                            phone:result[0].phone,
+                            st:st
+                    })
+                }}})}}) 
+
+
+
+    router.post('/nobank', async (req, res)=>{
+        if(!req.session.logined){
+            res.redirect("/")
+        }else{
+            console.log("무통장 포스트 단계..........")
+
+    }})      
+
+    
+          
+    router.get('/score_list', async (req, res)=>{
+        let data=0
+        if(!req.session.logined){
+            
+            res.redirect("/")
+        }else{   
+           console.log("score_list스코어 출력 스코어 테이블 최근 순으로 정렬")
+           const phone = req.session.logined.phone 
+           const user = req.session.logined.username         
+           const tokenamount = req.session.logined.charge_amount
+           const _charge_amount = parseInt(tokenamount)
+            //상위 5개 score출력을 위한 준비
+           const sql2 = `
+                select 
+                *
+                from 
+                score
+                where 
+                phone = ?
+                order by strok ASC
+                `
+          const values2 = [phone]
+          connection.query(
+            sql2, 
+            values2, 
+            function(err, result2){
+                if(err){
+                    console.log(err)            
+                }else{
+                     
+                    console.log(result2.length)
+                    // console.log("//상위 5개 score출력을 위한 준비: ", result2)
+                    
+                    let len=0
+                    let sco_sum =0
+                    
+                    if(result2.length > 5){
+                        len =5
+                    }else{
+                        len = result2.length
+                    }
+                    if(len>0){
+                        data=1
+                    }
+                    console.log("len : ", len)
+                    
+                    for(var i=0; i<len; i++){
+                        if(result2[i].strok!='9999'){
+                            sco_sum = sco_sum + parseInt(result2[i].strok)
+                            console.log("strok, sco_sum = ", result2[i].strok, sco_sum )
+                        }
+                    }
+                    console.log("scores_sum=", sco_sum)
+                    const scores_sum = sco_sum.toString()
+
+
+                    const sql6 = `
+                                select 
+                                *
+                                from 
+                                kp_list
+                                where 
+                                phone = ? && transtype="festival"
+                                
+                                `
+                            const values6 = [phone]
+                            connection.query(
+                            sql6, 
+                            values6, 
+                            function(err, result6){
+                                if(err){
+                                    console.log(err)
+                                }else{
+                                                
+                    res.render('score_list', {
+                        result6:result6,
+                        'resultt':result2,
+                        'username' : user, 
+                        'phone': phone,
+                        'amount':req.session.logined.charge_amount,
+                        'login_data' : req.session.logined,  
+                        'scores_sum' : scores_sum,
+                        'state':data,
+                        'len': len           
+                        })  }})  
+                    } })}})
 
     router.get('/charge', async (req, res)=>{
         let st=1
@@ -1646,6 +1807,7 @@ if(!req.session.logined){
                     const balance =result2[0].charge_amount
                     const username= req.session.logined.username
                     const s = req.body.state
+                    
                     const sql6 =
                         `
                         select 
@@ -1669,22 +1831,25 @@ if(!req.session.logined){
                             const filename= result6[0].filename
                             const paymethod= result6[0].paymethod
                             const juso=req.body.input_post
-                        res.render('kp_trans_gloves', {
-                            name:result6[0].name,
-                            kpoint:kpoint,
-                            filename:filename,
-                            amount : balance,
-                            phonenum : result2[0].phone,
-                            username : username,
-                            state : 0,
-                            phone : result2[0].phone,
-                            card : card,
-                            paymethod:paymethod,
-                            price:price,
-                            post:juso,
-                            quantity:req.body.input_quantity,
-                            st:1
-                        })
+                            const email ="kground@kakao.com"
+                            
+                            res.render('kp_trans_gloves', {
+                                name:result6[0].name,
+                                email:email,
+                                kpoint:kpoint,
+                                filename:filename,
+                                amount : balance,
+                                phonenum : result2[0].phone,
+                                username : username,
+                                state : 0,
+                                phone : result2[0].phone,
+                                card : card,
+                                paymethod:paymethod,
+                                price:price,
+                                post:juso,
+                                quantity:req.body.input_quantity,
+                                st:1
+                            })
     }})}}) }})
         
         

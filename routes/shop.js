@@ -1984,9 +1984,9 @@ router.post('/gloves_pay', async (req, res)=>{
                             insert 
                             into 
                             gloves_pay
-                            values (?,?,?,?,?,?,?,?,?,?,?)
+                            values (?,?,?,?,?,?,?,?,?,?,?,?)
                             `
-                        const values7 = [input_dt,filename,price,card,kpoint,bank,input_post,input_paymethod,input_quantity,selectoption, memo]
+                        const values7 = [input_dt,filename,price,card,kpoint,bank,input_post,input_paymethod,input_quantity,selectoption, memo,phone]
                         connection.query(
                         sql7, 
                         values7, 
@@ -1995,7 +1995,7 @@ router.post('/gloves_pay', async (req, res)=>{
                                 console.log(err)
                             }else{
                                 
-                                res.render('gloves_pay', {
+                                res.render('glovesdetaile', {
                                     quantity:input_quantity,
                                     post:input_post,
                                     paymethod:input_paymethod,
