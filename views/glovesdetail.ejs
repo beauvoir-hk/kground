@@ -28,6 +28,7 @@
         function signup(){
           location.href = '/signup'
         }
+
         function fail(){
                   alert("금액과 결제비밀번호(숫자6자리)를 정확히 입력 해 주세요")
         }
@@ -41,6 +42,7 @@
             // select element에서 선택된 option의 text가 저장된다.
             var selectText = langSelect.options[langSelect.selectedIndex].text;
         }
+        
     </script>
  
 </head>
@@ -125,7 +127,7 @@
                                                                 &nbsp;&nbsp;
                                                             </td>                                                            
                                                         </tr>
-                                                        <tr>
+                                                        <!-- <tr>
                                                             <td>
                                                             &nbsp;&nbsp;
                                                             </td>
@@ -145,14 +147,15 @@
                                                             <td>
                                                                 &nbsp;&nbsp;
                                                             </td>
-                                                        </tr>
+                                                        </tr> -->
                                                          <tr>
                                                             <td>
                                                             &nbsp;&nbsp;
                                                             </td>
                                                             <td>
+                                                                <br>
                                                                 <div class="form-group bg-warning text-dark" align="left">
-                                                                    * 옵션을 고르세요
+                                                                    &nbsp;&nbsp;* 제품옵션을 고르세요
                                                                     <br>
                                                                     <select class="form-select" name="input_option" id="input_option">
                                                                         <option value="<%=option1%>"><%=option1%></option>
@@ -170,6 +173,22 @@
                                                                 <br>
                                                             </td>
                                                         </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                &nbsp;&nbsp;
+                                                            </td>        
+                                                            <td  align="left">  
+                                                                <br>
+                                                                <div class="form-group bg-warning text-dark" align="left">      
+                                                                    &nbsp;&nbsp;* 택배주소입력     
+                                                                </div>
+                                                                <input type="text" name="input_post" class="form-control"   placeholder="주소를 입력해 주세요"  > 
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;&nbsp;
+                                                            </td>
+                                                        </tr>
                                                         <tr>
 
                                                             <td>
@@ -178,25 +197,10 @@
                                                             <td  align="left">  
                                                                 <br>
                                                                 <div class="form-group bg-warning text-dark" align="left">      
-                                                                    * 주문 사양 자세히 입력(선택)<br>
-                                                                        참고:<%=etcoption%><br>    
+                                                                    &nbsp;&nbsp;* 주문 사양 자세히 입력(선택)<br>
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    참고:<%=etcoption%><br>    
                                                                 </div>
                                                                 <input type="text" name="input_memo" class="form-control"   placeholder="메모"  > 
-                                                            </td>
-                                                            <td>
-                                                                &nbsp;&nbsp;
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                &nbsp;&nbsp;
-                                                            </td>        
-                                                            <td  align="left">  
-                                                                <br>
-                                                                <div class="form-group bg-warning text-dark" align="left">      
-                                                                    * 주소입력     
-                                                                </div>
-                                                                <input type="text" name="input_post" class="form-control"   placeholder="주소를 입력해 주세요"  > 
                                                             </td>
                                                             <td>
                                                                 &nbsp;&nbsp;
@@ -218,17 +222,18 @@
                                                             </td>
 
                                                         </tr>
+
                                                     </table>
                                                     <br>[결제를 진행해 주세요]<br>
                                                     <br>
                                                         <div class="text-danger text-start" >
-                                                            <%= price * 2 * selectValue  %>원
+                                                            <%= price * 2  %>원
                                                                 <a href="https://www.pay2pay.co.kr/L/LGUGQYOXOGL" class="btn btn-primary btn-sm" >신용카드</a>
                                                                 <a href="contract/nobank" class="btn btn-secondary btn-sm">무통장입금</a>
                                                                 <br><br>
                                                         </div>
                                                         <div class="text-success text-start">
-                                                            <%= price * 2  - kpoint *2  %> 
+                                                            <%= price * 2  - kpoint * 2 %>원
                                                             <a href="https://www.pay2pay.co.kr/L/LGUGQXNM9NT" class="btn btn-primary btn-sm" >신용카드</a>
                                                             <a href="contract/nobank" class="btn btn-secondary btn-sm">무통장입금</a>
                                                             
