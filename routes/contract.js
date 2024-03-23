@@ -1525,7 +1525,7 @@ router.get('/gam_2', async (req, res)=>{
                         state : 0
                     })}})
         }}) 
-        
+
 router.get('/gam_1', async (req, res)=>{
     if(!req.session.logined){
         let data=0
@@ -1721,7 +1721,7 @@ if(!req.session.logined){
                         if(err){
                             console.log(err)
                         }else{ 
-                                
+                            console.log("result")    
                             //가맹점의 폰번호
                             const store_phone = result[0].phone
 
