@@ -1564,47 +1564,103 @@ router.get('/admin_scoreok', function(req, res){
 
 
 router.post('/admin_scoreok', async function(req, res){
-if(!req.session.logined){
-    console.log('로그인정보가 없음')
-    res.redirect("/")
-}else{
-    console.log('관리자 모드 로그인 되었어요')
-   
-    //입력 받기(전번 or 성명)
-    const user_phone = await req.body.input_phone
-    const user_name = await req.body.input_username
-    console.log("admin_ok' ", user_phone,user_name)
-    //log_info의 통계
-    const sql2 = `
-        select 
-        * 
-        from 
-        score
-        where
-        username=? || phone=?
-        `
-    const values2 =[user_name, user_phone ]   
+    if(!req.session.logined){
+        console.log('로그인정보가 없음')
+        res.redirect("/")
+    }else{
+        console.log('관리자 모드 로그인 되었어요')
+    
+        //입력 받기(전번 or 성명)
+        const user_phone = await req.body.input_phone
+        const user_name = await req.body.input_username
+        console.log("admin_ok' ", user_phone,user_name)
+        const sql1 = `
+            select
+            *
+            from
+            log_info
+            where
+            username=? || phone=?
+            `
+            const values1 =[user_name, user_phone ] 
+            connection.query(
+                sql1, 
+                values1,  
+                function(err, result1){
+                    if(err){
+                        console.log(err)
+                    }else{
+                        const _phone=result1[0].phone
+                        const _name =result1[0].username  
+                        const _gender = result1[0].gender
+                        const _jiyeok = result1[0].jiyeok
+                        const _birth =  result1[0].birth
+                        const _golfsys = result1[0].golfsys 
+                        
+                        //기골프시스템 구하지
+                        const sql = `
+                            select
+                            *
+                            from
+                            ksfc
+                            where
+                            phone=?
+                            `
+                        const values =[_phone ] 
+                        connection.query(
+                            sql, 
+                            values,   
+                            function(err, result){
+                                if(err){
+                                    console.log(err)
+                                    console.log("// 등록")
+                        
+                                    const _bestscore = 9999
+                                    const _registtime = moment().format('YYYY-MM-DDTHH:mm:ss')
+                                    const _sysrank = 0
+                                    const _gamenumber = 7
+                                    
+                                    console.log("ksfc_insert=",_phone, _name, _gamenumber,_gender, _jiyeok, _birth ,_golfsys ,_bestscore, _sysrank, _registtime)
+                                    kpoint.ksfc_insert(_phone, _name, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore, _sysrank, _registtime)
+                                
+                                }else{ 
+                                    console.log("ksfc story=",result)
+                                }
+                            })
+                        }})
 
-    connection.query(
-        sql2, 
-        values2,
-    function(err, result2){
-        if(err){
-            console.log(err)
-            res.send(err)
-        }else{
-            const _user_name=result2[0].username
-            const _user_phone=result2[0].phone
-            console.log("admin_score ok's 렌더링해주는 result2=", result2.length)
-            res.render("admin_enterpay_list",{
-                'login_data': req.session.logined ,
-                enterpay:result2,
-                username:_user_name, 
-                phone:_user_phone
-            } )
-        }
-    })
-}})
+  
+                    //log_info의 통계
+                    const sql2 = `
+                        select 
+                        * 
+                        from 
+                        score
+                        where
+                        username=? || phone=?
+                        `
+                    const values2 =[user_name, user_phone ]   
+
+                    connection.query(
+                        sql2, 
+                        values2,
+                    function(err, result2){
+                        if(err){
+                            console.log(err)
+                            res.send(err)
+                        }else{
+                            const _user_name=result2[0].username
+                            const _user_phone=result2[0].phone
+                            console.log("admin_score ok's 렌더링해주는 result2=", result2.length)
+
+                            res.render("admin_enterpay_list",{
+                                'login_data': req.session.logined ,
+                                enterpay:result2,
+                                username:_user_name, 
+                                phone:_user_phone
+                            } )
+                        }})
+    }})
 
 
 
@@ -2274,10 +2330,10 @@ router.get('/admin_enterscore_1',async function(req, res){
                                             res.send(err)
                                         }else{
                                                 console.log("KSFC성별 추출이 하고 싶어서",result2)
-                                                const gender=result2[0].gender
-                                                console.log("KSFC성별 :",gender)
-                                                //성별이 존재하면 성별과 참가시간을 추출하여 렌더링
-                                                if(gender=="남"||gender=="여"){
+                                                const gender="남"
+                                                // console.log("KSFC성별 :",gender)
+                                                // //성별이 존재하면 성별과 참가시간을 추출하여 렌더링
+                                                // if(gender=="남"||gender=="여"){
 
                                                     console.log("5등 이내의 성적과 합과 스코어 등록을 할 레코드를 enterscore 포스트로 렌더링")
 
@@ -2311,7 +2367,7 @@ router.get('/admin_enterscore_1',async function(req, res){
                                                             gender:gender
                                                     })}
                                                 }
-                                            }})}})
+                                            })}})
                                 }}
                     )}})
 
@@ -2424,7 +2480,7 @@ router.post('/admin_enterscore_1', upload.single('_image'),async function(req, r
                     if(err){
                         console.log(err)
                         }else{
-                            const ggender=result3[0].gender
+                            const ggender="남"
                             console.log("젠더가 구해지나??",ggender )
                                         
 

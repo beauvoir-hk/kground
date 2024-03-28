@@ -92,7 +92,31 @@
                             <img src="/img/kkkk.jpg" width="90%">
                                     
                         </div>
-
+         <!-- Earnings (Monthly) Card Example -->
+         <div class="text-center">
+            <div class="col-xl-10 col-md-12 mb-1">
+                <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">                                                        
+                                <div class="text-primary text-small" align="center">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span  id="check_admin">
+                                        <%=login_data['username']%>님 /
+                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                        K포인트 : <%=aa%>
+                                    </span>
+                                    <div class="display" id="info"> 
+                                        <input id="_id" value="<%=login_data['phone']%>" ><br>
+                                        <a href="/admin/admin_index">관리자모드로</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- 메인이미지 -->
         <!-- Swiper -->
         <div class="swiper mySwiper">
@@ -116,14 +140,13 @@
             </div>
 
         </div>
-        <div class="text-center">
+
+        <!-- <div class="text-center">
             
             <a href="/golf/ksfc_list" class="content">
                 <img src="/img/7_스코어.png" width="90%" style="border: 5px solid rgb(199, 191, 75);">
             </a>
-        </div>
-       
-                            
+        </div> -->
         <div id="wrapper">
             <div class="container">
                                                                 
@@ -137,7 +160,101 @@
                     
             <table id="pay_recent_wrap"  width="100%" >
                 <tr>
-                    <td class="text-primary text-small text-center"><br><a href="golf/holeinlist" class="content">●● 케이그라운드 골프페스티벌 7회 홀인원 현황 ●● </a>
+                    <td class="text-primary text-small text-center"><br>
+                        <a href="golf/ksfc_list" class="content">
+                            ■■  제7회 케이그라운드 골프페스티벌 스트로크현황 ■■   
+                        </a>
+                        <br>----------------------------------------------------</td>
+                </tr>
+                <tr>
+                    <td class="list" width="100%" >
+                        <table border="1px">
+                            <tr>
+                                <td style='text-align: left;'>rank 1/골프존</td>
+                                <td class='emphasis'  style='text-align:  right;'>길드레곤</td>
+                                <td style='text-align: right;'>-63</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 2/골프존</td>
+                                <td class='emphasis'  style='text-align:  right;'>댄다</td>
+                                <td style='text-align: right;'>-50</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 3/골프존</td>
+                                <td class='emphasis'  style='text-align:  right;'>나이스하니</td>
+                                <td style='text-align: right;'>-43</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 4/골프존</td>
+                                <td class='emphasis'  style='text-align:  right;'>그대로좋아</td>
+                                <td style='text-align: right;'>-36</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 4/골프존</td>
+                                <td class='emphasis'  style='text-align:  right;'>달빛선장</td>
+                                <td style='text-align: right;'>-36</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 1/카카오프렌즈</td>
+                                <td class='emphasis'  style='text-align:  right;'>Majesty</td>
+                                <td style='text-align: right;'>-58</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 2/카카오프렌즈</td>
+                                <td class='emphasis'  style='text-align:  right;'>진해PGA</td>
+                                <td style='text-align: right;'>-14</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 3/카카오프렌즈</td>
+                                <td class='emphasis'  style='text-align:  right;'>낭만삽질</td>
+                                <td style='text-align: right;'>-7</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 4/카카오프렌즈</td>
+                                <td class='emphasis'  style='text-align: right;'>이쁜오글</td>
+                                <td style='text-align: right;'>-4</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 1/케이골프</td>
+                                <td class='emphasis'  style='text-align:  right;'>샤인다라</td>
+                                <td style='text-align: right;'>-66</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 2/케이골프</td>
+                                <td class='emphasis'  style='text-align:  right;'>수호천사</td>
+                                <td style='text-align: right;'>-61</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 3/GNC</td>
+                                <td class='emphasis'  style='text-align:  right;'>구애마</td>
+                                <td style='text-align: right;'>-51</td>
+                            </tr>
+                            <tr>
+                                <td style='text-align: left;'>rank 4/UDR</td>
+                                <td class='emphasis'  style='text-align:  right;'>영푸름</td>
+                                <td style='text-align: right;'>-46</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        </div>
+                          
+        <div id="wrapper">
+            <div class="container">
+                                                                
+            <style>
+                #pay_recent_wrap { border-collapse: collapse; margin: 0 auto 30px;  }
+                #pay_recent_wrap td { padding: 0 10px;font-size: 11px; }
+                #pay_recent_wrap .list { height: 0; overflow-y: hidden;display: inline-block; } 
+                #pay_recent_wrap .list table { border-collapse: collapse;margin: 0 auto; font-size: 11px;line-height: 150%; }
+                #pay_recent_wrap .list table td { padding: 0 10px; }
+            </style>
+                    
+            <table id="pay_recent_wrap"  width="100%" >
+                <tr>
+                    <td class="text-primary text-small text-center"><a href="golf/holeinlist" class="content">●● 케이그라운드 골프페스티벌 7회 홀인원 현황 ●● </a>
                         <br>----------------------------------------------------</td>
                 </tr>
                 <tr>
