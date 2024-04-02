@@ -240,7 +240,73 @@ module.exports = ()=>{
                                             }else{
                                                 const count = resulta.length
                                                 
-                                                const tot_24_3_count =count         
+                                                const tot_24_3_count =count 
+                                                
+                                                const sqla = `
+                                                select 
+                                                * 
+                                                from 
+                                                kp_list
+                                                where
+                                                transtype = ? and  month(transtime) = 4
+                                            
+                                                `
+                                        const valuesa=[transtype]
+                                        connection.query(
+                                            sqla, 
+                                            valuesa,
+                                        function(err, resultb){
+                                            if(err){
+                                                console.log(err)
+                                                res.send(err)
+                                            }else{
+                                                const count = resultb.length
+                                                
+                                                const tot_24_4_count =count 
+
+                                                const sqla = `
+                                                select 
+                                                * 
+                                                from 
+                                                kp_list
+                                                where
+                                                transtype = ? and  month(transtime) = 5
+                                            
+                                                `
+                                        const valuesa=[transtype]
+                                        connection.query(
+                                            sqla, 
+                                            valuesa,
+                                        function(err, resultc){
+                                            if(err){
+                                                console.log(err)
+                                                res.send(err)
+                                            }else{
+                                                const count = resultc.length
+                                                
+                                                const tot_24_5_count =count 
+
+                                                const sqla = `
+                                                select 
+                                                * 
+                                                from 
+                                                kp_list
+                                                where
+                                                transtype = ? and  month(transtime) = 6
+                                            
+                                                `
+                                        const valuesa=[transtype]
+                                        connection.query(
+                                            sqla, 
+                                            valuesa,
+                                        function(err, resultd){
+                                            if(err){
+                                                console.log(err)
+                                                res.send(err)
+                                            }else{
+                                                const count = resultd.length
+                                                
+                                                const tot_24_6_count =count 
 
                                     //KPoint 의 출금 통계
                                     const transtype1="festival"
@@ -280,13 +346,16 @@ module.exports = ()=>{
                                                     tot_24_1_count:tot_24_1_count,
                                                     tot_24_2_count:tot_24_2_count,
                                                     tot_24_3_count:tot_24_3_count,
+                                                    tot_24_4_count:tot_24_4_count,
+                                                    tot_24_5_count:tot_24_5_count,
+                                                    tot_24_6_count:tot_24_6_count,
                                                     total_charge:tot_charge,
                                                     total_charge_count:tot_charge_count,
                                                     total_charge_charge:tot_charge_charge,
                                                     tot_deposit_count:tot_deposit_count,
                                                     total_deposit:tot_deposit
                                             })
-                                }})}})}})}})}})}})}})}})}
+                                }})}})}})}})}})}})}})}})}})}})}})}
                             })}
                     })            
 
