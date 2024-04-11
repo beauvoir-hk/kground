@@ -1682,8 +1682,9 @@ router.post('/admin_scoreok', async function(req, res){
                             function(err, result){
                                 if(err){
                                     console.log(err)
-                                    console.log("// 등록")
-                        
+                                }else{ 
+                                    console.log("ksfc story=",result)
+                                    if(result[0].phone!=""){
                                     const _bestscore = 9999
                                     const _registtime = moment().format('YYYY-MM-DDTHH:mm:ss')
                                     const _sysrank = 0
@@ -1691,10 +1692,7 @@ router.post('/admin_scoreok', async function(req, res){
                                     
                                     console.log("ksfc_insert=",_phone, _name, _gamenumber,_gender, _jiyeok, _birth ,_golfsys ,_bestscore, _sysrank, _registtime)
                                     kpoint.ksfc_insert(_phone, _name, _gamenumber, _gender, _jiyeok, _birth ,_golfsys ,_bestscore, _sysrank, _registtime)
-                                
-                                }else{ 
-                                    console.log("ksfc story=",result)
-                                }
+                                }}
                             })
                         }})
 
