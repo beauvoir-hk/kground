@@ -182,7 +182,7 @@ module.exports = ()=>{
                                                 select 
                                                 * 
                                                 from 
-                                                kp_list
+                                                kp_list7
                                                 where
                                                 transtype = ? and  month(transtime) = 1
                                             
@@ -203,7 +203,7 @@ module.exports = ()=>{
                                                 select 
                                                 * 
                                                 from 
-                                                kp_list
+                                                kp_list7
                                                 where
                                                 transtype = ? and  month(transtime) = 2
                                             
@@ -224,7 +224,7 @@ module.exports = ()=>{
                                                 select 
                                                 * 
                                                 from 
-                                                kp_list
+                                                kp_list7
                                                 where
                                                 transtype = ? and  month(transtime) = 3
                                             
