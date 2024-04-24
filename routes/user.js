@@ -2173,6 +2173,10 @@ router.get('/trophy', function(req, res){
     res.render("trophy")
 })
 
+router.get('/lucky', function(req, res){
+    console.log("상금관련 페이지 보여주기")
+    res.render("festival7_lucky")
+})
 
 // return이 되는 변수는 router
     return router
