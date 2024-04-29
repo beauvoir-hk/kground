@@ -53,25 +53,26 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <img src="/giga/gigagolf.jpg" width="100%">
-                                    </div>    
-                                    <div class="text-xs font-weight-bold text-primary ">
-                                        &nbsp;&nbsp;<%=username%>님
-                                    </div>
-                                    <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                        <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
-                                        K포인트 : <%=aa%>
+                                     
+                                        <div class="text-xs font-weight-bold text-primary ">
+                                            &nbsp;&nbsp;<%=username%>님
+                                        </div>
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                            <%aa=amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>
+                                            K포인트 : <%=aa%>
+                                        </div>
                                     </div>
                                         <hr><br>
                                         
                                             <table class="table">
                                                 <tr>
-                                                    <td>
+                                                    <td  align="center">
                                                         
                                                         <%=filename%>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%">
+                                                    <td width="50%" align="center">
                                                         <img src="../giga/<%=filename%>" width="300">
 
                                                     </td>
@@ -86,7 +87,7 @@
                                                         </td>
                                                         <td colspan="2"class="text-center">
                                                             <br>
-                                                            [주문] 
+                                                            <h5>[주문]</h5> 
                                                             <br>
                                                             <div class="form-group" align="left">
                                                                 <input type="text" name="input_product_name" class="form-control" value="<%=productname%>" width="90%" readonly > 
@@ -103,7 +104,7 @@
                                                             </div>
                                                             <br>
                                                                 <input type="text" name="input_username" class="form-control" value="<%=username%>" width="45%" readonly > 
-                                                                
+                                                                <br>
                                                                 <input type="text" name="input_phone" class="form-control" value="<%=phone%>" width="45%" readonly > 
                                                             </div>
                                                         </td>
@@ -129,7 +130,40 @@
                                             </div>                                          
                                        
                                             
-                                            <% if(paymethod=="KPoint포함(신용간단결제)"){%>
+  
+                                    <div class="text-center" >   
+                                        <h5>   
+                                           
+                                            관리자가 주문 확인을 합니다. 
+                                            <br>
+                                            확인이 완료 되면 <br>
+                                            <div class="text-danger">KPoint지급이 이루어 집니다</div>
+                                        </h5>
+                                    </div>
+                                    <div class="text-center" >
+                                        <hr>
+                                        <b>케이그라운드와 함께 해주셔서 감사드립니다.</b>
+                                        <img src="/img/kk.png"  width="100%" >
+                                    </div>
+                                           
+                                            
+
+                       
+
+                            <!-- 2열 -->
+                            <div class="col-lg-6">
+                                <div class="col-lg-5 text-center">
+                                    <!-- <img src="/img/kk.png"  width="100%" > -->
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>        
+    </div>
+                
+                                           <!-- <% if(paymethod=="KPoint포함(신용간단결제)"){%>
                                                 <table class="table" border="1px">
                                                     <tr>       
                                                         <td colspan="2" align="left" >        
@@ -157,7 +191,7 @@
                                                              
                                                             신용간단결제: 
                                                             <input name="input_card" value="<%=card%>">
-                                                            <!-- <a href="/contract/card_pay/?card=<%=card%>&name=<%=productname%>">결제</a> -->
+                                                            <a href="/contract/card_pay/?card=<%=card%>&name=<%=productname%>">결제</a>
                                                             <br><br><br>
                                                             <a href="/contract/kp_trans_kpoint/?kpoint=<%=kpoint%>&name=<%=filename%>&card=<%=card%>" class="btn btn-danger">Kpoint결제+간단결제</a>
 
@@ -259,40 +293,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
- 
-                                    <div class="text-center" >   
-                                        <h5>   
-                                            결제 완료 즉시 <br>
-                                            <br>
-                                            관리자가 주문 확인을 합니다. 
-                                            <br>
-                                            확인이 완료 되면 <br>
-                                            <div class="text-danger">주문확인서</div>를 보내드립니다.  
-                                        </h5>
-                                    </div>
-                                    <div align="center" >
-                                        <hr>
-                                        <b>케이그라운드와 함께 해주셔서 감사드립니다.</b>
-                                    </div>
-                                           
-                                            
-
-                       
-
-                            <!-- 2열 -->
-                            <div class="col-lg-6">
-                                <div class="col-lg-5">
-                                    <img src="/img/kk.png"  width="100%" >
-                                </div>      
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-        </div>        
-    </div>
-                
+                                    </div> -->
 
 </body>
 </html>

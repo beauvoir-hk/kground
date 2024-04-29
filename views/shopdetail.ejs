@@ -85,72 +85,19 @@
 
                                                     <tr>       
                                                         <td colspan="2" align="left">        
-                                                               <b> (1)Kpoint+신용간단결제</b><br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="right">
-                                                            신용간단결제: 
-                                                        </td>
-                                                        <td align="left">
-                                                            <%=card.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원 
-                                                            <!-- <a href="/contract/card_pay/?paycard=<%=card%>">결제</a> -->
-                                                            <br> 
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="center" colspan="2">
-                                                            KPoint결제: 
-                                                        
-                                                            <%kp=price-card%>
-                                                            <%=kp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원
-                                                            <!-- <a href="/contract/kp_trans_kpoint/?kp=<%=kp%>">결제</a> -->
-                                                        </td>
-                                                    </tr>
-                                                    <tr>  
-                                                        <td colspan="2" align="left">
-                                                                
-                                                            <b> (2) Kpoint+무통장 </b><br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <tr>
-                                                            <td align="right">
-                                                                KPoint결제: 
-                                                            </td>
-                                                            <td align="left">
-                                                                <%kp=price-card%>
-                                                                <%=kp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원
-                                                                <!-- <a href="/contract/kp_trans_kpoint/?kp=<%=kp%>">결제</a> -->
-                                                            </td>
-                                                        </tr>
-                                                        <td align="center" colspan="2">
-                                                            무통장입금: <%=card.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원 <br>
-                                                            농협(비케이종합마케팅협동조합)
-                                                            <br>
-                                                            3010319217141 
-                                                            <br>
-                                                             
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>  
-                                                        <td colspan="2" align="left">
-                                                                
-                                                            <b>  (3) 신용간단결제</b> : <%=price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원 
-                                                            <!-- <a href="/contract/card_pay/?paycard=<%=price%>">결제</a> -->
-                                                            <br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>  
-                                                        <td colspan="2" align="left">
-                                                            <b> (4) 무통장입금</b>: <%=price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원
-                                                           <div class="text-center">    
-                                                               농협(비케이종합마케팅협동조합)
-                                                                <br>
-                                                                3010319217141 <br>
-                                                                 
+                                                            <div class="text-danger text-center" >
+                                                                <%=price%>원
+                                                                    <a href="https://www.pay2pay.co.kr/L/LGUETXRW9ZQ" class="btn btn-primary btn-sm" >신용카드</a>
+                                                                    <a href="../contract/nobank" class="btn btn-secondary btn-sm">무통장입금</a>
+                                                                </p>
                                                             </div>
+                                                            <div class="text-success text-lowercase">
+                                                                <div class="text-danger">Event</div>
+                                                                결제시 <%=kpoint%> KPoint를 적립 해 드립니다
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                  
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -249,8 +196,8 @@
                                                                     * 결제방법으로 고르세요 
                                                                     <br>
                                                                     <select class="form-select" name="input_paymethod" id="input_paymethod">
-                                                                        <option value="KPoint포함(신용간단결제)">KPoint+신용간단결제</option>
-                                                                        <option value="KPoint포함(무통장입금)">KPoint+무통장결제</option>
+                                                                        <!-- <option value="KPoint포함(신용간단결제)">KPoint+신용간단결제</option>
+                                                                        <option value="KPoint포함(무통장입금)">KPoint+무통장결제</option> -->
                                                                         <option value="신용간단결제">신용간단결제</option>
                                                                         <option value="무통장입금">무통장입금</option>
                                                                     </select>
@@ -298,8 +245,8 @@
 
                                                 <table>
                                                     <tr>
-                                                        <td colspan="2"  > 
-                                                            <div class="text-start" >      
+                                                        <td colspan="2"  class="text-center"> 
+                                                            <div class="text-center" >      
                                                                  상세정보     
                                                             </div>
                                                             <div class="text-center" >
