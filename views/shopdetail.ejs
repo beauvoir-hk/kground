@@ -62,45 +62,48 @@
                                             K포인트 : <%=aa%>
                                         </div>
                                         <hr>
-                                        <div class="text-center">
-                                            <img src="/giga/gigagolf.jpg" width="360px">
-                                        </div>
-                                        <br>
-                                        <div class="text-primary">
+                                    </div>
+                                
+                                <div class="text-center">
+                                        <img src="/giga/gigagolf.jpg" width="360px">
+                                    </div>
+                                    <br>
+                                    <div class="text-primary">
+                                        
+                                        <table class="table">
+                                            <tr>
+                                                <td width="50%" >
+                                                    <img src="../../giga/<%=filename%>" width="180" border="2px">
+
+                                                </td>
+                                                <td>   
+                                                    <%=filename%>
+                                                        <br>
+                                                        <br>
+                                                        price : <%=price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원
+                                                        
+                                                </td>
+                                            </tr>
+
+                                            <tr>       
+                                                <td colspan="2" align="left">        
+                                                    <div class="text-danger text-center" >
+                                                        <%=price%>원
+                                                            <a href="https://www.pay2pay.co.kr/L/LGUETXRW9ZQ" class="btn btn-primary btn-sm" >신용카드</a>
+                                                            <a href="../contract/nobank" class="btn btn-secondary btn-sm">무통장입금</a>
+                                                        </p>
+                                                    </div>
+                                                    <div class="text-success text-lowercase">
+                                                        <div class="text-danger">Event</div>
+                                                        결제시 <%=kpoint%> KPoint를 적립 해 드립니다
+                                                    </div>
+                                                </td>
+                                            </tr>
                                             
-                                                <table class="table">
-                                                    <tr>
-                                                        <td width="50%" >
-                                                            <img src="../../giga/<%=filename%>" width="180" border="2px">
-
-                                                        </td>
-                                                        <td>   
-                                                            <%=filename%>
-                                                                <br>
-                                                                <br>
-                                                                price : <%=price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %>원
-                                                                
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr>       
-                                                        <td colspan="2" align="left">        
-                                                            <div class="text-danger text-center" >
-                                                                <%=price%>원
-                                                                    <a href="https://www.pay2pay.co.kr/L/LGUETXRW9ZQ" class="btn btn-primary btn-sm" >신용카드</a>
-                                                                    <a href="../contract/nobank" class="btn btn-secondary btn-sm">무통장입금</a>
-                                                                </p>
-                                                            </div>
-                                                            <div class="text-success text-lowercase">
-                                                                <div class="text-danger">Event</div>
-                                                                결제시 <%=kpoint%> KPoint를 적립 해 드립니다
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                  
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
 
 
                                             <form class="user" action="/shop/pay" method="post">
