@@ -2242,10 +2242,10 @@ if(err){
                     from 
                     ksfc
                     where 
-                    golfsys = ? && gender=?
+                    golfsys = ?
                     order by bestscore ASC
                     `
-                const values5 = [_golfsys, ggender]
+                const values5 = [_golfsys]
                 connection.query(
                 sql5, 
                 values5, 
@@ -2253,7 +2253,7 @@ if(err){
                     if(err){
                         console.log(err)
                     }else{
-                        console.log("같은 성별, 시스템의 상위 5개 score출력을 위한 준비: ", result5)
+                        console.log("같은 시스템의 상위 5개 score출력을 위한 준비: ", result5)
                         let sysrank=result5.length
                         for(var i=0; i<result5.length; i++){
                             if(scores_sum < parseInt(result5[i].bestscore)){
